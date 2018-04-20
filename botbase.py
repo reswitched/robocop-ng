@@ -70,7 +70,7 @@ async def on_ready():
     log.info(f'\nLogged in as: {bot.user.name} - '
              f'{bot.user.id}\ndpy version: {discord.__version__}\n')
     game_name = f"{config['base']['prefix']}help"
-    await bot.change_presence(game=discord.Game(name=game_name))
+    await bot.change_presence(activity=discord.Game(name=game_name))
 
 
 @bot.event
