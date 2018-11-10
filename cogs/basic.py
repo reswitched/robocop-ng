@@ -14,7 +14,7 @@ class Basic:
                        "<https://discordapp.com/api/oauth2/authorize?"
                        f"client_id={self.bot.user.id}"
                        "&permissions=268435456&scope=bot> "
-                       "to add RoleBot to your guild.")
+                       "to add {self.bot.user.name} to your guild.")
 
     @commands.command()
     async def hello(self, ctx):
