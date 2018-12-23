@@ -98,3 +98,5 @@ files/*
 *.ttf
 
 priv-*
+config.py
+

@@ -9,10 +9,13 @@ Based on https://gitlab.com/ao/dpybotbase
 
 ## TODO
 
-- [ ] .py configs
+- [x] .py configs
 - [ ] Verification
 - [ ] Logging joins, leaves, role changes, deletes, bans, kicks
-- [ ] Moderation commands
+- [ ] Moderation commands (ban, warn etc)
 - [ ] Meme commands (honestly the easiest part)
 - [ ] .serr and .err
+- [x] source command
+- [ ] robocop command
+- [ ] eval and sh might need to be removed
 

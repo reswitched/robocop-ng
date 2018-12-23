@@ -3,9 +3,9 @@ import sys
 import logging
 import logging.handlers
 import traceback
-import configparser
 from pathlib import Path
 import aiohttp
+import config
 
 import discord
 from discord.ext import commands
@@ -31,12 +31,9 @@ log.setLevel(logging.INFO)
 log.addHandler(file_handler)
 log.addHandler(stdout_handler)
 
-config = configparser.ConfigParser()
-config.read(f"{script_name}.ini")
-
 
 def get_prefix(bot, message):
-    prefixes = [config['base']['prefix']]
+    prefixes = config.prefixes
 
     return commands.when_mentioned_or(*prefixes)(bot, message)
 
@@ -46,7 +43,7 @@ initial_extensions = ['cogs.common',
                       'cogs.basic']
 
 bot = commands.Bot(command_prefix=get_prefix,
-                   description=config['base']['description'], pm_help=None)
+                   description=config.bot_description, pm_help=None)
 
 bot.log = log
 bot.config = config
@@ -69,7 +66,7 @@ async def on_ready():
 
     log.info(f'\nLogged in as: {bot.user.name} - '
              f'{bot.user.id}\ndpy version: {discord.__version__}\n')
-    game_name = f"{config['base']['prefix']}help"
+    game_name = f"{config.prefixes[0]}help"
     await bot.change_presence(activity=discord.Game(name=game_name))
 
 
@@ -130,31 +127,14 @@ async def on_command_error(ctx, error):
 
 
 @bot.event
-async def on_guild_join(guild):
-    bot.log.info(f"Joined guild \"{guild.name}\" ({guild.id}).")
-    await guild.owner.send(f"Hello and welcome to {script_name}!\n"
-                           "If you don't know why you're getting this message"
-                           f", it's because someone added {script_name} to your"
-                           " server\nDue to Discord API ToS, I am required to "
-                           "inform you that **I log command usages and "
-                           "errors**.\n**I don't log *anything* else**."
-                           "\n\nIf you do not agree to be logged, stop"
-                           f" using {script_name} and remove it from your "
-                           "server as soon as possible.")
-
-
-@bot.event
 async def on_message(message):
     if message.author.bot:
+        return
+
+    if message.guild.id not in config.guild_whitelist:
         return
 
     ctx = await bot.get_context(message)
     await bot.invoke(ctx)
 
-if not Path(f"{script_name}.ini").is_file():
-    log.warning(
-        f"No config file ({script_name}.ini) found, "
-        f"please create one from {script_name}.ini.example file.")
-    exit(3)
-
-bot.run(config['base']['token'], bot=True, reconnect=True)
+bot.run(config.token, bot=True, reconnect=True)

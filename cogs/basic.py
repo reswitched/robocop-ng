@@ -1,4 +1,5 @@
 import time
+import config
 
 from discord.ext import commands
 
@@ -8,18 +9,16 @@ class Basic:
         self.bot = bot
 
     @commands.command()
-    async def invite(self, ctx):
-        """Sends an invite to add the bot"""
-        await ctx.send(f"{ctx.author.mention}: You can use "
-                       "<https://discordapp.com/api/oauth2/authorize?"
-                       f"client_id={self.bot.user.id}"
-                       "&permissions=268435456&scope=bot> "
-                       "to add {self.bot.user.name} to your guild.")
-
-    @commands.command()
     async def hello(self, ctx):
         """Says hello. Duh."""
         await ctx.send(f"Hello {ctx.author.mention}!")
+
+    @commands.command()
+    async def source(self, ctx):
+        """Gives link to source code."""
+        await ctx.send("You can find my source at " +
+                       config.source_url +
+                       ". Serious PRs and issues welcome!")
 
     @commands.command(aliases=['p'])
     async def ping(self, ctx):
