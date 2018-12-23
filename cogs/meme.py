@@ -31,6 +31,11 @@ class Meme:
                        f" User is now {random.randint(0, 100)}°C.")
 
     @commands.command(hidden=True)
+    async def memebercount(self, ctx):
+        """Checks memeber count, as requested by dvdfreitag"""
+        await ctx.send("There's like, uhhhhh a bunch")
+
+    @commands.command(hidden=True)
     async def frolics(self, ctx):
         """test"""
         await ctx.send("https://www.youtube.com/watch?v=VmarNEsjpDI")

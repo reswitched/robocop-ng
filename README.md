@@ -13,8 +13,8 @@ Based on https://gitlab.com/ao/dpybotbase
 - [x] membercount command
 - [ ] Verification (and reset)
 - [ ] Logging joins, leaves, role changes, deletes, bans, kicks
-- [ ] Moderation commands (ban, kick, approve, revoke, addhacker, removehacker, lock, unlock, softlock, mute, unmute, playing, botnickname, nickname, clear)
-- [ ] Warns system (warn, delwarn, listwarns, clearwarns, clearwarnsid, listwarnsid, delwarnid)
+- [ ] Moderation commands (ban, kick, userinfo, approve-revoke, addhacker-removehacker, lock-softlock-timelock-unlock, mute-mutetime-unmute, playing, botnickname, nickname, clear, probate-unprobate)
+- [ ] Warns system (warn, delwarnid-delwarn, listwarns-listwarnsid, clearwarns-clearwarnsid)
 - [ ] User notes
 - [x] Meme commands and pegaswitch (honestly the easiest part)
 - [ ] .serr and .err
