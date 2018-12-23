@@ -140,6 +140,42 @@ class ModCog:
 
     @commands.guild_only()
     @commands.check(check_if_staff)
+    @commands.command()
+    async def approve(self, ctx):
+        approval_list = ctx.message.mentions
+        community_role = ctx.guild.get_role(config.community_role)
+        for to_approve in approval_list:
+            await to_approve.add_roles(community_role,
+                                       reason=str(ctx.author))
+
+        await ctx.send(f"Approved {len(approval_list)} member(s).")
+        log_channel = self.bot.get_channel(config.log_channel)
+
+        approved_mentions = [approved.mention for approved in approval_list]
+        await log_channel.send(f"✅ Approved: {ctx.author.mention} approved"
+                               f" {len(approval_list)} members\n"
+                               f"{' '.join(approved_mentions)}")  # HACK
+
+    @commands.guild_only()
+    @commands.check(check_if_staff)
+    @commands.command(aliases=["unapprove"])
+    async def revoke(self, ctx):
+        revoke_list = ctx.message.mentions
+        community_role = ctx.guild.get_role(config.community_role)
+        for to_revoke in revoke_list:
+            await to_revoke.remove_roles(community_role,
+                                         reason=str(ctx.author))
+
+        await ctx.send(f"Un-approved {len(revoke_list)} member(s).")
+        log_channel = self.bot.get_channel(config.log_channel)
+
+        revoked_mentions = [revoked.mention for revoked in revoke_list]
+        await log_channel.send(f"❌ Un-approved: {ctx.author.mention} approved"
+                               f" {len(revoke_list)} members\n"
+                               f"{' '.join(revoked_mentions)}")  # HACK
+
+    @commands.guild_only()
+    @commands.check(check_if_staff)
     @commands.command(aliases=["setplaying", "setgame"])
     async def playing(self, ctx, *, game: str = ""):
         """Sets the bot's currently played game name, staff only.

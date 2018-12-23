@@ -23,7 +23,7 @@ Based on https://gitlab.com/ao/dpybotbase
 - [x] Moderation: silentban
 - [x] Moderation: kick
 - [x] Moderation: userinfo
-- [ ] Moderation: approve-revoke (community)
+- [x] Moderation: approve-revoke (community)
 - [ ] Moderation: addhacker-removehacker
 - [ ] Moderation: lock-soft-unlock (channel lockdown)
 - [ ] Moderation: timelock (channel lockdown with time)
