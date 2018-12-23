@@ -38,7 +38,7 @@ Based on https://gitlab.com/ao/dpybotbase
 - [x] Warns: warn
 - [x] Warns: listwarns-listwarnsid
 - [x] Warns: clearwarns-clearwarnsid
-- [ ] Warns: delwarnid-delwarn
+- [x] Warns: delwarnid-delwarn
 - [x] .serr and .err (thanks tomger!)
 
 ---

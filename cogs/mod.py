@@ -390,7 +390,7 @@ class ModCog:
         await ctx.send(f"{target.mention} warned. "
                        f"User has {warn_count} warning(s).")
         msg = f"⚠️ **Warned**: {ctx.author.mention} warned {target.mention}"\
-              f" (warn #{warn_count}) | {self.bot.escape_message(target)}"
+              f" (warn #{warn_count}) | {self.bot.escape_message(target)}\n"
 
         if reason:
             msg += f"✏️ __Reason__: \"{reason}\""
@@ -433,6 +433,29 @@ class ModCog:
             json.dump(warns, f)
         return f"<@{uid}> no longer has any warns!"
 
+    def delete_warns_from_id(self, uid: str, idx: int):
+        with open("data/warnsv2.json", "r") as f:
+            warns = json.load(f)
+        if uid not in warns:
+            return f"<@{uid}> has no warns!"
+        warn_count = len(warns[uid]["warns"])
+        if not warn_count:
+            return f"<@{uid}> has no warns!"
+        if idx > warn_count:
+            return "Warn index is higher than "\
+                   f"warn count ({warn_count})!"
+        if idx < 1:
+            return "Warn index is below 1!"
+        warn = warns[uid]["warns"][idx - 1]
+        embed = discord.Embed(color=discord.Color.dark_red(),
+                              title=f"Warn {idx} on {warn['timestamp']}",
+                              description=f"Issuer: {warn['issuer_name']}\n"
+                                          f"Reason: {warn['reason']}")
+        del warns[uid]["warns"][idx - 1]
+        with open("data/warnsv2.json", "w") as f:
+            json.dump(warns, f)
+        return embed
+
     @commands.guild_only()
     @commands.check(check_if_staff)
     @commands.command()
@@ -471,9 +494,41 @@ class ModCog:
         msg = self.clear_warns_from_id(str(target))
         await ctx.send(msg)
         msg = f"🗑 **Cleared warns**: {ctx.member.mention} cleared"\
-              f" warns of <@{target}> | "\
-              f"{self.bot.escape_message(target)}"
+              f" warns of <@{target}> "
         await log_channel.send(msg)
+
+    @commands.guild_only()
+    @commands.check(check_if_staff)
+    @commands.command()
+    async def delwarn(self, ctx, target: discord.Member, idx: int):
+        """Remove a specific warn from a user. Staff only."""
+        log_channel = self.bot.get_channel(config.log_channel)
+        del_warn = self.delete_warns_from_id(str(target.id), idx)
+        # This is hell.
+        if isinstance(del_warn, discord.Embed):
+            await ctx.send(f"{target.mention} has a warning removed!")
+            msg = f"🗑 **Deleted warn**: {ctx.author.mention} removed "\
+                  f"warn {idx} from {target.mention} | "\
+                  f"{self.bot.escape_message(target)}"
+            await log_channel.send(msg, embed=del_warn)
+        else:
+            await ctx.send(del_warn)
+
+    @commands.guild_only()
+    @commands.check(check_if_staff)
+    @commands.command()
+    async def delwarnid(self, ctx, target: int, idx: int):
+        """Remove a specific warn from a user. Staff only."""
+        log_channel = self.bot.get_channel(config.log_channel)
+        del_warn = self.delete_warns_from_id(str(target), idx)
+        # This is hell.
+        if isinstance(del_warn, discord.Embed):
+            await ctx.send(f"<@{target}> has a warning removed!")
+            msg = f"🗑 **Deleted warn**: {ctx.author.mention} removed "\
+                  f"warn {idx} from <@{target}> "
+            await log_channel.send(msg, embed=del_warn)
+        else:
+            await ctx.send(del_warn)
 
 
 def setup(bot):
