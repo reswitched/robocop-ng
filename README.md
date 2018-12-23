@@ -13,7 +13,6 @@ Based on https://gitlab.com/ao/dpybotbase
 - [x] membercount command
 - [x] Verification: Actual verification system
 - [x] Verification: Reset command
-- [ ] Verification: Using log module from akbbot for logging attempts and removing old attempts
 - [x] Logging: joins
 - [x] Logging: leaves
 - [x] Logging: role changes
@@ -27,24 +26,30 @@ Based on https://gitlab.com/ao/dpybotbase
 - [x] Moderation: addhacker-removehacker (hacker)
 - [x] Moderation: probate-unprobate (participant)
 - [x] Moderation: lock-softlock-unlock (channel lockdown)
-- [ ] Moderation: timelock (channel lockdown with time)
 - [ ] Moderation: mute-unmute
-- [ ] Moderation: mutetime (mute with time)
 - [x] Moderation: playing
 - [x] Moderation: botnickname
 - [x] Moderation: nickname
 - [ ] Moderation: clear/purge
-- [ ] Moderation: watch-unwatch (using log module from akbbot)
 - [ ] Warns: warn
 - [ ] Warns: delwarnid-delwarn
 - [ ] Warns: listwarns-listwarnsid
 - [ ] Warns: clearwarns-clearwarnsid
-- [ ] Modmail
-- [ ] Submiterr
-- [ ] Moderation: User notes
 - [x] .serr and .err
 - [x] Meme commands and pegaswitch (honestly the easiest part)
 - [x] source command
 - [x] robocop command
-- [ ] eval and sh might need to be removed at end of development
+
+---
+
+Main goal of this project is to get Robocop functionality done, secondary goal is adding new features. The following entries are secondary, less "urgent" goals:
+
+- [ ] New verification feature: Using log module from akbbot for logging attempts and removing old attempts
+- [ ] New moderation feature: mutetime (mute with time)
+- [ ] New feature: Modmail
+- [ ] New feature: Submiterr
+- [ ] New moderation feature: User notes
+- [ ] New moderation feature: watch-unwatch (using log module from akbbot)
+- [ ] New moderation feature: timelock (channel lockdown with time)
+- [ ] End of development: eval and sh might need to be removed at end of development
 
