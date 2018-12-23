@@ -9,6 +9,8 @@ Based on https://gitlab.com/ao/dpybotbase
 
 ## TODO
 
+ALL FEATURES OF KURISU/ROBOCOP USED IN RESWITCHED ARE NOW SUPPORTED!
+
 - [x] .py configs
 - [x] membercount command
 - [x] Meme commands and pegaswitch (honestly the easiest part)
@@ -34,7 +36,7 @@ Based on https://gitlab.com/ao/dpybotbase
 - [x] Moderation: botnickname
 - [x] Moderation: nickname
 - [x] Moderation: clear/purge
-- [ ] Moderation: restrictions (people who leave with muted role will get muted role on join)
+- [x] Moderation: restrictions (people who leave with muted role will get muted role on join)
 - [x] Warns: warn
 - [x] Warns: listwarns-listwarnsid
 - [x] Warns: clearwarns-clearwarnsid

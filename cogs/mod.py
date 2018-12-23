@@ -15,13 +15,34 @@ class ModCog:
     def check_if_target_is_staff(self, target):
         return any(r.id in config.staff_role_ids for r in target.roles)
 
+    async def add_restriction(self, member, rst):
+        # from kurisu source, credits go to ihaveamac
+        with open("data/restrictions.json", "r") as f:
+            rsts = json.load(f)
+        if str(member.id) not in rsts:
+            rsts[str(member.id)] = []
+        if rst not in rsts[str(member.id)]:
+            rsts[str(member.id)].append(rst)
+        with open("data/restrictions.json", "w") as f:
+            json.dump(rsts, f)
+
+    async def remove_restriction(self, member, rst):
+        # from kurisu source, credits go to ihaveamac
+        with open("data/restrictions.json", "r") as f:
+            rsts = json.load(f)
+        if str(member.id) not in rsts:
+            rsts[str(member.id)] = []
+        if rst in rsts[str(member.id)]:
+            rsts[str(member.id)].remove(rst)
+        with open("data/restrictions.json", "w") as f:
+            json.dump(rsts, f)
+
     @commands.guild_only()
     @commands.bot_has_permissions(kick_members=True)
     @commands.check(check_if_staff)
     @commands.command()
     async def mute(self, ctx, target: discord.Member, *, reason: str = ""):
         """Mutes a user, staff only."""
-        # TODO: keep a restriction list
         # so that muted people can't just leave and rejoin
         if self.check_if_target_is_staff(target):
             return await ctx.send("I can't mute this user as "
@@ -57,6 +78,7 @@ class ModCog:
         log_channel = self.bot.get_channel(config.log_channel)
         await log_channel.send(chan_message)
         await ctx.send(f"{target.mention} can no longer speak.")
+        await self.add_restriction(target, config.mute_role_name)
 
     @commands.guild_only()
     @commands.bot_has_permissions(kick_members=True)
@@ -80,6 +102,7 @@ class ModCog:
         log_channel = self.bot.get_channel(config.log_channel)
         await log_channel.send(chan_message)
         await ctx.send(f"{target.mention} can now speak again.")
+        await self.remove_restriction(target, config.mute_role_name)
 
     @commands.guild_only()
     @commands.bot_has_permissions(kick_members=True)

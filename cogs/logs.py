@@ -46,6 +46,16 @@ class Logs:
               f"🕓 Account age: {age}\n"\
               f"🏷 __User ID__: {member.id}"
 
+        # Taken from kurisu source.
+        # Blame ihaveamac, not me.
+        with open("data/restrictions.json", "r") as f:
+            rsts = json.load(f)
+        if str(member.id) in rsts:
+            roles = []
+            for rst in rsts[str(member.id)]:
+                roles.append(discord.utils.get(member.guild.roles, name=rst))
+            await member.add_roles(*roles)
+
         # Real hell zone.
         with open("data/warnsv2.json", "r") as f:
             warns = json.load(f)
