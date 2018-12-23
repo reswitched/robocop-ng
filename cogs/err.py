@@ -78,6 +78,8 @@ class Err:
                 desc = int(err[5:9])
                 errcode = (desc << 9) + module
             
+            str_errcode = '{:04}-{:04}'.format(module + 2000, desc)
+
             # Searching for Modules in list
             if module in switch_modules:
                 err_module = switch_modules[module]
@@ -97,7 +99,7 @@ class Err:
                 err_description = "It seems like your error code is unknown. You should report relevant details to <@141532589725974528> so it can be added to the bot."
 
             # Make a nice Embed out of it
-            embed = discord.Embed(title="{} / {}".format(errcode, err), url="https://www.youtube.com/watch?v=x3yXlomPCmU", description=err_description)
+            embed = discord.Embed(title="{} / 0x{}".format(str_errcode, errcode), url="https://www.youtube.com/watch?v=x3yXlomPCmU", description=err_description)
             embed.set_footer(text="Console: Switch")
             embed.add_field(name="Module", value="{} ({})".format(err_module, module), inline=True)
             embed.add_field(name="Description", value=desc, inline=True)
