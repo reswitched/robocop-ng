@@ -1,7 +1,7 @@
 import discord
 import asyncio
 from discord.ext import commands
-from config import log_channel, staff_role_ids, participant_role, community_channels, general_channels, hacker_role, community_role
+from config import log_channel, staff_role_ids, named_roles, community_channels, general_channels
 
 
 class Lockdown:
@@ -16,9 +16,9 @@ class Lockdown:
         """Locks the channel"""
         log_chan = self.bot.get_channel(log_channel)
         if ctx.message.channel in community_channels:
-            roles = (hacker_role, community_role)
+            roles = (named_roles["hacker"], named_roles["community"])
         else:
-            roles = participant_role
+            roles = named_roles["participant"]
         overwrites = ctx.message.channel.overwrites_for(roles[0])
         if not overwrites.send_message:
             await ctx.send("This channel is already locked!")

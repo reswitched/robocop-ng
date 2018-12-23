@@ -24,7 +24,8 @@ Based on https://gitlab.com/ao/dpybotbase
 - [x] Moderation: kick
 - [x] Moderation: userinfo
 - [x] Moderation: approve-revoke (community)
-- [ ] Moderation: addhacker-removehacker
+- [x] Moderation: addhacker-removehacker (hacker)
+- [x] Moderation: probate-unprobate (participant)
 - [ ] Moderation: lock-soft-unlock (channel lockdown)
 - [ ] Moderation: timelock (channel lockdown with time)
 - [ ] Moderation: mute-unmute
@@ -33,7 +34,6 @@ Based on https://gitlab.com/ao/dpybotbase
 - [x] Moderation: botnickname
 - [x] Moderation: nickname
 - [ ] Moderation: clear/purge
-- [ ] Moderation: probate-unprobate
 - [ ] Moderation: watch-unwatch (using log module from akbbot)
 - [ ] Warns: warn
 - [ ] Warns: delwarnid-delwarn

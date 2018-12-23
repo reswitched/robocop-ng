@@ -22,6 +22,14 @@ guild_whitelist = [
     269333940928512010  # ReSwitched discord
 ]
 
+# Named roles to be used with .approve and .revoke
+# The defaults are for NotSwitched
+named_roles = {
+    "community": 526378381839695872,
+    "hacker": 526471781184176139,
+    "participant": 526378358129557506
+}
+
 bot_manager_role_id = 526372554081042462  # Bot management role in NotSwitched
 staff_role_ids = [526384077679624192,  # Team role in NotSwitched
                   526372582455508992,  # Mod role in NotSwitched
@@ -30,9 +38,6 @@ staff_role_ids = [526384077679624192,  # Team role in NotSwitched
 
 log_channel = 526377735908491284  # Log channel in NotSwitched
 welcome_channel = 526372470752673792  # rules-info channel in NotSwitched
-participant_role = 526378358129557506  # participant role in NotSwitched
-community_role = 526378381839695872  # community role in NotSwitched
-hacker_role = 526471781184176139  # hacker role in NotSwitched
 
 community_channels = [526378423468425236]  # Channels requiring community role
 general_channels = [526372255052201995]  # Channels everyone can access
