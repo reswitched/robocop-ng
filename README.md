@@ -31,7 +31,7 @@ Based on https://gitlab.com/ao/dpybotbase
 - [ ] Moderation: timelock (channel lockdown with time)
 - [ ] Moderation: mute-unmute
 - [ ] Moderation: mutetime
-- [ ] Moderation: playing
+- [x] Moderation: playing
 - [ ] Moderation: botnickname
 - [ ] Moderation: nickname
 - [ ] Moderation: clear/purge

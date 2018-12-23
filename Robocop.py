@@ -47,7 +47,7 @@ initial_extensions = ['cogs.common',
                       'cogs.meme']
 
 bot = commands.Bot(command_prefix=get_prefix,
-                   description=config.bot_description, pm_help=None)
+                   description=config.bot_description, pm_help=True)
 
 bot.log = log
 bot.config = config

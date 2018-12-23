@@ -92,6 +92,7 @@ class ModCog:
         await modlog_channel.send(chan_message)
         await ctx.send(f"{safe_name} is now b&. 👍")
 
+    @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
     @commands.check(check_if_staff)
     @commands.command()
@@ -118,6 +119,7 @@ class ModCog:
         modlog_channel = self.bot.get_channel(config.modlog_channel)
         await modlog_channel.send(chan_message)
 
+    @commands.guild_only()
     @commands.check(check_if_staff)
     @commands.command()
     async def userinfo(self, ctx, *, user: discord.Member):
@@ -135,6 +137,18 @@ class ModCog:
                        f"activities = `{user.activities}`\n"
                        f"color = {user.colour}\n"
                        f"top_role = {role}\n")
+
+    @commands.guild_only()
+    @commands.check(check_if_staff)
+    @commands.command(aliases=["setplaying", "setgame"])
+    async def playing(self, ctx, *, game: str = ""):
+        """Sets the currently played game name, staff only.
+
+        Just send .playing to wipe the playing state."""
+        if game:
+            await self.bot.change_presence(activity=discord.Game(name=game))
+        else:
+            await self.bot.change_presence(activity=None)
 
 
 def setup(bot):
