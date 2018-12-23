@@ -1,6 +1,7 @@
 import time
 import config
 
+import discord
 from discord.ext import commands
 
 
@@ -12,6 +13,20 @@ class Basic:
     async def hello(self, ctx):
         """Says hello. Duh."""
         await ctx.send(f"Hello {ctx.author.mention}!")
+
+    @commands.command()
+    async def rules(self, ctx, *, targetuser: discord.Member = None):
+        """Post a link to the Rules"""
+        if not targetuser:
+            targetuser = ctx.author
+        await ctx.send(f"{targetuser.mention}: A link to the rules "
+                       f"can be found here: {config.rules_url}")
+
+    @commands.command()
+    async def membercount(self, ctx):
+        """Prints the member count of the server."""
+        await ctx.send(f"{ctx.guild.name} has "
+                       f"{ctx.guild.member_count} members!")
 
     @commands.command()
     async def source(self, ctx):

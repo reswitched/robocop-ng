@@ -8,6 +8,7 @@ guild_whitelist = [
 ]
 
 source_url = "https://github.com/aveao/robocop-ng"
+rules_url = "https://reswitched.team/discord/"
 
 bot_manager_role_id = 526372554081042462  # Bot management role in NotSwitched
 staff_role_ids = [526384077679624192,  # Team role in NotSwitched

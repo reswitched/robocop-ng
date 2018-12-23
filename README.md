@@ -10,7 +10,7 @@ Based on https://gitlab.com/ao/dpybotbase
 ## TODO
 
 - [x] .py configs
-- [ ] membercount command
+- [x] membercount command
 - [ ] Verification (and reset)
 - [ ] Logging joins, leaves, role changes, deletes, bans, kicks
 - [ ] Moderation commands (ban, kick, approve, revoke, addhacker, removehacker, lock, unlock, softlock, mute, unmute, playing, botnickname, nickname, clear)
