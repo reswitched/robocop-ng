@@ -54,3 +54,6 @@ class Err:
 
         else:
             pass
+
+def setup(bot):
+    bot.add_cog(Err(bot))
