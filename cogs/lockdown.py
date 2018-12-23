@@ -1,7 +1,7 @@
 import discord
 import asyncio
 from discord.ext import commands
-from config import modlog_channel, staff_role_ids, participant_role, community_channels, general_channels, hacker_role, community_role
+from config import log_channel, staff_role_ids, participant_role, community_channels, general_channels, hacker_role, community_role
 
 class Lockdown:
     "Lockdown Commands"
@@ -26,6 +26,6 @@ class Lockdown:
         await asyncio.gather(*(self.bot.edit_channel_permissions(ctx.message.channel, role, overwrites) for role in roles))
         await ctx.send("🔒 Channel locked down. Only staff members may speak. Do not bring the topic to other channels or risk disciplinary actions.")
         ctx.send_message(modlog_channel, "Channel Lockdown for {channel} by {user}".format(ctx.message.channel.mention, ctx.message.author.mention))
-        
+
 def setup(bot):
     bot.add_cog(Lockdown(bot))
