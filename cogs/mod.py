@@ -260,6 +260,8 @@ class ModCog:
         else:
             await self.bot.change_presence(activity=None)
 
+        await ctx.send("Successfully set game.")
+
     @commands.guild_only()
     @commands.check(check_if_staff)
     @commands.command(aliases=["setbotnick", "botnick", "robotnick"])
@@ -273,6 +275,8 @@ class ModCog:
         else:
             await ctx.guild.me.edit(nick=None, reason=str(ctx.author))
 
+        await ctx.send("Successfully set nickname.")
+
     @commands.guild_only()
     @commands.check(check_if_staff)
     @commands.command(aliases=["setnick", "nick"])
@@ -285,6 +289,21 @@ class ModCog:
             await target.edit(nick=nick, reason=str(ctx.author))
         else:
             await target.edit(nick=None, reason=str(ctx.author))
+
+        await ctx.send("Successfully set nickname.")
+
+    @commands.guild_only()
+    @commands.check(check_if_staff)
+    @commands.command(aliases=["clear"])
+    async def purge(self, ctx, limit: int, channel: discord.TextChannel = None):
+        """Clears a given number of messages. Staff only."""
+        log_channel = self.bot.get_channel(config.log_channel)
+        if not channel:
+            channel = ctx.channel
+        await channel.purge(limit=limit)
+        msg = f"🗑 **Cleared**: {ctx.author.mention} cleared {limit} "\
+              f"messages in {channel.mention}."
+        await log_channel.send(msg)
 
 
 def setup(bot):

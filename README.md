@@ -33,7 +33,7 @@ Based on https://gitlab.com/ao/dpybotbase
 - [x] Moderation: playing
 - [x] Moderation: botnickname
 - [x] Moderation: nickname
-- [ ] Moderation: clear/purge
+- [x] Moderation: clear/purge
 - [ ] Moderation: restrictions (people who leave with muted role will get muted role on join)
 - [ ] Warns: warn
 - [ ] Warns: delwarnid-delwarn
@@ -52,5 +52,5 @@ Main goal of this project is to get Robocop functionality done, secondary goal i
 - [ ] New moderation feature: User notes
 - [ ] New moderation feature: watch-unwatch (using log module from akbbot)
 - [ ] New moderation feature: timelock (channel lockdown with time)
-- [ ] End of development: eval and sh might need to be removed at end of development
+- [ ] End of development: eval, fetchlog and sh might need to be removed at end of development
 
