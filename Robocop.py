@@ -3,7 +3,6 @@ import sys
 import logging
 import logging.handlers
 import traceback
-from pathlib import Path
 import aiohttp
 import config
 
