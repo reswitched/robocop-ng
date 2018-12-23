@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
 import config
+import json
+import time
 
 
 class ModCog:
@@ -138,7 +140,7 @@ class ModCog:
         try:
             await target.send(dm_message)
         except discord.errors.Forbidden:
-            # Prevents kick issues in cases where user blocked bot
+            # Prevents ban issues in cases where user blocked bot
             # or has DMs disabled
             pass
 
@@ -301,8 +303,76 @@ class ModCog:
         if not channel:
             channel = ctx.channel
         await channel.purge(limit=limit)
-        msg = f"🗑 **Cleared**: {ctx.author.mention} cleared {limit} "\
+        msg = f"🗑 **Purged**: {ctx.author.mention} purged {limit} "\
               f"messages in {channel.mention}."
+        await log_channel.send(msg)
+
+    @commands.guild_only()
+    @commands.check(check_if_staff)
+    @commands.command()
+    async def warn(self, ctx, target: discord.Member, *, reason: str = ""):
+        """Warn a user. Staff only."""
+        if self.check_if_target_is_staff(target):
+            return await ctx.send("I can't warn this user as "
+                                  "they're a member of staff.")
+
+        log_channel = self.bot.get_channel(config.log_channel)
+        with open("data/warnsv2.json", "r") as f:
+            warns = json.load(f)
+        if str(target.id) not in warns:
+            warns[str(target.id)] = {"warns": []}
+        warns[str(target.id)]["name"] = str(target)
+        timestamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        warn_data = {"issuer_id": ctx.author.id,
+                     "issuer_name": ctx.author.name,
+                     "reason": reason,
+                     "timestamp": timestamp}
+        warns[str(target.id)]["warns"].append(warn_data)
+        with open("data/warnsv2.json", "w") as f:
+            json.dump(warns, f)
+
+        warn_count = len(warns[str(target.id)]["warns"])
+
+        msg = f"You were warned on {ctx.guild.name}."
+        if reason:
+            msg += " The given reason is: " + reason
+        msg += f"\n\nPlease read the rules in {config.rules_url}. "\
+               f"This is warn #{warn_count}."
+        if warn_count == 2:
+            msg += " __The next warn will automatically kick.__"
+        if warn_count == 3:
+            msg += "\n\nYou were kicked because of this warning. "\
+                   "You can join again right away. "\
+                   "Two more warnings will result in an automatic ban."
+        if warn_count == 4:
+            msg += "\n\nYou were kicked because of this warning. "\
+                   "This is your final warning. "\
+                   "You can join again, but "\
+                   "**one more warn will result in a ban**."
+        if warn_count == 5:
+            msg += "\n\nYou were automatically banned due to five warnings."
+        try:
+            await target.send(msg)
+        except discord.errors.Forbidden:
+            # Prevents log issues in cases where user blocked bot
+            # or has DMs disabled
+            pass
+        if warn_count == 3 or warn_count == 4:
+            await target.kick()
+        if warn_count >= 5:  # just in case
+            await target.ban(reason="exceeded warn limit",
+                             delete_message_days=0)
+        await ctx.send(f"{target.mention} warned. "
+                       f"User has {warn_count} warning(s).")
+        msg = f"⚠️ **Warned**: {ctx.author.mention} warned {target.mention}"\
+              f" (warn #{warn_count}) | {self.bot.escape_message(target)}"
+
+        if reason:
+            msg += f"✏️ __Reason__: \"{reason}\""
+        else:
+            msg += "Please add an explanation below. In the future"\
+                   ", it is recommended to use `.ban <user> [reason]`"\
+                   " as the reason is automatically sent to the user."
         await log_channel.send(msg)
 
 

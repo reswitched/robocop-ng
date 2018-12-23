@@ -35,7 +35,7 @@ Based on https://gitlab.com/ao/dpybotbase
 - [x] Moderation: nickname
 - [x] Moderation: clear/purge
 - [ ] Moderation: restrictions (people who leave with muted role will get muted role on join)
-- [ ] Warns: warn
+- [x] Warns: warn
 - [ ] Warns: delwarnid-delwarn
 - [ ] Warns: listwarns-listwarnsid
 - [ ] Warns: clearwarns-clearwarnsid
@@ -47,8 +47,10 @@ Main goal of this project is to get Robocop functionality done, secondary goal i
 
 - [ ] New verification feature: Using log module from akbbot for logging attempts and removing old attempts
 - [ ] New moderation feature: mutetime (mute with time)
+- [ ] New feature: Highlights (problematic words automatically get highlighted)
 - [ ] New feature: Modmail
 - [ ] New feature: Submiterr
+- [ ] New moderation feature: Display of mutes on listwarns
 - [ ] New moderation feature: User notes
 - [ ] New moderation feature: watch-unwatch (using log module from akbbot)
 - [ ] New moderation feature: timelock (channel lockdown with time)

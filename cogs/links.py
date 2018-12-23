@@ -15,14 +15,17 @@ class Links:
         await ctx.send("https://github.com/reswitched/pegaswitch")
 
     @commands.command(hidden=True, aliases=["atmos"])
-    async def Atmosphere(self, ctx):
+    async def atmosphere(self, ctx):
         """Link to the Atmosphere repo"""
         await ctx.send("https://github.com/atmosphere-nx/atmosphere")
-    
+
     @commands.command(hidden=True, aliases=["guides"])
     async def guide(self, ctx):
         """Link to the guide(s)"""
-        await ctx.send("*AtlasNX's SDSetup-Guide:* https://guide.teamatlasnx.com \n *Noirscape's Guide:* http://switchguide.xyz/ \n *Pegaswitch Guide:* https://switch.hacks.guide/")
+        await ctx.send("*AtlasNX's Guide:* https://guide.teamatlasnx.com\n"
+                       "*Noirscape's Guide:* http://switchguide.xyz/\n"
+                       "*Pegaswitch Guide:* https://switch.hacks.guide/")
+
 
 def setup(bot):
     bot.add_cog(Links(bot))
