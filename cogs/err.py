@@ -112,9 +112,9 @@ class Err:
             # Send message, crazy
             await ctx.send(embed=embed)
         
-        
+
         # The Guessing Game of Hex (Could be both 3DS or Switch so we have to constantly assume :P)
-        elif err.startwith("0x"):
+        elif err.startswith("0x"):
             err = err[2:] # Both work without the 0x
             # Most Switch Hex error should be detected by now so the chance that it's 3DS is much higher
             derr = err.strip()
