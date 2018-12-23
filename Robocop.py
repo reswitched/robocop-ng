@@ -40,7 +40,9 @@ def get_prefix(bot, message):
 
 initial_extensions = ['cogs.common',
                       'cogs.admin',
-                      'cogs.basic']
+                      'cogs.basic',
+                      'cogs.links',
+                      'cogs.meme']
 
 bot = commands.Bot(command_prefix=get_prefix,
                    description=config.bot_description, pm_help=None)

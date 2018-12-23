@@ -16,7 +16,7 @@ Based on https://gitlab.com/ao/dpybotbase
 - [ ] Moderation commands (ban, kick, approve, revoke, addhacker, removehacker, lock, unlock, softlock, mute, unmute, playing, botnickname, nickname, clear)
 - [ ] Warns system (warn, delwarn, listwarns, clearwarns, clearwarnsid, listwarnsid, delwarnid)
 - [ ] User notes
-- [ ] Meme commands and pegaswitch (honestly the easiest part)
+- [x] Meme commands and pegaswitch (honestly the easiest part)
 - [ ] .serr and .err
 - [x] source command
 - [ ] robocop command
