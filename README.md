@@ -11,8 +11,9 @@ Based on https://gitlab.com/ao/dpybotbase
 
 - [x] .py configs
 - [x] membercount command
-- [ ] Verification: Actual verification system
+- [x] Verification: Actual verification system
 - [x] Verification: Reset command
+- [ ] Verification: Using log module from akbbot for logging attempts and removing old attempts
 - [ ] Logging: joins
 - [ ] Logging: leaves
 - [ ] Logging: role changes

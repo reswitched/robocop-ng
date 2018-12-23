@@ -41,6 +41,7 @@ initial_extensions = ['cogs.common',
                       'cogs.admin',
                       'cogs.basic',
                       "cogs.err",
+                      "cogs.verification",
                       'cogs.links',
                       'cogs.mod',
                       'cogs.meme']

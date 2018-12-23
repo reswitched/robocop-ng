@@ -5,6 +5,7 @@ import config
 import random
 from inspect import cleandoc
 import config
+import hashlib
 
 
 welcome_header = """
@@ -149,55 +150,113 @@ class Verification:
         for x in welcome_footer:
             await ctx.send(cleandoc(x))
 
-    @commands.guild_only()
-    @commands.command()
-    async def verify(self, ctx, *, verification_string: str):
-        """Does verification.
+    async def process_message(self, message):
+        """Big code that makes me want to shoot myself
+        Not really a rewrite but more of a port
 
-        See text on top of #verification for more info."""
+        Git blame tells me that I should blame/credit Robin Lambertz"""
+        if message.channel.id == config.welcome_channel:
+            # Assign common stuff into variables to make stuff less of a mess
+            member = message.author
+            full_name = str(member)
+            discrim = str(member.discriminator)
+            guild = message.guild
+            chan = message.channel
+            mcl = message.content.lower()
 
-        await ctx.message.delete()
+            # Get the role we will give in case of success
+            success_role = guild.get_role(config.participant_role)
 
-        veriflogs_channel = ctx.guild.get_channel(config.veriflogs_chanid)
-        verification_role = ctx.guild.get_role(config.read_rules_roleid)
-        verification_wanted = config.verification_code\
-            .replace("[discrim]", ctx.author.discriminator)
+            # Get a list of stuff we'll allow and will consider close
+            allowed_names = [f"@{full_name}", full_name, str(member.id)]
+            close_names = [f"@{member.name}", member.name, discrim,
+                           f"#{discrim}"]
+            # Now add the same things but with newlines at the end of them
+            allowed_names += [(an + '\n') for an in allowed_names]
+            close_names += [(cn + '\n') for cn in close_names]
 
-        # Do checks on if the user can even attempt to verify
-        if ctx.channel.id != config.verification_chanid:
-            resp = await ctx.send("This command can only be used "
-                                  f"on <#{config.verification_chanid}>.")
-            await asyncio.sleep(config.sleep_secs)
-            return await resp.delete()
+            # Finally, hash the stuff so that we can access them later :)
+            sha1_allow = [hashlib.sha1(name.encode('utf-8')).hexdigest()
+                          for name in allowed_names]
+            md5_allow = [hashlib.md5(name.encode('utf-8')).hexdigest()
+                         for name in allowed_names]
+            sha1_close = [hashlib.sha1(name.encode('utf-8')).hexdigest()
+                          for name in close_names]
 
-        if verification_role in ctx.author.roles:
-            resp = await ctx.send("This command can only by those without "
-                                  f"<@&{config.read_rules_roleid}> role.")
-            await asyncio.sleep(config.sleep_secs)
-            return await resp.delete()
+            # I'm not even going to attempt to break those into lines jfc
+            if any(allow in mcl for allow in sha1_allow):
+                await member.add_roles(success_role)
+                await chan.purge(limit=100, check=lambda m: m.author == message.author or (m.author == self.bot.user and message.author.mention in m.content))
+            elif any(close in mcl for close in sha1_close):
+                await chan.send(f"{message.author.mention} :no_entry: Close, but incorrect. You got the process right, but you're not doing it on your name and discriminator properly. Please re-read the rules carefully and look up any terms you are not familiar with.")
+            elif any(allow in mcl for allow in md5_allow):
+                await chan.send(f"{message.author.mention} :no_entry: Close, but incorrect. You're processing your name and discriminator properly, but you're not using the right process. Please re-read the rules carefully and look up any terms you are not familiar with.")
+            elif full_name in message.content or str(member.id) in message.content or member.name in message.content or discrim in message.content:
+                await chan.send(f"{message.author.mention} :no_entry: Incorrect. You need to do something with your name and discriminator instead of just posting it. Please re-read the rules carefully and look up any terms you are not familiar with.")
 
-        # Log verification attempt
-        await self.bot.update_logs("Verification Attempt",
-                                   ctx.author.id,
-                                   veriflogs_channel,
-                                   log_text=verification_string,
-                                   digdepth=50, result=-1)
+    async def on_message(self, message):
+        try:
+            await self.process_message(message)
+        except discord.errors.Forbidden:
+            chan = self.bot.get_channel(message.channel)
+            await chan.send("💢 I don't have permission to do this.")
 
-        # Check verification code
-        if verification_string.lower().strip() == verification_wanted:
-            resp = await ctx.send("Success! Welcome to the "
-                                  f"club, {str(ctx.author)}.")
-            await self.bot.update_logs("Verification Attempt",
-                                       ctx.author.id,
-                                       veriflogs_channel,
-                                       digdepth=50, result=0)
-            await asyncio.sleep(config.sleep_secs)
-            await ctx.author.add_roles(verification_role)
-            await resp.delete()
-        else:
-            resp = await ctx.send(f"Incorrect password, {str(ctx.author)}.")
-            await asyncio.sleep(config.sleep_secs)
-            await resp.delete()
+    async def on_message_edit(self, before, after):
+        try:
+            await self.process_message(after)
+        except discord.errors.Forbidden:
+            chan = self.bot.get_channel(after.channel)
+            await chan.send("💢 I don't have permission to do this.")
+
+    # @commands.guild_only()
+    # @commands.command()
+    # async def verify(self, ctx, *, verification_string: str):
+    #     """Does verification.
+
+    #     See text on top of #verification for more info."""
+
+    #     await ctx.message.delete()
+
+    #     veriflogs_channel = ctx.guild.get_channel(config.veriflogs_chanid)
+    #     verification_role = ctx.guild.get_role(config.read_rules_roleid)
+    #     verification_wanted = config.verification_code\
+    #         .replace("[discrim]", ctx.author.discriminator)
+
+    #     # Do checks on if the user can even attempt to verify
+    #     if ctx.channel.id != config.verification_chanid:
+    #         resp = await ctx.send("This command can only be used "
+    #                               f"on <#{config.verification_chanid}>.")
+    #         await asyncio.sleep(config.sleep_secs)
+    #         return await resp.delete()
+
+    #     if verification_role in ctx.author.roles:
+    #         resp = await ctx.send("This command can only by those without "
+    #                               f"<@&{config.read_rules_roleid}> role.")
+    #         await asyncio.sleep(config.sleep_secs)
+    #         return await resp.delete()
+
+    #     # Log verification attempt
+    #     await self.bot.update_logs("Verification Attempt",
+    #                                ctx.author.id,
+    #                                veriflogs_channel,
+    #                                log_text=verification_string,
+    #                                digdepth=50, result=-1)
+
+    #     # Check verification code
+    #     if verification_string.lower().strip() == verification_wanted:
+    #         resp = await ctx.send("Success! Welcome to the "
+    #                               f"club, {str(ctx.author)}.")
+    #         await self.bot.update_logs("Verification Attempt",
+    #                                    ctx.author.id,
+    #                                    veriflogs_channel,
+    #                                    digdepth=50, result=0)
+    #         await asyncio.sleep(config.sleep_secs)
+    #         await ctx.author.add_roles(verification_role)
+    #         await resp.delete()
+    #     else:
+    #         resp = await ctx.send(f"Incorrect password, {str(ctx.author)}.")
+    #         await asyncio.sleep(config.sleep_secs)
+    #         await resp.delete()
 
 
 def setup(bot):
