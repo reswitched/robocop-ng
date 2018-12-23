@@ -43,7 +43,7 @@ Based on https://gitlab.com/ao/dpybotbase
 - [ ] Warns: clearwarns-clearwarnsid
 - [ ] Modmail
 - [ ] Moderation: User notes
-- [ ] .serr and .err
+- [x] .serr and .err
 - [x] Meme commands and pegaswitch (honestly the easiest part)
 - [x] source command
 - [ ] robocop command
