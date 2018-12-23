@@ -34,5 +34,5 @@ participant_role = 526378358129557506  # participant role in NotSwitched
 community_role = 526378381839695872  # community role in NotSwitched
 hacker_role = 526471781184176139  # hacker role in NotSwitched
 
-community_channels = ["526378423468425236"]  # Channels requiring community role
-general_channels = ["526372255052201995"]  # Channels everyone can access
+community_channels = [526378423468425236]  # Channels requiring community role
+general_channels = [526372255052201995]  # Channels everyone can access
