@@ -16,7 +16,7 @@ class AdminCog:
         return any(r.id in config.staff_role_ids for r in ctx.author.roles)
 
     def check_if_bot_manager(ctx):
-        return any(r.id in config.bot_manager_role_id for r in ctx.author.roles)
+        return any(r.id == config.bot_manager_role_id for r in ctx.author.roles)
 
     @commands.check(check_if_staff)
     @commands.command(aliases=['echo'], hidden=True)
