@@ -24,7 +24,6 @@ class Err:
             err_console = "Wii U"
 
         elif self.switch_re.match(err):
-            err_console = "Switch"
             module = int(err[0:4]) - 2000
             desc = int(err[5:9])
             errcode = (desc << 9) + module
@@ -42,14 +41,24 @@ class Err:
                 for errcode_range in switch_known_errcode_ranges[module]:
                     if desc >= errcode_range[0] and desc <= errcode_range[1]:
                         err_description = errcode_range[2]
-            
-            embed = discord.Embed(title='0x{:X} / {}'.format(errcode, err), description="*Console:* {} \n *Module:* {} \n *Error Description:* {} \n".format(err_console, err_module, err_description))
+
+            embed = discord.Embed(title="{} / {}".format(errcode, err), url="https://www.youtube.com/watch?v=x3yXlomPCmU", description=err_description)
+
+            embed.set_footer(text="Console: Switch")
+
+            embed.add_field(name="Module", value="{} ({})".format(err_module, module), inline=True)
+            embed.add_field(name="Description", value=desc, inline=True)
+
             await ctx.send(embed=embed)
 
         elif err in switch_game_err: # Special Case Handling because Nintendo feels like its required to break their format lol
             game,desc = switch_game_err[err].split(":")
-            await ctx.send(embed=discord.Embed(title=err, description="*Console:* {} \n *Game:* {} \n *Error Description:* {}".format(err_console, game, desc)))
-            return
+
+            embed = discord.Embed(title=err, url="https://www.youtube.com/watch?v=x3yXlomPCmU", description=desc)
+            embed.set_footer(text="Console: Switch")
+            embed.add_field(name="Game", value=game, inline=True)
+
+            await ctx.send(embed=embed)
 
         elif err.startswith("0x"):
             pass # Ladies and Gentleman, this will be a guessing game ;)
