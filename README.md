@@ -13,6 +13,7 @@ Based on https://gitlab.com/ao/dpybotbase
 - [ ] Verification
 - [ ] Logging joins, leaves, role changes, deletes, bans, kicks
 - [ ] Moderation commands (ban, warn etc)
+- [ ] User notes
 - [ ] Meme commands (honestly the easiest part)
 - [ ] .serr and .err
 - [x] source command

@@ -21,20 +21,20 @@ class AdminCog:
     @commands.check(check_if_staff)
     @commands.command(aliases=['echo'], hidden=True)
     async def say(self, ctx, *, the_text: str):
-        """Repeats a given text."""
+        """Repeats a given text, staff only."""
         await ctx.send(the_text)
 
     @commands.check(check_if_bot_manager)
     @commands.command(name='exit', hidden=True)
     async def _exit(self, ctx):
-        """Shuts down the bot, owner only."""
+        """Shuts down the bot, bot manager only."""
         await ctx.send(":wave: Exiting bot, goodbye!")
         await self.bot.logout()
 
     @commands.check(check_if_bot_manager)
     @commands.command(hidden=True)
     async def load(self, ctx, ext: str):
-        """Loads a cog, owner only."""
+        """Loads a cog, bot manager only."""
         try:
             self.bot.load_extension("cogs." + ext)
         except:
@@ -54,7 +54,7 @@ class AdminCog:
     @commands.check(check_if_bot_manager)
     @commands.command(name='eval', hidden=True)
     async def _eval(self, ctx, *, code: str):
-        """Evaluates some code (Owner only)"""
+        """Evaluates some code, bot manager only."""
         try:
             code = code.strip('` ')
 
@@ -107,7 +107,7 @@ class AdminCog:
     @commands.check(check_if_bot_manager)
     @commands.command(hidden=True)
     async def pull(self, ctx, auto=False):
-        """Does a git pull (Owner only)."""
+        """Does a git pull, bot manager only."""
         tmp = await ctx.send('Pulling...')
         git_output = await self.bot.async_call_shell("git pull")
         await tmp.edit(content=f"Pull complete. Output: ```{git_output}```")
@@ -128,7 +128,7 @@ class AdminCog:
     @commands.check(check_if_bot_manager)
     @commands.command(hidden=True)
     async def sh(self, ctx, *, command: str):
-        """Runs a command on shell."""
+        """Runs a command on shell, bot manager only."""
         command = command.strip('`')
         tmp = await ctx.send(f'Running `{command}`...')
         self.bot.log.info(f"Running {command}")
@@ -148,7 +148,7 @@ class AdminCog:
     @commands.check(check_if_bot_manager)
     @commands.command(hidden=True)
     async def unload(self, ctx, ext: str):
-        """Unloads a cog, owner only."""
+        """Unloads a cog, bot manager only."""
         self.bot.unload_extension("cogs." + ext)
         self.bot.log.info(f'Unloaded ext {ext}')
         await ctx.send(f':white_check_mark: `{ext}` successfully unloaded.')
@@ -156,7 +156,7 @@ class AdminCog:
     @commands.check(check_if_bot_manager)
     @commands.command(hidden=True)
     async def reload(self, ctx, ext="_"):
-        """Reloads a cog, owner only."""
+        """Reloads a cog, bot manager only."""
         if ext == "_":
             ext = self.lastreload
         else:

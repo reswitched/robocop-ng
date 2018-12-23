@@ -90,7 +90,7 @@ async def on_error(event_method, *args, **kwargs):
 @bot.event
 async def on_command_error(ctx, error):
     log.error(f"Error with \"{ctx.message.content}\" from "
-              f"\"{ctx.message.author}\ ({ctx.message.author.id}) "
+              f"\"{ctx.message.author} ({ctx.message.author.id}) "
               f"of type {type(error)}: {error}")
 
     if isinstance(error, commands.NoPrivateMessage):
