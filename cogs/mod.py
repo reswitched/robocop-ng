@@ -13,6 +13,7 @@ class ModCog:
     def check_if_target_is_staff(self, target):
         return any(r.id in config.staff_role_ids for r in target.roles)
 
+    @commands.guild_only()
     @commands.bot_has_permissions(kick_members=True)
     @commands.check(check_if_staff)
     @commands.command()
@@ -51,6 +52,7 @@ class ModCog:
         modlog_channel = self.bot.get_channel(config.modlog_channel)
         await modlog_channel.send(chan_message)
 
+    @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
     @commands.check(check_if_staff)
     @commands.command()
