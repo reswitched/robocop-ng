@@ -2,6 +2,12 @@
 prefixes = [".", "!"]
 token = "token-goes-here"
 bot_description = "An attempt to rewrite the bot used in ReSwitched"
+
+# The bot description to be used in .robocop embed
+embed_desc = "Robocop-NG is developed by [Ave](https://github.com/aveao)"\
+             " and [tomGER](https://github.com/tumGER), and is a rewrite "\
+             "of Robocop.\nRobocop is based on Kurisu by 916253 and ihaveamac."
+
 guild_whitelist = [
     526372255052201993,  # NotSwitched discord
     269333940928512010  # ReSwitched discord

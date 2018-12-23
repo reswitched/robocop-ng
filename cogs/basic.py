@@ -35,6 +35,17 @@ class Basic:
                        config.source_url +
                        ". Serious PRs and issues welcome!")
 
+    @commands.command(aliases=["robocopng", "robocop-ng"])
+    async def robocop(self, ctx):
+        """Shows a quick embed with bot info."""
+        embed = discord.Embed(title="Robocop-NG",
+                              url=config.source_url,
+                              description=config.embed_desc)
+
+        embed.set_thumbnail(url=self.bot.user.avatar_url)
+
+        await ctx.send(embed=embed)
+
     @commands.command(aliases=['p'])
     async def ping(self, ctx):
         """Shows ping values to discord.

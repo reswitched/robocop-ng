@@ -36,7 +36,7 @@ Based on https://gitlab.com/ao/dpybotbase
 - [ ] Moderation: nickname
 - [ ] Moderation: clear/purge
 - [ ] Moderation: probate-unprobate
-- [ ] Moderation: watch-unwatch
+- [ ] Moderation: watch-unwatch (using log module from akbbot)
 - [ ] Warns: warn
 - [ ] Warns: delwarnid-delwarn
 - [ ] Warns: listwarns-listwarnsid
@@ -46,6 +46,6 @@ Based on https://gitlab.com/ao/dpybotbase
 - [x] .serr and .err
 - [x] Meme commands and pegaswitch (honestly the easiest part)
 - [x] source command
-- [ ] robocop command
+- [x] robocop command
 - [ ] eval and sh might need to be removed at end of development
 
