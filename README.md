@@ -12,13 +12,37 @@ Based on https://gitlab.com/ao/dpybotbase
 - [x] .py configs
 - [x] membercount command
 - [ ] Verification (and reset)
-- [ ] Logging joins, leaves, role changes, deletes, bans, kicks
-- [ ] Moderation commands (ban, kick, userinfo, approve-revoke, addhacker-removehacker, lock-softlock-timelock-unlock, mute-mutetime-unmute, playing, botnickname, nickname, clear, probate-unprobate)
-- [ ] Warns system (warn, delwarnid-delwarn, listwarns-listwarnsid, clearwarns-clearwarnsid)
-- [ ] User notes
-- [x] Meme commands and pegaswitch (honestly the easiest part)
+- [ ] Logging: joins
+- [ ] Logging: leaves
+- [ ] Logging: role changes
+- [ ] Logging: message edits
+- [ ] Logging: message deletes
+- [ ] Logging: bans
+- [ ] Logging: kicks
+- [ ] Moderation: ban
+- [ ] Moderation: kick
+- [x] Moderation: userinfo
+- [ ] Moderation: approve-revoke (community)
+- [ ] Moderation: addhacker-removehacker
+- [ ] Moderation: lock-soft-unlock (channel lockdown)
+- [ ] Moderation: timelock (channel lockdown with time)
+- [ ] Moderation: mute-unmute
+- [ ] Moderation: mutetime
+- [ ] Moderation: playing
+- [ ] Moderation: botnickname
+- [ ] Moderation: nickname
+- [ ] Moderation: clear/purge
+- [ ] Moderation: probate-unprobate
+- [ ] Moderation: watch-unwatch
+- [ ] Warns: warn
+- [ ] Warns: delwarnid-delwarn
+- [ ] Warns: listwarns-listwarnsid
+- [ ] Warns: clearwarns-clearwarnsid
+- [ ] Modmail
+- [ ] Moderation: User notes
 - [ ] .serr and .err
+- [x] Meme commands and pegaswitch (honestly the easiest part)
 - [x] source command
 - [ ] robocop command
-- [ ] eval and sh might need to be removed
+- [ ] eval and sh might need to be removed at end of development
 
