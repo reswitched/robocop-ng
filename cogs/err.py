@@ -16,6 +16,8 @@ class Err:
 
     @commands.command(aliases=["nxerr", "serr", "nin_err"])
     async def err(self, ctx, err: str):
+        """Searches for Nintendo 3DS, Switch and Wii U error codes!
+            Usage: .serr/.nxerr/.nin_err/.err <Error Code>"""
 
         if self.dds_re.match(err): # 3DS - dds -> Drei DS -> Three DS
             if err in dds_errcodes:
@@ -118,6 +120,32 @@ class Err:
 
         else:
             await ctx.send("Unknown Format - This is either no error code or you made some mistake!")
+
+    @commands.command(aliases=["e2h"])
+    async def err2hex(self, ctx, err: str):
+        """Converts Nintendo Switch errors to hex
+            Usage: .err2hex <Error Code>"""
+        if self.switch_re.match(err):
+            module = int(err[0:4]) - 2000
+            desc = int(err[5:9])
+            errcode = (desc << 9) + module
+            await ctx.send(hex(errcode))
+        else:
+            await ctx.send("This doesn't follow the typical Nintendo Switch 2XXX-XXXX format!")
+    
+    @commands.command(aliases=["h2e"])
+    async def hex2err(self, ctx, err: str):
+        """Converts Nintendo Switch errors to hex
+            Usage: .hex2err <Hex>"""
+        if err.startswith("0x"):
+            err = err[2:]
+            err = int(err, 16)
+            module = err & 0x1FF
+            desc = (err >> 9) & 0x3FFF
+            errcode = '{:04}-{:04}'.format(module + 2000, desc)
+            await ctx.send(errcode) 
+        else:
+            await ctx.send("This doesn't look like typical hex!")  
 
 
 def setup(bot):
