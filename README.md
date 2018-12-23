@@ -26,10 +26,10 @@ Based on https://gitlab.com/ao/dpybotbase
 - [x] Moderation: approve-revoke (community)
 - [x] Moderation: addhacker-removehacker (hacker)
 - [x] Moderation: probate-unprobate (participant)
-- [ ] Moderation: lock-soft-unlock (channel lockdown)
+- [x] Moderation: lock-softlock-unlock (channel lockdown)
 - [ ] Moderation: timelock (channel lockdown with time)
 - [ ] Moderation: mute-unmute
-- [ ] Moderation: mutetime
+- [ ] Moderation: mutetime (mute with time)
 - [x] Moderation: playing
 - [x] Moderation: botnickname
 - [x] Moderation: nickname

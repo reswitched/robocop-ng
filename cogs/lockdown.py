@@ -1,33 +1,68 @@
-import discord
-import asyncio
 from discord.ext import commands
-from config import log_channel, staff_role_ids, named_roles, community_channels, general_channels
+import config
 
 
 class Lockdown:
-    "Lockdown Commands"
-
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.has_permissions(manage_messages=True)
-    @commands.command(pass_context=True)
-    async def lock(self, ctx):
-        """Locks the channel"""
-        log_chan = self.bot.get_channel(log_channel)
-        if ctx.message.channel in community_channels:
-            roles = (named_roles["hacker"], named_roles["community"])
+    def check_if_staff(ctx):
+        return any(r.id in config.staff_role_ids for r in ctx.author.roles)
+
+    @commands.guild_only()
+    @commands.check(check_if_staff)
+    @commands.command()
+    async def lock(self, ctx, soft: bool = False):
+        """Prevents people from speaking in current channel, staff only."""
+        log_channel = self.bot.get_channel(config.log_channel)
+
+        if ctx.channel.id in config.community_channels:
+            roles = [config.named_roles["community"],
+                     config.named_roles["hacker"]]
         else:
-            roles = named_roles["participant"]
-        overwrites = ctx.message.channel.overwrites_for(roles[0])
-        if not overwrites.send_message:
-            await ctx.send("This channel is already locked!")
-            return
-        overwrites.send_message = False
-        overwrites.add_reactions = False
-        await asyncio.gather(*(self.bot.edit_channel_permissions(ctx.channel, role, overwrites) for role in roles))
-        await ctx.send("🔒 Channel locked down. Only staff members may speak. Do not bring the topic to other channels or risk disciplinary actions.")
-        await log_chan.send(f"Channel Lockdown for {ctx.channel.mention} by {ctx.author.mention}")
+            roles = [config.named_roles["participant"],
+                     ctx.guild.default_role.id]
+
+        for role in roles:
+            await ctx.channel.set_permissions(ctx.guild.get_role(role),
+                                              send_messages=False,
+                                              reason=str(ctx.author))
+
+        public_msg = "🔒 Channel locked down. "
+        if not soft:
+            public_msg += "Only staff members may speak. "\
+                          "Do not bring the topic to other channels or risk "\
+                          "disciplinary actions."
+
+        await ctx.send(public_msg)
+        msg = f"🔒 **Lockdown**: {ctx.channel.mention} by {ctx.author.mention} "\
+              f"| {self.bot.escape_message(ctx.author)}"
+        # ":unlock: Channel unlocked."
+        await log_channel.send(msg)
+
+    @commands.guild_only()
+    @commands.check(check_if_staff)
+    @commands.command()
+    async def unlock(self, ctx):
+        """Unlocks speaking in current channel, staff only."""
+        log_channel = self.bot.get_channel(config.log_channel)
+
+        if ctx.channel.id in config.community_channels:
+            roles = [config.named_roles["community"],
+                     config.named_roles["hacker"]]
+        else:
+            roles = [config.named_roles["participant"],
+                     ctx.guild.default_role.id]
+
+        for role in roles:
+            await ctx.channel.set_permissions(ctx.guild.get_role(role),
+                                              send_messages=True,
+                                              reason=str(ctx.author))
+
+        await ctx.send("🔓 Channel unlocked.")
+        msg = f"🔓 **Unlock**: {ctx.channel.mention} by {ctx.author.mention} "\
+              f"| {self.bot.escape_message(ctx.author)}"
+        await log_channel.send(msg)
 
 
 def setup(bot):
