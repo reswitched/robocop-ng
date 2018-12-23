@@ -17,6 +17,72 @@ class ModCog:
     @commands.bot_has_permissions(kick_members=True)
     @commands.check(check_if_staff)
     @commands.command()
+    async def mute(self, ctx, target: discord.Member, *, reason: str = ""):
+        """Mutes a user, staff only."""
+        # TODO: keep a restriction list
+        # so that muted people can't just leave and rejoin
+        if self.check_if_target_is_staff(target):
+            return await ctx.send("I can't mute this user as "
+                                  "they're a member of staff.")
+
+        safe_name = self.bot.escape_message(str(target))
+
+        dm_message = f"You were muted!"
+        if reason:
+            dm_message += f" The given reason is: \"{reason}\"."
+
+        try:
+            await target.send(dm_message)
+        except discord.errors.Forbidden:
+            # Prevents kick issues in cases where user blocked bot
+            # or has DMs disabled
+            pass
+
+        mute_role = ctx.guild.get_role(config.mute_role)
+
+        await target.add_roles(mute_role, reason=str(ctx.author))
+
+        chan_message = f"🔇 **Muted**: {ctx.author.mention} muted "\
+                       f"{target.mention} | {safe_name}\n"\
+                       f"🏷 __User ID__: {target.id}\n"
+        if reason:
+            chan_message += f"✏️ __Reason__: \"{reason}\""
+        else:
+            chan_message += "Please add an explanation below. In the future, "\
+                            "it is recommended to use `.mute <user> [reason]`"\
+                            " as the reason is automatically sent to the user."
+
+        log_channel = self.bot.get_channel(config.log_channel)
+        await log_channel.send(chan_message)
+        await ctx.send(f"{target.mention} can no longer speak.")
+
+    @commands.guild_only()
+    @commands.bot_has_permissions(kick_members=True)
+    @commands.check(check_if_staff)
+    @commands.command()
+    async def unmute(self, ctx, target: discord.Member):
+        """Unmutes a user, staff only."""
+        if self.check_if_target_is_staff(target):
+            return await ctx.send("I can't unmute this user as "
+                                  "they're a member of staff.")
+
+        safe_name = self.bot.escape_message(str(target))
+
+        mute_role = ctx.guild.get_role(config.mute_role)
+        await target.remove_roles(mute_role, reason=str(ctx.author))
+
+        chan_message = f"🔈 **Unmuted**: {ctx.author.mention} unmuted "\
+                       f"{target.mention} | {safe_name}\n"\
+                       f"🏷 __User ID__: {target.id}\n"
+
+        log_channel = self.bot.get_channel(config.log_channel)
+        await log_channel.send(chan_message)
+        await ctx.send(f"{target.mention} can now speak again.")
+
+    @commands.guild_only()
+    @commands.bot_has_permissions(kick_members=True)
+    @commands.check(check_if_staff)
+    @commands.command()
     async def kick(self, ctx, target: discord.Member, *, reason: str = ""):
         """Kicks a user, staff only."""
         if self.check_if_target_is_staff(target):

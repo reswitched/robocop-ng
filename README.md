@@ -11,6 +11,9 @@ Based on https://gitlab.com/ao/dpybotbase
 
 - [x] .py configs
 - [x] membercount command
+- [x] Meme commands and pegaswitch (honestly the easiest part)
+- [x] source command
+- [x] robocop command
 - [x] Verification: Actual verification system
 - [x] Verification: Reset command
 - [x] Logging: joins
@@ -26,19 +29,17 @@ Based on https://gitlab.com/ao/dpybotbase
 - [x] Moderation: addhacker-removehacker (hacker)
 - [x] Moderation: probate-unprobate (participant)
 - [x] Moderation: lock-softlock-unlock (channel lockdown)
-- [ ] Moderation: mute-unmute
+- [x] Moderation: mute-unmute
 - [x] Moderation: playing
 - [x] Moderation: botnickname
 - [x] Moderation: nickname
 - [ ] Moderation: clear/purge
+- [ ] Moderation: restrictions (people who leave with muted role will get muted role on join)
 - [ ] Warns: warn
 - [ ] Warns: delwarnid-delwarn
 - [ ] Warns: listwarns-listwarnsid
 - [ ] Warns: clearwarns-clearwarnsid
-- [x] .serr and .err
-- [x] Meme commands and pegaswitch (honestly the easiest part)
-- [x] source command
-- [x] robocop command
+- [x] .serr and .err (thanks tomger!)
 
 ---
 

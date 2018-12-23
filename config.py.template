@@ -41,3 +41,5 @@ welcome_channel = 526372470752673792  # rules-info channel in NotSwitched
 
 community_channels = [526378423468425236]  # Channels requiring community role
 general_channels = [526372255052201995]  # Channels everyone can access
+
+mute_role = 526500080879140874  # Mute role in NotSwitched
