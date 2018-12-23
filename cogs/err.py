@@ -31,8 +31,8 @@ class Err:
 
 
         elif self.wiiu_re.match(err): # Wii U
-            module = err[1:2] # Is that even true, idk just guessing
-            desc = err[4:7]
+            module = err[2:3] # Is that even true, idk just guessing
+            desc = err[5:8]
             if err in wii_u_errors:
                 err_description = wii_u_errors[err]
             else:
@@ -47,6 +47,27 @@ class Err:
             # Send message, crazy
             await ctx.send(embed=embed)            
 
+        # Removing any chance of hex having to go to the awful guessing game we wil have to do soon
+        elif err in switch_known_errcodes:
+            err_description = switch_known_errcodes[err]
+            err = err[2:]
+            errcode = int(err, 16)
+            module = errcode & 0x1FF
+            desc = (errcode >> 9) & 0x3FFF
+
+            if module in switch_modules:
+                err_module = switch_modules[module]
+            else:
+                err_module = "Unknown"
+
+            # Make a nice Embed out of it
+            embed = discord.Embed(title="{} / {}".format(errcode, err), url="https://www.youtube.com/watch?v=x3yXlomPCmU", description=err_description)
+            embed.set_footer(text="Console: Switch")
+            embed.add_field(name="Module", value="{} ({})".format(err_module, module), inline=True)
+            embed.add_field(name="Description", value=desc, inline=True)
+
+            # Send message, crazy
+            await ctx.send(embed=embed)
 
         elif self.switch_re.match(err): # Switch
             # Transforming into Hex
@@ -90,29 +111,6 @@ class Err:
 
             await ctx.send(embed=embed)
 
-        # Removing any chance of hex having to go to the awful guessing game we wil have to do soon
-        elif err in switch_known_errcodes:
-            err_description = switch_known_errcodes[err]
-            err = err[2:]
-            errcode = int(err, 16)
-            module = errcode & 0x1FF
-            desc = (errcode >> 9) & 0x3FFF
-
-            if module in switch_modules:
-                err_module = switch_modules[module]
-            else:
-                err_module = "Unknown"
-
-            # Make a nice Embed out of it
-            embed = discord.Embed(title="{} / {}".format(errcode, err), url="https://www.youtube.com/watch?v=x3yXlomPCmU", description=err_description)
-            embed.set_footer(text="Console: Switch")
-            embed.add_field(name="Module", value="{} ({})".format(err_module, module), inline=True)
-            embed.add_field(name="Description", value=desc, inline=True)
-
-            # Send message, crazy
-            await ctx.send(embed=embed)
-        
-
         # The Guessing Game of Hex (Could be both 3DS or Switch so we have to constantly assume :P)
         elif err.startswith("0x"):
             err = err[2:] # Both work without the 0x
@@ -142,9 +140,7 @@ class Err:
             errcode = '{:04}-{:04}'.format(module + 2000, desc)
 
             # Searching for error codes related to the Switch (Doesn't include Special Cases)
-            if errcode in switch_known_errcodes:
-                err_description = switch_known_errcodes[errcode]
-            elif errcode in switch_support_page:
+            if errcode in switch_support_page:
                 err_description = switch_support_page[errcode]
             elif module in switch_known_errcode_ranges:
                 for errcode_range in switch_known_errcode_ranges[module]:
