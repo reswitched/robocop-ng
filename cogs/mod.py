@@ -155,7 +155,7 @@ class ModCog:
 
         await target.add_roles(target_role, reason=str(ctx.author))
 
-        await ctx.send(f"Approved {target.mention} to role {role}.")
+        await ctx.send(f"Approved {target.mention} to `{role}` role.")
 
         await log_channel.send(f"✅ Approved: {ctx.author.mention} added"
                                f" {role} to {target.mention}")
@@ -177,7 +177,7 @@ class ModCog:
 
         await target.remove_roles(target_role, reason=str(ctx.author))
 
-        await ctx.send(f"Un-approved {target.mention} from role {role}.")
+        await ctx.send(f"Un-approved {target.mention} from `{role}` role.")
 
         await log_channel.send(f"❌ Un-approved: {ctx.author.mention} removed"
                                f" {role} from {target.mention}")
