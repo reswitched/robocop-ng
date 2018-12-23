@@ -43,12 +43,12 @@ class Err:
                     if desc >= errcode_range[0] and desc <= errcode_range[1]:
                         err_description = errcode_range[2]
             
-            embed = discord.Embed(title='0x{:X} / {}'.format(errcode, err), description="*Console: {} \n Module: {}* \n Error Description: {} \n".format(err_console, err_module, err_description))
+            embed = discord.Embed(title='0x{:X} / {}'.format(errcode, err), description="*Console:* {} \n *Module:* {} \n *Error Description:* {} \n".format(err_console, err_module, err_description))
             await ctx.send(embed=embed)
 
         elif err in switch_game_err: # Special Case Handling because Nintendo feels like its required to break their format lol
             game,desc = switch_game_err[err].split(":")
-            await ctx.send(embed=discord.Embed(title=err, description="*Console: {} \n Game: {}* \n Error Description: {}".format(err_console, game, desc)))
+            await ctx.send(embed=discord.Embed(title=err, description="*Console:* {} \n *Game:* {} \n *Error Description:* {}".format(err_console, game, desc)))
             return
 
         elif err.startswith("0x"):
