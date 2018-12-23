@@ -3,10 +3,9 @@ from discord.ext import commands
 import config
 
 
-class AdminCog:
+class ModCog:
     def __init__(self, bot):
         self.bot = bot
-        self.modlog_channel = bot.get_channel(config.modlog_channel)
 
     def check_if_staff(ctx):
         return any(r.id in config.staff_role_ids for r in ctx.author.roles)
@@ -49,7 +48,8 @@ class AdminCog:
                             ", it is recommended to use `.ban <user> [reason]`"\
                             " as the reason is automatically sent to the user."
 
-        await self.modlog_channel.send(chan_message)
+        modlog_channel = self.bot.get_channel(config.modlog_channel)
+        await modlog_channel.send(chan_message)
 
     @commands.bot_has_permissions(ban_members=True)
     @commands.check(check_if_staff)
@@ -76,7 +76,7 @@ class AdminCog:
 
         await target.ban(reason=f"{ctx.author}, reason: {reason}",
                          delete_message_days=0)
-        chan_message = f"👢 **Ban**: {ctx.author.mention} banned "\
+        chan_message = f"⛔ **Ban**: {ctx.author.mention} banned "\
                        f"{target.mention} | {safe_name}\n"\
                        f"🏷 __User ID__: {target.id}\n"
         if reason:
@@ -86,8 +86,35 @@ class AdminCog:
                             ", it is recommended to use `.ban <user> [reason]`"\
                             " as the reason is automatically sent to the user."
 
-        await self.modlog_channel.send(chan_message)
+        modlog_channel = self.bot.get_channel(config.modlog_channel)
+        await modlog_channel.send(chan_message)
         await ctx.send(f"{safe_name} is now b&. 👍")
+
+    @commands.bot_has_permissions(ban_members=True)
+    @commands.check(check_if_staff)
+    @commands.command()
+    async def silentban(self, ctx, target: discord.Member, *, reason: str = ""):
+        """Bans a user, staff only."""
+        if self.check_if_target_is_staff(target):
+            return await ctx.send("I can't ban this user as "
+                                  "they're a member of staff.")
+
+        safe_name = self.bot.escape_message(str(target))
+
+        await target.ban(reason=f"{ctx.author}, reason: {reason}",
+                         delete_message_days=0)
+        chan_message = f"⛔ **Silent ban**: {ctx.author.mention} banned "\
+                       f"{target.mention} | {safe_name}\n"\
+                       f"🏷 __User ID__: {target.id}\n"
+        if reason:
+            chan_message += f"✏️ __Reason__: \"{reason}\""
+        else:
+            chan_message += "Please add an explanation below. In the future"\
+                            ", it is recommended to use `.ban <user> [reason]`"\
+                            " as the reason is automatically sent to the user."
+
+        modlog_channel = self.bot.get_channel(config.modlog_channel)
+        await modlog_channel.send(chan_message)
 
     @commands.check(check_if_staff)
     @commands.command()
@@ -109,4 +136,4 @@ class AdminCog:
 
 
 def setup(bot):
-    bot.add_cog(AdminCog(bot))
+    bot.add_cog(ModCog(bot))

@@ -15,3 +15,5 @@ staff_role_ids = [526384077679624192,  # Team role in NotSwitched
                   526372582455508992,  # Mod role in NotSwitched
                   526372554081042462,  # Bot management role in NotSwitched
                   526383985430102016]  # Wizard role in NotSwitched
+
+modlog_channel = 526377735908491284  # Log channel in NotSwitched discord

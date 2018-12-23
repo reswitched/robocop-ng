@@ -20,6 +20,7 @@ Based on https://gitlab.com/ao/dpybotbase
 - [ ] Logging: bans
 - [ ] Logging: kicks
 - [x] Moderation: ban
+- [x] Moderation: silentban
 - [x] Moderation: kick
 - [x] Moderation: userinfo
 - [ ] Moderation: approve-revoke (community)
