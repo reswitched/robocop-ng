@@ -11,7 +11,8 @@ Based on https://gitlab.com/ao/dpybotbase
 
 - [x] .py configs
 - [x] membercount command
-- [ ] Verification (and reset)
+- [ ] Verification: Actual verification system
+- [x] Verification: Reset command
 - [ ] Logging: joins
 - [ ] Logging: leaves
 - [ ] Logging: role changes
