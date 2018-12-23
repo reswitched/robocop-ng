@@ -19,8 +19,8 @@ Based on https://gitlab.com/ao/dpybotbase
 - [ ] Logging: message deletes
 - [ ] Logging: bans
 - [ ] Logging: kicks
-- [ ] Moderation: ban
-- [ ] Moderation: kick
+- [x] Moderation: ban
+- [x] Moderation: kick
 - [x] Moderation: userinfo
 - [ ] Moderation: approve-revoke (community)
 - [ ] Moderation: addhacker-removehacker

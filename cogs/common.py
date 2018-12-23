@@ -17,6 +17,7 @@ class Common:
         self.bot.aioget = self.aioget
         self.bot.aiogetbytes = self.aiogetbytes
         self.bot.get_relative_timestamp = self.get_relative_timestamp
+        self.bot.escape_message = self.escape_message
 
     def get_relative_timestamp(self, time_from=None, time_to=None,
                                humanized=False, include_from=False,
@@ -97,6 +98,10 @@ class Common:
     def hex_to_int(self, color_hex: str):
         """Turns a given hex color into an integer"""
         return int("0x" + color_hex.strip('#'), 16)
+
+    def escape_message(self, text: str):
+        """Escapes unfun stuff from messages"""
+        return text.replace("@", "@ ").replace("#", "# ")
 
     # This function is based on https://stackoverflow.com/a/35435419/3286892
     # by link2110 (https://stackoverflow.com/users/5890923/link2110)
