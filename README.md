@@ -1,13 +1,17 @@
-# BotBase
+# Robocop-ng
 
-A crappy discord.py@rewrite bot base.
+An attempt to rewrite the bloated ReSwitched bot with dpy rewrite.
+
+Based on https://gitlab.com/ao/dpybotbase
+
 
 ---
 
-### Setting up:
+## TODO
 
-- Install Python 3.6 or higher.
-- Install requirements with pip
-- Configure the ini
-- rewrite .py file if you want (but you'll also need to rename the .ini)
-- If you want more stuff, copy a cog, make necessary changes, add it to botbase.py's initial load stuff
+- [] Verification
+- [] Logging joins, leaves, role changes, deletes, bans, kicks
+- [] Moderation commands
+- [] Meme commands (honestly the easiest part)
+- [] .serr and .err
+
