@@ -10,11 +10,13 @@ Based on https://gitlab.com/ao/dpybotbase
 ## TODO
 
 - [x] .py configs
-- [ ] Verification
+- [ ] membercount command
+- [ ] Verification (and reset)
 - [ ] Logging joins, leaves, role changes, deletes, bans, kicks
-- [ ] Moderation commands (ban, warn etc)
+- [ ] Moderation commands (ban, kick, approve, revoke, addhacker, removehacker, lock, unlock, softlock, mute, unmute, playing, botnickname, nickname, clear)
+- [ ] Warns system (warn, delwarn, listwarns, clearwarns, clearwarnsid, listwarnsid, delwarnid)
 - [ ] User notes
-- [ ] Meme commands (honestly the easiest part)
+- [ ] Meme commands and pegaswitch (honestly the easiest part)
 - [ ] .serr and .err
 - [x] source command
 - [ ] robocop command
