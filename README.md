@@ -14,13 +14,11 @@ Based on https://gitlab.com/ao/dpybotbase
 - [x] Verification: Actual verification system
 - [x] Verification: Reset command
 - [ ] Verification: Using log module from akbbot for logging attempts and removing old attempts
-- [ ] Logging: joins
-- [ ] Logging: leaves
-- [ ] Logging: role changes
-- [ ] Logging: message edits
-- [ ] Logging: message deletes
-- [ ] Logging: bans
-- [ ] Logging: kicks
+- [x] Logging: joins
+- [x] Logging: leaves
+- [x] Logging: role changes
+- [x] Logging: bans
+- [x] Logging: kicks
 - [x] Moderation: ban
 - [x] Moderation: silentban
 - [x] Moderation: kick
@@ -32,8 +30,8 @@ Based on https://gitlab.com/ao/dpybotbase
 - [ ] Moderation: mute-unmute
 - [ ] Moderation: mutetime
 - [x] Moderation: playing
-- [ ] Moderation: botnickname
-- [ ] Moderation: nickname
+- [x] Moderation: botnickname
+- [x] Moderation: nickname
 - [ ] Moderation: clear/purge
 - [ ] Moderation: probate-unprobate
 - [ ] Moderation: watch-unwatch (using log module from akbbot)
@@ -42,6 +40,7 @@ Based on https://gitlab.com/ao/dpybotbase
 - [ ] Warns: listwarns-listwarnsid
 - [ ] Warns: clearwarns-clearwarnsid
 - [ ] Modmail
+- [ ] Submiterr
 - [ ] Moderation: User notes
 - [x] .serr and .err
 - [x] Meme commands and pegaswitch (honestly the easiest part)

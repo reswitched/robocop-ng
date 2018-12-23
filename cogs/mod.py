@@ -49,8 +49,8 @@ class ModCog:
                             ", it is recommended to use `.ban <user> [reason]`"\
                             " as the reason is automatically sent to the user."
 
-        modlog_channel = self.bot.get_channel(config.modlog_channel)
-        await modlog_channel.send(chan_message)
+        log_channel = self.bot.get_channel(config.log_channel)
+        await log_channel.send(chan_message)
 
     @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
@@ -88,8 +88,8 @@ class ModCog:
                             ", it is recommended to use `.ban <user> [reason]`"\
                             " as the reason is automatically sent to the user."
 
-        modlog_channel = self.bot.get_channel(config.modlog_channel)
-        await modlog_channel.send(chan_message)
+        log_channel = self.bot.get_channel(config.log_channel)
+        await log_channel.send(chan_message)
         await ctx.send(f"{safe_name} is now b&. 👍")
 
     @commands.guild_only()
@@ -116,8 +116,8 @@ class ModCog:
                             ", it is recommended to use `.ban <user> [reason]`"\
                             " as the reason is automatically sent to the user."
 
-        modlog_channel = self.bot.get_channel(config.modlog_channel)
-        await modlog_channel.send(chan_message)
+        log_channel = self.bot.get_channel(config.log_channel)
+        await log_channel.send(chan_message)
 
     @commands.guild_only()
     @commands.check(check_if_staff)
@@ -142,13 +142,39 @@ class ModCog:
     @commands.check(check_if_staff)
     @commands.command(aliases=["setplaying", "setgame"])
     async def playing(self, ctx, *, game: str = ""):
-        """Sets the currently played game name, staff only.
+        """Sets the bot's currently played game name, staff only.
 
         Just send .playing to wipe the playing state."""
         if game:
             await self.bot.change_presence(activity=discord.Game(name=game))
         else:
             await self.bot.change_presence(activity=None)
+
+    @commands.guild_only()
+    @commands.check(check_if_staff)
+    @commands.command(aliases=["setbotnick", "botnick", "robotnick"])
+    async def botnickname(self, ctx, *, nick: str = ""):
+        """Sets the bot's nickname, staff only.
+
+        Just send .botnickname to wipe the nickname."""
+
+        if nick:
+            await ctx.guild.me.edit(nick=nick, reason=str(ctx.author))
+        else:
+            await ctx.guild.me.edit(nick=None, reason=str(ctx.author))
+
+    @commands.guild_only()
+    @commands.check(check_if_staff)
+    @commands.command(aliases=["setnick", "nick"])
+    async def nickname(self, ctx, target: discord.Member, *, nick: str = ""):
+        """Sets a user's nickname, staff only.
+
+        Just send .nickname <user> to wipe the nickname."""
+
+        if nick:
+            await target.edit(nick=nick, reason=str(ctx.author))
+        else:
+            await target.edit(nick=None, reason=str(ctx.author))
 
 
 def setup(bot):
