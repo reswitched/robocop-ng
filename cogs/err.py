@@ -50,8 +50,8 @@ class Err:
         # Removing any chance of hex having to go to the awful guessing game we wil have to do soon
         elif err in switch_known_errcodes:
             err_description = switch_known_errcodes[err]
-            err = err[2:]
-            errcode = int(err, 16)
+            serr = err[2:]
+            errcode = int(serr, 16)
             module = errcode & 0x1FF
             desc = (errcode >> 9) & 0x3FFF
 
@@ -147,7 +147,7 @@ class Err:
                     if desc >= errcode_range[0] and desc <= errcode_range[1]:
                         err_description = errcode_range[2]
             else:
-                err_description = "It seems like your error code is unknown. You should report relevant details to <@141532589725974528> so it can be added to the bot."
+                err_description = "AAAAA It seems like your error code is unknown. You should report relevant details to <@141532589725974528> so it can be added to the bot."
             
             if module in switch_modules:
                 err_module = switch_modules[module]
