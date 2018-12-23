@@ -15,7 +15,7 @@ log_file_name = f"{script_name}.log"
 
 # Limit of discord (non-nitro) is 8MB (not MiB)
 max_file_size = 1000 * 1000 * 8
-backup_count = 10000  # random big number
+backup_count = 3
 file_handler = logging.handlers.RotatingFileHandler(
     filename=log_file_name, maxBytes=max_file_size, backupCount=backup_count)
 stdout_handler = logging.StreamHandler(sys.stdout)
@@ -121,6 +121,9 @@ async def on_command_error(ctx, error):
         return await ctx.send(f"{ctx.author.mention}: Check failed. "
                               "You might not have the right permissions "
                               "to run this command.")
+    elif isinstance(error, commands.CommandNotFound):
+        # Nothing to do when command is not found.
+        return
 
     help_text = f"Usage of this command is: ```{ctx.prefix}"\
                 f"{ctx.command.signature}```\nPlease see `{ctx.prefix}help "\

@@ -134,27 +134,6 @@ class AdminCog:
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
     @commands.command(hidden=True)
-    async def sh(self, ctx, *, command: str):
-        """Runs a command on shell, bot manager only."""
-        command = command.strip('`')
-        tmp = await ctx.send(f'Running `{command}`...')
-        self.bot.log.info(f"Running {command}")
-        shell_output = await self.bot.async_call_shell(command)
-        shell_output = f"\"{command}\" output:\n\n{shell_output}"
-        self.bot.log.info(shell_output)
-        sliced_message = await self.bot.slice_message(shell_output,
-                                                      prefix="```",
-                                                      suffix="```")
-        if len(sliced_message) == 1:
-            await tmp.edit(content=sliced_message[0])
-            return
-        await tmp.delete()
-        for msg in sliced_message:
-            await ctx.send(msg)
-
-    @commands.guild_only()
-    @commands.check(check_if_bot_manager)
-    @commands.command(hidden=True)
     async def unload(self, ctx, ext: str):
         """Unloads a cog, bot manager only."""
         self.bot.unload_extension("cogs." + ext)

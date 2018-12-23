@@ -156,6 +156,31 @@ class ModCog:
                             ", it is recommended to use `.ban <user> [reason]`"\
                             " as the reason is automatically sent to the user."
 
+    @commands.guild_only()
+    @commands.bot_has_permissions(ban_members=True)
+    @commands.check(check_if_staff)
+    @commands.command()
+    async def hackban(self, ctx, target: int, *, reason: str = ""):
+        """Bans a user with their ID, doesn't message them, staff only."""
+        target = ctx.guild.get_member(target)
+        if self.check_if_target_is_staff(target):
+            return await ctx.send("I can't ban this user as "
+                                  "they're a member of staff.")
+
+        safe_name = self.bot.escape_message(str(target))
+
+        await target.ban(reason=f"{ctx.author}, reason: {reason}",
+                         delete_message_days=0)
+        chan_message = f"⛔ **Hackban**: {ctx.author.mention} banned "\
+                       f"{target.mention} | {safe_name}\n"\
+                       f"🏷 __User ID__: {target.id}\n"
+        if reason:
+            chan_message += f"✏️ __Reason__: \"{reason}\""
+        else:
+            chan_message += "Please add an explanation below. In the future"\
+                            ", it is recommended to use `.ban <user> [reason]`"\
+                            " as the reason is automatically sent to the user."
+
         log_channel = self.bot.get_channel(config.log_channel)
         await log_channel.send(chan_message)
         await ctx.send(f"{safe_name} is now b&. 👍")
@@ -390,9 +415,23 @@ class ModCog:
                 embed.description = "There are none!"
                 embed.color = discord.Color.green()
         except KeyError:  # if the user is not in the file
-            embed.description = "There are none!"
+            embed.description = "ID doesn't exist in saved "\
+                                "warns (there likely aren't any warns)."
             embed.color = discord.Color.green()
         return embed
+
+    def clear_warns_from_id(self, uid: str):
+        with open("data/warnsv2.json", "r") as f:
+            warns = json.load(f)
+        if uid not in warns:
+            return f"<@{uid}> has no warns!"
+        warn_count = len(warns[uid]["warns"])
+        if not warn_count:
+            return f"<@{uid}> has no warns!"
+        warns[uid]["warns"] = []
+        with open("data/warnsv2.json", "w") as f:
+            json.dump(warns, f)
+        return f"<@{uid}> no longer has any warns!"
 
     @commands.guild_only()
     @commands.check(check_if_staff)
@@ -409,6 +448,32 @@ class ModCog:
         """List warns for a user by ID. Staff only."""
         embed = self.get_warns_embed_for_id(str(target), str(target))
         await ctx.send(embed=embed)
+
+    @commands.guild_only()
+    @commands.check(check_if_staff)
+    @commands.command()
+    async def clearwarns(self, ctx, target: discord.Member):
+        """Clear all warns for a user. Staff only."""
+        log_channel = self.bot.get_channel(config.log_channel)
+        msg = self.clear_warns_from_id(str(target.id))
+        await ctx.send(msg)
+        msg = f"🗑 **Cleared warns**: {ctx.member.mention} cleared"\
+              f" warns of {target.mention} | "\
+              f"{self.bot.escape_message(target)}"
+        await log_channel.send(msg)
+
+    @commands.guild_only()
+    @commands.check(check_if_staff)
+    @commands.command()
+    async def clearwarnsid(self, ctx, target: int):
+        """Clear all warns for a user from their userid. Staff only."""
+        log_channel = self.bot.get_channel(config.log_channel)
+        msg = self.clear_warns_from_id(str(target))
+        await ctx.send(msg)
+        msg = f"🗑 **Cleared warns**: {ctx.member.mention} cleared"\
+              f" warns of <@{target}> | "\
+              f"{self.bot.escape_message(target)}"
+        await log_channel.send(msg)
 
 
 def setup(bot):
