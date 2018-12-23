@@ -32,8 +32,8 @@ Based on https://gitlab.com/ao/dpybotbase
 - [ ] Moderation: mute-unmute
 - [ ] Moderation: mutetime
 - [x] Moderation: playing
-- [ ] Moderation: botnickname
-- [ ] Moderation: nickname
+- [x] Moderation: botnickname
+- [x] Moderation: nickname
 - [ ] Moderation: clear/purge
 - [ ] Moderation: probate-unprobate
 - [ ] Moderation: watch-unwatch (using log module from akbbot)
@@ -42,6 +42,7 @@ Based on https://gitlab.com/ao/dpybotbase
 - [ ] Warns: listwarns-listwarnsid
 - [ ] Warns: clearwarns-clearwarnsid
 - [ ] Modmail
+- [ ] Submiterr
 - [ ] Moderation: User notes
 - [x] .serr and .err
 - [x] Meme commands and pegaswitch (honestly the easiest part)
