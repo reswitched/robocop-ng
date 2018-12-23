@@ -49,8 +49,8 @@ class ModCog:
                             ", it is recommended to use `.ban <user> [reason]`"\
                             " as the reason is automatically sent to the user."
 
-        modlog_channel = self.bot.get_channel(config.modlog_channel)
-        await modlog_channel.send(chan_message)
+        log_channel = self.bot.get_channel(config.log_channel)
+        await log_channel.send(chan_message)
 
     @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
@@ -88,8 +88,8 @@ class ModCog:
                             ", it is recommended to use `.ban <user> [reason]`"\
                             " as the reason is automatically sent to the user."
 
-        modlog_channel = self.bot.get_channel(config.modlog_channel)
-        await modlog_channel.send(chan_message)
+        log_channel = self.bot.get_channel(config.log_channel)
+        await log_channel.send(chan_message)
         await ctx.send(f"{safe_name} is now b&. 👍")
 
     @commands.guild_only()
@@ -116,8 +116,8 @@ class ModCog:
                             ", it is recommended to use `.ban <user> [reason]`"\
                             " as the reason is automatically sent to the user."
 
-        modlog_channel = self.bot.get_channel(config.modlog_channel)
-        await modlog_channel.send(chan_message)
+        log_channel = self.bot.get_channel(config.log_channel)
+        await log_channel.send(chan_message)
 
     @commands.guild_only()
     @commands.check(check_if_staff)

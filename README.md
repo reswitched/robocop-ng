@@ -14,13 +14,11 @@ Based on https://gitlab.com/ao/dpybotbase
 - [x] Verification: Actual verification system
 - [x] Verification: Reset command
 - [ ] Verification: Using log module from akbbot for logging attempts and removing old attempts
-- [ ] Logging: joins
-- [ ] Logging: leaves
-- [ ] Logging: role changes
-- [ ] Logging: message edits
-- [ ] Logging: message deletes
-- [ ] Logging: bans
-- [ ] Logging: kicks
+- [x] Logging: joins
+- [x] Logging: leaves
+- [x] Logging: role changes
+- [x] Logging: bans
+- [x] Logging: kicks
 - [x] Moderation: ban
 - [x] Moderation: silentban
 - [x] Moderation: kick
