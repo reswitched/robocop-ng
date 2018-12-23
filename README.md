@@ -9,9 +9,10 @@ Based on https://gitlab.com/ao/dpybotbase
 
 ## TODO
 
-- [] Verification
-- [] Logging joins, leaves, role changes, deletes, bans, kicks
-- [] Moderation commands
-- [] Meme commands (honestly the easiest part)
-- [] .serr and .err
+- [ ] .py configs
+- [ ] Verification
+- [ ] Logging joins, leaves, role changes, deletes, bans, kicks
+- [ ] Moderation commands
+- [ ] Meme commands (honestly the easiest part)
+- [ ] .serr and .err
 
