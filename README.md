@@ -36,9 +36,9 @@ Based on https://gitlab.com/ao/dpybotbase
 - [x] Moderation: clear/purge
 - [ ] Moderation: restrictions (people who leave with muted role will get muted role on join)
 - [x] Warns: warn
-- [ ] Warns: delwarnid-delwarn
-- [ ] Warns: listwarns-listwarnsid
+- [x] Warns: listwarns-listwarnsid
 - [ ] Warns: clearwarns-clearwarnsid
+- [ ] Warns: delwarnid-delwarn
 - [x] .serr and .err (thanks tomger!)
 
 ---

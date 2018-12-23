@@ -50,13 +50,13 @@ class Logs:
         with open("data/warnsv2.json", "r") as f:
             warns = json.load(f)
         try:
-            if len(warns[member.id]["warns"]) == 0:
+            if len(warns[str(member.id)]["warns"]) == 0:
                 await log_channel.send(msg)
             else:
                 embed = discord.Embed(color=discord.Color.dark_red(),
                                       title=f"Warns for {escaped_name}")
                 embed.set_thumbnail(url=member.avatar_url)
-                for idx, warn in enumerate(warns[member.id]["warns"]):
+                for idx, warn in enumerate(warns[str(member.id)]["warns"]):
                     embed.add_field(name=f"{idx + 1}: {warn['timestamp']}",
                                     value=f"Issuer: {warn['issuer_name']}"
                                           f"\nReason: {warn['reason']}")

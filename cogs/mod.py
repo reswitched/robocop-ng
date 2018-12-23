@@ -375,6 +375,41 @@ class ModCog:
                    " as the reason is automatically sent to the user."
         await log_channel.send(msg)
 
+    def get_warns_embed_for_id(self, uid: str, name: str):
+        embed = discord.Embed(color=discord.Color.dark_red())
+        embed.set_author(name=f"Warns for {name}")
+        with open("data/warnsv2.json", "r") as f:
+            warns = json.load(f)
+        try:
+            if len(warns[uid]["warns"]):
+                for idx, warn in enumerate(warns[uid]["warns"]):
+                    embed.add_field(name=f"{idx + 1}: {warn['timestamp']}",
+                                    value=f"Issuer: {warn['issuer_name']}\n"
+                                          f"Reason: {warn['reason']}")
+            else:
+                embed.description = "There are none!"
+                embed.color = discord.Color.green()
+        except KeyError:  # if the user is not in the file
+            embed.description = "There are none!"
+            embed.color = discord.Color.green()
+        return embed
+
+    @commands.guild_only()
+    @commands.check(check_if_staff)
+    @commands.command()
+    async def listwarns(self, ctx, target: discord.Member):
+        """List warns for a user. Staff only."""
+        embed = self.get_warns_embed_for_id(str(target.id), str(target))
+        await ctx.send(embed=embed)
+
+    @commands.guild_only()
+    @commands.check(check_if_staff)
+    @commands.command()
+    async def listwarnsid(self, ctx, target: int):
+        """List warns for a user by ID. Staff only."""
+        embed = self.get_warns_embed_for_id(str(target), str(target))
+        await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(ModCog(bot))
