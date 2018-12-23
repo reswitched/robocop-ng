@@ -33,7 +33,7 @@ class Err:
             # Send message, crazy
             await ctx.send(embed=embed)
 
-        elif err.startswith("0x"):  # These are not similar to the other errors apperently ... ?
+        elif err.startswith("0x"):  # These are not similar to the other errors apparently ... ?
             derr = err[2:]
             derr = derr.strip()
             rc = int(derr, 16)
@@ -43,7 +43,7 @@ class Err:
             level = (rc >> 27) & 0x1F
             if mod in dds_modules and summ in dds_summaries and desc in dds_descriptions and level in dds_levels:
                 # ^ Lets just make extra sure that everything is right :P
-                embed = discord.Embed(title="0x{:X}".format(rc))
+                embed = discord.Embed(title=f"0x{rc:X}")
                 embed.add_field(name="Module", value=dds_modules[mod], inline=False)
                 embed.add_field(name="Description", value=dds_descriptions[desc], inline=False)
                 embed.add_field(name="Summary", value=dds_summaries[summ], inline=False)
@@ -59,10 +59,12 @@ class Err:
             if err in wii_u_errors:
                 err_description = wii_u_errors[err]
             else:
-                err_description = "It seems like your error code is unknown. You should report relevant details to <@141532589725974528> so it can be added to the bot."
+                err_description = "It seems like your error code is unknown. You should report relevant details to <@141532589725974528> (tomGER) so it can be added to the bot."
 
             # Make a nice Embed out of it
-            embed = discord.Embed(title=err, url="https://www.youtube.com/watch?v=x3yXlomPCmU", description=err_description)
+            embed = discord.Embed(title=err,
+                                  url="https://www.youtube.com/watch?v=x3yXlomPCmU",
+                                  description=err_description)
             embed.set_footer(text="Console: Wii U")
             embed.add_field(name="Module", value=module, inline=True)
             embed.add_field(name="Description", value=desc, inline=True)
@@ -82,7 +84,7 @@ class Err:
                 desc = int(err[5:9])
                 errcode = (desc << 9) + module
 
-            str_errcode = '{:04}-{:04}'.format(module + 2000, desc)
+            str_errcode = f'{(module + 2000):04}-{desc:04}'
 
             # Searching for Modules in list
             if module in switch_modules:
@@ -103,9 +105,11 @@ class Err:
                 err_description = "It seems like your error code is unknown. You should report relevant details to <@141532589725974528> so it can be added to the bot."
 
             # Make a nice Embed out of it
-            embed = discord.Embed(title="{} / {}".format(str_errcode, hex(errcode)), url="https://www.youtube.com/watch?v=x3yXlomPCmU", description=err_description)
+            embed = discord.Embed(title=f"{str_errcode} / {hex(errcode)}",
+                                  url="https://www.youtube.com/watch?v=x3yXlomPCmU",
+                                  description=err_description)
             embed.set_footer(text="Console: Switch")
-            embed.add_field(name="Module", value="{} ({})".format(err_module, module), inline=True)
+            embed.add_field(name="Module", value=f"{err_module} ({module})", inline=True)
             embed.add_field(name="Description", value=desc, inline=True)
 
             # Send message, crazy
@@ -144,7 +148,7 @@ class Err:
             err = int(err, 16)
             module = err & 0x1FF
             desc = (err >> 9) & 0x3FFF
-            errcode = '{:04}-{:04}'.format(module + 2000, desc)
+            errcode = f'{(module + 2000):04}-{desc:04}'
             await ctx.send(errcode)
         else:
             await ctx.send("This doesn't look like typical hex!")
