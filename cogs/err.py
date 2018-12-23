@@ -9,18 +9,21 @@ class Err:
 
     def __init__(self, bot):
         self.bot = bot
+        self.dds_re = re.compile(r'0\d{2}\-\d{4}')
+        self.wiiu_re = re.compile(r'1\d{2}\-\d{4}')
+        self.switch_re = re.compile(r'2\d{3}\-\d{4}')
         print("Err has been loaded!")
 
     @commands.command(aliases=["nxerr", "serr", "nin_err"])
     async def err(self, ctx, err: str):
 
-        if re.match(r'0\d{2}\-\d{4}', err):
+        if self.dds_re.match(err):
             err_console = "3DS"
 
-        elif re.match(r'1\d{2}\-\d{4}', err):
+        elif self.wiiu_re.match(err):
             err_console = "Wii U"
 
-        elif re.match(r'2\d{3}\-\d{4}', err):
+        elif self.switch_re.match(err):
             err_console = "Switch"
             module = int(err[0:4]) - 2000
             desc = int(err[5:9])
@@ -41,11 +44,11 @@ class Err:
                         err_description = errcode_range[2]
             
             embed = discord.Embed(title='0x{:X} / {}'.format(errcode, err), description="*Console: {} \n Module: {}* \n Error Description: {} \n".format(err_console, err_module, err_description))
-            await self.bot.say(embed=embed)
+            await ctx.send(embed=embed)
 
         elif err in switch_game_err: # Special Case Handling because Nintendo feels like its required to break their format lol
             game,desc = switch_game_err[err].split(":")
-            await self.bot.say(embed=discord.Embed(title=err, description="*Console: {} \n Game: {}* \n Error Description: {}".format(err_console, game, desc)))
+            await ctx.send(embed=discord.Embed(title=err, description="*Console: {} \n Game: {}* \n Error Description: {}".format(err_console, game, desc)))
             return
 
         elif err.startswith("0x"):
