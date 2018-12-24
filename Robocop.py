@@ -74,6 +74,14 @@ async def on_ready():
     log.info(f'\nLogged in as: {bot.user.name} - '
              f'{bot.user.id}\ndpy version: {discord.__version__}\n')
     game_name = f"{config.prefixes[0]}help"
+
+    # Send "Robocop has started! x has y members!"
+    guild = discord.utils.get(bot.guilds, id=config.guild_whitelist[0])
+    log_channel = guild.get_channel(config.log_channel)
+    msg = f"{bot.user.name} has started! "\
+          f"{guild.name} has {guild.member_count} members!"
+    await log_channel.send(msg)
+
     await bot.change_presence(activity=discord.Game(name=game_name))
 
 
