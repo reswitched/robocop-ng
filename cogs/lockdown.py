@@ -41,7 +41,6 @@ class Lockdown:
         await ctx.send(public_msg)
         msg = f"🔒 **Lockdown**: {ctx.channel.mention} by {ctx.author.mention} "\
               f"| {self.bot.escape_message(ctx.author)}"
-        # ":unlock: Channel unlocked."
         await log_channel.send(msg)
 
     @commands.guild_only()
