@@ -43,13 +43,13 @@ class ModCog:
     @commands.command()
     async def mute(self, ctx, target: discord.Member, *, reason: str = ""):
         """Mutes a user, staff only."""
-        # so that muted people can't just leave and rejoin
-        if self.check_if_target_is_staff(target):
+        # Hedge-proofing the code
+        if target == ctx.author:
+            return await ctx.send("You can't do mod actions on yourself"
+                                  ", hedge.")
+        elif self.check_if_target_is_staff(target):
             return await ctx.send("I can't mute this user as "
                                   "they're a member of staff.")
-        # Hedge-proofing the code
-        elif target == ctx.author:
-            return await ctx.send("You can't do mod actions on yourself.")
 
         safe_name = self.bot.escape_message(str(target))
 
@@ -89,10 +89,6 @@ class ModCog:
     @commands.command()
     async def unmute(self, ctx, target: discord.Member):
         """Unmutes a user, staff only."""
-        if self.check_if_target_is_staff(target):
-            return await ctx.send("I can't unmute this user as "
-                                  "they're a member of staff.")
-
         safe_name = self.bot.escape_message(str(target))
 
         mute_role = ctx.guild.get_role(config.mute_role)
@@ -113,12 +109,13 @@ class ModCog:
     @commands.command()
     async def kick(self, ctx, target: discord.Member, *, reason: str = ""):
         """Kicks a user, staff only."""
-        if self.check_if_target_is_staff(target):
+        # Hedge-proofing the code
+        if target == ctx.author:
+            return await ctx.send("You can't do mod actions on yourself"
+                                  ", hedge.")
+        elif self.check_if_target_is_staff(target):
             return await ctx.send("I can't kick this user as "
                                   "they're a member of staff.")
-        # Hedge-proofing the code
-        elif target == ctx.author:
-            return await ctx.send("You can't do mod actions on yourself.")
 
         safe_name = self.bot.escape_message(str(target))
 
@@ -155,12 +152,13 @@ class ModCog:
     @commands.command()
     async def ban(self, ctx, target: discord.Member, *, reason: str = ""):
         """Bans a user, staff only."""
-        if self.check_if_target_is_staff(target):
+        # Hedge-proofing the code
+        if target == ctx.author:
+            return await ctx.send("You can't do mod actions on yourself"
+                                  ", hedge.")
+        elif self.check_if_target_is_staff(target):
             return await ctx.send("I can't ban this user as "
                                   "they're a member of staff.")
-        # Hedge-proofing the code
-        elif target == ctx.author:
-            return await ctx.send("You can't do mod actions on yourself.")
 
         safe_name = self.bot.escape_message(str(target))
 
@@ -195,12 +193,13 @@ class ModCog:
     async def hackban(self, ctx, target: int, *, reason: str = ""):
         """Bans a user with their ID, doesn't message them, staff only."""
         target = ctx.guild.get_member(target)
-        if self.check_if_target_is_staff(target):
+        # Hedge-proofing the code
+        if target == ctx.author:
+            return await ctx.send("You can't do mod actions on yourself"
+                                  ", hedge.")
+        elif self.check_if_target_is_staff(target):
             return await ctx.send("I can't ban this user as "
                                   "they're a member of staff.")
-        # Hedge-proofing the code
-        elif target == ctx.author.id:
-            return await ctx.send("You can't do mod actions on yourself.")
 
         safe_name = self.bot.escape_message(str(target))
 
@@ -226,12 +225,13 @@ class ModCog:
     @commands.command()
     async def silentban(self, ctx, target: discord.Member, *, reason: str = ""):
         """Bans a user, staff only."""
-        if self.check_if_target_is_staff(target):
+        # Hedge-proofing the code
+        if target == ctx.author:
+            return await ctx.send("You can't do mod actions on yourself"
+                                  ", hedge.")
+        elif self.check_if_target_is_staff(target):
             return await ctx.send("I can't ban this user as "
                                   "they're a member of staff.")
-        # Hedge-proofing the code
-        elif target == ctx.author:
-            return await ctx.send("You can't do mod actions on yourself.")
 
         safe_name = self.bot.escape_message(str(target))
 
@@ -377,12 +377,13 @@ class ModCog:
     @commands.command()
     async def warn(self, ctx, target: discord.Member, *, reason: str = ""):
         """Warn a user. Staff only."""
-        if self.check_if_target_is_staff(target):
+        # Hedge-proofing the code
+        if target == ctx.author:
+            return await ctx.send("You can't do mod actions on yourself"
+                                  ", hedge.")
+        elif self.check_if_target_is_staff(target):
             return await ctx.send("I can't warn this user as "
                                   "they're a member of staff.")
-        # Hedge-proofing the code
-        elif target == ctx.author:
-            return await ctx.send("You can't do mod actions on yourself.")
 
         log_channel = self.bot.get_channel(config.log_channel)
         with open("data/warnsv2.json", "r") as f:
