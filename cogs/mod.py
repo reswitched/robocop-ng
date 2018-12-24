@@ -45,8 +45,7 @@ class ModCog:
         """Mutes a user, staff only."""
         # Hedge-proofing the code
         if target == ctx.author:
-            return await ctx.send("You can't do mod actions on yourself"
-                                  ", hedge.")
+            return await ctx.send("You can't do mod actions on yourself.")
         elif self.check_if_target_is_staff(target):
             return await ctx.send("I can't mute this user as "
                                   "they're a member of staff.")
@@ -111,8 +110,7 @@ class ModCog:
         """Kicks a user, staff only."""
         # Hedge-proofing the code
         if target == ctx.author:
-            return await ctx.send("You can't do mod actions on yourself"
-                                  ", hedge.")
+            return await ctx.send("You can't do mod actions on yourself.")
         elif self.check_if_target_is_staff(target):
             return await ctx.send("I can't kick this user as "
                                   "they're a member of staff.")
@@ -154,8 +152,7 @@ class ModCog:
         """Bans a user, staff only."""
         # Hedge-proofing the code
         if target == ctx.author:
-            return await ctx.send("You can't do mod actions on yourself"
-                                  ", hedge.")
+            return await ctx.send("You can't do mod actions on yourself.")
         elif self.check_if_target_is_staff(target):
             return await ctx.send("I can't ban this user as "
                                   "they're a member of staff.")
@@ -195,8 +192,7 @@ class ModCog:
         target = ctx.guild.get_member(target)
         # Hedge-proofing the code
         if target == ctx.author:
-            return await ctx.send("You can't do mod actions on yourself"
-                                  ", hedge.")
+            return await ctx.send("You can't do mod actions on yourself.")
         elif self.check_if_target_is_staff(target):
             return await ctx.send("I can't ban this user as "
                                   "they're a member of staff.")
@@ -227,8 +223,7 @@ class ModCog:
         """Bans a user, staff only."""
         # Hedge-proofing the code
         if target == ctx.author:
-            return await ctx.send("You can't do mod actions on yourself"
-                                  ", hedge.")
+            return await ctx.send("You can't do mod actions on yourself.")
         elif self.check_if_target_is_staff(target):
             return await ctx.send("I can't ban this user as "
                                   "they're a member of staff.")
@@ -379,8 +374,7 @@ class ModCog:
         """Warn a user. Staff only."""
         # Hedge-proofing the code
         if target == ctx.author:
-            return await ctx.send("You can't do mod actions on yourself"
-                                  ", hedge.")
+            return await ctx.send("You can't do mod actions on yourself.")
         elif self.check_if_target_is_staff(target):
             return await ctx.send("I can't warn this user as "
                                   "they're a member of staff.")
