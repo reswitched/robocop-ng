@@ -1,5 +1,6 @@
 from discord.ext import commands
 import config
+import discord
 
 
 class Lockdown:
@@ -12,8 +13,11 @@ class Lockdown:
     @commands.guild_only()
     @commands.check(check_if_staff)
     @commands.command()
-    async def lock(self, ctx, soft: bool = False):
+    async def lock(self, ctx, channel: discord.TextChannel = None,
+                   soft: bool = False):
         """Prevents people from speaking in current channel, staff only."""
+        if not channel:
+            channel = ctx.channel
         log_channel = self.bot.get_channel(config.log_channel)
 
         if ctx.channel.id in config.community_channels:
@@ -43,8 +47,10 @@ class Lockdown:
     @commands.guild_only()
     @commands.check(check_if_staff)
     @commands.command()
-    async def unlock(self, ctx):
+    async def unlock(self, ctx, channel: discord.TextChannel = None):
         """Unlocks speaking in current channel, staff only."""
+        if not channel:
+            channel = ctx.channel
         log_channel = self.bot.get_channel(config.log_channel)
 
         if ctx.channel.id in config.community_channels:
