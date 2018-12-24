@@ -14,7 +14,7 @@ class Err:
         self.wiiu_re = re.compile(r'1\d{2}\-\d{4}')
         self.switch_re = re.compile(r'2\d{3}\-\d{4}')
 
-    @commands.command(aliases=["nxerr", "serr", "nin_err"])
+    @commands.command(aliases=["nxerr", "serr", "nin_err", "ninerr"])
     async def err(self, ctx, err: str):
         """Searches for Nintendo 3DS, Switch and Wii U error codes!
             Usage: .serr/.nxerr/.nin_err/.err <Error Code>"""
