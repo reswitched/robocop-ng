@@ -19,7 +19,7 @@ class Err:
                            "so it can be added to the bot."
         self.rickroll = "https://www.youtube.com/watch?v=x3yXlomPCmU"
 
-    @commands.command(aliases=["nxerr", "serr", "nin_err"])
+    @commands.command(aliases=["nxerr", "serr", "nin_err", "ninerr"])
     async def err(self, ctx, err: str):
         """Searches for Nintendo 3DS, Switch and Wii U error codes!
             Usage: .serr/.nxerr/.nin_err/.err <Error Code>"""
