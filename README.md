@@ -55,5 +55,5 @@ Main goal of this project is to get Robocop functionality done, secondary goal i
 - [ ] New moderation feature: Display of mutes on listwarns
 - [ ] New moderation feature: User notes
 - [ ] New moderation feature: watch-unwatch (using log module from akbbot)
-- [ ] New moderation feature: timelock (channel lockdown with time)
+- [x] New moderation feature: timelock (channel lockdown with time)
 - [x] Remove sh, remove risky stuff from eval

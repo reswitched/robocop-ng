@@ -1,6 +1,7 @@
 from discord.ext import commands
 import config
 import discord
+import asyncio
 
 
 class Lockdown:
@@ -68,7 +69,49 @@ class Lockdown:
         msg = f"🔓 **Unlock**: {ctx.channel.mention} by {ctx.author.mention} "\
               f"| {self.bot.escape_message(ctx.author)}"
         await log_channel.send(msg)
+        
+    @commands.guild_only()
+    @commands.check(check_if_staff)
+    @commands.command()
+    async def timelock(self, ctx, locktime: int):
+        """Locks channel for certain time
+            Usage: .timelock <time in minutes>"""
+        
+        channel = ctx.channel
+        log_channel = self.bot.get_channel(config.log_channel)
 
+        if ctx.channel.id in config.community_channels:
+            roles = [config.named_roles["community"],
+                     config.named_roles["hacker"]]
+        else:
+            roles = [config.named_roles["participant"],
+                     ctx.guild.default_role.id]
+
+        for role in roles:
+            await ctx.channel.set_permissions(ctx.guild.get_role(role),
+                                              send_messages=False,
+                                              reason=str(ctx.author))
+
+        public_msg = f"🔒 Channel locked down for {locktime} minutes." # Make Ave happy and use f instead of format
+
+        await ctx.send(public_msg)
+        msg = f"🔒 **Timed Lockdown**: {ctx.channel.mention} by {ctx.author.mention} "\
+              f"| {self.bot.escape_message(ctx.author)} for {locktime} minutes!"
+        await log_channel.send(msg)
+        
+        asyncio.sleep(locktime*60) # Minutes are 60 secs, the more you know /s
+
+        for role in roles:
+            await ctx.channel.set_permissions(ctx.guild.get_role(role),
+                                              send_messages=True,
+                                              reason=str(ctx.author))
+        
+        await ctx.send("🔒 Channel unlocked")
+
+        msg = f"🔒 **Timed Unlock**: {ctx.channel.mention} by {ctx.author.mention} "\
+              f"| {self.bot.escape_message(ctx.author)}"
+
+        await log_channel.send(msg)
 
 def setup(bot):
     bot.add_cog(Lockdown(bot))
