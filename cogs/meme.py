@@ -21,14 +21,19 @@ class Meme:
         """this is where we take memes too far"""
         return 9.0 / 5.0 * c + 32
 
+    def c_to_k(self, c):
+        """this is where we take memes REALLY far"""
+        return c + 273.15
+
     @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True, name="warm")
     async def warm_member(self, ctx, user: discord.Member):
         """Warms a user :3"""
-        celcius = random.randint(0, 100)
-        fahrenheit = self.c_to_f(celcius)
+        celsius = random.randint(0, 100)
+        fahrenheit = self.c_to_f(celsius)
+        kelvin = self.c_to_k(celsius)
         await ctx.send(f"{user.mention} warmed."
-                       f" User is now {celcius}°C ({fahrenheit}°F).")
+                       f" User is now {celsius}°C ({fahrenheit}°F, {kelvin}K).")
 
     @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True, name="bam")

@@ -259,6 +259,7 @@ class ModCog:
     @commands.command()
     async def approve(self, ctx, target: discord.Member,
                       role: str = "community"):
+        """Add a role to a user (default: community). Staff only."""
         if role not in config.named_roles:
             return await ctx.send("No such role! Available roles: " +
                                   ','.join(config.named_roles))
@@ -281,6 +282,7 @@ class ModCog:
     @commands.command(aliases=["unapprove"])
     async def revoke(self, ctx, target: discord.Member,
                      role: str = "community"):
+        """Remove a role from a user (default: community). Staff only."""
         if role not in config.named_roles:
             return await ctx.send("No such role! Available roles: " +
                                   ','.join(config.named_roles))
