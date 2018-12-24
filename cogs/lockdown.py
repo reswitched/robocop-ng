@@ -12,7 +12,7 @@ class Lockdown:
     @commands.guild_only()
     @commands.check(check_if_staff)
     @commands.command()
-    async def lock(self, ctx, soft: bool = False):
+    async def lock(self, ctx):
         """Prevents people from speaking in current channel, staff only."""
         log_channel = self.bot.get_channel(config.log_channel)
 
@@ -29,10 +29,9 @@ class Lockdown:
                                               reason=str(ctx.author))
 
         public_msg = "🔒 Channel locked down. "
-        if not soft:
-            public_msg += "Only staff members may speak. "\
-                          "Do not bring the topic to other channels or risk "\
-                          "disciplinary actions."
+        public_msg += "Only staff members may speak. "\
+                      "Do not bring the topic to other channels or risk "\
+                      "disciplinary actions."
 
         await ctx.send(public_msg)
         msg = f"🔒 **Lockdown**: {ctx.channel.mention} by {ctx.author.mention} "\
