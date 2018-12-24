@@ -47,6 +47,9 @@ class ModCog:
         if self.check_if_target_is_staff(target):
             return await ctx.send("I can't mute this user as "
                                   "they're a member of staff.")
+        # Hedge-proofing the code
+        elif target == ctx.author:
+            return await ctx.send("You can't do mod actions on yourself.")
 
         safe_name = self.bot.escape_message(str(target))
 
@@ -113,6 +116,9 @@ class ModCog:
         if self.check_if_target_is_staff(target):
             return await ctx.send("I can't kick this user as "
                                   "they're a member of staff.")
+        # Hedge-proofing the code
+        elif target == ctx.author:
+            return await ctx.send("You can't do mod actions on yourself.")
 
         safe_name = self.bot.escape_message(str(target))
 
@@ -152,6 +158,9 @@ class ModCog:
         if self.check_if_target_is_staff(target):
             return await ctx.send("I can't ban this user as "
                                   "they're a member of staff.")
+        # Hedge-proofing the code
+        elif target == ctx.author:
+            return await ctx.send("You can't do mod actions on yourself.")
 
         safe_name = self.bot.escape_message(str(target))
 
@@ -189,6 +198,9 @@ class ModCog:
         if self.check_if_target_is_staff(target):
             return await ctx.send("I can't ban this user as "
                                   "they're a member of staff.")
+        # Hedge-proofing the code
+        elif target == ctx.author.id:
+            return await ctx.send("You can't do mod actions on yourself.")
 
         safe_name = self.bot.escape_message(str(target))
 
@@ -217,6 +229,9 @@ class ModCog:
         if self.check_if_target_is_staff(target):
             return await ctx.send("I can't ban this user as "
                                   "they're a member of staff.")
+        # Hedge-proofing the code
+        elif target == ctx.author:
+            return await ctx.send("You can't do mod actions on yourself.")
 
         safe_name = self.bot.escape_message(str(target))
 
@@ -365,6 +380,9 @@ class ModCog:
         if self.check_if_target_is_staff(target):
             return await ctx.send("I can't warn this user as "
                                   "they're a member of staff.")
+        # Hedge-proofing the code
+        elif target == ctx.author:
+            return await ctx.send("You can't do mod actions on yourself.")
 
         log_channel = self.bot.get_channel(config.log_channel)
         with open("data/warnsv2.json", "r") as f:
