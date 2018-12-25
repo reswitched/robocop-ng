@@ -109,7 +109,7 @@ class Verification:
     @commands.check(check_if_staff)
     @commands.command()
     async def reset(self, ctx, limit: int = 100, force: bool = False):
-        """Wipes messages in #newcomers and pastes the welcome message again. Staff only."""
+        """Wipes messages and pastes the welcome message again. Staff only."""
         if ctx.message.channel.id != config.welcome_channel and not force:
             await ctx.send(f"This command is limited to"
                            f" <#{config.welcome_channel}>, unless forced.")
@@ -192,7 +192,7 @@ class Verification:
             elif any(allow in mcl for allow in md5_allow):
                 await chan.send(f"{message.author.mention} :no_entry: Close, but incorrect. You're processing your name and discriminator properly, but you're not using the right process. Please re-read the rules carefully and look up any terms you are not familiar with.")
             elif full_name in message.content or str(member.id) in message.content or member.name in message.content or discrim in message.content:
-                await chan.send(f"{message.author.mention} :no_entry: Incorrect. You need to do something with your name and discriminator instead of just posting it. Please re-read the rules carefully and look up any terms you are not familiar with.")
+                await chan.send(f"{message.author.mention} :no_entry: Incorrect. You need to do something *specific* with your name and discriminator instead of just posting it. Please re-read the rules carefully and look up any terms you are not familiar with.")
 
     async def on_message(self, message):
         try:
