@@ -193,27 +193,29 @@ class ModCog:
     @commands.command()
     async def hackban(self, ctx, target: int, *, reason: str = ""):
         """Bans a user with their ID, doesn't message them, staff only."""
-        target = ctx.guild.get_member(target)
+        target_user = self.bot.get_user(target)
+        target_member = ctx.guild.get_member(target)
         # Hedge-proofing the code
-        if target == ctx.author:
+        if target == ctx.author.id:
             return await ctx.send("You can't do mod actions on yourself.")
-        elif self.check_if_target_is_staff(target):
+        elif target_member and self.check_if_target_is_staff(target_member):
             return await ctx.send("I can't ban this user as "
                                   "they're a member of staff.")
 
-        safe_name = self.bot.escape_message(str(target))
+        safe_name = self.bot.escape_message(str(target_user))
 
-        await target.ban(reason=f"{ctx.author}, reason: {reason}",
-                         delete_message_days=0)
+        await ctx.guild.ban(target_user,
+                            reason=f"{ctx.author}, reason: {reason}",
+                            delete_message_days=0)
         chan_message = f"⛔ **Hackban**: {ctx.author.mention} banned "\
-                       f"{target.mention} | {safe_name}\n"\
-                       f"🏷 __User ID__: {target.id}\n"
+                       f"{target_user.mention} | {safe_name}\n"\
+                       f"🏷 __User ID__: {target}\n"
         if reason:
             chan_message += f"✏️ __Reason__: \"{reason}\""
         else:
             chan_message += "Please add an explanation below. In the future"\
-                            ", it is recommended to use `.ban <user> [reason]`"\
-                            " as the reason is automatically sent to the user."
+                            ", it is recommended to use "\
+                            "`.hackban <user> [reason]`."
 
         log_channel = self.bot.get_channel(config.log_channel)
         await log_channel.send(chan_message)
