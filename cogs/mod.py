@@ -222,6 +222,20 @@ class ModCog:
         await ctx.send(f"{safe_name} is now b&. 👍")
 
     @commands.guild_only()
+    @commands.check(check_if_staff)
+    @commands.command(aliases=['echo'])
+    async def say(self, ctx, *, the_text: str):
+        """Repeats a given text, staff only."""
+        await ctx.send(the_text)
+
+    @commands.guild_only()
+    @commands.check(check_if_staff)
+    @commands.command()
+    async def speak(self, ctx, channel: discord.TextChannel, *, the_text: str):
+        """Repeats a given text in a given channel, staff only."""
+        await channel.send(the_text)
+
+    @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
     @commands.check(check_if_staff)
     @commands.command()

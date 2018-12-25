@@ -19,13 +19,6 @@ class AdminCog:
         return any(r.id == config.bot_manager_role_id for r in ctx.author.roles)
 
     @commands.guild_only()
-    @commands.check(check_if_staff)
-    @commands.command(aliases=['echo'], hidden=True)
-    async def say(self, ctx, *, the_text: str):
-        """Repeats a given text, staff only."""
-        await ctx.send(the_text)
-
-    @commands.guild_only()
     @commands.check(check_if_bot_manager)
     @commands.command(name='exit', hidden=True)
     async def _exit(self, ctx):
