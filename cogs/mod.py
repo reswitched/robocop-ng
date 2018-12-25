@@ -193,7 +193,7 @@ class ModCog:
     @commands.command()
     async def hackban(self, ctx, target: int, *, reason: str = ""):
         """Bans a user with their ID, doesn't message them, staff only."""
-        target_user = self.bot.get_user(target)
+        target_user = await self.bot.get_user_info(target)
         target_member = ctx.guild.get_member(target)
         # Hedge-proofing the code
         if target == ctx.author.id:
