@@ -82,7 +82,7 @@ class Logs:
               f"🏷 __User ID__: {member.id}"
         await log_channel.send(msg)
 
-    async def on_member_ban(self, member):
+    async def on_member_ban(self, guild, member):
         await self.bot.wait_until_ready()
         log_channel = self.bot.get_channel(config.log_channel)
         msg = f"⛔ **Ban**: {member.mention} | "\
@@ -90,7 +90,7 @@ class Logs:
               f"🏷 __User ID__: {member.id}"
         await log_channel.send(msg)
 
-    async def on_member_unban(self, server, user):
+    async def on_member_unban(self, guild, user):
         await self.bot.wait_until_ready()
         log_channel = self.bot.get_channel(config.log_channel)
         msg = f"⚠️ **Unban**: {user.mention} | "\

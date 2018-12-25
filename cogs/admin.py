@@ -52,8 +52,9 @@ class AdminCog:
     @commands.command(hidden=True)
     async def fetchlog(self, ctx):
         """Returns log"""
-        await ctx.send(file=discord.File(f"{self.bot.script_name}.log"),
-                       content="Here's the current log file:")
+        await ctx.send("This is currently broken.")
+        await ctx.send("Here's the current log file:",
+                       file=discord.File(f"{self.bot.script_name}.log"))
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)

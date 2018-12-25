@@ -183,6 +183,10 @@ class ModCog:
                             ", it is recommended to use `.ban <user> [reason]`"\
                             " as the reason is automatically sent to the user."
 
+        log_channel = self.bot.get_channel(config.log_channel)
+        await log_channel.send(chan_message)
+        await ctx.send(f"{safe_name} is now b&. 👍")
+
     @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
     @commands.check(check_if_staff)
