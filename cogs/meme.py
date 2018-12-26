@@ -33,7 +33,8 @@ class Meme:
         fahrenheit = self.c_to_f(celsius)
         kelvin = self.c_to_k(celsius)
         await ctx.send(f"{user.mention} warmed."
-                       f" User is now {celsius}°C ({fahrenheit}°F, {kelvin}K).")
+                       f" User is now {celsius}°C "
+                       f"({fahrenheit:.2}°F, {kelvin:.2}K).")
 
     @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True, name="bam")
