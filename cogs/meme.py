@@ -2,6 +2,7 @@ import random
 import config
 import discord
 from discord.ext import commands
+import math
 
 
 class Meme:
@@ -19,11 +20,11 @@ class Meme:
 
     def c_to_f(self, c):
         """this is where we take memes too far"""
-        return 9.0 / 5.0 * c + 32
+        return math.floor(9.0 / 5.0 * c + 32)
 
     def c_to_k(self, c):
         """this is where we take memes REALLY far"""
-        return c + 273.15
+        return math.floor(c + 273.15)
 
     @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True, name="warm")
@@ -34,7 +35,7 @@ class Meme:
         kelvin = self.c_to_k(celsius)
         await ctx.send(f"{user.mention} warmed."
                        f" User is now {celsius}°C "
-                       f"({fahrenheit:.2}°F, {kelvin:.2}K).")
+                       f"({fahrenheit}°F, {kelvin}K).")
 
     @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True, name="bam")
