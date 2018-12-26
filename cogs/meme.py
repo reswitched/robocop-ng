@@ -25,12 +25,29 @@ class Meme:
     @commands.command(hidden=True, name="warm")
     async def warm_member(self, ctx, user: discord.Member):
         """Warms a user :3"""
-        celsius = random.randint(0, 100)
+        celsius = random.randint(15, 100)
         fahrenheit = self.c_to_f(celsius)
         kelvin = self.c_to_k(celsius)
         await ctx.send(f"{user.mention} warmed."
                        f" User is now {celsius}°C "
                        f"({fahrenheit}°F, {kelvin}K).")
+
+    @commands.check(check_if_staff_or_ot)
+    @commands.command(hidden=True, name="chill", aliases=["cold"])
+    async def chill_member(self, ctx, user: discord.Member):
+        """Chills a user >:3"""
+        celsius = random.randint(-50, 15)
+        fahrenheit = self.c_to_f(celsius)
+        kelvin = self.c_to_k(celsius)
+        await ctx.send(f"{user.mention} chilled."
+                       f" User is now {celsius}°C "
+                       f"({fahrenheit}°F, {kelvin}K).")
+
+    @commands.check(check_if_staff_or_ot)
+    @commands.command(hidden=True)
+    async def yahaha(self, ctx):
+        """secret command"""
+        await ctx.send(f"🍂 you found me 🍂")
 
     @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True, name="bam")

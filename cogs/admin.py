@@ -6,7 +6,7 @@ import re
 from cogs.checks import check_if_bot_manager
 
 
-class AdminCog:
+class Admin:
     def __init__(self, bot):
         self.bot = bot
         self.last_eval_result = None
@@ -14,7 +14,7 @@ class AdminCog:
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
-    @commands.command(name='exit', hidden=True)
+    @commands.command(name='exit')
     async def _exit(self, ctx):
         """Shuts down the bot, bot manager only."""
         await ctx.send(":wave: Goodbye!")
@@ -22,7 +22,7 @@ class AdminCog:
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
-    @commands.command(hidden=True)
+    @commands.command()
     async def load(self, ctx, ext: str):
         """Loads a cog, bot manager only."""
         try:
@@ -36,7 +36,7 @@ class AdminCog:
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
-    @commands.command(hidden=True)
+    @commands.command()
     async def fetchlog(self, ctx):
         """Returns log"""
         await ctx.send("This is currently broken.")
@@ -45,7 +45,7 @@ class AdminCog:
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
-    @commands.command(name='eval', hidden=True)
+    @commands.command(name='eval')
     async def _eval(self, ctx, *, code: str):
         """Evaluates some code, bot manager only."""
         try:
@@ -99,7 +99,7 @@ class AdminCog:
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
-    @commands.command(hidden=True)
+    @commands.command()
     async def pull(self, ctx, auto=False):
         """Does a git pull, bot manager only."""
         tmp = await ctx.send('Pulling...')
@@ -121,7 +121,7 @@ class AdminCog:
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
-    @commands.command(hidden=True)
+    @commands.command()
     async def unload(self, ctx, ext: str):
         """Unloads a cog, bot manager only."""
         self.bot.unload_extension("cogs." + ext)
@@ -129,7 +129,7 @@ class AdminCog:
         await ctx.send(f':white_check_mark: `{ext}` successfully unloaded.')
 
     @commands.check(check_if_bot_manager)
-    @commands.command(hidden=True)
+    @commands.command()
     async def reload(self, ctx, ext="_"):
         """Reloads a cog, bot manager only."""
         if ext == "_":
@@ -149,4 +149,4 @@ class AdminCog:
 
 
 def setup(bot):
-    bot.add_cog(AdminCog(bot))
+    bot.add_cog(Admin(bot))

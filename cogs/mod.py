@@ -6,7 +6,7 @@ import time
 from cogs.checks import check_if_staff
 
 
-class ModCog:
+class Mod:
     def __init__(self, bot):
         self.bot = bot
 
@@ -287,7 +287,7 @@ class ModCog:
     @commands.command()
     async def approve(self, ctx, target: discord.Member,
                       role: str = "community"):
-        """Add a role to a user (default: community). Staff only."""
+        """Add a role to a user (default: community), staff only."""
         if role not in config.named_roles:
             return await ctx.send("No such role! Available roles: " +
                                   ','.join(config.named_roles))
@@ -310,7 +310,7 @@ class ModCog:
     @commands.command(aliases=["unapprove"])
     async def revoke(self, ctx, target: discord.Member,
                      role: str = "community"):
-        """Remove a role from a user (default: community). Staff only."""
+        """Remove a role from a user (default: community), staff only."""
         if role not in config.named_roles:
             return await ctx.send("No such role! Available roles: " +
                                   ','.join(config.named_roles))
@@ -376,7 +376,7 @@ class ModCog:
     @commands.check(check_if_staff)
     @commands.command(aliases=["clear"])
     async def purge(self, ctx, limit: int, channel: discord.TextChannel = None):
-        """Clears a given number of messages. Staff only."""
+        """Clears a given number of messages, staff only."""
         log_channel = self.bot.get_channel(config.log_channel)
         if not channel:
             channel = ctx.channel
@@ -389,7 +389,7 @@ class ModCog:
     @commands.check(check_if_staff)
     @commands.command()
     async def warn(self, ctx, target: discord.Member, *, reason: str = ""):
-        """Warn a user. Staff only."""
+        """Warns a user, staff only."""
         # Hedge-proofing the code
         if target == ctx.author:
             return await ctx.send("You can't do mod actions on yourself.")
@@ -516,15 +516,38 @@ class ModCog:
     @commands.check(check_if_staff)
     @commands.command()
     async def listwarns(self, ctx, target: discord.Member):
-        """List warns for a user. Staff only."""
+        """Lists warns for a user, staff only."""
         embed = self.get_warns_embed_for_id(str(target.id), str(target))
+        await ctx.send(embed=embed)
+
+    @commands.guild_only()
+    @commands.command()
+    async def mywarns(self, ctx):
+        """Lists your warns."""
+        embed = discord.Embed(color=discord.Color.dark_red())
+        uid = str(ctx.author.id)
+        embed.set_author(name=f"{ctx.author.name}'s warns")
+        with open("data/warnsv2.json", "r") as f:
+            warns = json.load(f)
+        try:
+            if len(warns[uid]["warns"]):
+                for idx, warn in enumerate(warns[uid]["warns"]):
+                    embed.add_field(name=f"{idx + 1}: {warn['timestamp']}",
+                                    value=f"Reason: {warn['reason']}")
+            else:
+                embed.description = "There are none! Good for you."
+                embed.color = discord.Color.green()
+        except KeyError:  # if the user is not in the file
+            embed.description = "ID doesn't exist in saved "\
+                                "warns (there likely aren't any warns)."
+            embed.color = discord.Color.green()
         await ctx.send(embed=embed)
 
     @commands.guild_only()
     @commands.check(check_if_staff)
     @commands.command()
     async def listwarnsid(self, ctx, target: int):
-        """List warns for a user by ID. Staff only."""
+        """Lists warns for a user by ID, staff only."""
         embed = self.get_warns_embed_for_id(str(target), str(target))
         await ctx.send(embed=embed)
 
@@ -532,7 +555,7 @@ class ModCog:
     @commands.check(check_if_staff)
     @commands.command()
     async def clearwarns(self, ctx, target: discord.Member):
-        """Clear all warns for a user. Staff only."""
+        """Clears all warns for a user, staff only."""
         log_channel = self.bot.get_channel(config.log_channel)
         msg = self.clear_warns_from_id(str(target.id))
         await ctx.send(msg)
@@ -545,7 +568,7 @@ class ModCog:
     @commands.check(check_if_staff)
     @commands.command()
     async def clearwarnsid(self, ctx, target: int):
-        """Clear all warns for a user from their userid. Staff only."""
+        """Clears all warns for a user from their userid, staff only."""
         log_channel = self.bot.get_channel(config.log_channel)
         msg = self.clear_warns_from_id(str(target))
         await ctx.send(msg)
@@ -557,7 +580,7 @@ class ModCog:
     @commands.check(check_if_staff)
     @commands.command()
     async def delwarn(self, ctx, target: discord.Member, idx: int):
-        """Remove a specific warn from a user. Staff only."""
+        """Removes a specific warn from a user, staff only."""
         log_channel = self.bot.get_channel(config.log_channel)
         del_warn = self.delete_warns_from_id(str(target.id), idx)
         # This is hell.
@@ -574,7 +597,7 @@ class ModCog:
     @commands.check(check_if_staff)
     @commands.command()
     async def delwarnid(self, ctx, target: int, idx: int):
-        """Remove a specific warn from a user. Staff only."""
+        """Removes a specific warn from a user, staff only."""
         log_channel = self.bot.get_channel(config.log_channel)
         del_warn = self.delete_warns_from_id(str(target), idx)
         # This is hell.
@@ -588,4 +611,4 @@ class ModCog:
 
 
 def setup(bot):
-    bot.add_cog(ModCog(bot))
+    bot.add_cog(Mod(bot))
