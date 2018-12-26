@@ -624,7 +624,7 @@ class Mod:
         async for msg in channel.history(limit=limit):
             for react in msg.reactions:
                 if await react.users().find(lambda u: u == user):
-                    count+= 1
+                    count += 1
                     async for u in react.users():
                         await msg.remove_reaction(react, u)
         msg = f"✏️ **Cleared reacts**: {ctx.author.mention} cleared "\
@@ -646,7 +646,7 @@ class Mod:
         count = 0
         async for msg in channel.history(limit=limit):
             if msg.reactions:
-                count+= 1
+                count += 1
                 await msg.clear_reactions()
         msg = f"✏️ **Cleared reacts**: {ctx.author.mention} cleared all "\
               f"reacts from the last {limit} messages in {channel.mention}."
