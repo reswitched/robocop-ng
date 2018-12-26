@@ -1,9 +1,20 @@
 # Robocop-ng
 
-An attempt to rewrite the bloated ReSwitched bot with dpy rewrite.
+Next-gen rewrite of Kurisu/Robocop bot used on ReSwitched bot with discord.py rewrite, designed to be clean, fast and un-bloated.
 
-Based on https://gitlab.com/ao/dpybotbase
+Code is based on https://gitlab.com/ao/dpybotbase and https://github.com/916253/Kurisu-Reswitched.
 
+
+---
+
+## How to run
+
+- Copy `config.py.template` to `config.py`, configure all necessary parts to your server.
+- Install python3.6+.
+- Install python dependencies (`pip3 install -Ur requirements.txt`, you might need to put `sudo -H` before that)
+- Run `Robocop.py` (`python3 Robocop.py`)
+
+To keep the bot running, you might want to use pm2 or a systemd service.
 
 ---
 
@@ -11,6 +22,9 @@ Based on https://gitlab.com/ao/dpybotbase
 
 ALL FEATURES OF KURISU/ROBOCOP USED IN RESWITCHED ARE NOW SUPPORTED!
 
+<details>
+<summary>List of added kurisu/robocop features</summary>
+<p>
 - [x] .py configs
 - [x] membercount command
 - [x] Meme commands and pegaswitch (honestly the easiest part)
@@ -23,6 +37,7 @@ ALL FEATURES OF KURISU/ROBOCOP USED IN RESWITCHED ARE NOW SUPPORTED!
 - [x] Logging: role changes
 - [x] Logging: bans
 - [x] Logging: kicks
+- [x] Moderation: speak
 - [x] Moderation: ban
 - [x] Moderation: silentban
 - [x] Moderation: kick
@@ -42,18 +57,33 @@ ALL FEATURES OF KURISU/ROBOCOP USED IN RESWITCHED ARE NOW SUPPORTED!
 - [x] Warns: clearwarns-clearwarnsid
 - [x] Warns: delwarnid-delwarn
 - [x] .serr and .err (thanks tomger!)
+</p>
+</details>
 
 ---
 
 Main goal of this project is to get Robocop functionality done, secondary goal is adding new features. The following entries are secondary, less "urgent" goals:
 
+- [x] Better security, better checks and better guild whitelisting
 - [ ] New verification feature: Using log module from akbbot for logging attempts and removing old attempts
 - [ ] New moderation feature: mutetime (mute with time)
-- [ ] New feature: Highlights (problematic words automatically get highlighted)
+- [ ] New feature: Highlights (problematic words automatically get posted to modmail channel)
 - [ ] New feature: Modmail
 - [ ] New feature: Submiterr
 - [ ] New moderation feature: Display of mutes on listwarns
 - [ ] New moderation feature: User notes
 - [ ] New moderation feature: watch-unwatch (using log module from akbbot)
 - [ ] New moderation feature: timelock (channel lockdown with time)
+- [x] New moderation feature: Reaction removing features (thanks misson20000!)
+- [x] New moderation feature: User nickname change
+- [x] New self-moderation feature: .mywarns
 - [x] Remove sh, remove risky stuff from eval
+
+---
+
+## Thanks to
+
+- ReSwitched community, for being amazing
+- ihaveamac and f916253 for the original kurisu/robocop
+- tomGER for working hard on rewriting the .err/.serr commands, those were a nightmare
+- misson20000 for adding in reaction removal feature and putting up with my many BS requests on PR reviews

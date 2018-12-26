@@ -3,4 +3,3 @@ git+https://github.com/Rapptz/discord.py@rewrite
 asyncio
 python-dateutil
 humanize
-aiohttp
