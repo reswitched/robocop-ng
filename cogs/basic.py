@@ -22,6 +22,7 @@ class Basic:
         await ctx.send(f"{targetuser.mention}: A link to the rules "
                        f"can be found here: {config.rules_url}")
 
+    @commands.guild_only()
     @commands.command()
     async def membercount(self, ctx):
         """Prints the member count of the server."""

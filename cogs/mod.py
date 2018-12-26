@@ -10,9 +10,13 @@ class ModCog:
         self.bot = bot
 
     def check_if_staff(ctx):
+        if not ctx.guild:
+            return False
         return any(r.id in config.staff_role_ids for r in ctx.author.roles)
 
     def check_if_target_is_staff(self, target):
+        if not ctx.guild:
+            return False
         return any(r.id in config.staff_role_ids for r in target.roles)
 
     async def add_restriction(self, member, rst):
@@ -190,7 +194,7 @@ class ModCog:
     @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.command(alias=["softban"])
     async def hackban(self, ctx, target: int, *, reason: str = ""):
         """Bans a user with their ID, doesn't message them, staff only."""
         target_user = await self.bot.get_user_info(target)

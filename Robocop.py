@@ -104,9 +104,11 @@ async def on_error(event_method, *args, **kwargs):
 
 @bot.event
 async def on_command_error(ctx, error):
+    error_text = str(error)
+
     log.error(f"Error with \"{ctx.message.content}\" from "
               f"\"{ctx.message.author} ({ctx.message.author.id}) "
-              f"of type {type(error)}: {error}")
+              f"of type {type(error)}: {error_text}")
 
     if isinstance(error, commands.NoPrivateMessage):
         return await ctx.send("This command doesn't work on DMs.")
@@ -129,6 +131,13 @@ async def on_command_error(ctx, error):
         return await ctx.send(f"{ctx.author.mention}: Check failed. "
                               "You might not have the right permissions "
                               "to run this command.")
+    elif isinstance(error, commands.CommandInvokeError) and\
+            ("Cannot send messages to this user" in error_text):
+        return await ctx.send(f"{ctx.author.mention}: I can't DM you.\n"
+                              "You might have me blocked or have DMs "
+                              f"blocked globally or for {ctx.guild.name}.\n"
+                              "Please resolve that, then "
+                              "run the command again.")
     elif isinstance(error, commands.CommandNotFound):
         # Nothing to do when command is not found.
         return

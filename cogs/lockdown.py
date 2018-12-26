@@ -8,6 +8,8 @@ class Lockdown:
         self.bot = bot
 
     def check_if_staff(ctx):
+        if not ctx.guild:
+            return False
         return any(r.id in config.staff_role_ids for r in ctx.author.roles)
 
     @commands.guild_only()
