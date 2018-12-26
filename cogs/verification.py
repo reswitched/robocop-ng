@@ -5,7 +5,7 @@ import config
 import random
 from inspect import cleandoc
 import hashlib
-from cogs.checks import check_if_staff
+from helpers.checks import check_if_staff
 
 
 welcome_header = """

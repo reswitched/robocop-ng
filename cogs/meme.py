@@ -2,7 +2,7 @@ import random
 import discord
 from discord.ext import commands
 import math
-from cogs.checks import check_if_staff_or_ot
+from helpers.checks import check_if_staff_or_ot
 
 
 class Meme:

@@ -1,7 +1,7 @@
 from discord.ext import commands
 import config
 import discord
-from cogs.checks import check_if_staff
+from helpers.checks import check_if_staff
 
 
 class Lockdown:

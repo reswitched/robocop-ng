@@ -3,7 +3,7 @@ from discord.ext import commands
 import traceback
 import inspect
 import re
-from cogs.checks import check_if_bot_manager
+from helpers.checks import check_if_bot_manager
 
 
 class Admin:

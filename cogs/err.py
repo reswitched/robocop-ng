@@ -2,11 +2,11 @@ import re
 import discord
 
 from discord.ext import commands
-from data.errcodes import *
+from helpers.errcodes import *
 
 
 class Err:
-    "Everything related to Nintendo 3DS, Wii U and Switch error codes"
+    """Everything related to Nintendo 3DS, Wii U and Switch error codes"""
 
     def __init__(self, bot):
         self.bot = bot

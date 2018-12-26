@@ -4,7 +4,7 @@ from discord.ext import commands
 import config
 import json
 import time
-from cogs.checks import check_if_staff
+from helpers.checks import check_if_staff
 
 
 class Mod:

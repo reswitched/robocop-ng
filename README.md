@@ -25,6 +25,7 @@ ALL FEATURES OF KURISU/ROBOCOP USED IN RESWITCHED ARE NOW SUPPORTED!
 <details>
 <summary>List of added kurisu/robocop features</summary>
 <p>
+
 - [x] .py configs
 - [x] membercount command
 - [x] Meme commands and pegaswitch (honestly the easiest part)
@@ -57,6 +58,7 @@ ALL FEATURES OF KURISU/ROBOCOP USED IN RESWITCHED ARE NOW SUPPORTED!
 - [x] Warns: clearwarns-clearwarnsid
 - [x] Warns: delwarnid-delwarn
 - [x] .serr and .err (thanks tomger!)
+
 </p>
 </details>
 
