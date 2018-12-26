@@ -1,16 +1,12 @@
 from discord.ext import commands
 import config
 import discord
+from cogs.checks import check_if_staff
 
 
 class Lockdown:
     def __init__(self, bot):
         self.bot = bot
-
-    def check_if_staff(ctx):
-        if not ctx.guild:
-            return False
-        return any(r.id in config.staff_role_ids for r in ctx.author.roles)
 
     @commands.guild_only()
     @commands.check(check_if_staff)

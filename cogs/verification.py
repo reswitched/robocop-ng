@@ -4,8 +4,8 @@ import asyncio
 import config
 import random
 from inspect import cleandoc
-import config
 import hashlib
+from cogs.checks import check_if_staff
 
 
 welcome_header = """
@@ -102,11 +102,6 @@ hidden_term_line = ' • When you have finished reading all of the rules, send a
 class Verification:
     def __init__(self, bot):
         self.bot = bot
-
-    def check_if_staff(ctx):
-        if not ctx.guild:
-            return False
-        return any(r.id in config.staff_role_ids for r in ctx.author.roles)
 
     @commands.check(check_if_staff)
     @commands.command()

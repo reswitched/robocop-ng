@@ -1,8 +1,8 @@
 import random
-import config
 import discord
 from discord.ext import commands
 import math
+from cogs.checks import check_if_staff_or_ot
 
 
 class Meme:
@@ -12,13 +12,6 @@ class Meme:
 
     def __init__(self, bot):
         self.bot = bot
-
-    def check_if_staff_or_ot(ctx):
-        if not ctx.guild:
-            return True
-        is_ot = (ctx.channel.name == "off-topic")
-        is_staff = any(r.id in config.staff_role_ids for r in ctx.author.roles)
-        return (is_ot or is_staff)
 
     def c_to_f(self, c):
         """this is where we take memes too far"""

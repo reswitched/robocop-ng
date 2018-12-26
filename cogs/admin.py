@@ -3,7 +3,7 @@ from discord.ext import commands
 import traceback
 import inspect
 import re
-import config
+from cogs.checks import check_if_bot_manager
 
 
 class AdminCog:
@@ -12,22 +12,12 @@ class AdminCog:
         self.last_eval_result = None
         self.previous_eval_code = None
 
-    def check_if_staff(ctx):
-        if not ctx.guild:
-            return False
-        return any(r.id in config.staff_role_ids for r in ctx.author.roles)
-
-    def check_if_bot_manager(ctx):
-        if not ctx.guild:
-            return False
-        return any(r.id == config.bot_manager_role_id for r in ctx.author.roles)
-
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
     @commands.command(name='exit', hidden=True)
     async def _exit(self, ctx):
         """Shuts down the bot, bot manager only."""
-        await ctx.send(":wave: Exiting bot, goodbye!")
+        await ctx.send(":wave: Goodbye!")
         await self.bot.logout()
 
     @commands.guild_only()

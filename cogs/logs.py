@@ -1,8 +1,5 @@
 import discord
 import json
-from discord.ext import commands
-from sys import argv
-from datetime import datetime
 import config
 
 

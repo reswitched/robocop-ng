@@ -3,20 +3,14 @@ from discord.ext import commands
 import config
 import json
 import time
+from cogs.checks import check_if_staff
 
 
 class ModCog:
     def __init__(self, bot):
         self.bot = bot
 
-    def check_if_staff(ctx):
-        if not ctx.guild:
-            return False
-        return any(r.id in config.staff_role_ids for r in ctx.author.roles)
-
     def check_if_target_is_staff(self, target):
-        if not ctx.guild:
-            return False
         return any(r.id in config.staff_role_ids for r in target.roles)
 
     async def add_restriction(self, member, rst):
