@@ -50,6 +50,12 @@ class Meme:
         await ctx.send(f"🍂 you found me 🍂")
 
     @commands.check(check_if_staff_or_ot)
+    @commands.command(hidden=True)
+    async def bones(self, ctx):
+        await ctx.send("https://cdn.discordapp.com/emojis/"
+                       "443501365843591169.png?v=1")
+
+    @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True, name="bam")
     async def bam_member(self, ctx, user: discord.Member):
         """Bams a user owo"""
