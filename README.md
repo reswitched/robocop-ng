@@ -72,10 +72,10 @@ Main goal of this project is to get Robocop functionality done, secondary goal i
 - [ ] New feature: Highlights (problematic words automatically get posted to modmail channel)
 - [ ] New feature: Modmail
 - [ ] New feature: Submiterr
-- [ ] New moderation feature: Display of mutes on listwarns
-- [ ] New moderation feature: User notes
 - [ ] New moderation feature: mutetime (mute with time)
 - [ ] New moderation feature: timelock (channel lockdown with time)
+- [x] New moderation feature: Display of mutes, bans and kicks on listwarns (.userlog now)
+- [x] New moderation feature: User notes
 - [x] New moderation feature: Reaction removing features (thanks misson20000!)
 - [x] New moderation feature: User nickname change
 - [x] New self-moderation feature: .mywarns

@@ -1,10 +1,9 @@
-import asyncio
 import discord
 from discord.ext import commands
 import config
-import json
-import time
 from helpers.checks import check_if_staff
+from helpers.userlogs import userlog
+from helpers.restrictions import add_restriction, remove_restriction
 
 
 class Mod:
@@ -14,30 +13,7 @@ class Mod:
     def check_if_target_is_staff(self, target):
         return any(r.id in config.staff_role_ids for r in target.roles)
 
-    async def add_restriction(self, member, rst):
-        # from kurisu source, credits go to ihaveamac
-        with open("data/restrictions.json", "r") as f:
-            rsts = json.load(f)
-        if str(member.id) not in rsts:
-            rsts[str(member.id)] = []
-        if rst not in rsts[str(member.id)]:
-            rsts[str(member.id)].append(rst)
-        with open("data/restrictions.json", "w") as f:
-            json.dump(rsts, f)
-
-    async def remove_restriction(self, member, rst):
-        # from kurisu source, credits go to ihaveamac
-        with open("data/restrictions.json", "r") as f:
-            rsts = json.load(f)
-        if str(member.id) not in rsts:
-            rsts[str(member.id)] = []
-        if rst in rsts[str(member.id)]:
-            rsts[str(member.id)].remove(rst)
-        with open("data/restrictions.json", "w") as f:
-            json.dump(rsts, f)
-
     @commands.guild_only()
-    @commands.bot_has_permissions(kick_members=True)
     @commands.check(check_if_staff)
     @commands.command()
     async def mute(self, ctx, target: discord.Member, *, reason: str = ""):
@@ -48,6 +24,8 @@ class Mod:
         elif self.check_if_target_is_staff(target):
             return await ctx.send("I can't mute this user as "
                                   "they're a member of staff.")
+
+        userlog(target.id, ctx.author, reason, "mutes", target.name)
 
         safe_name = self.bot.escape_message(str(target))
 
@@ -79,10 +57,9 @@ class Mod:
         log_channel = self.bot.get_channel(config.log_channel)
         await log_channel.send(chan_message)
         await ctx.send(f"{target.mention} can no longer speak.")
-        await self.add_restriction(target, config.mute_role)
+        await add_restriction(target, config.mute_role)
 
     @commands.guild_only()
-    @commands.bot_has_permissions(kick_members=True)
     @commands.check(check_if_staff)
     @commands.command()
     async def unmute(self, ctx, target: discord.Member):
@@ -99,7 +76,7 @@ class Mod:
         log_channel = self.bot.get_channel(config.log_channel)
         await log_channel.send(chan_message)
         await ctx.send(f"{target.mention} can now speak again.")
-        await self.remove_restriction(target, config.mute_role)
+        await remove_restriction(target, config.mute_role)
 
     @commands.guild_only()
     @commands.bot_has_permissions(kick_members=True)
@@ -113,6 +90,8 @@ class Mod:
         elif self.check_if_target_is_staff(target):
             return await ctx.send("I can't kick this user as "
                                   "they're a member of staff.")
+
+        userlog(target.id, ctx.author, reason, "kicks", target.name)
 
         safe_name = self.bot.escape_message(str(target))
 
@@ -155,6 +134,8 @@ class Mod:
         elif self.check_if_target_is_staff(target):
             return await ctx.send("I can't ban this user as "
                                   "they're a member of staff.")
+
+        userlog(target.id, ctx.author, reason, "bans", target.name)
 
         safe_name = self.bot.escape_message(str(target))
 
@@ -201,6 +182,8 @@ class Mod:
             return await ctx.send("I can't ban this user as "
                                   "they're a member of staff.")
 
+        userlog(target, ctx.author, reason, "bans", target_user.name)
+
         safe_name = self.bot.escape_message(str(target_user))
 
         await ctx.guild.ban(target_user,
@@ -221,20 +204,6 @@ class Mod:
         await ctx.send(f"{safe_name} is now b&. 👍")
 
     @commands.guild_only()
-    @commands.check(check_if_staff)
-    @commands.command(aliases=['echo'])
-    async def say(self, ctx, *, the_text: str):
-        """Repeats a given text, staff only."""
-        await ctx.send(the_text)
-
-    @commands.guild_only()
-    @commands.check(check_if_staff)
-    @commands.command()
-    async def speak(self, ctx, channel: discord.TextChannel, *, the_text: str):
-        """Repeats a given text in a given channel, staff only."""
-        await channel.send(the_text)
-
-    @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
     @commands.check(check_if_staff)
     @commands.command()
@@ -246,6 +215,8 @@ class Mod:
         elif self.check_if_target_is_staff(target):
             return await ctx.send("I can't ban this user as "
                                   "they're a member of staff.")
+
+        userlog(target.id, ctx.author, reason, "bans", target.name)
 
         safe_name = self.bot.escape_message(str(target))
 
@@ -263,25 +234,6 @@ class Mod:
 
         log_channel = self.bot.get_channel(config.log_channel)
         await log_channel.send(chan_message)
-
-    @commands.guild_only()
-    @commands.check(check_if_staff)
-    @commands.command()
-    async def userinfo(self, ctx, *, user: discord.Member):
-        """Gets user info, staff only."""
-        role = user.top_role.name
-        if role == "@everyone":
-            role = "@ everyone"
-        await ctx.send(f"user = {user}\n"
-                       f"id = {user.id}\n"
-                       f"avatar = {user.avatar_url}\n"
-                       f"bot = {user.bot}\n"
-                       f"created_at = {user.created_at}\n"
-                       f"display_name = {user.display_name}\n"
-                       f"joined_at = {user.joined_at}\n"
-                       f"activities = `{user.activities}`\n"
-                       f"color = {user.colour}\n"
-                       f"top_role = {role}\n")
 
     @commands.guild_only()
     @commands.check(check_if_staff)
@@ -331,50 +283,6 @@ class Mod:
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command(aliases=["setplaying", "setgame"])
-    async def playing(self, ctx, *, game: str = ""):
-        """Sets the bot's currently played game name, staff only.
-
-        Just send .playing to wipe the playing state."""
-        if game:
-            await self.bot.change_presence(activity=discord.Game(name=game))
-        else:
-            await self.bot.change_presence(activity=None)
-
-        await ctx.send("Successfully set game.")
-
-    @commands.guild_only()
-    @commands.check(check_if_staff)
-    @commands.command(aliases=["setbotnick", "botnick", "robotnick"])
-    async def botnickname(self, ctx, *, nick: str = ""):
-        """Sets the bot's nickname, staff only.
-
-        Just send .botnickname to wipe the nickname."""
-
-        if nick:
-            await ctx.guild.me.edit(nick=nick, reason=str(ctx.author))
-        else:
-            await ctx.guild.me.edit(nick=None, reason=str(ctx.author))
-
-        await ctx.send("Successfully set nickname.")
-
-    @commands.guild_only()
-    @commands.check(check_if_staff)
-    @commands.command(aliases=["setnick", "nick"])
-    async def nickname(self, ctx, target: discord.Member, *, nick: str = ""):
-        """Sets a user's nickname, staff only.
-
-        Just send .nickname <user> to wipe the nickname."""
-
-        if nick:
-            await target.edit(nick=nick, reason=str(ctx.author))
-        else:
-            await target.edit(nick=None, reason=str(ctx.author))
-
-        await ctx.send("Successfully set nickname.")
-
-    @commands.guild_only()
-    @commands.check(check_if_staff)
     @commands.command(aliases=["clear"])
     async def purge(self, ctx, limit: int, channel: discord.TextChannel = None):
         """Clears a given number of messages, staff only."""
@@ -399,21 +307,8 @@ class Mod:
                                   "they're a member of staff.")
 
         log_channel = self.bot.get_channel(config.log_channel)
-        with open("data/warnsv2.json", "r") as f:
-            warns = json.load(f)
-        if str(target.id) not in warns:
-            warns[str(target.id)] = {"warns": []}
-        warns[str(target.id)]["name"] = str(target)
-        timestamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-        warn_data = {"issuer_id": ctx.author.id,
-                     "issuer_name": ctx.author.name,
-                     "reason": reason,
-                     "timestamp": timestamp}
-        warns[str(target.id)]["warns"].append(warn_data)
-        with open("data/warnsv2.json", "w") as f:
-            json.dump(warns, f)
-
-        warn_count = len(warns[str(target.id)]["warns"])
+        warn_count = userlog(target.id, ctx.author, reason,
+                             "warns", target.name)
 
         msg = f"You were warned on {ctx.guild.name}."
         if reason:
@@ -457,254 +352,83 @@ class Mod:
                    " as the reason is automatically sent to the user."
         await log_channel.send(msg)
 
-    def get_warns_embed_for_id(self, uid: str, name: str):
-        embed = discord.Embed(color=discord.Color.dark_red())
-        embed.set_author(name=f"Warns for {name}")
-        with open("data/warnsv2.json", "r") as f:
-            warns = json.load(f)
-        try:
-            if len(warns[uid]["warns"]):
-                for idx, warn in enumerate(warns[uid]["warns"]):
-                    embed.add_field(name=f"{idx + 1}: {warn['timestamp']}",
-                                    value=f"Issuer: {warn['issuer_name']}\n"
-                                          f"Reason: {warn['reason']}")
-            else:
-                embed.description = "There are none!"
-                embed.color = discord.Color.green()
-        except KeyError:  # if the user is not in the file
-            embed.description = "ID doesn't exist in saved "\
-                                "warns (there likely aren't any warns)."
-            embed.color = discord.Color.green()
-        return embed
-
-    def clear_warns_from_id(self, uid: str):
-        with open("data/warnsv2.json", "r") as f:
-            warns = json.load(f)
-        if uid not in warns:
-            return f"<@{uid}> has no warns!"
-        warn_count = len(warns[uid]["warns"])
-        if not warn_count:
-            return f"<@{uid}> has no warns!"
-        warns[uid]["warns"] = []
-        with open("data/warnsv2.json", "w") as f:
-            json.dump(warns, f)
-        return f"<@{uid}> no longer has any warns!"
-
-    def delete_warns_from_id(self, uid: str, idx: int):
-        with open("data/warnsv2.json", "r") as f:
-            warns = json.load(f)
-        if uid not in warns:
-            return f"<@{uid}> has no warns!"
-        warn_count = len(warns[uid]["warns"])
-        if not warn_count:
-            return f"<@{uid}> has no warns!"
-        if idx > warn_count:
-            return "Warn index is higher than "\
-                   f"warn count ({warn_count})!"
-        if idx < 1:
-            return "Warn index is below 1!"
-        warn = warns[uid]["warns"][idx - 1]
-        embed = discord.Embed(color=discord.Color.dark_red(),
-                              title=f"Warn {idx} on {warn['timestamp']}",
-                              description=f"Issuer: {warn['issuer_name']}\n"
-                                          f"Reason: {warn['reason']}")
-        del warns[uid]["warns"][idx - 1]
-        with open("data/warnsv2.json", "w") as f:
-            json.dump(warns, f)
-        return embed
-
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command()
-    async def listwarns(self, ctx, target: discord.Member):
-        """Lists warns for a user, staff only."""
-        embed = self.get_warns_embed_for_id(str(target.id), str(target))
-        await ctx.send(embed=embed)
+    @commands.command(aliases=["setnick", "nick"])
+    async def nickname(self, ctx, target: discord.Member, *, nick: str = ""):
+        """Sets a user's nickname, staff only.
 
-    @commands.guild_only()
-    @commands.command()
-    async def mywarns(self, ctx):
-        """Lists your warns."""
-        embed = discord.Embed(color=discord.Color.dark_red())
-        uid = str(ctx.author.id)
-        embed.set_author(name=f"{ctx.author.name}'s warns")
-        with open("data/warnsv2.json", "r") as f:
-            warns = json.load(f)
-        try:
-            if len(warns[uid]["warns"]):
-                for idx, warn in enumerate(warns[uid]["warns"]):
-                    embed.add_field(name=f"{idx + 1}: {warn['timestamp']}",
-                                    value=f"Reason: {warn['reason']}")
-            else:
-                embed.description = "There are none! Good for you."
-                embed.color = discord.Color.green()
-        except KeyError:  # if the user is not in the file
-            embed.description = "ID doesn't exist in saved "\
-                                "warns (there likely aren't any warns)."
-            embed.color = discord.Color.green()
-        await ctx.send(embed=embed)
+        Just send .nickname <user> to wipe the nickname."""
 
-    @commands.guild_only()
-    @commands.check(check_if_staff)
-    @commands.command()
-    async def listwarnsid(self, ctx, target: int):
-        """Lists warns for a user by ID, staff only."""
-        embed = self.get_warns_embed_for_id(str(target), str(target))
-        await ctx.send(embed=embed)
-
-    @commands.guild_only()
-    @commands.check(check_if_staff)
-    @commands.command()
-    async def clearwarns(self, ctx, target: discord.Member):
-        """Clears all warns for a user, staff only."""
-        log_channel = self.bot.get_channel(config.log_channel)
-        msg = self.clear_warns_from_id(str(target.id))
-        await ctx.send(msg)
-        msg = f"🗑 **Cleared warns**: {ctx.member.mention} cleared"\
-              f" warns of {target.mention} | "\
-              f"{self.bot.escape_message(target)}"
-        await log_channel.send(msg)
-
-    @commands.guild_only()
-    @commands.check(check_if_staff)
-    @commands.command()
-    async def clearwarnsid(self, ctx, target: int):
-        """Clears all warns for a user from their userid, staff only."""
-        log_channel = self.bot.get_channel(config.log_channel)
-        msg = self.clear_warns_from_id(str(target))
-        await ctx.send(msg)
-        msg = f"🗑 **Cleared warns**: {ctx.member.mention} cleared"\
-              f" warns of <@{target}> "
-        await log_channel.send(msg)
-
-    @commands.guild_only()
-    @commands.check(check_if_staff)
-    @commands.command()
-    async def delwarn(self, ctx, target: discord.Member, idx: int):
-        """Removes a specific warn from a user, staff only."""
-        log_channel = self.bot.get_channel(config.log_channel)
-        del_warn = self.delete_warns_from_id(str(target.id), idx)
-        # This is hell.
-        if isinstance(del_warn, discord.Embed):
-            await ctx.send(f"{target.mention} has a warning removed!")
-            msg = f"🗑 **Deleted warn**: {ctx.author.mention} removed "\
-                  f"warn {idx} from {target.mention} | "\
-                  f"{self.bot.escape_message(target)}"
-            await log_channel.send(msg, embed=del_warn)
+        if nick:
+            await target.edit(nick=nick, reason=str(ctx.author))
         else:
-            await ctx.send(del_warn)
+            await target.edit(nick=None, reason=str(ctx.author))
+
+        await ctx.send("Successfully set nickname.")
 
     @commands.guild_only()
     @commands.check(check_if_staff)
     @commands.command()
-    async def delwarnid(self, ctx, target: int, idx: int):
-        """Removes a specific warn from a user, staff only."""
-        log_channel = self.bot.get_channel(config.log_channel)
-        del_warn = self.delete_warns_from_id(str(target), idx)
-        # This is hell.
-        if isinstance(del_warn, discord.Embed):
-            await ctx.send(f"<@{target}> has a warning removed!")
-            msg = f"🗑 **Deleted warn**: {ctx.author.mention} removed "\
-                  f"warn {idx} from <@{target}> "
-            await log_channel.send(msg, embed=del_warn)
+    async def userinfo(self, ctx, *, user: discord.Member):
+        """Gets user info, staff only."""
+        role = user.top_role.name
+        if role == "@everyone":
+            role = "@ everyone"
+        await ctx.send(f"user = {user}\n"
+                       f"id = {user.id}\n"
+                       f"avatar = {user.avatar_url}\n"
+                       f"bot = {user.bot}\n"
+                       f"created_at = {user.created_at}\n"
+                       f"display_name = {user.display_name}\n"
+                       f"joined_at = {user.joined_at}\n"
+                       f"activities = `{user.activities}`\n"
+                       f"color = {user.colour}\n"
+                       f"top_role = {role}\n")
+
+    @commands.guild_only()
+    @commands.check(check_if_staff)
+    @commands.command(aliases=['echo'])
+    async def say(self, ctx, *, the_text: str):
+        """Repeats a given text, staff only."""
+        await ctx.send(the_text)
+
+    @commands.guild_only()
+    @commands.check(check_if_staff)
+    @commands.command()
+    async def speak(self, ctx, channel: discord.TextChannel, *, the_text: str):
+        """Repeats a given text in a given channel, staff only."""
+        await channel.send(the_text)
+
+    @commands.guild_only()
+    @commands.check(check_if_staff)
+    @commands.command(aliases=["setplaying", "setgame"])
+    async def playing(self, ctx, *, game: str = ""):
+        """Sets the bot's currently played game name, staff only.
+
+        Just send .playing to wipe the playing state."""
+        if game:
+            await self.bot.change_presence(activity=discord.Game(name=game))
         else:
-            await ctx.send(del_warn)
+            await self.bot.change_presence(activity=None)
+
+        await ctx.send("Successfully set game.")
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command()
-    async def clearreactsbyuser(self, ctx, user: discord.Member, *,
-                                channel: discord.TextChannel = None,
-                                limit: int = 50):
-        """Clears reacts from a given user in the given channel, staff only."""
-        log_channel = self.bot.get_channel(config.log_channel)
-        if not channel:
-            channel = ctx.channel
-        count = 0
-        async for msg in channel.history(limit=limit):
-            for react in msg.reactions:
-                if await react.users().find(lambda u: u == user):
-                    count += 1
-                    async for u in react.users():
-                        await msg.remove_reaction(react, u)
-        msg = f"✏️ **Cleared reacts**: {ctx.author.mention} cleared "\
-              f"{user.mention}'s reacts from the last {limit} messages "\
-              f"in {channel.mention}."
-        await ctx.channel.send(f"Cleared {count} unique reactions")
-        await log_channel.send(msg)
+    @commands.command(aliases=["setbotnick", "botnick", "robotnick"])
+    async def botnickname(self, ctx, *, nick: str = ""):
+        """Sets the bot's nickname, staff only.
 
-    @commands.guild_only()
-    @commands.check(check_if_staff)
-    @commands.command()
-    async def clearallreacts(self, ctx, *,
-                             limit: int = 50,
-                             channel: discord.TextChannel = None):
-        """Clears all reacts in a given channel, staff only. Use with care."""
-        log_channel = self.bot.get_channel(config.log_channel)
-        if not channel:
-            channel = ctx.channel
-        count = 0
-        async for msg in channel.history(limit=limit):
-            if msg.reactions:
-                count += 1
-                await msg.clear_reactions()
-        msg = f"✏️ **Cleared reacts**: {ctx.author.mention} cleared all "\
-              f"reacts from the last {limit} messages in {channel.mention}."
-        await ctx.channel.send(f"Cleared reacts from {count} messages!")
-        await log_channel.send(msg)
-        
-    @commands.guild_only()
-    @commands.check(check_if_staff)
-    @commands.command()
-    async def clearreactsinteractive(self, ctx):
-        """Clears reacts interactively, staff only. Use with care."""
-        log_channel = self.bot.get_channel(config.log_channel)
+        Just send .botnickname to wipe the nickname."""
 
-        msg_text = f"{ctx.author.mention}, react to the reactions you want "\
-                   f"to remove. React to this message when you're done."
-        msg = await ctx.channel.send(msg_text)
-
-        tasks = []
-        
-        def check(event):
-            # we only care about the user who is clearing reactions
-            if event.user_id != ctx.author.id:
-                return False
-            # this is how the user finishes
-            if event.message_id == msg.id:
-                return True
-            else:
-                # remove a reaction
-                async def impl():
-                    msg = await self.bot \
-                                    .get_guild(event.guild_id) \
-                                    .get_channel(event.channel_id) \
-                                    .get_message(event.message_id)
-                    def check_emoji(r):
-                        if event.emoji.is_custom_emoji() == r.custom_emoji:
-                            if event.emoji.is_custom_emoji():
-                                return event.emoji.id == r.emoji.id
-                            else:
-                                # gotta love consistent APIs
-                                return event.emoji.name == r.emoji
-                        else:
-                            return False
-                    for reaction in filter(check_emoji, msg.reactions):
-                        async for u in reaction.users():
-                            await reaction.message.remove_reaction(reaction, u)
-                # schedule immediately
-                tasks.append(asyncio.create_task(impl()))
-                return False
-        
-        try:
-            await self.bot.wait_for("raw_reaction_add",
-                                    timeout=120.0,
-                                    check=check)
-        except asyncio.TimeoutError:
-            await msg.edit(content = f"{msg_text} Timed out.")
+        if nick:
+            await ctx.guild.me.edit(nick=nick, reason=str(ctx.author))
         else:
-            await asyncio.gather(*tasks)
-            await msg.edit(content = f"{msg_text} Done!")
+            await ctx.guild.me.edit(nick=None, reason=str(ctx.author))
+
+        await ctx.send("Successfully set bot nickname.")
+
 
 def setup(bot):
     bot.add_cog(Mod(bot))

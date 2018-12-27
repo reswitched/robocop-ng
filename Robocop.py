@@ -47,6 +47,9 @@ initial_extensions = ['cogs.common',
                       'cogs.legacy',
                       'cogs.links',
                       'cogs.mod',
+                      'cogs.mod_note',
+                      'cogs.mod_reacts',
+                      'cogs.mod_userlog',
                       'cogs.meme']
 
 bot = commands.Bot(command_prefix=get_prefix,
