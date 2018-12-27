@@ -14,7 +14,7 @@ class Admin:
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
-    @commands.command(name='exit')
+    @commands.command(name='exit', aliases=["quit", "bye"])
     async def _exit(self, ctx):
         """Shuts down the bot, bot manager only."""
         await ctx.send(":wave: Goodbye!")

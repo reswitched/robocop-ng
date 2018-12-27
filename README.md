@@ -102,6 +102,8 @@ Main goal of this project is to get Robocop functionality done, secondary goal i
 <summary>TODO for robocronp</summary>
 <p>
 
+[ ] Reduce code repetition on mod_timed.py
+
 the following require me to rethink some of the lockdown code, which I don't feel like
 
 [ ] lockdown in helper
