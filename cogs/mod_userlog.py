@@ -69,7 +69,7 @@ class ModUserlog:
         if idx < 1:
             return "Index is below 1!"
         event = userlog[uid][event_type][idx - 1]
-        event_name = userlog_event_types[event_type].lower()
+        event_name = userlog_event_types[event_type]
         embed = discord.Embed(color=discord.Color.dark_red(),
                               title=f"{event_name} {idx} on "
                                     f"{event['timestamp']}",

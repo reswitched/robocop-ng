@@ -15,7 +15,7 @@ class ModNote:
         """Adds a note to a user, staff only."""
         userlog(target.id, ctx.author, note,
                 "notes", target.name)
-        await ctx.send(f"{target.mention}: noted!")
+        await ctx.send(f"{ctx.author.mention}: noted!")
 
     @commands.guild_only()
     @commands.check(check_if_staff)

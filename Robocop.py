@@ -1,4 +1,5 @@
 import os
+import asyncio
 import sys
 import logging
 import logging.handlers
@@ -38,27 +39,31 @@ def get_prefix(bot, message):
 
 
 wanted_jsons = ["data/restrictions.json",
+                "data/robocronptab.json",
                 "data/userlog.json"]
 
 initial_extensions = ['cogs.common',
                       'cogs.admin',
-                      'cogs.basic',
-                      'cogs.err',
                       'cogs.verification',
-                      'cogs.logs',
-                      'cogs.lockdown',
-                      'cogs.legacy',
-                      'cogs.links',
                       'cogs.mod',
                       'cogs.mod_note',
                       'cogs.mod_reacts',
                       'cogs.mod_userlog',
+                      'cogs.mod_timed',
+                      'cogs.basic',
+                      'cogs.logs',
+                      'cogs.err',
+                      'cogs.lockdown',
+                      'cogs.legacy',
+                      'cogs.links',
+                      'cogs.robocronp',
                       'cogs.meme']
 
 bot = commands.Bot(command_prefix=get_prefix,
                    description=config.bot_description, pm_help=True)
 
 bot.log = log
+bot.loop = asyncio.get_event_loop()
 bot.config = config
 bot.script_name = script_name
 bot.wanted_jsons = wanted_jsons
@@ -68,7 +73,7 @@ if __name__ == '__main__':
         try:
             bot.load_extension(extension)
         except Exception as e:
-            log.error(f'Failed to load extension {extension}.', file=sys.stderr)
+            log.error(f'Failed to load extension {extension}.')
             log.error(traceback.print_exc())
 
 
@@ -181,4 +186,4 @@ for wanted_json in wanted_jsons:
         with open(wanted_json, "w") as f:
             f.write("{}")
 
-bot.run(config.token, bot=True, reconnect=True)
+bot.run(config.token, bot=True, reconnect=True, loop=bot.loop)

@@ -116,7 +116,8 @@ class Mod:
             chan_message += f"✏️ __Reason__: \"{reason}\""
         else:
             chan_message += "Please add an explanation below. In the future"\
-                            ", it is recommended to use `.ban <user> [reason]`"\
+                            ", it is recommended to use "\
+                            "`.kick <user> [reason]`"\
                             " as the reason is automatically sent to the user."
 
         log_channel = self.bot.get_channel(config.log_channel)

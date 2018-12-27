@@ -8,17 +8,28 @@ class Lockdown:
     def __init__(self, bot):
         self.bot = bot
 
+    async def unlock_for_staff(self, channel: discord.TextChannel, issuer):
+        for role in config.staff_role_ids:
+            try:
+                await channel.set_permissions(channel.guild.get_role(role),
+                                              send_messages=False,
+                                              reason=str(issuer))
+            except:
+                pass
+
     @commands.guild_only()
     @commands.check(check_if_staff)
     @commands.command()
     async def lock(self, ctx, channel: discord.TextChannel = None,
                    soft: bool = False):
-        """Prevents people from speaking in current channel, staff only."""
+        """Prevents people from speaking in a channel, staff only.
+
+        Defaults to current channel."""
         if not channel:
             channel = ctx.channel
         log_channel = self.bot.get_channel(config.log_channel)
 
-        if ctx.channel.id in config.community_channels:
+        if channel.id in config.community_channels:
             roles = [config.named_roles["community"],
                      config.named_roles["hacker"]]
         else:
@@ -26,9 +37,11 @@ class Lockdown:
                      ctx.guild.default_role.id]
 
         for role in roles:
-            await ctx.channel.set_permissions(ctx.guild.get_role(role),
-                                              send_messages=False,
-                                              reason=str(ctx.author))
+            await channel.set_permissions(channel.guild.get_role(role),
+                                          send_messages=False,
+                                          reason=str(ctx.author))
+
+        await self.unlock_for_staff(channel, ctx.author)
 
         public_msg = "🔒 Channel locked down. "
         if not soft:
@@ -56,6 +69,8 @@ class Lockdown:
         else:
             roles = [config.named_roles["participant"],
                      ctx.guild.default_role.id]
+
+        await self.unlock_for_staff(channel, ctx.author)
 
         for role in roles:
             await ctx.channel.set_permissions(ctx.guild.get_role(role),

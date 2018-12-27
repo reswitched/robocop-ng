@@ -1,6 +1,6 @@
 # Robocop-ng
 
-Next-gen rewrite of Kurisu/Robocop bot used on ReSwitched bot with discord.py rewrite, designed to be clean, fast and un-bloated.
+Next-gen rewrite of Kurisu/Robocop bot used on ReSwitched bot with discord.py rewrite, designed to be relatively clean, consistent and un-bloated.
 
 Code is based on https://gitlab.com/ao/dpybotbase and https://github.com/916253/Kurisu-Reswitched.
 
@@ -31,7 +31,7 @@ If you're moving from Kurisu/Robocop, and want to preserve your data, you'll wan
 
 ## TODO
 
-All Kurisu/Robocop features are now supported.
+All Robocop features are now supported.
 
 <details>
 <summary>List of added Kurisu/Robocop features</summary>
@@ -83,9 +83,14 @@ Main goal of this project is to get Robocop functionality done, secondary goal i
 - [ ] New feature: Modmail
 - [ ] New feature: Submiterr (relies on modmail)
 - [ ] New feature: Highlights (problematic words automatically get posted to modmail channel, relies on modmail)
-- [ ] A system for running tasks in background with an interval (will be called robocronp)
-- [ ] New moderation feature: mutetime (mute with time, relies on robocronp)
+- [ ] Feature creep: Shortlink completion (gl/ao/etc)
+- [ ] Feature creep: Pleroma embedding
+- [x] A system for running jobs in background with an interval (will be called robocronp)
+- [x] Commands to list said jobs and remove them
+- [x] New moderation feature: timemute (mute with time, relies on robocronp)
+- [x] New moderation feature: timeban (ban with expiry, relies on robocronp)
 - [ ] New moderation feature: timelock (channel lockdown with time, relies on robocronp)
+- [x] Improvements to lockdown to ensure that staff can talk
 - [x] New moderation feature: Display of mutes, bans and kicks on listwarns (.userlog now)
 - [x] New moderation feature: User notes
 - [x] New moderation feature: Reaction removing features (thanks misson20000!)
@@ -93,12 +98,25 @@ Main goal of this project is to get Robocop functionality done, secondary goal i
 - [x] New self-moderation feature: .mywarns
 - [x] Remove sh, remove risky stuff from eval
 
+<details>
+<summary>TODO for robocronp</summary>
+<p>
+
+the following require me to rethink some of the lockdown code, which I don't feel like
+
+[ ] lockdown in helper
+[ ] timelock command
+[ ] working cronjob for unlock
+
+</p>
+</details>
+
 ---
 
 ## Thanks to
 
 - ReSwitched community, for being amazing
-- ihaveamac and f916253 for the original kurisu/robocop
+- ihaveamac/ihaveahax and f916253 for the original kurisu/robocop
 - tomGER for working hard on rewriting the .err/.serr commands, those were a nightmare
 - misson20000 for adding in reaction removal feature and putting up with my many BS requests on PR reviews
 
