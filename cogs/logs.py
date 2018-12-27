@@ -54,7 +54,7 @@ class Logs:
             await member.add_roles(*roles)
 
         # Real hell zone.
-        with open("data/warnsv2.json", "r") as f:
+        with open("data/userlog.json", "r") as f:
             warns = json.load(f)
         try:
             if len(warns[str(member.id)]["warns"]) == 0:
