@@ -37,6 +37,9 @@ def get_prefix(bot, message):
     return commands.when_mentioned_or(*prefixes)(bot, message)
 
 
+wanted_jsons = ["data/restrictions.json",
+                "data/userlog.json"]
+
 initial_extensions = ['cogs.common',
                       'cogs.admin',
                       'cogs.basic',
@@ -58,6 +61,7 @@ bot = commands.Bot(command_prefix=get_prefix,
 bot.log = log
 bot.config = config
 bot.script_name = script_name
+bot.wanted_jsons = wanted_jsons
 
 if __name__ == '__main__':
     for extension in initial_extensions:
@@ -83,7 +87,9 @@ async def on_ready():
     log_channel = guild.get_channel(config.log_channel)
     msg = f"{bot.user.name} has started! "\
           f"{guild.name} has {guild.member_count} members!"
-    await log_channel.send(msg)
+
+    config_files = [discord.File(fpath) for fpath in wanted_jsons]
+    await log_channel.send(msg, files=config_files)
 
     await bot.change_presence(activity=discord.Game(name=game_name))
 
@@ -169,9 +175,6 @@ async def on_message(message):
 
 if not os.path.exists("data"):
     os.makedirs("data")
-
-wanted_jsons = ["data/restrictions.json",
-                "data/userlog.json"]
 
 for wanted_json in wanted_jsons:
     if not os.path.exists(wanted_json):

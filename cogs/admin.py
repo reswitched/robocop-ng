@@ -39,9 +39,16 @@ class Admin:
     @commands.command()
     async def fetchlog(self, ctx):
         """Returns log"""
-        await ctx.send("This is currently broken.")
         await ctx.send("Here's the current log file:",
                        file=discord.File(f"{self.bot.script_name}.log"))
+
+    @commands.guild_only()
+    @commands.check(check_if_bot_manager)
+    @commands.command()
+    async def fetchdata(self, ctx):
+        """Returns data files"""
+        config_files = [discord.File(fpath) for fpath in self.bot.wanted_jsons]
+        await ctx.send("Here you go:", files=config_files)
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
