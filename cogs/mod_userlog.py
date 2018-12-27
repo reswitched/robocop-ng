@@ -81,11 +81,24 @@ class ModUserlog:
 
     @commands.guild_only()
     @commands.check(check_if_staff)
+    @commands.command(aliases=["events"])
+    async def eventtypes(self, ctx):
+        """Lists the available event types, staff only."""
+        event_list = [f"{et} ({userlog_event_types[et]})" for et in
+                      userlog_event_types]
+        event_text = ("Available events:\n``` - " +
+                      "\n - ".join(event_list) +
+                      "```")
+        await ctx.send(event_text)
+
+    @commands.guild_only()
+    @commands.check(check_if_staff)
     @commands.command(name="userlog",
                       aliases=["listwarns", "getuserlog", "listuserlog"])
-    async def userlog_cmd(self, ctx, target: discord.Member):
+    async def userlog_cmd(self, ctx, target: discord.Member, event=""):
         """Lists the userlog events for a user, staff only."""
-        embed = self.get_userlog_embed_for_id(str(target.id), str(target))
+        embed = self.get_userlog_embed_for_id(str(target.id), str(target),
+                                              event=event)
         await ctx.send(embed=embed)
 
     @commands.guild_only()
