@@ -167,4 +167,15 @@ async def on_message(message):
     ctx = await bot.get_context(message)
     await bot.invoke(ctx)
 
+if not os.path.exists("data"):
+    os.makedirs("data")
+
+wanted_jsons = ["data/restrictions.json",
+                "data/warnsv2.json"]
+
+for wanted_json in wanted_jsons:
+    if not os.path.exists(wanted_json):
+        with open(wanted_json, "w") as f:
+            f.write("{}")
+
 bot.run(config.token, bot=True, reconnect=True)

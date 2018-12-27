@@ -100,5 +100,5 @@ files/*
 priv-*
 config.py
 
-# Prevent new versions of this from being committed
-data/warnsv2.json
+# Prevent data files from being committed
+data/
