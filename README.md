@@ -16,6 +16,8 @@ Code is based on https://gitlab.com/ao/dpybotbase and https://github.com/916253/
 
 To keep the bot running, you might want to use pm2 or a systemd service.
 
+If you're moving from Kurisu/Robocop, you'll want to copy your `data` folder over. Make sure to rename your `warnsv2.json` file to `userlog.json`.
+
 ---
 
 ## TODO

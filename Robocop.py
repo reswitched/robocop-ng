@@ -171,7 +171,7 @@ if not os.path.exists("data"):
     os.makedirs("data")
 
 wanted_jsons = ["data/restrictions.json",
-                "data/warnsv2.json"]
+                "data/userlog.json"]
 
 for wanted_json in wanted_jsons:
     if not os.path.exists(wanted_json):

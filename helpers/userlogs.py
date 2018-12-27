@@ -9,17 +9,17 @@ userlog_event_types = {"warns": "Warn",
 
 
 def get_userlog():
-    with open("data/warnsv2.json", "r") as f:
+    with open("data/userlog.json", "r") as f:
         return json.load(f)
 
 
 def set_userlog(contents):
-    with open("data/warnsv2.json", "w") as f:
+    with open("data/userlog.json", "w") as f:
         f.write(contents)
 
 
 def userlog(uid, issuer, reason, event_type, uname: str = ""):
-        with open("data/warnsv2.json", "r") as f:
+        with open("data/userlog.json", "r") as f:
             userlogs = json.load(f)
         uid = str(uid)
         if uid not in userlogs:
@@ -40,6 +40,6 @@ def userlog(uid, issuer, reason, event_type, uname: str = ""):
         if event_type not in userlogs[uid]:
             userlogs[uid][event_type] = []
         userlogs[uid][event_type].append(log_data)
-        with open("data/warnsv2.json", "w") as f:
+        with open("data/userlog.json", "w") as f:
             json.dump(userlogs, f)
         return len(userlogs[uid][event_type])
