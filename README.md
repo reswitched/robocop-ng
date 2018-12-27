@@ -31,10 +31,10 @@ If you're moving from Kurisu/Robocop, and want to preserve your data, you'll wan
 
 ## TODO
 
-ALL FEATURES OF KURISU/ROBOCOP USED IN RESWITCHED ARE NOW SUPPORTED!
+All Kurisu/Robocop features are now supported.
 
 <details>
-<summary>List of added kurisu/robocop features</summary>
+<summary>List of added Kurisu/Robocop features</summary>
 <p>
 
 - [x] .py configs
@@ -80,11 +80,12 @@ Main goal of this project is to get Robocop functionality done, secondary goal i
 - [x] Better security, better checks and better guild whitelisting
 - [ ] New verification feature: Using log module from akbbot for logging attempts and removing old attempts
 - [ ] New moderation feature: watch-unwatch (using log module from akbbot)
-- [ ] New feature: Highlights (problematic words automatically get posted to modmail channel)
 - [ ] New feature: Modmail
-- [ ] New feature: Submiterr
-- [ ] New moderation feature: mutetime (mute with time)
-- [ ] New moderation feature: timelock (channel lockdown with time)
+- [ ] New feature: Submiterr (relies on modmail)
+- [ ] New feature: Highlights (problematic words automatically get posted to modmail channel, relies on modmail)
+- [ ] A system for running tasks in background with an interval (will be called robocronp)
+- [ ] New moderation feature: mutetime (mute with time, relies on robocronp)
+- [ ] New moderation feature: timelock (channel lockdown with time, relies on robocronp)
 - [x] New moderation feature: Display of mutes, bans and kicks on listwarns (.userlog now)
 - [x] New moderation feature: User notes
 - [x] New moderation feature: Reaction removing features (thanks misson20000!)
