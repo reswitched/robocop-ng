@@ -12,11 +12,20 @@ Code is based on https://gitlab.com/ao/dpybotbase and https://github.com/916253/
 - Copy `config.py.template` to `config.py`, configure all necessary parts to your server.
 - Install python3.6+.
 - Install python dependencies (`pip3 install -Ur requirements.txt`, you might need to put `sudo -H` before that)
+- If you're moving from Kurisu or Robocop: Follow `Tips for people moving from Kurisu/Robocop` below.
 - Run `Robocop.py` (`python3 Robocop.py`)
 
 To keep the bot running, you might want to use pm2 or a systemd service.
 
-If you're moving from Kurisu/Robocop, you'll want to copy your `data` folder over. Make sure to rename your `warnsv2.json` file to `userlog.json`.
+---
+
+## Tips for people moving from Kurisu/Robocop
+
+If you're moving from Kurisu/Robocop, and want to preserve your data, you'll want to do the following steps:
+
+- Copy your `data` folder over.
+- Rename your `data/warnsv2.json` file to `data/userlog.json`.
+- Edit `data/restrictions.json` and replace role names (`"Muted"` etc) with role IDs (`526500080879140874` etc). Make sure to have it as int, not as str (don't wrap role id with `"` or `'`).
 
 ---
 
@@ -91,3 +100,4 @@ Main goal of this project is to get Robocop functionality done, secondary goal i
 - ihaveamac and f916253 for the original kurisu/robocop
 - tomGER for working hard on rewriting the .err/.serr commands, those were a nightmare
 - misson20000 for adding in reaction removal feature and putting up with my many BS requests on PR reviews
+
