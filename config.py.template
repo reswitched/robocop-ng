@@ -17,8 +17,6 @@ embed_desc = "Robocop-NG is developed by [Ave](https://github.com/aveao)"\
 # Minimum account age required to join the discord
 min_age = datetime.timedelta(minutes=15)
 
-# IMPORTANT: It's assumed that the first guild here
-# is the one containing log_channel
 guild_whitelist = [
     526372255052201993,  # NotSwitched discord
     269333940928512010  # ReSwitched discord

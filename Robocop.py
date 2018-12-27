@@ -83,8 +83,8 @@ async def on_ready():
     game_name = f"{config.prefixes[0]}help"
 
     # Send "Robocop has started! x has y members!"
-    guild = discord.utils.get(bot.guilds, id=config.guild_whitelist[0])
-    log_channel = guild.get_channel(config.log_channel)
+    log_channel = bot.get_channel(config.log_channel)
+    guild = log_channel.guild
     msg = f"{bot.user.name} has started! "\
           f"{guild.name} has {guild.member_count} members!"
 
