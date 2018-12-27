@@ -1,6 +1,7 @@
 import discord
 import json
 import config
+from helpers.restrictions import get_user_restrictions
 
 
 class Logs:
@@ -43,15 +44,11 @@ class Logs:
               f"🕓 Account age: {age}\n"\
               f"🏷 __User ID__: {member.id}"
 
-        # Taken from kurisu source.
-        # Blame ihaveamac, not me.
-        with open("data/restrictions.json", "r") as f:
-            rsts = json.load(f)
-        if str(member.id) in rsts:
-            roles = []
-            for rst in rsts[str(member.id)]:
-                roles.append(discord.utils.get(member.guild.roles, id=rst))
-            await member.add_roles(*roles)
+        # Handles user restrictions
+        # Basically, gives back muted role to users that leave with it.
+        rsts = get_user_restrictions(member.id)
+        roles = [discord.utils.get(member.guild.roles, id=rst) for rst in rsts]
+        await member.add_roles(*roles)
 
         # Real hell zone.
         with open("data/userlog.json", "r") as f:
