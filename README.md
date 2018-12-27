@@ -68,13 +68,13 @@ Main goal of this project is to get Robocop functionality done, secondary goal i
 
 - [x] Better security, better checks and better guild whitelisting
 - [ ] New verification feature: Using log module from akbbot for logging attempts and removing old attempts
-- [ ] New moderation feature: mutetime (mute with time)
+- [ ] New moderation feature: watch-unwatch (using log module from akbbot)
 - [ ] New feature: Highlights (problematic words automatically get posted to modmail channel)
 - [ ] New feature: Modmail
 - [ ] New feature: Submiterr
 - [ ] New moderation feature: Display of mutes on listwarns
 - [ ] New moderation feature: User notes
-- [ ] New moderation feature: watch-unwatch (using log module from akbbot)
+- [ ] New moderation feature: mutetime (mute with time)
 - [ ] New moderation feature: timelock (channel lockdown with time)
 - [x] New moderation feature: Reaction removing features (thanks misson20000!)
 - [x] New moderation feature: User nickname change

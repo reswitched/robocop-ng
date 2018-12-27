@@ -79,7 +79,7 @@ class Mod:
         log_channel = self.bot.get_channel(config.log_channel)
         await log_channel.send(chan_message)
         await ctx.send(f"{target.mention} can no longer speak.")
-        await self.add_restriction(target, config.mute_role_name)
+        await self.add_restriction(target, config.mute_role)
 
     @commands.guild_only()
     @commands.bot_has_permissions(kick_members=True)
@@ -99,7 +99,7 @@ class Mod:
         log_channel = self.bot.get_channel(config.log_channel)
         await log_channel.send(chan_message)
         await ctx.send(f"{target.mention} can now speak again.")
-        await self.remove_restriction(target, config.mute_role_name)
+        await self.remove_restriction(target, config.mute_role)
 
     @commands.guild_only()
     @commands.bot_has_permissions(kick_members=True)

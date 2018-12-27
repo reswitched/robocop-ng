@@ -50,7 +50,7 @@ class Logs:
         if str(member.id) in rsts:
             roles = []
             for rst in rsts[str(member.id)]:
-                roles.append(discord.utils.get(member.guild.roles, name=rst))
+                roles.append(discord.utils.get(member.guild.roles, id=rst))
             await member.add_roles(*roles)
 
         # Real hell zone.
