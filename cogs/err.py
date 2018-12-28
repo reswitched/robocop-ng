@@ -102,6 +102,9 @@ class Err:
             else:
                 err_module = "Unknown"
 
+            # Set initial value unconditionally
+            err_description = self.no_err_desc
+
             # Searching for error codes related to the Switch
             # (doesn't include special cases)
             if errcode in switch_known_errcodes:
@@ -112,8 +115,6 @@ class Err:
                 for errcode_range in switch_known_errcode_ranges[module]:
                     if desc >= errcode_range[0] and desc <= errcode_range[1]:
                         err_description = errcode_range[2]
-            else:
-                err_description = self.no_err_desc
 
             # Make a nice Embed out of it
             embed = discord.Embed(title=f"{str_errcode} / {hex(errcode)}",
