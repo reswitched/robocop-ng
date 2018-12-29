@@ -2,6 +2,9 @@ import asyncio
 import traceback
 import datetime
 import humanize
+import time
+import math
+import parsedatetime
 
 
 class Common:
@@ -18,6 +21,13 @@ class Common:
         self.bot.aiogetbytes = self.aiogetbytes
         self.bot.get_relative_timestamp = self.get_relative_timestamp
         self.bot.escape_message = self.escape_message
+        self.bot.parse_time = self.parse_time
+
+    def parse_time(self, delta_str):
+        cal = parsedatetime.Calendar()
+        time_struct, parse_status = cal.parse(delta_str)
+        res_timestamp = math.floor(time.mktime(time_struct))
+        return res_timestamp
 
     def get_relative_timestamp(self, time_from=None, time_to=None,
                                humanized=False, include_from=False,
@@ -29,7 +39,7 @@ class Common:
         if not time_to:
             time_to = datetime.datetime.utcnow()
         if humanized:
-            humanized_string = humanize.naturaltime(time_to - time_from)
+            humanized_string = humanize.naturaltime(time_from - time_to)
             if include_from and include_to:
                 str_with_from_and_to = f"{humanized_string} "\
                                        f"({str(time_from).split('.')[0]} "\
@@ -40,7 +50,8 @@ class Common:
                                 f"({str(time_from).split('.')[0]})"
                 return str_with_from
             elif include_to:
-                str_with_to = f"{humanized_string} ({str(time_to).split('.')[0]})"
+                str_with_to = f"{humanized_string} "\
+                              f"({str(time_to).split('.')[0]})"
                 return str_with_to
             return humanized_string
         else:
