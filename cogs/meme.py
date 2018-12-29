@@ -50,6 +50,14 @@ class Meme:
         await ctx.send(f"🍂 you found me 🍂")
 
     @commands.check(check_if_staff_or_ot)
+    @commands.command(hidden=True, aliases=["outstanding"])
+    async def outstandingmove(self, ctx):
+        """Posts the outstanding move meme"""
+        await ctx.send("https://cdn.discordapp.com/attachments"
+                       "/371047036348268545/528413677007929344"
+                       "/image0-5.jpg")
+
+    @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True)
     async def bones(self, ctx):
         await ctx.send("https://cdn.discordapp.com/emojis/"
