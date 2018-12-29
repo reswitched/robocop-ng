@@ -2,6 +2,7 @@ import random
 import discord
 from discord.ext import commands
 import math
+import platform
 from helpers.checks import check_if_staff_or_ot
 
 
@@ -42,6 +43,13 @@ class Meme:
         await ctx.send(f"{user.mention} chilled."
                        f" User is now {celsius}°C "
                        f"({fahrenheit}°F, {kelvin}K).")
+
+    @commands.check(check_if_staff_or_ot)
+    @commands.command(hidden=True)
+    async def btwiuse(self, ctx):
+        """btw i use arch"""
+        uname = platform.uname()
+        await ctx.send(f"BTW I use {uname.system} {uname.release}")
 
     @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True)
