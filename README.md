@@ -1,6 +1,6 @@
 # Robocop-ng
 
-Next-gen rewrite of Kurisu/Robocop bot used on ReSwitched bot with discord.py rewrite, designed to be relatively clean, consistent and un-bloated.
+Next-gen rewrite of Kurisu/Robocop/Komet bot used by AtlasNX, ReSwitched and Nintendo Homebrew with discord.py rewrite, designed to be relatively clean, consistent and un-bloated.
 
 Code is based on https://gitlab.com/ao/dpybotbase and https://github.com/916253/Kurisu-Reswitched.
 
@@ -118,6 +118,7 @@ the following require me to rethink some of the lockdown code, which I don't fee
 
 ## Thanks to
 
+- Ave, writing most code
 - ReSwitched community, for being amazing
 - ihaveamac/ihaveahax and f916253 for the original kurisu/robocop
 - tomGER for working hard on rewriting the .err/.serr commands, those were a nightmare
