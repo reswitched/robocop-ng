@@ -2,6 +2,7 @@ import random
 import discord
 from discord.ext import commands
 import math
+import platform
 from helpers.checks import check_if_staff_or_ot
 
 
@@ -45,9 +46,22 @@ class Meme:
 
     @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True)
+    async def btwiuse(self, ctx):
+        """btw i use arch"""
+        uname = platform.uname()
+        await ctx.send(f"BTW I use {uname.system} {uname.release}")
+
+    @commands.check(check_if_staff_or_ot)
+    @commands.command(hidden=True)
     async def yahaha(self, ctx):
         """secret command"""
         await ctx.send(f"🍂 you found me 🍂")
+
+    @commands.check(check_if_staff_or_ot)
+    @commands.command(hidden=True)
+    async def peng(self, ctx):
+        """heck tomger"""
+        await ctx.send(f"🐧")
 
     @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True, aliases=["outstanding"])

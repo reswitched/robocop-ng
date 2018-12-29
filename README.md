@@ -103,7 +103,7 @@ Main goal of this project is to get Robocop functionality done, secondary goal i
 <p>
 
 [ ] Reduce code repetition on mod_timed.py
-[ ] Allow non-hour values on timed bans
+[x] Allow non-hour values on timed bans
 
 the following require me to rethink some of the lockdown code, which I don't feel like
 
