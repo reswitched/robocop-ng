@@ -21,13 +21,7 @@ class Logs:
         # Check if user account is older than 15 minutes
         age = member.joined_at - member.created_at
         if age < config.min_age:
-            try:
-                await member.send("Your account is too new to join ReSwitched."
-                                  " Please try again later.")
-                sent = True
-            except discord.errors.Forbidden:
-                sent = False
-            await member.kick(reason="Too new")
+            sent = True
             msg = f"🚨 **Account too new**: {member.mention} | "\
                   f"{escaped_name}\n"\
                   f"🗓 __Creation__: {member.created_at}\n"\

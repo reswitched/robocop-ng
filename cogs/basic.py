@@ -38,7 +38,7 @@ class Basic:
     @commands.command(aliases=["robocopng", "robocop-ng"])
     async def robocop(self, ctx):
         """Shows a quick embed with bot info."""
-        embed = discord.Embed(title="Robocop-NG",
+        embed = discord.Embed(title="Komet",
                               url=config.source_url,
                               description=config.embed_desc)
 

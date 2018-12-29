@@ -44,7 +44,6 @@ wanted_jsons = ["data/restrictions.json",
 
 initial_extensions = ['cogs.common',
                       'cogs.admin',
-                      'cogs.verification',
                       'cogs.mod',
                       'cogs.mod_note',
                       'cogs.mod_reacts',
