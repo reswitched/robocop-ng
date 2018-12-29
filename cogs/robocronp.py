@@ -12,7 +12,12 @@ class Robocronp:
     def __init__(self, bot):
         self.bot = bot
         bot.loop.create_task(self.minutely())
-        # bot.loop.create_task(self.hourly())
+        bot.loop.create_task(self.hourly())
+
+    async def send_data(self):
+        data_files = [discord.File(fpath) for fpath in self.bot.wanted_jsons]
+        log_channel = self.bot.get_channel(config.log_channel)
+        await log_channel.send("Hourly data backups:", files=data_files)
 
     @commands.guild_only()
     @commands.check(check_if_staff)
@@ -81,11 +86,19 @@ class Robocronp:
                 pass
             await asyncio.sleep(60)
 
-    # async def hourly(self):
-    #     await self.bot.wait_until_ready()
-    #     while not self.bot.is_closed():
-    #         # Your stuff goes here
-    #         await asyncio.sleep(3600)
+    async def hourly(self):
+        await self.bot.wait_until_ready()
+        while not self.bot.is_closed():
+            # Your stuff that should run at boot
+            # and after that every hour goes here
+            await asyncio.sleep(3600)
+            try:
+                await self.send_data()
+            except:
+                # Don't kill cronjobs if something goes wrong.
+                pass
+            # Your stuff that should run an hour after boot
+            # and after that every hour goes here
 
 
 def setup(bot):

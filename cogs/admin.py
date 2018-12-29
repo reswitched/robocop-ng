@@ -47,8 +47,8 @@ class Admin:
     @commands.command()
     async def fetchdata(self, ctx):
         """Returns data files"""
-        config_files = [discord.File(fpath) for fpath in self.bot.wanted_jsons]
-        await ctx.send("Here you go:", files=config_files)
+        data_files = [discord.File(fpath) for fpath in self.bot.wanted_jsons]
+        await ctx.send("Here you go:", files=data_files)
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)

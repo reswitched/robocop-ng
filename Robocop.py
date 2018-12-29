@@ -93,8 +93,8 @@ async def on_ready():
     msg = f"{bot.user.name} has started! "\
           f"{guild.name} has {guild.member_count} members!"
 
-    config_files = [discord.File(fpath) for fpath in wanted_jsons]
-    await log_channel.send(msg, files=config_files)
+    data_files = [discord.File(fpath) for fpath in wanted_jsons]
+    await log_channel.send(msg, files=data_files)
 
     await bot.change_presence(activity=discord.Game(name=game_name))
 
