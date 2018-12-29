@@ -50,6 +50,12 @@ class Meme:
         await ctx.send(f"🍂 you found me 🍂")
 
     @commands.check(check_if_staff_or_ot)
+    @commands.command(hidden=True)
+    async def peng(self, ctx):
+        """heck tomger"""
+        await ctx.send(f"🐧")
+
+    @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True, aliases=["outstanding"])
     async def outstandingmove(self, ctx):
         """Posts the outstanding move meme"""
