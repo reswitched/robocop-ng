@@ -113,7 +113,7 @@ class Admin:
         git_output = await self.bot.async_call_shell("git pull")
         await tmp.edit(content=f"Pull complete. Output: ```{git_output}```")
         if auto:
-            cogs_to_reload = re.findall(r'cogs/([a-z]*).py[ ]*\|', git_output)
+            cogs_to_reload = re.findall(r'cogs/([a-z_]*).py[ ]*\|', git_output)
             for cog in cogs_to_reload:
                 try:
                     self.bot.unload_extension("cogs." + cog)
