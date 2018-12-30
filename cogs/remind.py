@@ -27,7 +27,7 @@ class Remind:
         await ctx.send(embed=embed)
 
     @commands.cooldown(1, 60, type=commands.BucketType.user)
-    @commands.command()
+    @commands.command(aliases=["remindme"])
     async def remind(self, ctx, when: str, *, text: str = "something"):
         """Reminds you about something."""
         await ctx.message.delete()
