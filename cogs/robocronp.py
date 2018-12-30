@@ -84,7 +84,8 @@ class Robocronp:
                     delete_job(timestamp, jobtype, job_name)
             except:
                 # Don't kill cronjobs if something goes wrong.
-                await log_channel.send("Crondo has errored: ```"
+                delete_job(timestamp, jobtype, job_name)
+                await log_channel.send("Crondo has errored, job deleted: ```"
                                        f"{traceback.format_exc()}```")
 
     async def minutely(self):
