@@ -127,6 +127,7 @@ async def on_command_error(ctx, error):
 
     log.error(err_msg)
 
+    err_msg = bot.escape_message(err_msg)
     await bot.botlog_channel.send(err_msg)
 
     if isinstance(error, commands.NoPrivateMessage):
