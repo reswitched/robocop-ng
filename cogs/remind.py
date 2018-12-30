@@ -42,7 +42,7 @@ class Remind:
                 expiry_timestamp)
 
         await ctx.send(f"{ctx.author.mention}: I'll remind you in DMs about"
-                       f" {safe_text} in {duration_text}")
+                       f" `{safe_text}` in {duration_text}")
 
 
 def setup(bot):
