@@ -83,19 +83,19 @@ async def on_ready():
     aioh = {"User-Agent": f"{script_name}/1.0'"}
     bot.aiosession = aiohttp.ClientSession(headers=aioh)
     bot.app_info = await bot.application_info()
+    bot.botlog_channel = bot.get_channel(config.botlog_channel)
 
     log.info(f'\nLogged in as: {bot.user.name} - '
              f'{bot.user.id}\ndpy version: {discord.__version__}\n')
     game_name = f"{config.prefixes[0]}help"
 
     # Send "Robocop has started! x has y members!"
-    log_channel = bot.get_channel(config.log_channel)
-    guild = log_channel.guild
+    guild = bot.botlog_channel.guild
     msg = f"{bot.user.name} has started! "\
           f"{guild.name} has {guild.member_count} members!"
 
     data_files = [discord.File(fpath) for fpath in wanted_jsons]
-    await log_channel.send(msg, files=data_files)
+    await bot.botlog_channel.send(msg, files=data_files)
 
     await bot.change_presence(activity=discord.Game(name=game_name))
 
@@ -121,9 +121,13 @@ async def on_error(event_method, *args, **kwargs):
 async def on_command_error(ctx, error):
     error_text = str(error)
 
-    log.error(f"Error with \"{ctx.message.content}\" from "
-              f"\"{ctx.message.author} ({ctx.message.author.id}) "
-              f"of type {type(error)}: {error_text}")
+    err_msg = f"Error with \"{ctx.message.content}\" from "\
+              f"\"{ctx.message.author} ({ctx.message.author.id}) "\
+              f"of type {type(error)}: {error_text}"
+
+    log.error(err_msg)
+
+    await bot.botlog_channel.send(err_msg)
 
     if isinstance(error, commands.NoPrivateMessage):
         return await ctx.send("This command doesn't work on DMs.")

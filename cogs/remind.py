@@ -10,6 +10,7 @@ class Remind:
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.cooldown(1, 60, type=commands.BucketType.user)
     @commands.command()
     async def remindlist(self, ctx):
         """Lists your reminders."""
@@ -25,6 +26,7 @@ class Remind:
                             inline=False)
         await ctx.send(embed=embed)
 
+    @commands.cooldown(1, 60, type=commands.BucketType.user)
     @commands.command()
     async def remind(self, ctx, when: str, *, text: str = "something"):
         """Reminds you about something."""
@@ -37,6 +39,7 @@ class Remind:
                                  "remind interval is 5 seconds.")
             await asyncio.sleep(5)
             await msg.delete()
+            return
 
         expiry_datetime = datetime.utcfromtimestamp(expiry_timestamp)
         duration_text = self.bot.get_relative_timestamp(time_to=expiry_datetime,
