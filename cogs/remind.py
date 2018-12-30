@@ -15,9 +15,12 @@ class Remind:
     async def remindlist(self, ctx):
         """Lists your reminders."""
         ctab = get_crontab()
+        uid = str(ctx.author.id)
         embed = discord.Embed(title=f"Active robocronp jobs")
         for jobtimestamp in ctab["remind"]:
-            job_details = ctab["remind"][jobtimestamp][str(ctx.author.id)]
+            if uid not in ctab["remind"][jobtimestamp]:
+                continue
+            job_details = ctab["remind"][jobtimestamp][uid]
             expiry_timestr = datetime.utcfromtimestamp(int(jobtimestamp))\
                 .strftime('%Y-%m-%d %H:%M:%S (UTC)')
             embed.add_field(name=f"Reminder for {expiry_timestr}",
