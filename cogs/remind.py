@@ -1,4 +1,5 @@
 import discord
+import time
 from datetime import datetime
 from discord.ext import commands
 from helpers.robocronp import add_job, get_crontab
@@ -26,8 +27,13 @@ class Remind:
     @commands.command()
     async def remind(self, ctx, when: str, *, text: str = "something"):
         """Reminds you about something."""
-
+        current_timestamp = time.time()
         expiry_timestamp = self.bot.parse_time(when)
+
+        if current_timestamp + 5 > expiry_timestamp:
+            return await ctx.send(f"{ctx.author.mention}: Minimum "
+                                  "remind is 5 seconds.")
+
         expiry_datetime = datetime.utcfromtimestamp(expiry_timestamp)
         duration_text = self.bot.get_relative_timestamp(time_to=expiry_datetime,
                                                         include_to=True,
