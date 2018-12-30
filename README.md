@@ -85,6 +85,7 @@ Main goal of this project is to get Robocop functionality done, secondary goal i
 - [ ] New feature: Highlights (problematic words automatically get posted to modmail channel, relies on modmail)
 - [ ] Feature creep: Shortlink completion (gl/ao/etc)
 - [ ] Feature creep: Pleroma embedding
+- [x] Feature creep: Reminds
 - [x] A system for running jobs in background with an interval (will be called robocronp)
 - [x] Commands to list said jobs and remove them
 - [x] New moderation feature: timemute (mute with time, relies on robocronp)

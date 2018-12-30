@@ -1,6 +1,5 @@
 import discord
 import config
-import time
 from datetime import datetime
 from discord.ext import commands
 from helpers.checks import check_if_staff
