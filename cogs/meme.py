@@ -49,7 +49,9 @@ class Meme:
     async def btwiuse(self, ctx):
         """btw i use arch"""
         uname = platform.uname()
-        await ctx.send(f"BTW I use {uname.system} {uname.release}")
+        await ctx.send(f"BTW I use {platform.python_implementation()} "
+                       f"{platform.python_version()} on {uname.system} "
+                       f"{uname.release}")
 
     @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True)
