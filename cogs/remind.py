@@ -1,4 +1,5 @@
 import discord
+import asyncio
 import time
 from datetime import datetime
 from discord.ext import commands
@@ -27,12 +28,15 @@ class Remind:
     @commands.command()
     async def remind(self, ctx, when: str, *, text: str = "something"):
         """Reminds you about something."""
+        await ctx.message.delete()
         current_timestamp = time.time()
         expiry_timestamp = self.bot.parse_time(when)
 
         if current_timestamp + 5 > expiry_timestamp:
-            return await ctx.send(f"{ctx.author.mention}: Minimum "
-                                  "remind is 5 seconds.")
+            msg = await ctx.send(f"{ctx.author.mention}: Minimum "
+                                 "remind interval is 5 seconds.")
+            await asyncio.sleep(5)
+            await msg.delete()
 
         expiry_datetime = datetime.utcfromtimestamp(expiry_timestamp)
         duration_text = self.bot.get_relative_timestamp(time_to=expiry_datetime,
@@ -47,8 +51,10 @@ class Remind:
                 {"text": safe_text, "added": added_on},
                 expiry_timestamp)
 
-        await ctx.send(f"{ctx.author.mention}: I'll remind you in DMs about"
-                       f" `{safe_text}` in {duration_text}")
+        msg = await ctx.send(f"{ctx.author.mention}: I'll remind you in "
+                             f"DMs about `{safe_text}` in {duration_text}.")
+        await asyncio.sleep(5)
+        await msg.delete()
 
 
 def setup(bot):
