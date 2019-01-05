@@ -22,12 +22,12 @@ class Links:
     @commands.command(hidden=True, aliases=["xyproblem"])
     async def xy(self, ctx):
         """Link to the "What is the XY problem?" post from SE"""
-        await ctx.send("https://meta.stackexchange.com/q/66377/285481\n\n"
+        await ctx.send("<https://meta.stackexchange.com/q/66377/285481>\n\n"
                        "TL;DR: It's asking about your attempted solution "
-                       "rather than your actual problem.\n\n"
-                       "Note: It's perfectly fine to want to learn about "
+                       "rather than your actual problem.\n"
+                       "It's perfectly okay to want to learn about a "
                        "solution, but please be clear about your intentions "
-                       "if you're not trying to solve a problem.")
+                       "if you're not actually trying to solve a problem.")
 
     @commands.command(hidden=True, aliases=["guides"])
     async def guide(self, ctx):
