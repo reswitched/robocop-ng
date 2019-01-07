@@ -12,7 +12,7 @@ class Lockdown:
         for role in config.staff_role_ids:
             try:
                 await channel.set_permissions(channel.guild.get_role(role),
-                                              send_messages=False,
+                                              send_messages=True,
                                               reason=str(issuer))
             except:
                 pass
