@@ -130,8 +130,9 @@ async def on_command_error(ctx, error):
 
     log.error(err_msg)
 
-    err_msg = bot.escape_message(err_msg)
-    await bot.botlog_channel.send(err_msg)
+    if not isinstance(error, commands.CommandNotFound):
+        err_msg = bot.escape_message(err_msg)
+        await bot.botlog_channel.send(err_msg)
 
     if isinstance(error, commands.NoPrivateMessage):
         return await ctx.send("This command doesn't work on DMs.")
