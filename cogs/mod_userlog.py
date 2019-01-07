@@ -134,10 +134,11 @@ class ModUserlog:
         """Clears all events of given type for a user, staff only."""
         log_channel = self.bot.get_channel(config.log_channel)
         msg = self.clear_event_from_id(str(target.id), event)
+        safe_name = await commands.clean_content().convert(ctx, str(target))
         await ctx.send(msg)
         msg = f"🗑 **Cleared {event}**: {ctx.author.mention} cleared"\
               f" all {event} events of {target.mention} | "\
-              f"{self.bot.escape_message(target)}"
+              f"{safe_name}"
         await log_channel.send(msg)
 
     @commands.guild_only()
@@ -164,10 +165,10 @@ class ModUserlog:
         # This is hell.
         if isinstance(del_event, discord.Embed):
             await ctx.send(f"{target.mention} has a {event_name} removed!")
+            safe_name = await commands.clean_content().convert(ctx, str(target))
             msg = f"🗑 **Deleted {event_name}**: "\
                   f"{ctx.author.mention} removed "\
-                  f"{event_name} {idx} from {target.mention} | "\
-                  f"{self.bot.escape_message(target)}"
+                  f"{event_name} {idx} from {target.mention} | {safe_name}"
             await log_channel.send(msg, embed=del_event)
         else:
             await ctx.send(del_event)

@@ -27,7 +27,7 @@ class Mod:
 
         userlog(target.id, ctx.author, reason, "mutes", target.name)
 
-        safe_name = self.bot.escape_message(str(target))
+        safe_name = await commands.clean_content().convert(ctx, str(target))
 
         dm_message = f"You were muted!"
         if reason:
@@ -64,7 +64,7 @@ class Mod:
     @commands.command()
     async def unmute(self, ctx, target: discord.Member):
         """Unmutes a user, staff only."""
-        safe_name = self.bot.escape_message(str(target))
+        safe_name = await commands.clean_content().convert(ctx, str(target))
 
         mute_role = ctx.guild.get_role(config.mute_role)
         await target.remove_roles(mute_role, reason=str(ctx.author))
@@ -93,7 +93,7 @@ class Mod:
 
         userlog(target.id, ctx.author, reason, "kicks", target.name)
 
-        safe_name = self.bot.escape_message(str(target))
+        safe_name = await commands.clean_content().convert(ctx, str(target))
 
         dm_message = f"You were kicked from {ctx.guild.name}."
         if reason:
@@ -138,7 +138,7 @@ class Mod:
 
         userlog(target.id, ctx.author, reason, "bans", target.name)
 
-        safe_name = self.bot.escape_message(str(target))
+        safe_name = await commands.clean_content().convert(ctx, str(target))
 
         dm_message = f"You were banned from {ctx.guild.name}."
         if reason:
@@ -185,7 +185,7 @@ class Mod:
 
         userlog(target, ctx.author, reason, "bans", target_user.name)
 
-        safe_name = self.bot.escape_message(str(target_user))
+        safe_name = await commands.clean_content().convert(ctx, str(target))
 
         await ctx.guild.ban(target_user,
                             reason=f"{ctx.author}, reason: {reason}",
@@ -219,7 +219,7 @@ class Mod:
 
         userlog(target.id, ctx.author, reason, "bans", target.name)
 
-        safe_name = self.bot.escape_message(str(target))
+        safe_name = await commands.clean_content().convert(ctx, str(target))
 
         await target.ban(reason=f"{ctx.author}, reason: {reason}",
                          delete_message_days=0)
@@ -342,8 +342,10 @@ class Mod:
                              delete_message_days=0)
         await ctx.send(f"{target.mention} warned. "
                        f"User has {warn_count} warning(s).")
+
+        safe_name = await commands.clean_content().convert(ctx, str(target))
         msg = f"⚠️ **Warned**: {ctx.author.mention} warned {target.mention}"\
-              f" (warn #{warn_count}) | {self.bot.escape_message(target)}\n"
+              f" (warn #{warn_count}) | {safe_name}\n"
 
         if reason:
             msg += f"✏️ __Reason__: \"{reason}\""

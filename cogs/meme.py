@@ -81,9 +81,10 @@ class Meme:
 
     @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True, name="bam")
-    async def bam_member(self, ctx, user: discord.Member):
+    async def bam_member(self, ctx, target: discord.Member):
         """Bams a user owo"""
-        await ctx.send(f"{self.bot.escape_message(user)} is ̶n͢ow b̕&̡.̷ 👍̡")
+        safe_name = await commands.clean_content().convert(ctx, str(target))
+        await ctx.send(f"{safe_name} is ̶n͢ow b̕&̡.̷ 👍̡")
 
     @commands.command(hidden=True)
     async def memebercount(self, ctx):

@@ -19,8 +19,7 @@ def set_userlog(contents):
 
 
 def userlog(uid, issuer, reason, event_type, uname: str = ""):
-        with open("data/userlog.json", "r") as f:
-            userlogs = json.load(f)
+        userlogs = get_userlog()
         uid = str(uid)
         if uid not in userlogs:
             userlogs[uid] = {"warns": [],
@@ -40,6 +39,5 @@ def userlog(uid, issuer, reason, event_type, uname: str = ""):
         if event_type not in userlogs[uid]:
             userlogs[uid][event_type] = []
         userlogs[uid][event_type].append(log_data)
-        with open("data/userlog.json", "w") as f:
-            json.dump(userlogs, f)
+        set_userlog(json.dumps(userlogs))
         return len(userlogs[uid][event_type])

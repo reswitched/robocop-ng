@@ -50,7 +50,7 @@ class Remind:
                                                         include_to=True,
                                                         humanized=True)
 
-        safe_text = self.bot.escape_message(str(text))
+        safe_text = await commands.clean_content().convert(ctx, str(text))
         added_on = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S (UTC)")
 
         add_job("remind",

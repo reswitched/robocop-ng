@@ -3,7 +3,7 @@ import datetime
 # Basic bot config
 prefixes = [".", "!"]
 token = "token-goes-here"
-bot_description = "An attempt to rewrite the bot used in ReSwitched"
+bot_description = "Robocop-NG, the moderation bot of ReSwitched."
 
 source_url = "https://github.com/aveao/robocop-ng"
 rules_url = "https://reswitched.team/discord/"

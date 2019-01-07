@@ -97,7 +97,8 @@ async def on_ready():
     data_files = [discord.File(fpath) for fpath in wanted_jsons]
     await bot.botlog_channel.send(msg, files=data_files)
 
-    activity = discord.Activity(name=game_name, type=discord.ActivityType.listening)
+    activity = discord.Activity(name=game_name,
+                                type=discord.ActivityType.listening)
 
     await bot.change_presence(activity=activity)
 
