@@ -32,7 +32,7 @@ class Links:
     @commands.command(hidden=True, aliases=["guides", "link"])
     async def guide(self, ctx):
         """Link to the guide(s)"""
-        await ctx.send("**Generic starter guides**"
+        await ctx.send("**Generic starter guides:**\n"
                        "Nintendo Homebrew's Guide: "
                        "<https://nh-server.github.io/switch-guide/>\n"
                        "Noirscape's Guide: <http://switchguide.xyz/>\n"
