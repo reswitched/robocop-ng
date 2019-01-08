@@ -29,14 +29,19 @@ class Links:
                        "solution, but please be clear about your intentions "
                        "if you're not actually trying to solve a problem.")
 
-    @commands.command(hidden=True, aliases=["guides"])
+    @commands.command(hidden=True, aliases=["guides", "link"])
     async def guide(self, ctx):
         """Link to the guide(s)"""
-        await ctx.send("Nintendo Homebrew's Guide: "
+        await ctx.send("**Generic starter guides**"
+                       "Nintendo Homebrew's Guide: "
                        "<https://nh-server.github.io/switch-guide/>\n"
                        "Noirscape's Guide: <http://switchguide.xyz/>\n"
                        "Pegaswitch Guide: <https://switch.hacks.guide/> "
-                       "(outdated for anything but Pegaswitch)")
+                       "(outdated for anything but Pegaswitch/3.0.0)\n\n"
+                       "**Specific guides:**\n"
+                       "Use full RAM in homebrew without installing NSPs: "
+                       "<https://gbatemp.net/threads/use-atmosphere-to-"
+                       "access-full-ram-with-homebrews-without-nsp.521240/>")
 
 
 def setup(bot):
