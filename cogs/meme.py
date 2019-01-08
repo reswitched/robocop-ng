@@ -45,6 +45,12 @@ class Meme:
                        f"({fahrenheit}°F, {kelvin}K).")
 
     @commands.check(check_if_staff_or_ot)
+    @commands.command(hidden=True, aliases=["thank", "reswitchedgold"])
+    async def gild(self, ctx, user: discord.Member):
+        """Gives a gold star to a user"""
+        await ctx.send(f"{user.mention} gets a :star:, yay!")
+
+    @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True)
     async def btwiuse(self, ctx):
         """btw i use arch"""
