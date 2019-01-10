@@ -1,6 +1,5 @@
 import discord
 import config
-import time
 from datetime import datetime
 from discord.ext import commands
 from helpers.checks import check_if_staff
@@ -40,7 +39,7 @@ class ModTimed:
                                        f"{duration_text})",
                 "bans", target.name)
 
-        safe_name = self.bot.escape_message(str(target))
+        safe_name = await commands.clean_content().convert(ctx, str(target))
 
         dm_message = f"You were banned from {ctx.guild.name}."
         if reason:
@@ -96,7 +95,7 @@ class ModTimed:
                                        f"{duration_text})",
                 "mutes", target.name)
 
-        safe_name = self.bot.escape_message(str(target))
+        safe_name = await commands.clean_content().convert(ctx, str(target))
 
         dm_message = f"You were muted!"
         if reason:

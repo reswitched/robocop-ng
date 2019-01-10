@@ -78,6 +78,7 @@ All Robocop features are now supported.
 Main goal of this project is to get Robocop functionality done, secondary goal is adding new features. The following entries are secondary, less "urgent" goals:
 
 - [x] Better security, better checks and better guild whitelisting
+- [ ] Purge: On purge, send logs in form of txt file to server logs
 - [ ] New verification feature: Using log module from akbbot for logging attempts and removing old attempts
 - [ ] New moderation feature: watch-unwatch (using log module from akbbot)
 - [ ] New feature: Modmail
@@ -85,6 +86,7 @@ Main goal of this project is to get Robocop functionality done, secondary goal i
 - [ ] New feature: Highlights (problematic words automatically get posted to modmail channel, relies on modmail)
 - [ ] Feature creep: Shortlink completion (gl/ao/etc)
 - [ ] Feature creep: Pleroma embedding
+- [x] Feature creep: Reminds
 - [x] A system for running jobs in background with an interval (will be called robocronp)
 - [x] Commands to list said jobs and remove them
 - [x] New moderation feature: timemute (mute with time, relies on robocronp)

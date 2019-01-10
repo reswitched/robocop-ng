@@ -45,11 +45,19 @@ class Meme:
                        f"({fahrenheit}°F, {kelvin}K).")
 
     @commands.check(check_if_staff_or_ot)
+    @commands.command(hidden=True, aliases=["thank", "reswitchedgold"])
+    async def gild(self, ctx, user: discord.Member):
+        """Gives a star to a user"""
+        await ctx.send(f"{user.mention} gets a :star:, yay!")
+
+    @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True)
     async def btwiuse(self, ctx):
         """btw i use arch"""
         uname = platform.uname()
-        await ctx.send(f"BTW I use {uname.system} {uname.release}")
+        await ctx.send(f"BTW I use {platform.python_implementation()} "
+                       f"{platform.python_version()} on {uname.system} "
+                       f"{uname.release}")
 
     @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True)
@@ -78,10 +86,23 @@ class Meme:
                        "443501365843591169.png?v=1")
 
     @commands.check(check_if_staff_or_ot)
+    @commands.command(hidden=True)
+    async def headpat(self, ctx):
+        await ctx.send("https://cdn.discordapp.com/emojis/"
+                       "465650811909701642.png?v=1")
+
+    @commands.check(check_if_staff_or_ot)
+    @commands.command(hidden=True, aliases=["when", "etawhen",
+                                            "emunand", "thermosphere"])
+    async def eta(self, ctx):
+        await ctx.send("June 15.")
+
+    @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True, name="bam")
-    async def bam_member(self, ctx, user: discord.Member):
+    async def bam_member(self, ctx, target: discord.Member):
         """Bams a user owo"""
-        await ctx.send(f"{self.bot.escape_message(user)} is ̶n͢ow b̕&̡.̷ 👍̡")
+        safe_name = await commands.clean_content().convert(ctx, str(target))
+        await ctx.send(f"{safe_name} is ̶n͢ow b̕&̡.̷ 👍̡")
 
     @commands.command(hidden=True)
     async def memebercount(self, ctx):

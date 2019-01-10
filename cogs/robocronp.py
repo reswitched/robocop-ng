@@ -2,6 +2,7 @@ import asyncio
 import config
 import time
 import discord
+import traceback
 from discord.ext import commands
 from helpers.robocronp import get_crontab, delete_job
 from helpers.restrictions import remove_restriction
@@ -16,7 +17,7 @@ class Robocronp:
 
     async def send_data(self):
         data_files = [discord.File(fpath) for fpath in self.bot.wanted_jsons]
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.botlog_channel)
         await log_channel.send("Hourly data backups:", files=data_files)
 
     @commands.guild_only()
@@ -53,26 +54,43 @@ class Robocronp:
         await ctx.send(f"{ctx.author.mention}: Deleted!")
 
     async def do_jobs(self, ctab, jobtype, timestamp):
+        log_channel = self.bot.get_channel(config.botlog_channel)
         for job_name in ctab[jobtype][timestamp]:
-            job_details = ctab[jobtype][timestamp][job_name]
-            if jobtype == "unban":
-                target_user = await self.bot.get_user_info(job_name)
-                target_guild = self.bot.get_guild(job_details["guild"])
-                await target_guild.unban(target_user,
-                                         reason="Robocronp: Timed ban expired.")
+            try:
+                job_details = ctab[jobtype][timestamp][job_name]
+                if jobtype == "unban":
+                    target_user = await self.bot.get_user_info(job_name)
+                    target_guild = self.bot.get_guild(job_details["guild"])
+                    delete_job(timestamp, jobtype, job_name)
+                    await target_guild.unban(target_user,
+                                             reason="Robocronp: Timed "
+                                                    "ban expired.")
+                elif jobtype == "unmute":
+                    remove_restriction(job_name, config.mute_role)
+                    target_guild = self.bot.get_guild(job_details["guild"])
+                    target_member = target_guild.get_member(int(job_name))
+                    target_role = target_guild.get_role(config.mute_role)
+                    await target_member.remove_roles(target_role,
+                                                     reason="Robocronp: Timed "
+                                                            "mute expired.")
+                    delete_job(timestamp, jobtype, job_name)
+                elif jobtype == "remind":
+                    text = job_details["text"]
+                    added_on = job_details["added"]
+                    target = await self.bot.get_user_info(int(job_name))
+                    if target:
+                        await target.send("You asked to be reminded about"
+                                          f" `{text}` on {added_on}.")
+                    delete_job(timestamp, jobtype, job_name)
+            except:
+                # Don't kill cronjobs if something goes wrong.
                 delete_job(timestamp, jobtype, job_name)
-            elif jobtype == "unmute":
-                remove_restriction(job_name, config.mute_role)
-                target_guild = self.bot.get_guild(job_details["guild"])
-                target_member = target_guild.get_member(int(job_name))
-                target_role = target_guild.get_role(config.mute_role)
-                await target_member.remove_roles(target_role,
-                                                 reason="Robocronp: Timed "
-                                                        "mute expired.")
-                delete_job(timestamp, jobtype, job_name)
+                await log_channel.send("Crondo has errored, job deleted: ```"
+                                       f"{traceback.format_exc()}```")
 
     async def minutely(self):
         await self.bot.wait_until_ready()
+        log_channel = self.bot.get_channel(config.botlog_channel)
         while not self.bot.is_closed():
             try:
                 ctab = get_crontab()
@@ -83,11 +101,13 @@ class Robocronp:
                             await self.do_jobs(ctab, jobtype, jobtimestamp)
             except:
                 # Don't kill cronjobs if something goes wrong.
-                pass
+                await log_channel.send("Cron-minutely has errored: ```"
+                                       f"{traceback.format_exc()}```")
             await asyncio.sleep(60)
 
     async def hourly(self):
         await self.bot.wait_until_ready()
+        log_channel = self.bot.get_channel(config.botlog_channel)
         while not self.bot.is_closed():
             # Your stuff that should run at boot
             # and after that every hour goes here
@@ -96,7 +116,8 @@ class Robocronp:
                 await self.send_data()
             except:
                 # Don't kill cronjobs if something goes wrong.
-                pass
+                await log_channel.send("Cron-hourly has errored: ```"
+                                       f"{traceback.format_exc()}```")
             # Your stuff that should run an hour after boot
             # and after that every hour goes here
 

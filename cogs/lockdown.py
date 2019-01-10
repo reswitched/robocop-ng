@@ -12,7 +12,7 @@ class Lockdown:
         for role in config.staff_role_ids:
             try:
                 await channel.set_permissions(channel.guild.get_role(role),
-                                              send_messages=False,
+                                              send_messages=True,
                                               reason=str(issuer))
             except:
                 pass
@@ -50,8 +50,9 @@ class Lockdown:
                           "disciplinary actions."
 
         await ctx.send(public_msg)
+        safe_name = await commands.clean_content().convert(ctx, str(ctx.author))
         msg = f"🔒 **Lockdown**: {ctx.channel.mention} by {ctx.author.mention} "\
-              f"| {self.bot.escape_message(ctx.author)}"
+              f"| {safe_name}"
         await log_channel.send(msg)
 
     @commands.guild_only()
@@ -77,9 +78,10 @@ class Lockdown:
                                               send_messages=True,
                                               reason=str(ctx.author))
 
+        safe_name = await commands.clean_content().convert(ctx, str(ctx.author))
         await ctx.send("🔓 Channel unlocked.")
         msg = f"🔓 **Unlock**: {ctx.channel.mention} by {ctx.author.mention} "\
-              f"| {self.bot.escape_message(ctx.author)}"
+              f"| {safe_name}"
         await log_channel.send(msg)
 
 
