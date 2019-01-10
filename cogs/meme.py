@@ -92,6 +92,12 @@ class Meme:
                        "465650811909701642.png?v=1")
 
     @commands.check(check_if_staff_or_ot)
+    @commands.command(hidden=True, aliases=["when", "etawhen",
+                                            "emunand", "thermosphere"])
+    async def eta(self, ctx):
+        await ctx.send("June 15.")
+
+    @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True, name="bam")
     async def bam_member(self, ctx, target: discord.Member):
         """Bams a user owo"""
