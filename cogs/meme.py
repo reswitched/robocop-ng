@@ -86,6 +86,12 @@ class Meme:
                        "443501365843591169.png?v=1")
 
     @commands.check(check_if_staff_or_ot)
+    @commands.command(hidden=True)
+    async def headpat(self, ctx):
+        await ctx.send("https://cdn.discordapp.com/emojis/"
+                       "465650811909701642.png?v=1")
+
+    @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True, name="bam")
     async def bam_member(self, ctx, target: discord.Member):
         """Bams a user owo"""
