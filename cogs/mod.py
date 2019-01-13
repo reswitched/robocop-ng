@@ -171,7 +171,7 @@ class Mod:
     @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
     @commands.check(check_if_staff)
-    @commands.command(alias=["softban"])
+    @commands.command(aliases=["softban"])
     async def hackban(self, ctx, target: int, *, reason: str = ""):
         """Bans a user with their ID, doesn't message them, staff only."""
         target_user = await self.bot.get_user_info(target)
