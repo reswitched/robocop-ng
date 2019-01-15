@@ -14,7 +14,7 @@ class ModUserlog:
                                  event=""):
         own_note = " Good for you!" if own else ""
         wanted_events = ["warns", "bans", "kicks", "mutes"]
-        if event:
+        if event and not isinstance(event, list):
             wanted_events = [event]
         embed = discord.Embed(color=discord.Color.dark_red())
         embed.set_author(name=f"Userlog for {name}")
