@@ -13,27 +13,12 @@ class Basic:
         """Says hello. Duh."""
         await ctx.send(f"Hello {ctx.author.mention}!")
 
-    @commands.command()
-    async def rules(self, ctx, *, targetuser: discord.Member = None):
-        """Post a link to the Rules"""
-        if not targetuser:
-            targetuser = ctx.author
-        await ctx.send(f"{targetuser.mention}: A link to the rules "
-                       f"can be found here: {config.rules_url}")
-
     @commands.guild_only()
     @commands.command()
     async def membercount(self, ctx):
         """Prints the member count of the server."""
         await ctx.send(f"{ctx.guild.name} has "
                        f"{ctx.guild.member_count} members!")
-
-    @commands.command()
-    async def source(self, ctx):
-        """Gives link to source code."""
-        await ctx.send("You can find my source at " +
-                       config.source_url +
-                       ". Serious PRs and issues welcome!")
 
     @commands.command(aliases=["robocopng", "robocop-ng"])
     async def robocop(self, ctx):

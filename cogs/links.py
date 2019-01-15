@@ -1,3 +1,5 @@
+import discord
+import config
 from discord.ext import commands
 
 
@@ -43,6 +45,20 @@ class Links:
                        "Use full RAM in homebrew without installing NSPs: "
                        "<https://gbatemp.net/threads/use-atmosphere-to-"
                        "access-full-ram-with-homebrews-without-nsp.521240/>")
+
+    @commands.command()
+    async def source(self, ctx):
+        """Gives link to source code."""
+        await ctx.send(f"You can find my source at {config.source_url}. "
+                       "Serious PRs and issues welcome!")
+
+    @commands.command()
+    async def rules(self, ctx, *, targetuser: discord.Member = None):
+        """Post a link to the Rules"""
+        if not targetuser:
+            targetuser = ctx.author
+        await ctx.send(f"{targetuser.mention}: A link to the rules "
+                       f"can be found here: {config.rules_url}")
 
 
 def setup(bot):
