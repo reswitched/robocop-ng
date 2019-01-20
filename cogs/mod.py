@@ -240,8 +240,8 @@ class Mod:
     @commands.check(check_if_staff)
     @commands.command()
     async def approve(self, ctx, target: discord.Member,
-                      role: str = "community"):
-        """Add a role to a user (default: community), staff only."""
+                      role: str = config.default_named_role):
+        """Add a role to a user (default: config.default_named_role), staff only."""
         if role not in config.named_roles:
             return await ctx.send("No such role! Available roles: " +
                                   ','.join(config.named_roles))
@@ -263,8 +263,8 @@ class Mod:
     @commands.check(check_if_staff)
     @commands.command(aliases=["unapprove"])
     async def revoke(self, ctx, target: discord.Member,
-                     role: str = "community"):
-        """Remove a role from a user (default: community), staff only."""
+                     role: str = config.default_named_role):
+        """Remove a role from a user (default: config.default_named_role), staff only."""
         if role not in config.named_roles:
             return await ctx.send("No such role! Available roles: " +
                                   ','.join(config.named_roles))
