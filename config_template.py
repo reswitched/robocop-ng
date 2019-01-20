@@ -22,6 +22,9 @@ guild_whitelist = [
     269333940928512010  # ReSwitched discord
 ]
 
+# Role that gets chosen by default by .approve and .revoke if none was specified
+default_named_role = "community"
+
 # Named roles to be used with .approve and .revoke
 # The defaults are for NotSwitched
 named_roles = {
