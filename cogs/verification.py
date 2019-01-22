@@ -149,6 +149,7 @@ class Verification:
 
         for x in welcome_footer:
             await ctx.send(cleandoc(x))
+            await asyncio.sleep(1)
 
     async def process_message(self, message):
         """Big code that makes me want to shoot myself

@@ -38,7 +38,7 @@ staff_role_ids = [526384077679624192,  # Team role in NotSwitched
 
 log_channel = 526377735908491284  # Log channel in NotSwitched
 botlog_channel = 529070401704296460  # Botlog channel in NotSwitched
-welcome_channel = 526372470752673792  # rules-info channel in NotSwitched
+welcome_channel = 526372470752673792  # newcomers channel in NotSwitched
 
 community_channels = [526378423468425236]  # Channels requiring community role
 general_channels = [526372255052201995]  # Channels everyone can access
