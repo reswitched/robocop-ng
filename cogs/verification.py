@@ -91,7 +91,9 @@ welcome_footer = (
     #toolchain-development - Discussion about the development of libtransistor itself goes there.
 
     #cfw-development - Development discussion regarding custom firmware (CFW) projects, such as Atmosphère. This channel is meant for the discussion accompanying active development.
-
+    
+    #bot-cmds - Channel for excessive/random use of Robocop's various commands.
+    
     **If you are still not sure how to get access to the other channels, please read the rules again.**
     **If you have questions about the rules, feel free to ask here!**
 
