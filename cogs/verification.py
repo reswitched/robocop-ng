@@ -198,6 +198,9 @@ class Verification:
                 await chan.send(f"{message.author.mention} :no_entry: Incorrect. You need to do something *specific* with your name and discriminator instead of just posting it. Please re-read the rules carefully and look up any terms you are not familiar with.")
 
     async def on_message(self, message):
+        if message.author.bot:
+            return
+
         try:
             await self.process_message(message)
         except discord.errors.Forbidden:
@@ -205,6 +208,9 @@ class Verification:
             await chan.send("💢 I don't have permission to do this.")
 
     async def on_message_edit(self, before, after):
+        if message.author.bot:
+            return
+
         try:
             await self.process_message(after)
         except discord.errors.Forbidden:
