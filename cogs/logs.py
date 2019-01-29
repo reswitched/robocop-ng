@@ -68,6 +68,29 @@ class Logs:
         except KeyError:  # if the user is not in the file
             await log_channel.send(msg)
 
+    async def on_message_edit(self, before, after):
+        await self.bot.wait_until_ready()
+        if after.channel.id not in config.spy_channels:
+            return
+
+        log_channel = self.bot.get_channel(config.log_channel)
+        msg = "📝 **Message edit**: \n"\
+              f"from {self.bot.escape_message(after.author.name)} "\
+              f"({after.author.id})\n"\
+              f"`{before.clean_content}` → `{after.clean_content}`"
+        await log_channel.send(msg)
+
+    async def on_message_delete(self, message):
+        await self.bot.wait_until_ready()
+        if message.channel.id not in config.spy_channels:
+            return
+
+        log_channel = self.bot.get_channel(config.log_channel)
+        msg = "🗑️ **Message delete**: \n"\
+              f"from {self.bot.escape_message(message.author.name)} "\
+              f"({message.author.id})\n `{message.clean_content}`"
+        await log_channel.send(msg)
+
     async def on_member_remove(self, member):
         await self.bot.wait_until_ready()
         log_channel = self.bot.get_channel(config.log_channel)

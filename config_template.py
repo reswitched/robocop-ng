@@ -44,3 +44,10 @@ community_channels = [526378423468425236]  # Channels requiring community role
 general_channels = [526372255052201995]  # Channels everyone can access
 
 mute_role = 526500080879140874  # Mute role in NotSwitched
+
+# Channels that will be cleaned every minute/hour
+minutely_clean_channels = []
+hourly_clean_channels = [539212260350885908]  # ReSwitched bot-cmds
+
+# Edited and deletes messages in these channels will be logged
+spy_channels = general_channels
