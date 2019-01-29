@@ -641,7 +641,7 @@ switch_known_errcodes = {
     0x2d37: "Error_GetDebugProc",
     0x2f37: "Error_CloseHandle",
 
-    0xDEADBEEF: "Congrats, you found some hexspeak \n \n https://www.youtube.com/watch?v=DLzxrzFCyOs"
+    0xDEADBEEF: "Congrats, you found some hexspeak \n \n https://www.youtube.com/watch?v=DLzxrzFCyOs",
     
     # NFP Errors by HE
     
