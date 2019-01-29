@@ -14,7 +14,7 @@ class ModUserlog:
                                  event=""):
         own_note = " Good for you!" if own else ""
         wanted_events = ["warns", "bans", "kicks", "mutes"]
-        if event:
+        if event and not isinstance(event, list):
             wanted_events = [event]
         embed = discord.Embed(color=discord.Color.dark_red())
         embed.set_author(name=f"Userlog for {name}")
@@ -190,6 +190,31 @@ class ModUserlog:
             await log_channel.send(msg, embed=del_event)
         else:
             await ctx.send(del_event)
+
+    @commands.guild_only()
+    @commands.check(check_if_staff)
+    @commands.command()
+    async def userinfo(self, ctx, *, user: discord.Member):
+        """Gets user info, staff only."""
+        role = user.top_role.name
+        if role == "@everyone":
+            role = "@ everyone"
+
+        event_types = ["warns", "bans", "kicks", "mutes", "notes"]
+        embed = self.get_userlog_embed_for_id(str(user.id), str(user),
+                                              event=event_types)
+
+        await ctx.send(f"user = {user}\n"
+                       f"id = {user.id}\n"
+                       f"avatar = {user.avatar_url}\n"
+                       f"bot = {user.bot}\n"
+                       f"created_at = {user.created_at}\n"
+                       f"display_name = {user.display_name}\n"
+                       f"joined_at = {user.joined_at}\n"
+                       f"activities = `{user.activities}`\n"
+                       f"color = {user.colour}\n"
+                       f"top_role = {role}\n",
+                       embed=embed)
 
 
 def setup(bot):

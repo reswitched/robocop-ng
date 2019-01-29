@@ -641,7 +641,26 @@ switch_known_errcodes = {
     0x2d37: "Error_GetDebugProc",
     0x2f37: "Error_CloseHandle",
 
-    0xDEADBEEF: "Congrats, you found some hexspeak \n \n https://www.youtube.com/watch?v=DLzxrzFCyOs"
+    0xDEADBEEF: "Congrats, you found some hexspeak \n \n https://www.youtube.com/watch?v=DLzxrzFCyOs",
+    
+    # NFP Errors by HE
+    
+    0xa073: "NFC is disabled",
+    0x16473: "Could not mount tag (invalid tag type?)",
+    0x8073: "Device unavailable",
+    0x10073: "App area not found",
+    0x11073: "Tag corrupted?",
+    
+    # By XorTroll
+    
+    0xc87c: "invalid user",
+    0xc7e: "mii already exists",
+    0xa7e: "full database",
+    0x87e: "mii not found",
+    
+    # By Friedkeenan
+    
+    0x115b: "HBL stopped loading NROs",
 }
 
 switch_known_errcode_ranges = {

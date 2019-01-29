@@ -1,3 +1,5 @@
+import discord
+import config
 from discord.ext import commands
 
 
@@ -48,6 +50,12 @@ class Links:
     async def sdsetup(self, ctx):
         """Link to the Atmosphere repo"""
         await ctx.send("https://sdsetup.com")
+
+    @commands.command()
+    async def source(self, ctx):
+        """Gives link to source code."""
+        await ctx.send(f"You can find my source at {config.source_url}. "
+                       "Serious PRs and issues welcome!")
 
 def setup(bot):
     bot.add_cog(Links(bot))

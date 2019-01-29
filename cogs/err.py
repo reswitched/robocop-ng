@@ -127,7 +127,10 @@ class Err:
             embed.add_field(name="Description", value=desc, inline=True)
 
             # Send message, crazy
-            await ctx.send(embed=embed)
+            if "ban" in err_description:
+                await ctx.send("F", embed=embed)
+            else:
+                await ctx.send(embed=embed)
 
         # Special case handling because Nintendo feels like
         # its required to break their format lol

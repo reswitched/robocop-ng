@@ -184,6 +184,11 @@ async def on_message(message):
     if (message.guild) and (message.guild.id not in config.guild_whitelist):
         return
 
+    # Ignore messages in newcomers channel, unless it's potentially reset
+    if message.channel.id == config.welcome_channel and\
+            "reset" not in message.content:
+        return
+
     ctx = await bot.get_context(message)
     await bot.invoke(ctx)
 

@@ -6,7 +6,7 @@ token = "token-goes-here"
 bot_description = "Robocop-NG, the moderation bot of ReSwitched."
 
 source_url = "https://github.com/aveao/robocop-ng"
-rules_url = "https://reswitched.team/discord/"
+rules_url = "https://reswitched.team/discord/#rules"
 
 # The bot description to be used in .robocop embed
 embed_desc = "Robocop-NG is developed by [Ave](https://github.com/aveao)"\
@@ -41,9 +41,16 @@ staff_role_ids = [526384077679624192,  # Team role in NotSwitched
 
 log_channel = 526377735908491284  # Log channel in NotSwitched
 botlog_channel = 529070401704296460  # Botlog channel in NotSwitched
-welcome_channel = 526372470752673792  # rules-info channel in NotSwitched
+welcome_channel = 526372470752673792  # newcomers channel in NotSwitched
 
 community_channels = [526378423468425236]  # Channels requiring community role
 general_channels = [526372255052201995]  # Channels everyone can access
 
 mute_role = 526500080879140874  # Mute role in NotSwitched
+
+# Channels that will be cleaned every minute/hour
+minutely_clean_channels = []
+hourly_clean_channels = [539212260350885908]  # ReSwitched bot-cmds
+
+# Edited and deletes messages in these channels will be logged
+spy_channels = general_channels

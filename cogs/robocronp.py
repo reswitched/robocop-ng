@@ -88,6 +88,24 @@ class Robocronp:
                 await log_channel.send("Crondo has errored, job deleted: ```"
                                        f"{traceback.format_exc()}```")
 
+    async def clean_channel(self, channel_id):
+        log_channel = self.bot.get_channel(config.botlog_channel)
+        channel = self.bot.get_channel(channel_id)
+        try:
+            done_cleaning = False
+            count = 0
+            while not done_cleaning:
+                purge_res = await channel.purge(limit=100)
+                count += len(purge_res)
+                if len(purge_res) != 100:
+                    done_cleaning = True
+            await log_channel.send(f"Wiped {count} messages from "
+                                   f"<#{channel.id}> automatically.")
+        except:
+            # Don't kill cronjobs if something goes wrong.
+            await log_channel.send("Cronclean has errored: ```"
+                                   f"{traceback.format_exc()}```")
+
     async def minutely(self):
         await self.bot.wait_until_ready()
         log_channel = self.bot.get_channel(config.botlog_channel)
@@ -99,6 +117,10 @@ class Robocronp:
                     for jobtimestamp in ctab[jobtype]:
                         if timestamp > int(jobtimestamp):
                             await self.do_jobs(ctab, jobtype, jobtimestamp)
+
+                # Handle clean channels
+                for clean_channel in config.minutely_clean_channels:
+                    await self.clean_channel(clean_channel)
             except:
                 # Don't kill cronjobs if something goes wrong.
                 await log_channel.send("Cron-minutely has errored: ```"
@@ -114,6 +136,10 @@ class Robocronp:
             await asyncio.sleep(3600)
             try:
                 await self.send_data()
+
+                # Handle clean channels
+                for clean_channel in config.hourly_clean_channels:
+                    await self.clean_channel(clean_channel)
             except:
                 # Don't kill cronjobs if something goes wrong.
                 await log_channel.send("Cron-hourly has errored: ```"
