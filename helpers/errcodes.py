@@ -441,7 +441,7 @@ switch_known_errcodes = {
     0x2C7C: "Argument is invalid ",
     0x3C7C: "Bad input buffer size ",
     0x407C: "Invalid input buffer ",
-    0x4680: "Error while launching applet. ",
+    0x4680: "Error while launching applet/application. ",
     0x4A80: "Title-ID not found. Caused by code 0x410 when applet launch fails ",
     0x3E880: "Invalid IStorage size (negative?) ",
     0x3EC80: "IStorage has already been opened by another accessor ",
