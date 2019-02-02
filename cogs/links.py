@@ -48,6 +48,9 @@ class Links:
                        "<https://guide.sdsetup.com/#/manualchoidowngrade>\n"
                        "How to get started developing Homebrew: "
                        "<https://gbatemp.net/threads/tutorial-switch-homebrew-development.507284/>"
+                       "Use full RAM in homebrew without installing NSPs: "
+                       "<https://gbatemp.net/threads/use-atmosphere-to-"
+                       "access-full-ram-with-homebrews-without-nsp.521240/>")
                       )
 
     @commands.command()
