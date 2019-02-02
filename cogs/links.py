@@ -42,9 +42,13 @@ class Links:
                        "Pegaswitch Guide: <https://switch.hacks.guide/> "
                        "(outdated for anything but Pegaswitch/3.0.0)\n\n"
                        "**Specific guides:**\n"
-                       "Use full RAM in homebrew without installing NSPs: "
-                       "<https://gbatemp.net/threads/use-atmosphere-to-"
-                       "access-full-ram-with-homebrews-without-nsp.521240/>")
+                       "Manually Updating/Downgrading (with HOS): "
+                       "<https://guide.sdsetup.com/#/manualupdate>\n"
+                       "Manually Repairing/Downgrading (without HOS): "
+                       "<https://guide.sdsetup.com/#/manualchoidowngrade>\n"
+                       "How to get started developing Homebrew: "
+                       "<https://gbatemp.net/threads/tutorial-switch-homebrew-development.507284/>"
+                      )
 
     @commands.command()
     async def source(self, ctx):
