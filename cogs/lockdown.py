@@ -33,8 +33,7 @@ class Lockdown:
             roles = [config.named_roles["community"],
                      config.named_roles["hacker"]]
         else:
-            roles = [config.named_roles["participant"],
-                     ctx.guild.default_role.id]
+            roles = [config.named_roles["participant"]]
 
         for role in roles:
             await channel.set_permissions(channel.guild.get_role(role),
@@ -68,8 +67,7 @@ class Lockdown:
             roles = [config.named_roles["community"],
                      config.named_roles["hacker"]]
         else:
-            roles = [config.named_roles["participant"],
-                     ctx.guild.default_role.id]
+            roles = [config.named_roles["participant"]]
 
         await self.unlock_for_staff(channel, ctx.author)
 
