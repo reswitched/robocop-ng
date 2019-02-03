@@ -51,7 +51,6 @@ class Links:
                        "Use full RAM in homebrew without installing NSPs: "
                        "<https://gbatemp.net/threads/use-atmosphere-to-"
                        "access-full-ram-with-homebrews-without-nsp.521240/>")
-                      )
 
     @commands.command()
     async def source(self, ctx):
