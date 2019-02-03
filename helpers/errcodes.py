@@ -1020,3 +1020,4 @@ wii_u_errors = {
 
 # 1K Lines PogChamp
 # Secret Memory Training: https://www.youtube.com/watch?v=h-mUGj41hWA
+# Secret Running Training: https://www.youtube.com/watch?v=XCiDuy4mrWU
