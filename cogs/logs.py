@@ -101,7 +101,7 @@ class Logs:
 
     async def on_member_ban(self, guild, member):
         await self.bot.wait_until_ready()
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.modlog_channel)
         msg = f"⛔ **Ban**: {member.mention} | "\
               f"{self.bot.escape_message(member)}\n"\
               f"🏷 __User ID__: {member.id}"
@@ -109,7 +109,7 @@ class Logs:
 
     async def on_member_unban(self, guild, user):
         await self.bot.wait_until_ready()
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.modlog_channel)
         msg = f"⚠️ **Unban**: {user.mention} | "\
               f"{self.bot.escape_message(user)}\n"\
               f"🏷 __User ID__: {user.id}"

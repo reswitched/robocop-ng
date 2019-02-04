@@ -127,7 +127,7 @@ class Verification:
         msg = f"🗑 **Reset**: {ctx.author.mention} cleared {limit} messages "\
               f" in {ctx.channel.mention}"
         msg += f"\n💬 __Current challenge location__: under rule {rule_choice}"
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(msg)
 
         # find rule that puts us over 2,000 characters, if any

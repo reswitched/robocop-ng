@@ -27,7 +27,7 @@ class Lockdown:
         Defaults to current channel."""
         if not channel:
             channel = ctx.channel
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.modlog_channel)
 
         if channel.id in config.community_channels:
             roles = [config.named_roles["community"],
@@ -61,7 +61,7 @@ class Lockdown:
         """Unlocks speaking in current channel, staff only."""
         if not channel:
             channel = ctx.channel
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.modlog_channel)
 
         if ctx.channel.id in config.community_channels:
             roles = [config.named_roles["community"],

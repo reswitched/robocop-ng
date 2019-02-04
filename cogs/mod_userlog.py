@@ -132,7 +132,7 @@ class ModUserlog:
     async def clearevent(self, ctx, target: discord.Member,
                          event="warns"):
         """Clears all events of given type for a user, staff only."""
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.modlog_channel)
         msg = self.clear_event_from_id(str(target.id), event)
         safe_name = await commands.clean_content().convert(ctx, str(target))
         await ctx.send(msg)
@@ -146,7 +146,7 @@ class ModUserlog:
     @commands.command(aliases=["clearwarnsid"])
     async def cleareventid(self, ctx, target: int, event="warns"):
         """Clears all events of given type for a userid, staff only."""
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.modlog_channel)
         msg = self.clear_event_from_id(str(target), event)
         await ctx.send(msg)
         msg = f"🗑 **Cleared {event}**: {ctx.author.mention} cleared"\
@@ -159,7 +159,7 @@ class ModUserlog:
     async def delevent(self, ctx, target: discord.Member, idx: int,
                        event="warns"):
         """Removes a specific event from a user, staff only."""
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.modlog_channel)
         del_event = self.delete_event_from_id(str(target.id), idx, event)
         event_name = userlog_event_types[event].lower()
         # This is hell.
@@ -178,7 +178,7 @@ class ModUserlog:
     @commands.command(aliases=["delwarnid"])
     async def deleventid(self, ctx, target: int, idx: int, event="warns"):
         """Removes a specific event from a userid, staff only."""
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.modlog_channel)
         del_event = self.delete_event_from_id(str(target), idx, event)
         event_name = userlog_event_types[event].lower()
         # This is hell.

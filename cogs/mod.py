@@ -54,7 +54,7 @@ class Mod:
                             "it is recommended to use `.mute <user> [reason]`"\
                             " as the reason is automatically sent to the user."
 
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
         await ctx.send(f"{target.mention} can no longer speak.")
         add_restriction(target.id, config.mute_role)
@@ -73,7 +73,7 @@ class Mod:
                        f"{target.mention} | {safe_name}\n"\
                        f"🏷 __User ID__: {target.id}\n"
 
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
         await ctx.send(f"{target.mention} can now speak again.")
         remove_restriction(target.id, config.mute_role)
@@ -120,7 +120,7 @@ class Mod:
                             "`.kick <user> [reason]`"\
                             " as the reason is automatically sent to the user."
 
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
 
     @commands.guild_only()
@@ -164,7 +164,7 @@ class Mod:
                             ", it is recommended to use `.ban <user> [reason]`"\
                             " as the reason is automatically sent to the user."
 
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
         await ctx.send(f"{safe_name} is now b&. 👍")
 
@@ -200,7 +200,7 @@ class Mod:
                             ", it is recommended to use "\
                             "`.hackban <user> [reason]`."
 
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
         await ctx.send(f"{safe_name} is now b&. 👍")
 
@@ -233,7 +233,7 @@ class Mod:
                             ", it is recommended to use `.ban <user> [reason]`"\
                             " as the reason is automatically sent to the user."
 
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
 
     @commands.guild_only()
@@ -246,7 +246,7 @@ class Mod:
             return await ctx.send("No such role! Available roles: " +
                                   ','.join(config.named_roles))
 
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.modlog_channel)
         target_role = ctx.guild.get_role(config.named_roles[role])
 
         if target_role in target.roles:
@@ -269,7 +269,7 @@ class Mod:
             return await ctx.send("No such role! Available roles: " +
                                   ','.join(config.named_roles))
 
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.modlog_channel)
         target_role = ctx.guild.get_role(config.named_roles[role])
 
         if target_role not in target.roles:
@@ -287,7 +287,7 @@ class Mod:
     @commands.command(aliases=["clear"])
     async def purge(self, ctx, limit: int, channel: discord.TextChannel = None):
         """Clears a given number of messages, staff only."""
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.modlog_channel)
         if not channel:
             channel = ctx.channel
         await channel.purge(limit=limit)
@@ -307,7 +307,7 @@ class Mod:
             return await ctx.send("I can't warn this user as "
                                   "they're a member of staff.")
 
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.modlog_channel)
         warn_count = userlog(target.id, ctx.author, reason,
                              "warns", target.name)
 

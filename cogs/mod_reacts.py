@@ -16,7 +16,7 @@ class ModReact:
                                 channel: discord.TextChannel = None,
                                 limit: int = 50):
         """Clears reacts from a given user in the given channel, staff only."""
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.modlog_channel)
         if not channel:
             channel = ctx.channel
         count = 0
@@ -39,7 +39,7 @@ class ModReact:
                              limit: int = 50,
                              channel: discord.TextChannel = None):
         """Clears all reacts in a given channel, staff only. Use with care."""
-        log_channel = self.bot.get_channel(config.log_channel)
+        log_channel = self.bot.get_channel(config.modlog_channel)
         if not channel:
             channel = ctx.channel
         count = 0
