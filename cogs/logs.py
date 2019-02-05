@@ -70,7 +70,7 @@ class Logs:
 
     async def on_message_edit(self, before, after):
         await self.bot.wait_until_ready()
-        if after.channel.id not in config.spy_channels:
+        if after.channel.id not in config.spy_channels or after.author.bot:
             return
 
         log_channel = self.bot.get_channel(config.log_channel)
@@ -82,7 +82,7 @@ class Logs:
 
     async def on_message_delete(self, message):
         await self.bot.wait_until_ready()
-        if message.channel.id not in config.spy_channels:
+        if message.channel.id not in config.spy_channels or message.author.bot:
             return
 
         log_channel = self.bot.get_channel(config.log_channel)
