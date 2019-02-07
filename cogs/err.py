@@ -17,13 +17,12 @@ class Err:
                            "You should report relevant details to "\
                            "<@141532589725974528> (tomGER) "\
                            "so it can be added to the bot."
-        self.rickroll = "https://www.youtube.com/watch?v=x3yXlomPCmU"
+        self.rickroll = "https://www.youtube.com/watch?v=yD2FSwTy2lw"
 
-    @commands.command(aliases=["nxerr", "serr", "nin_err", "ninerr"])
-    async def err(self, ctx, err: str):
-        """Searches for Nintendo 3DS, Switch and Wii U error codes!
-            Usage: .serr/.nxerr/.nin_err/.err <Error Code>"""
-
+    @commands.command(aliases=["3dserr", "3err", "dserr"])
+    async def dderr(self, ctx, err: str):
+        """Searches for 3DS error codes!
+        Usage: .ddserr/.3err/.dserr/.3dserr <Error Code>"""
         if self.dds_re.match(err):  # 3DS - dds -> Drei DS -> Three DS
             if err in dds_errcodes:
                 err_description = dds_errcodes[err]
@@ -47,23 +46,25 @@ class Err:
             mod = (rc >> 10) & 0xFF
             summ = (rc >> 21) & 0x3F
             level = (rc >> 27) & 0x1F
-            if (mod in dds_modules) and\
-                    (summ in dds_summaries) and\
-                    (desc in dds_descriptions) and\
-                    (level in dds_levels):
-                # ^ Lets just make extra sure that everything is right :P
-                embed = discord.Embed(title=f"0x{rc:X}")
-                embed.add_field(name="Module", value=dds_modules[mod])
-                embed.add_field(name="Description",
-                                value=dds_descriptions[desc])
-                embed.add_field(name="Summary", value=dds_summaries[summ])
-                embed.add_field(name="Level", value=dds_levels[level])
-                embed.set_footer(text="Console: 3DS")
+            embed = discord.Embed(title=f"0x{rc:X}")
+            embed.add_field(name="Module", value=dds_modules[mod])
+            embed.add_field(name="Description",
+                            value=dds_descriptions[desc])
+            embed.add_field(name="Summary", value=dds_summaries[summ])
+            embed.add_field(name="Level", value=dds_levels[level])
+            embed.set_footer(text="Console: 3DS")
 
-                await ctx.send(embed=embed)
-                return
+            await ctx.send(embed=embed)
+            return
+        else:
+            await ctx.send("Unknown Format - This is either "
+                           "no error code or you made some mistake!")
 
-        elif self.wiiu_re.match(err):  # Wii U
+    @commands.command(aliases=["uerr","wuerr","mochaerr"])
+    async def wiiuserr(self, ctx, err: str):
+        """Searches for Wii U error codes!
+            Usage: .wiiuserr/.uerr/.wuerr/.mochaerr <Error Code>"""
+        if self.wiiu_re.match(err):  # Wii U
             module = err[2:3]  # Is that even true, idk just guessing
             desc = err[5:8]
             if err in wii_u_errors:
@@ -81,6 +82,14 @@ class Err:
 
             # Send message, crazy
             await ctx.send(embed=embed)
+        else:
+            await ctx.send("Unknown Format - This is either "
+                           "no error code or you made some mistake!")
+
+    @commands.command(aliases=["nxerr", "serr"])
+    async def err(self, ctx, err: str):
+        """Searches for Switch error codes!
+            Usage: .serr/.nxerr/.err <Error Code>"""
 
         if self.switch_re.match(err) or err.startswith("0x"):  # Switch
 
@@ -125,7 +134,6 @@ class Err:
                             inline=True)
             embed.add_field(name="Description", value=desc, inline=True)
 
-            # Send message, crazy
             if "ban" in err_description:
                 embed.set_footer("F to you | Console: Switch")
             else:

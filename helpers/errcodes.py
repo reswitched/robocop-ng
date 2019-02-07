@@ -1018,6 +1018,6 @@ wii_u_errors = {
     '199-9999': 'Usually occurs when trying to run an unsigned title without signature patches, or something unknown(?) is corrupted.',
 }
 
-# 1K Lines PogChamp
+# 1K (+23) Lines PogChamp
 # Secret Memory Training: https://www.youtube.com/watch?v=h-mUGj41hWA
 # Secret Running Training: https://www.youtube.com/watch?v=XCiDuy4mrWU
