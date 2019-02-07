@@ -120,7 +120,6 @@ class Err:
             embed = discord.Embed(title=f"{str_errcode} / {hex(errcode)}",
                                   url=self.rickroll,
                                   description=err_description)
-            embed.set_footer(text="Console: Switch")
             embed.add_field(name="Module",
                             value=f"{err_module} ({module})",
                             inline=True)
@@ -128,9 +127,11 @@ class Err:
 
             # Send message, crazy
             if "ban" in err_description:
-                await ctx.send("F", embed=embed)
+                embed.set_footer("F to you | Console: Switch")
             else:
-                await ctx.send(embed=embed)
+                embed.set_footer(text="Console: Switch")
+            
+            await ctx.send(embed=embed)
 
         # Special case handling because Nintendo feels like
         # its required to break their format lol
