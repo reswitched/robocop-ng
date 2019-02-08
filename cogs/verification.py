@@ -91,9 +91,9 @@ welcome_footer = (
     #toolchain-development - Discussion about the development of libtransistor itself goes there.
 
     #cfw-development - Development discussion regarding custom firmware (CFW) projects, such as Atmosphère. This channel is meant for the discussion accompanying active development.
-
+    
     #bot-cmds - Channel for excessive/random use of Robocop's various commands.
-
+    
     **If you are still not sure how to get access to the other channels, please read the rules again.**
     **If you have questions about the rules, feel free to ask here!**
 
@@ -112,10 +112,9 @@ class Verification:
     @commands.command()
     async def reset(self, ctx, limit: int = 100, force: bool = False):
         """Wipes messages and pastes the welcome message again. Staff only."""
-        if ctx.message.channel.id not in [config.welcome_channel, config.rules_channel] and not force:
+        if ctx.message.channel.id != config.welcome_channel and not force:
             await ctx.send(f"This command is limited to"
-                           f" <#{config.welcome_channel}> or "
-                           f" <#{config.rules_channel}>, unless forced.")
+                           f" <#{config.welcome_channel}>, unless forced.")
             return
 
         await ctx.channel.purge(limit=limit)
@@ -123,9 +122,8 @@ class Verification:
         await ctx.send(welcome_header)
         rules = ['**{}**. {}'.format(i, cleandoc(r)) for i, r in
                  enumerate(welcome_rules, 1)]
-        if (ctx.message.channel.id is config.welcome_channel):
-            rule_choice = random.randint(2, len(rules))
-            rules[rule_choice - 1] += '\n' + hidden_term_line
+        rule_choice = random.randint(2, len(rules))
+        rules[rule_choice - 1] += '\n' + hidden_term_line
         msg = f"🗑 **Reset**: {ctx.author.mention} cleared {limit} messages "\
               f" in {ctx.channel.mention}"
         msg += f"\n💬 __Current challenge location__: under rule {rule_choice}"
