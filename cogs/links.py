@@ -34,7 +34,23 @@ class Links:
     @commands.command(hidden=True, aliases=["guides", "link"])
     async def guide(self, ctx):
         """Link to the guide(s)"""
-        await ctx.send("*AtlasNX's Guide:* https://guide.teamatlasnx.com")
+        await ctx.send("**Generic starter guides:**\n"
+                       "Nintendo Homebrew's Guide: "
+                       "<https://nh-server.github.io/switch-guide/>\n"
+                       "AtlasNX's Guide: "
+                       "<https://guide.teamatlasnx.com>\n"
+                       "Pegaswitch Guide: <https://switch.hacks.guide/> "
+                       "(outdated for anything but Pegaswitch/3.0.0)\n\n"
+                       "**Specific guides:**\n"
+                       "Manually Updating/Downgrading (with HOS): "
+                       "<https://guide.sdsetup.com/#/manualupdate>\n"
+                       "Manually Repairing/Downgrading (without HOS): "
+                       "<https://guide.sdsetup.com/#/manualchoidowngrade>\n"
+                       "How to get started developing Homebrew: "
+                       "<https://gbatemp.net/threads/tutorial-switch-homebrew-development.507284/>\n"
+                       "Use full RAM in homebrew without installing NSPs: "
+                       "<https://gbatemp.net/threads/use-atmosphere-to-"
+                       "access-full-ram-with-homebrews-without-nsp.521240/>")
 
     @commands.command(hidden=True, aliases=["patron"])
     async def patreon(self, ctx):
