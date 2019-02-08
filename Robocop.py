@@ -154,7 +154,8 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.CheckFailure):
         return await ctx.send(f"{ctx.author.mention}: Check failed. "
                               "You might not have the right permissions "
-                              "to run this command.")
+                              "to run this command, or you may not be able "
+                              "to run this command in the current channel.")
     elif isinstance(error, commands.CommandInvokeError) and\
             ("Cannot send messages to this user" in error_text):
         return await ctx.send(f"{ctx.author.mention}: I can't DM you.\n"
