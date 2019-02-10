@@ -18,26 +18,6 @@ class Logs:
         # We use this a lot, might as well get it once
         escaped_name = self.bot.escape_message(member)
 
-        # Check if user account is older than 15 minutes
-        age = member.joined_at - member.created_at
-        if age < config.min_age:
-            sent = True
-            msg = f"🚨 **Account too new**: {member.mention} | "\
-                  f"{escaped_name}\n"\
-                  f"🗓 __Creation__: {member.created_at}\n"\
-                  f"🕓 Account age: {age}\n"\
-                  f"🏷 __User ID__: {member.id}"
-            if not sent:
-                msg += "\nThe user has disabled direct messages,"\
-                       " so the reason was not sent."
-            await log_channel.send(msg)
-            return
-        msg = f"✅ **Join**: {member.mention} | "\
-              f"{escaped_name}\n"\
-              f"🗓 __Creation__: {member.created_at}\n"\
-              f"🕓 Account age: {age}\n"\
-              f"🏷 __User ID__: {member.id}"
-
         # Handles user restrictions
         # Basically, gives back muted role to users that leave with it.
         rsts = get_user_restrictions(member.id)
