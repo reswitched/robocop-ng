@@ -22,6 +22,7 @@ class Common:
         self.bot.get_relative_timestamp = self.get_relative_timestamp
         self.bot.escape_message = self.escape_message
         self.bot.parse_time = self.parse_time
+        self.bot.haste = self.haste
 
     def parse_time(self, delta_str):
         cal = parsedatetime.Calendar()
