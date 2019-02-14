@@ -73,11 +73,21 @@ class Logs:
         if after.channel.id not in config.spy_channels or after.author.bot:
             return
 
+        # If content is the same, just skip over it
+        # This usually means that something embedded.
+        if before.clean_content == after.clean_content:
+            return
+
         log_channel = self.bot.get_channel(config.log_channel)
         msg = "📝 **Message edit**: \n"\
               f"from {self.bot.escape_message(after.author.name)} "\
               f"({after.author.id})\n"\
               f"`{before.clean_content}` → `{after.clean_content}`"
+
+        # If resulting message is too long, upload to hastebin
+        if len(msg) > 2000:
+            msg = f"📝 **Message edit**: \nToo long: <{self.bot.haste(msg)}>"
+
         await log_channel.send(msg)
 
     async def on_message_delete(self, message):
@@ -89,6 +99,11 @@ class Logs:
         msg = "🗑️ **Message delete**: \n"\
               f"from {self.bot.escape_message(message.author.name)} "\
               f"({message.author.id})\n `{message.clean_content}`"
+
+        # If resulting message is too long, upload to hastebin
+        if len(msg) > 2000:
+            msg = f"🗑️ **Message delete**: \nToo long: <{self.bot.haste(msg)}>"
+
         await log_channel.send(msg)
 
     async def on_member_remove(self, member):

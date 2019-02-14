@@ -140,7 +140,7 @@ class Common:
         reply_list.append(f"{prefix}{text}{suffix}")
         return reply_list
 
-    async def haste(self, text, instance='https://hastebin.com/'):
+    async def haste(self, text, instance='https://mystb.in/'):
         response = await self.bot.aiosession.post(f"{instance}documents",
                                                   data=text)
         if response.status == 200:
