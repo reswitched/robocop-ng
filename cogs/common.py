@@ -146,6 +146,8 @@ class Common:
         if response.status == 200:
             result_json = await response.json()
             return f"{instance}{result_json['key']}"
+        else:
+            return f"Error {response.status}: {response.text}"
 
     async def async_call_shell(self, shell_command: str,
                                inc_stdout=True, inc_stderr=True):

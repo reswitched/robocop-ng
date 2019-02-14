@@ -81,7 +81,7 @@ class Logs:
         log_channel = self.bot.get_channel(config.log_channel)
         msg = "📝 **Message edit**: \n"\
               f"from {self.bot.escape_message(after.author.name)} "\
-              f"({after.author.id})\n"\
+              f"({after.author.id}), in {after.channel.mention}:\n"\
               f"`{before.clean_content}` → `{after.clean_content}`"
 
         # If resulting message is too long, upload to hastebin
@@ -99,7 +99,8 @@ class Logs:
         log_channel = self.bot.get_channel(config.log_channel)
         msg = "🗑️ **Message delete**: \n"\
               f"from {self.bot.escape_message(message.author.name)} "\
-              f"({message.author.id})\n `{message.clean_content}`"
+              f"({message.author.id}), in {message.channel.mention}:\n"\
+              f"`{message.clean_content}`"
 
         # If resulting message is too long, upload to hastebin
         if len(msg) > 2000:
