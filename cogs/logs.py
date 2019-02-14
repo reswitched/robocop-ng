@@ -86,7 +86,8 @@ class Logs:
 
         # If resulting message is too long, upload to hastebin
         if len(msg) > 2000:
-            msg = f"📝 **Message edit**: \nToo long: <{self.bot.haste(msg)}>"
+            haste_url = await self.bot.haste(msg)
+            msg = f"📝 **Message edit**: \nToo long: <{haste_url}>"
 
         await log_channel.send(msg)
 
@@ -102,7 +103,8 @@ class Logs:
 
         # If resulting message is too long, upload to hastebin
         if len(msg) > 2000:
-            msg = f"🗑️ **Message delete**: \nToo long: <{self.bot.haste(msg)}>"
+            haste_url = await self.bot.haste(msg)
+            msg = f"🗑️ **Message delete**: \nToo long: <{haste_url}>"
 
         await log_channel.send(msg)
 
