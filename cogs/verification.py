@@ -58,8 +58,11 @@ welcome_rules = (
     'Trying to evade, look for loopholes, or stay borderline within the rules will be treated as breaking them.',
 
     # 9
-    'Absolutely no piracy. Discussion of "backups" or other pirated materials is not permitted, even if you legally own a copy of the game. This is a zero-tolerance, non-negotiable policy, and will be enforced strictly and swiftly.',
-
+    """
+    Absolutely no piracy. Discussion of "backups" or other pirated materials is not permitted, even if you legally own a copy of the game. This is a zero-tolerance, non-negotiable policy, and will be enforced strictly and swiftly.'
+     • Absolutely **NO** support will be provided for SX OS or other Team Xecuter ("TX") devices and software.
+    """, 
+    
     # 10
     'Installable homebrew NSPs are not supported here. If you are confused about how to set up homebrew properly (via hbl.nsp), it is fine to ask for assistance.',
 
