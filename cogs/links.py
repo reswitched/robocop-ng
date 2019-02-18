@@ -79,7 +79,7 @@ class Links:
                        "on the community category (#off-topic, "
                        "#homebrew-development, #switch-hacking-general etc)."
                        "\n\n"
-                       "What you need to get the rols is to be around, "
+                       "What you need to get the role is to be around, "
                        "be helpful and nice to people and "
                        "show an understanding of rules.")
 
