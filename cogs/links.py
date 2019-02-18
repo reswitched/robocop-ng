@@ -47,7 +47,8 @@ class Links:
                        "Manually Repairing/Downgrading (without HOS): "
                        "<https://guide.sdsetup.com/#/manualchoidowngrade>\n"
                        "How to get started developing Homebrew: "
-                       "<https://gbatemp.net/threads/tutorial-switch-homebrew-development.507284/>\n"
+                       "<https://gbatemp.net/threads/"
+                       "tutorial-switch-homebrew-development.507284/>\n"
                        "Use full RAM in homebrew without installing NSPs: "
                        "<https://gbatemp.net/threads/use-atmosphere-to-"
                        "access-full-ram-with-homebrews-without-nsp.521240/>")
@@ -65,6 +66,22 @@ class Links:
             targetuser = ctx.author
         await ctx.send(f"{targetuser.mention}: A link to the rules "
                        f"can be found here: {config.rules_url}")
+
+    @commands.command()
+    async def community(self, ctx, *, targetuser: discord.Member = None):
+        """Post a link to the community section of the rules"""
+        if not targetuser:
+            targetuser = ctx.author
+        await ctx.send(f"{targetuser.mention}: "
+                       f"{config.rules_url}#member-roles-breakdown"
+                       "\n\n"
+                       "Community role allows access to the set of channels "
+                       "on the community category (#off-topic, "
+                       "#homebrew-development, #switch-hacking-general etc)."
+                       "\n\n"
+                       "What you need to get the rols is to be around, "
+                       "be helpful and nice to people and "
+                       "show an understanding of rules.")
 
 
 def setup(bot):
