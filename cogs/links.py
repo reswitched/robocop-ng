@@ -37,8 +37,6 @@ class Links:
         await ctx.send("**Generic starter guides:**\n"
                        "Nintendo Homebrew's Guide: "
                        "<https://nh-server.github.io/switch-guide/>\n"
-                       "Noirscape's Guide: "
-                       "<https://switchgui.de/switch-guide/>\n"
                        "AtlasNX's Guide: "
                        "<https://guide.teamatlasnx.com>\n"
                        "Pegaswitch Guide: <https://switch.hacks.guide/> "
