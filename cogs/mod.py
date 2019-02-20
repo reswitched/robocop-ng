@@ -1,9 +1,10 @@
 import discord
 from discord.ext import commands
 import config
-from helpers.checks import check_if_staff
+from helpers.checks import check_if_staff, check_if_bot_manager
 from helpers.userlogs import userlog
 from helpers.restrictions import add_restriction, remove_restriction
+import io
 
 
 class Mod:
@@ -12,6 +13,20 @@ class Mod:
 
     def check_if_target_is_staff(self, target):
         return any(r.id in config.staff_role_ids for r in target.roles)
+
+    @commands.guild_only()
+    @commands.check(check_if_bot_manager)
+    @commands.command()
+    async def setguildicon(self, ctx, url):
+        """Changes guild icon, bot manager only."""
+        imagebytes = await self.bot.aiogetbytes(url)
+        await ctx.guild.edit(icon=imagebytes, reason=str(ctx.author))
+        await ctx.send(f"Done!")
+
+        log_channel = self.bot.get_channel(config.modlog_channel)
+        log_msg = f"✏️ **Guild Icon Update**: {ctx.author} "\
+                  "changed the guild icon."
+        await log_channel.send(log_msg, file=io.BytesIO(imagebytes))
 
     @commands.guild_only()
     @commands.check(check_if_staff)
