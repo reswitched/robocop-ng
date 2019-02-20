@@ -60,8 +60,8 @@ class Err:
             await ctx.send("Unknown Format - This is either "
                            "no error code or you made some mistake!")
 
-    @commands.command(aliases=["uerr","wuerr","mochaerr"])
-    async def wiiuserr(self, ctx, err: str):
+    @commands.command(aliases=["wiiuserr", "uerr","wuerr","mochaerr"])
+    async def wiiuerr(self, ctx, err: str):
         """Searches for Wii U error codes!
             Usage: .wiiuserr/.uerr/.wuerr/.mochaerr <Error Code>"""
         if self.wiiu_re.match(err):  # Wii U
