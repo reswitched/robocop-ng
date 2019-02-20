@@ -8,17 +8,21 @@ class Lockdown:
     def __init__(self, bot):
         self.bot = bot
 
+    async def set_sendmessgae(self, channel: discord.TextChannel,
+                              role, allow_send, issuer):
+        try:
+            roleobj = channel.guild.get_role(role)
+            overrides = channel.overwrites_for(roleobj)
+            overrides.send_messages = allow_send
+            await channel.set_permissions(roleobj,
+                                          overwrite=overrides,
+                                          reason=str(issuer))
+        except:
+            pass
+
     async def unlock_for_staff(self, channel: discord.TextChannel, issuer):
         for role in config.staff_role_ids:
-            try:
-                roleobj = channel.guild.get_role(role)
-                overrides = channel.overwrites_for(roleobj)
-                overrides.send_messages = True
-                await channel.set_permissions(roleobj,
-                                              overwrite=overrides,
-                                              reason=str(issuer))
-            except:
-                pass
+            await self.set_sendmessage(channel, role, True, issuer)
 
     @commands.guild_only()
     @commands.check(check_if_staff)
@@ -39,12 +43,7 @@ class Lockdown:
             roles = [config.named_roles["participant"]]
 
         for role in roles:
-            roleobj = channel.guild.get_role(role)
-            overrides = channel.overwrites_for(roleobj)
-            overrides.send_messages = False
-            await channel.set_permissions(roleobj,
-                                          overwrite=overrides,
-                                          reason=str(ctx.author))
+            await self.set_sendmessage(channel, role, False, ctx.author)
 
         await self.unlock_for_staff(channel, ctx.author)
 
@@ -78,12 +77,7 @@ class Lockdown:
         await self.unlock_for_staff(channel, ctx.author)
 
         for role in roles:
-            roleobj = channel.guild.get_role(role)
-            overrides = channel.overwrites_for(roleobj)
-            overrides.send_messages = True
-            await channel.set_permissions(roleobj,
-                                          overwrite=overrides,
-                                          reason=str(ctx.author))
+            await self.set_sendmessage(channel, role, True, ctx.author)
 
         safe_name = await commands.clean_content().convert(ctx, str(ctx.author))
         await ctx.send("🔓 Channel unlocked.")
