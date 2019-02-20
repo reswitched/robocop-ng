@@ -19,14 +19,16 @@ class Mod:
     @commands.command()
     async def setguildicon(self, ctx, url):
         """Changes guild icon, bot manager only."""
-        imagebytes = await self.bot.aiogetbytes(url)
-        await ctx.guild.edit(icon=imagebytes, reason=str(ctx.author))
+        img_bytes = await self.bot.aiogetbytes(url)
+        await ctx.guild.edit(icon=img_bytes, reason=str(ctx.author))
         await ctx.send(f"Done!")
 
         log_channel = self.bot.get_channel(config.modlog_channel)
         log_msg = f"✏️ **Guild Icon Update**: {ctx.author} "\
                   "changed the guild icon."
-        await log_channel.send(log_msg, file=io.BytesIO(imagebytes))
+        img_file = discord.File(io.BytesIO(img_bytes),
+                                filename=url.split("/")[-1])  # hacky
+        await log_channel.send(log_msg, file=img_file)
 
     @commands.guild_only()
     @commands.check(check_if_staff)
