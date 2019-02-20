@@ -8,7 +8,7 @@ class Lockdown:
     def __init__(self, bot):
         self.bot = bot
 
-    async def set_sendmessgae(self, channel: discord.TextChannel,
+    async def set_sendmessage(self, channel: discord.TextChannel,
                               role, allow_send, issuer):
         try:
             roleobj = channel.guild.get_role(role)
