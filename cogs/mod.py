@@ -26,8 +26,9 @@ class Mod:
         log_channel = self.bot.get_channel(config.modlog_channel)
         log_msg = f"✏️ **Guild Icon Update**: {ctx.author} "\
                   "changed the guild icon."
+        img_filename = url.split("/")[-1].split("#")[0]  # hacky
         img_file = discord.File(io.BytesIO(img_bytes),
-                                filename=url.split("/")[-1])  # hacky
+                                filename=img_filename)
         await log_channel.send(log_msg, file=img_file)
 
     @commands.guild_only()
