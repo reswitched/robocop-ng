@@ -11,8 +11,11 @@ class Lockdown:
     async def unlock_for_staff(self, channel: discord.TextChannel, issuer):
         for role in config.staff_role_ids:
             try:
-                await channel.set_permissions(channel.guild.get_role(role),
-                                              send_messages=True,
+                roleobj = channel.guild.get_role(role)
+                overrides = channel.overwrites_for(roleobj)
+                overrides.send_messages = True
+                await channel.set_permissions(roleobj,
+                                              overwrite=overrides,
                                               reason=str(issuer))
             except:
                 pass
@@ -36,8 +39,11 @@ class Lockdown:
             roles = [config.named_roles["participant"]]
 
         for role in roles:
-            await channel.set_permissions(channel.guild.get_role(role),
-                                          send_messages=False,
+            roleobj = channel.guild.get_role(role)
+            overrides = channel.overwrites_for(roleobj)
+            overrides.send_messages = False
+            await channel.set_permissions(roleobj,
+                                          overwrite=overrides,
                                           reason=str(ctx.author))
 
         await self.unlock_for_staff(channel, ctx.author)
@@ -72,9 +78,12 @@ class Lockdown:
         await self.unlock_for_staff(channel, ctx.author)
 
         for role in roles:
-            await ctx.channel.set_permissions(ctx.guild.get_role(role),
-                                              send_messages=True,
-                                              reason=str(ctx.author))
+            roleobj = channel.guild.get_role(role)
+            overrides = channel.overwrites_for(roleobj)
+            overrides.send_messages = True
+            await channel.set_permissions(roleobj,
+                                          overwrite=overrides,
+                                          reason=str(ctx.author))
 
         safe_name = await commands.clean_content().convert(ctx, str(ctx.author))
         await ctx.send("🔓 Channel unlocked.")
