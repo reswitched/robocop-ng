@@ -180,11 +180,17 @@ class Verification:
             # Now add the same things but with newlines at the end of them
             allowed_names += [(an + '\n') for an in allowed_names]
             close_names += [(cn + '\n') for cn in close_names]
+            allowed_names += [(an + '\r\n') for an in allowed_names]
+            close_names += [(cn + '\r\n') for cn in close_names]
+            allowed_names += [(an + '\r') for an in allowed_names] # [ ͡° ͜ᔦ ͡°] 𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐭𝐨 𝐌𝐚𝐜 𝐎𝐒 𝟗.
+            close_names += [(cn + '\r') for cn in close_names]
 
             # Finally, hash the stuff so that we can access them later :)
             sha1_allow = [hashlib.sha1(name.encode('utf-8')).hexdigest()
                           for name in allowed_names]
             md5_allow = [hashlib.md5(name.encode('utf-8')).hexdigest()
+                         for name in allowed_names]
+            sha256_allow = [hashlib.sha256(name.encode('utf-8')).hexdigest()
                          for name in allowed_names]
             sha1_close = [hashlib.sha1(name.encode('utf-8')).hexdigest()
                           for name in close_names]
@@ -196,6 +202,8 @@ class Verification:
             elif any(close in mcl for close in sha1_close):
                 await chan.send(f"{message.author.mention} :no_entry: Close, but incorrect. You got the process right, but you're not doing it on your name and discriminator properly. Please re-read the rules carefully and look up any terms you are not familiar with.")
             elif any(allow in mcl for allow in md5_allow):
+                await chan.send(f"{message.author.mention} :no_entry: Close, but incorrect. You're processing your name and discriminator properly, but you're not using the right process. Please re-read the rules carefully and look up any terms you are not familiar with.")
+            elif any(allow in mcl for allow in sha256_allow):
                 await chan.send(f"{message.author.mention} :no_entry: Close, but incorrect. You're processing your name and discriminator properly, but you're not using the right process. Please re-read the rules carefully and look up any terms you are not familiar with.")
             elif full_name in message.content or str(member.id) in message.content or member.name in message.content or discrim in message.content:
                 await chan.send(f"{message.author.mention} :no_entry: Incorrect. You need to do something *specific* with your name and discriminator instead of just posting it. Please re-read the rules carefully and look up any terms you are not familiar with.")
