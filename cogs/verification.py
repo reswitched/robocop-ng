@@ -180,6 +180,10 @@ class Verification:
             # Now add the same things but with newlines at the end of them
             allowed_names += [(an + '\n') for an in allowed_names]
             close_names += [(cn + '\n') for cn in close_names]
+            allowed_names += [(an + '\r\n') for an in allowed_names]
+            close_names += [(cn + '\r\n') for cn in close_names]
+            allowed_names += [(an + '\r') for an in allowed_names] # [ ͡° ͜ᔦ ͡°] 𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐭𝐨 𝐌𝐚𝐜 𝐎𝐒 𝟗.
+            close_names += [(cn + '\r') for cn in close_names]
 
             # Finally, hash the stuff so that we can access them later :)
             sha1_allow = [hashlib.sha1(name.encode('utf-8')).hexdigest()
