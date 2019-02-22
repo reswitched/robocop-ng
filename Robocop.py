@@ -135,34 +135,30 @@ async def on_command_error(ctx, error):
         await bot.botlog_channel.send(err_msg)
 
     if isinstance(error, commands.NoPrivateMessage):
-        resp = await ctx.send("This command doesn't work on DMs.")
+        return await ctx.send("This command doesn't work on DMs.")
     elif isinstance(error, commands.MissingPermissions):
         roles_needed = '\n- '.join(error.missing_perms)
-        resp = await ctx.send(f"{ctx.author.mention}: You don't have the right"
+        return await ctx.send(f"{ctx.author.mention}: You don't have the right"
                               " permissions to run this command. You need: "
                               f"```- {roles_needed}```")
-        await ctx.message.delete()
     elif isinstance(error, commands.BotMissingPermissions):
         roles_needed = '\n-'.join(error.missing_perms)
-        resp = await ctx.send(f"{ctx.author.mention}: Bot doesn't have "
+        return await ctx.send(f"{ctx.author.mention}: Bot doesn't have "
                               "the right permissions to run this command. "
                               "Please add the following roles: "
                               f"```- {roles_needed}```")
-        await ctx.message.delete()
     elif isinstance(error, commands.CommandOnCooldown):
-        resp = await ctx.send(f"{ctx.author.mention}: You're being "
+        return await ctx.send(f"{ctx.author.mention}: You're being "
                               "ratelimited. Try in "
                               f"{error.retry_after:.1f} seconds.")
-        await ctx.message.delete()
     elif isinstance(error, commands.CheckFailure):
-        resp = await ctx.send(f"{ctx.author.mention}: Check failed. "
+        return await ctx.send(f"{ctx.author.mention}: Check failed. "
                               "You might not have the right permissions "
                               "to run this command, or you may not be able "
                               "to run this command in the current channel.")
-        await ctx.message.delete()
     elif isinstance(error, commands.CommandInvokeError) and\
             ("Cannot send messages to this user" in error_text):
-        resp = await ctx.send(f"{ctx.author.mention}: I can't DM you.\n"
+        return await ctx.send(f"{ctx.author.mention}: I can't DM you.\n"
                               "You might have me blocked or have DMs "
                               f"blocked globally or for {ctx.guild.name}.\n"
                               "Please resolve that, then "
@@ -170,10 +166,6 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.CommandNotFound):
         # Nothing to do when command is not found.
         return
-
-    # Delete warn message after 5 seconds
-    await asyncio.sleep(5)
-    return await resp.delete()
 
     help_text = f"Usage of this command is: ```{ctx.prefix}"\
                 f"{ctx.command.signature}```\nPlease see `{ctx.prefix}help "\
