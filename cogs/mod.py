@@ -72,6 +72,8 @@ class Mod:
                             "it is recommended to use `.mute <user> [reason]`"\
                             " as the reason is automatically sent to the user."
 
+        chan_message += f"\nJump: <{ctx.message.jump_url}>"
+
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
         await ctx.send(f"{target.mention} can no longer speak.")
@@ -90,6 +92,8 @@ class Mod:
         chan_message = f"🔈 **Unmuted**: {ctx.author.mention} unmuted "\
                        f"{target.mention} | {safe_name}\n"\
                        f"🏷 __User ID__: {target.id}\n"
+
+        chan_message += f"\nJump: <{ctx.message.jump_url}>"
 
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
@@ -138,6 +142,8 @@ class Mod:
                             "`.kick <user> [reason]`"\
                             " as the reason is automatically sent to the user."
 
+        chan_message += f"\nJump: <{ctx.message.jump_url}>"
+
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
 
@@ -182,6 +188,8 @@ class Mod:
                             ", it is recommended to use `.ban <user> [reason]`"\
                             " as the reason is automatically sent to the user."
 
+        chan_message += f"\nJump: <{ctx.message.jump_url}>"
+
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
         await ctx.send(f"{safe_name} is now b&. 👍")
@@ -218,6 +226,8 @@ class Mod:
                             ", it is recommended to use "\
                             "`.hackban <user> [reason]`."
 
+        chan_message += f"\nJump: <{ctx.message.jump_url}>"
+
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
         await ctx.send(f"{safe_name} is now b&. 👍")
@@ -251,6 +261,8 @@ class Mod:
                             ", it is recommended to use `.ban <user> [reason]`"\
                             " as the reason is automatically sent to the user."
 
+        chan_message += f"\nJump: <{ctx.message.jump_url}>"
+
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
 
@@ -275,7 +287,8 @@ class Mod:
         await ctx.send(f"Approved {target.mention} to `{role}` role.")
 
         await log_channel.send(f"✅ Approved: {ctx.author.mention} added"
-                               f" {role} to {target.mention}")
+                               f" {role} to {target.mention} | "
+                               f"<{ctx.message.jump_url}>")
 
     @commands.guild_only()
     @commands.check(check_if_staff)
@@ -298,7 +311,8 @@ class Mod:
         await ctx.send(f"Un-approved {target.mention} from `{role}` role.")
 
         await log_channel.send(f"❌ Un-approved: {ctx.author.mention} removed"
-                               f" {role} from {target.mention}")
+                               f" {role} from {target.mention} | "
+                               f"<{ctx.message.jump_url}>")
 
     @commands.guild_only()
     @commands.check(check_if_staff)
@@ -311,6 +325,7 @@ class Mod:
         await channel.purge(limit=limit)
         msg = f"🗑 **Purged**: {ctx.author.mention} purged {limit} "\
               f"messages in {channel.mention}."
+        msg += f"\nJump: <{ctx.message.jump_url}>"
         await log_channel.send(msg)
 
     @commands.guild_only()
@@ -371,6 +386,7 @@ class Mod:
             msg += "Please add an explanation below. In the future"\
                    ", it is recommended to use `.ban <user> [reason]`"\
                    " as the reason is automatically sent to the user."
+        msg += f"\nJump: <{ctx.message.jump_url}>"
         await log_channel.send(msg)
 
     @commands.guild_only()
