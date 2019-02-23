@@ -55,7 +55,7 @@ class Meme:
                                             "reswitchedsilv3r"])
     async def silver(self, ctx, user: discord.Member):
         """Gives a user ReSwitched Silver™"""
-        embed = discord.Embed(title="ReSwitched Silver!",
+        embed = discord.Embed(title="ReSwitched Silver™!",
                               description=f"Here's your ReSwitched Silver™,"
                                           f"{user.mention}!")
         embed.set_thumbnail(url="https://cdn.discordapp.com/emojis/"
