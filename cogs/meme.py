@@ -51,6 +51,18 @@ class Meme:
         await ctx.send(f"{user.mention} gets a :star:, yay!")
 
     @commands.check(check_if_staff_or_ot)
+    @commands.command(hidden=True, aliases=["reswitchedsilver", "silv3r",
+                                            "reswitchedsilv3r"])
+    async def silver(self, ctx, user: discord.Member):
+        """Gives a user ReSwitched Silver™"""
+        embed = discord.Embed(title="ReSwitched Silver!",
+                              description=f"Here's your ReSwitched Silver™,"
+                                          f"{user.mention}!")
+        embed.set_thumbnail(url="https://cdn.discordapp.com/emojis/"
+                                "548623626916724747.png?v=1")
+        await ctx.send(embed=embed)
+
+    @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True)
     async def btwiuse(self, ctx):
         """btw i use arch"""
