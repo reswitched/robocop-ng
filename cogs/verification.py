@@ -172,7 +172,7 @@ class Verification:
 
             if message.content.lower() in ["bad bot", "broken bot"]:
                 snark = random.choice(["bad human", "no u"])
-                return chan.send(snark)
+                return await chan.send(snark)
 
             # Get the role we will give in case of success
             success_role = guild.get_role(config.participant_role)
