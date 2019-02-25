@@ -171,7 +171,7 @@ class Verification:
             mcl = message.content.lower()
 
             if message.content.lower() in ["bad bot", "broken bot"]:
-                snark = random.choice(["bad human", "no u"])
+                snark = random.choice(["bad human", "no u", "pebkac"])
                 return await chan.send(snark)
 
             # Get the role we will give in case of success
