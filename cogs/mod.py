@@ -329,6 +329,11 @@ class Mod:
         warn_count = userlog(target.id, ctx.author, reason,
                              "warns", target.name)
 
+        safe_name = await commands.clean_content().convert(ctx, str(target))
+        chan_msg = f"⚠️ **Warned**: {ctx.author.mention} warned "\
+                   f"{target.mention} (warn #{warn_count}) "\
+                   f"| {safe_name}\n"
+
         msg = f"You were warned on {ctx.guild.name}."
         if reason:
             msg += " The given reason is: " + reason
@@ -345,8 +350,10 @@ class Mod:
                    "This is your final warning. "\
                    "You can join again, but "\
                    "**one more warn will result in a ban**."
+            chan_msg += "**This resulted in an auto-kick.**\n"
         if warn_count == 5:
             msg += "\n\nYou were automatically banned due to five warnings."
+            chan_msg += "**This resulted in an auto-ban.**\n"
         try:
             await target.send(msg)
         except discord.errors.Forbidden:
@@ -361,17 +368,13 @@ class Mod:
         await ctx.send(f"{target.mention} warned. "
                        f"User has {warn_count} warning(s).")
 
-        safe_name = await commands.clean_content().convert(ctx, str(target))
-        msg = f"⚠️ **Warned**: {ctx.author.mention} warned {target.mention}"\
-              f" (warn #{warn_count}) | {safe_name}\n"
-
         if reason:
-            msg += f"✏️ __Reason__: \"{reason}\""
+            chan_msg += f"✏️ __Reason__: \"{reason}\""
         else:
-            msg += "Please add an explanation below. In the future"\
-                   ", it is recommended to use `.ban <user> [reason]`"\
-                   " as the reason is automatically sent to the user."
-        await log_channel.send(msg)
+            chan_msg += "Please add an explanation below. In the future"\
+                        ", it is recommended to use `.ban <user> [reason]`"\
+                        " as the reason is automatically sent to the user."
+        await log_channel.send(chan_msg)
 
     @commands.guild_only()
     @commands.check(check_if_staff)
