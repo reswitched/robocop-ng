@@ -170,13 +170,12 @@ class Verification:
             chan = message.channel
             mcl = message.content.lower()
 
-            if "bot" in mcl and ("bad" in mcl or
-                                 "broken" in mcl or
-                                 "buggy" in mcl or
-                                 "bugged" in mcl or
-                                 "stupid" in mcl):
+            # Reply to users that insult the bot
+            oof = ["bad", "broken", "buggy", "bugged", "stupid"]
+            if "bot" in mcl and any(insult in mcl for insult in oof):
                 snark = random.choice(["bad human",
                                        "no u",
+                                       "no u, rtfm",
                                        "pebkac"])
                 return await chan.send(snark)
 
