@@ -171,7 +171,8 @@ class Verification:
             mcl = message.content.lower()
 
             # Reply to users that insult the bot
-            oof = ["bad", "broken", "buggy", "bugged", "stupid"]
+            oof = ["bad", "broken", "buggy", "bugged",
+                   "stupid", "dumb", "silly", "fuck", "heck", "h*ck"]
             if "bot" in mcl and any(insult in mcl for insult in oof):
                 snark = random.choice(["bad human",
                                        "no u",
