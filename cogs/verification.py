@@ -170,8 +170,14 @@ class Verification:
             chan = message.channel
             mcl = message.content.lower()
 
-            if message.content.lower() in ["bad bot", "broken bot"]:
-                snark = random.choice(["bad human", "no u", "pebkac"])
+            if "bot" in mcl and ("bad" in mcl or
+                                 "broken" in mcl or
+                                 "buggy" in mcl or
+                                 "bugged" in mcl or
+                                 "stupid" in mcl):
+                snark = random.choice(["bad human",
+                                       "no u",
+                                       "pebkac"])
                 return await chan.send(snark)
 
             # Get the role we will give in case of success
