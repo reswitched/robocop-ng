@@ -61,8 +61,8 @@ welcome_rules = (
     """
     Absolutely no piracy. Discussion of "backups" or other pirated materials is not permitted, even if you legally own a copy of the game. This is a zero-tolerance, non-negotiable policy, and will be enforced strictly and swiftly.
      • Absolutely **NO** support will be provided for SX OS or other Team Xecuter ("TX") devices and software.
-    """, 
-    
+    """,
+
     # 10
     'Installable homebrew NSPs are not supported here. If you are confused about how to set up homebrew properly (via hbl.nsp), it is fine to ask for assistance.',
 
@@ -94,9 +94,9 @@ welcome_footer = (
     #toolchain-development - Discussion about the development of libtransistor itself goes there.
 
     #cfw-development - Development discussion regarding custom firmware (CFW) projects, such as Atmosphère. This channel is meant for the discussion accompanying active development.
-    
+
     #bot-cmds - Channel for excessive/random use of Robocop's various commands.
-    
+
     **If you are still not sure how to get access to the other channels, please read the rules again.**
     **If you have questions about the rules, feel free to ask here!**
 
@@ -170,6 +170,10 @@ class Verification:
             chan = message.channel
             mcl = message.content.lower()
 
+            if message.content.lower() in ["bad bot", "broken bot"]:
+                snark = random.choice(["bad human", "no u"])
+                return chan.send(snark)
+
             # Get the role we will give in case of success
             success_role = guild.get_role(config.participant_role)
 
@@ -182,7 +186,8 @@ class Verification:
             close_names += [(cn + '\n') for cn in close_names]
             allowed_names += [(an + '\r\n') for an in allowed_names]
             close_names += [(cn + '\r\n') for cn in close_names]
-            allowed_names += [(an + '\r') for an in allowed_names] # [ ͡° ͜ᔦ ͡°] 𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐭𝐨 𝐌𝐚𝐜 𝐎𝐒 𝟗.
+            # [ ͡° ͜ᔦ ͡°] 𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐭𝐨 𝐌𝐚𝐜 𝐎𝐒 𝟗.
+            allowed_names += [(an + '\r') for an in allowed_names]
             close_names += [(cn + '\r') for cn in close_names]
 
             # Finally, hash the stuff so that we can access them later :)
@@ -191,7 +196,7 @@ class Verification:
             md5_allow = [hashlib.md5(name.encode('utf-8')).hexdigest()
                          for name in allowed_names]
             sha256_allow = [hashlib.sha256(name.encode('utf-8')).hexdigest()
-                         for name in allowed_names]
+                            for name in allowed_names]
             sha1_close = [hashlib.sha1(name.encode('utf-8')).hexdigest()
                           for name in close_names]
 
@@ -219,7 +224,7 @@ class Verification:
             await chan.send("💢 I don't have permission to do this.")
 
     async def on_message_edit(self, before, after):
-        if message.author.bot:
+        if after.author.bot:
             return
 
         try:
