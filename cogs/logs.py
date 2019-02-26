@@ -1,5 +1,6 @@
 import discord
 import json
+import re
 import config
 from helpers.restrictions import get_user_restrictions
 
@@ -11,6 +12,8 @@ class Logs:
 
     def __init__(self, bot):
         self.bot = bot
+        self.invite_re = re.compile(r"((discord\.gg|discordapp\.com/"
+                                    r"+invite)/+[a-zA-Z0-9-]+)")
 
     async def on_member_join(self, member):
         await self.bot.wait_until_ready()
@@ -68,6 +71,27 @@ class Logs:
         except KeyError:  # if the user is not in the file
             await log_channel.send(msg)
 
+    async def do_spy(self, message):
+        alert = False
+        msg = f"Suspicious message by {message.author.mention} "\
+              f"({message.author.id}):"
+
+        invites = self.invite_re.search(message.lower())
+        for invite in invites:
+            msg += f"\n- Has invite: https://{invite[0]}"
+            alert = True
+
+        if alert:
+            spy_channel = self.bot.get_channel(548304839294189579)
+            await spy_channel.send(msg)
+
+    async def on_message(self, message):
+        await self.bot.wait_until_ready()
+        if message.channel.id not in config.spy_channels:
+            return
+
+        await self.do_spy(message)
+
     async def on_message_edit(self, before, after):
         await self.bot.wait_until_ready()
         if after.channel.id not in config.spy_channels or after.author.bot:
@@ -77,6 +101,8 @@ class Logs:
         # This usually means that something embedded.
         if before.clean_content == after.clean_content:
             return
+
+        await self.do_spy(after)
 
         log_channel = self.bot.get_channel(config.log_channel)
         msg = "📝 **Message edit**: \n"\
