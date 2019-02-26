@@ -76,7 +76,7 @@ class Logs:
         msg = f"Suspicious message by {message.author.mention} "\
               f"({message.author.id}):"
 
-        invites = self.invite_re.search(message.content.lower())
+        invites = self.invite_re.findall(message.content.lower())
         for invite in invites:
             msg += f"\n- Has invite: https://{invite[0]}"
             alert = True
