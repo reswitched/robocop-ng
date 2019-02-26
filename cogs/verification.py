@@ -217,7 +217,13 @@ class Verification:
             elif any(allow in mcl for allow in sha256_allow):
                 await chan.send(f"{message.author.mention} :no_entry: Close, but incorrect. You're processing your name and discriminator properly, but you're not using the right process. Please re-read the rules carefully and look up any terms you are not familiar with.")
             elif full_name in message.content or str(member.id) in message.content or member.name in message.content or discrim in message.content:
-                await chan.send(f"{message.author.mention} :no_entry: Incorrect. You need to do something *specific* with your name and discriminator instead of just posting it. Please re-read the rules carefully and look up any terms you are not familiar with.")
+                no_text = ":no_entry: Incorrect. You need to do something *specific* with your name and discriminator instead of just posting it. Please re-read the rules carefully and look up any terms you are not familiar with."
+                rand_num = random.randint(1, 100)
+                if rand_num == 42:
+                    no_text = "you're doing it wrong"
+                elif rand_num == 43:
+                    no_text = "ugh, wrong, read the rules."
+                await chan.send(f"{message.author.mention} {no_text}")
 
     async def on_message(self, message):
         if message.author.bot:
