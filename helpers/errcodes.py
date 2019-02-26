@@ -707,7 +707,7 @@ switch_known_errcodes = {
 
     # By Ave
 
-    0x0: "Generic error, is thrown when you downgrade between key versions without initialization / deleting system save files.\n\nTo recover from this issue: from this delete system all save files except 80...120.",
+    0x0: "Thrown when you downgrade between major/key versions (7.0.x -> 6.2.0, 6.2.0 -> 6.1.0 etc) without initialization ( deleting system save files).\n\nTo recover from this issue: Delete system all save files except 80...120. Keep in mind that this will effectively be a factory reset.",
 }
 
 switch_known_errcode_ranges = {
