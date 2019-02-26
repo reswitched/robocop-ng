@@ -45,9 +45,11 @@ staff_role_ids = [364647829248933888,  # Team role in ReSwitched
 
 # Various log channels used to log bot and guild's activity
 # You can use same channel for multiple log types
+# Spylog channel logs suspicious messages or messages by members under watch
 log_channel = 290958160414375946  # server-logs in ReSwitched
 botlog_channel = 529070282409771048  # bot-logs channel in ReSwitched
 modlog_channel = 542114169244221452  # mod-logs channel in ReSwitched
+spylog_channel = 548304839294189579  # spy channel in ReSwitched
 welcome_channel = 326416669058662401  # newcomers channel in ReSwitched
 
 # These channel entries are used to determine which roles will be given
