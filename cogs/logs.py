@@ -82,7 +82,7 @@ class Logs:
             alert = True
 
         if alert:
-            spy_channel = self.bot.get_channel(548304839294189579)
+            spy_channel = self.bot.get_channel(config.spylog_channel)
             await spy_channel.send(msg)
 
     async def on_message(self, message):
