@@ -1,10 +1,11 @@
 import datetime
 
-# Basic bot config
+# Basic bot config, insert your token here, update description if you want
 prefixes = [".", "!"]
 token = "token-goes-here"
 bot_description = "Robocop-NG, the moderation bot of ReSwitched."
 
+# If you forked robocop-ng, put your repo here
 source_url = "https://github.com/aveao/robocop-ng"
 rules_url = "https://reswitched.team/discord/#rules"
 
@@ -14,41 +15,62 @@ embed_desc = "Robocop-NG is developed by [Ave](https://github.com/aveao)"\
              "of Robocop.\nRobocop is based on Kurisu by 916253 and ihaveamac."
 
 
-# Minimum account age required to join the discord
+# Minimum account age required to join the guild
+# If user's account creation is shorter than the time delta given here
+# then user will be kicked and informed
 min_age = datetime.timedelta(minutes=15)
 
+# The bot will only work in these guilds
 guild_whitelist = [
-    526372255052201993,  # NotSwitched discord
     269333940928512010  # ReSwitched discord
 ]
 
 # Named roles to be used with .approve and .revoke
-# The defaults are for NotSwitched
+# Example: .approve User hacker
 named_roles = {
-    "community": 526378381839695872,
-    "hacker": 526471781184176139,
-    "participant": 526378358129557506
+    "community": 420010997877833731,
+    "hacker": 364508795038072833,
+    "participant": 434353085926866946
 }
 
-bot_manager_role_id = 526372554081042462  # Bot management role in NotSwitched
-staff_role_ids = [526384077679624192,  # Team role in NotSwitched
-                  526372582455508992,  # Mod role in NotSwitched
-                  526372554081042462,  # Bot management role in NotSwitched
-                  526383985430102016]  # Wizard role in NotSwitched
+# The bot manager and staff roles
+# Bot manager can run eval, exit and other destructive commands
+# Staff can run administrative commands
+bot_manager_role_id = 466447265863696394  # Bot management role in ReSwitched
+staff_role_ids = [364647829248933888,  # Team role in ReSwitched
+                  360138431524765707,  # Mod role in ReSwitched
+                  466447265863696394,  # Bot management role in ReSwitched
+                  360138163156549632,  # Admin role in ReSwitched
+                  287289529986187266]  # Wizard role in ReSwitched
 
-log_channel = 526377735908491284  # Log channel in NotSwitched
-botlog_channel = 529070401704296460  # Botlog channel in NotSwitched
-modlog_channel = 542114169244221452  # #mod-logs channel in ReSwitched
-welcome_channel = 526372470752673792  # newcomers channel in NotSwitched
+# Various log channels used to log bot and guild's activity
+# You can use same channel for multiple log types
+log_channel = 290958160414375946  # server-logs in ReSwitched
+botlog_channel = 529070282409771048  # bot-logs channel in ReSwitched
+modlog_channel = 542114169244221452  # mod-logs channel in ReSwitched
+welcome_channel = 326416669058662401  # newcomers channel in ReSwitched
 
-community_channels = [526378423468425236]  # Channels requiring community role
-general_channels = [526372255052201995]  # Channels everyone can access
+# These channel entries are used to determine which roles will be given
+# access when we unmute on them
+general_channels = [420029476634886144,
+                    414949821003202562,
+                    383368936466546698,
+                    343244421044633602,
+                    491316901692178432,
+                    539212260350885908]  # Channels everyone can access
+community_channels = [269333940928512010,
+                      438839875970662400,
+                      404722395845361668,
+                      435687501068501002,
+                      286612533757083648]  # Channels requiring community role
 
-mute_role = 526500080879140874  # Mute role in NotSwitched
+# Mute role is applied to users when they're muted
+# As we no longer have mute role on ReSwitched, I set it to 0 here
+mute_role = 0  # Mute role in ReSwitched
 
 # Channels that will be cleaned every minute/hour
 minutely_clean_channels = []
-hourly_clean_channels = [539212260350885908]  # ReSwitched bot-cmds
+hourly_clean_channels = []
 
 # Edited and deletes messages in these channels will be logged
 spy_channels = general_channels
