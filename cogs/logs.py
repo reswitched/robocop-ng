@@ -19,7 +19,7 @@ class Logs:
         # All lower case, no spaces, nothing non-alphanumeric
         self.susp_words = ["sx", "tx", "reinx", "tinfoil", "dz", "goldleaf",
                            "nsp", "xci", "nut", "doge", "cdnsp"]
-        self.ok_words = ["nspwn", "hblnsp"]
+        self.ok_words = ["nspwn", "hblnsp", "exefs"]
 
     async def on_member_join(self, member):
         await self.bot.wait_until_ready()
