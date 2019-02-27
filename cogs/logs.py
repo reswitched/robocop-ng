@@ -14,6 +14,7 @@ class Logs:
         self.bot = bot
         self.invite_re = re.compile(r"((discord\.gg|discordapp\.com/"
                                     r"+invite)/+[a-zA-Z0-9-]+)")
+        self.name_re = re.compile(r"[a-zA-Z0-9].*")
 
     async def on_member_join(self, member):
         await self.bot.wait_until_ready()
@@ -84,6 +85,17 @@ class Logs:
         if alert:
             spy_channel = self.bot.get_channel(config.spylog_channel)
             await spy_channel.send(msg)
+
+    async def do_nickcheck(self, message):
+        compliant = self.name_re.fullmatch(message.author.display_name)
+        if compliant:
+            return
+
+        msg = f"R11 violating name by {message.author.mention} "\
+              f"({message.author.id})."
+
+        spy_channel = self.bot.get_channel(config.spylog_channel)
+        await spy_channel.send(msg)
 
     async def on_message(self, message):
         await self.bot.wait_until_ready()
