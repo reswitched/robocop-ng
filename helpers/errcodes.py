@@ -707,7 +707,7 @@ switch_known_errcodes = {
 
     # By Ave
 
-    0x0: "Thrown when you downgrade between major/key versions (7.0.x -> 6.2.0, 6.2.0 -> 6.1.0 etc) without initialization (deleting system save files).\n\nTo recover from this issue: Delete system all save files except 80...120. Keep in mind that this will effectively be a factory reset.",
+    0x0: "Happens in various situations, not necessarily an error, but still prevents booting.\n\nIf you got this because you downgraded, it's because you downgraded between major/key versions (7.0.x -> 6.2.0, 6.2.0 -> 6.1.0 etc) without console initialization (deleting system save files).\n\nTo recover from that: Delete system all save files except 80...120. Keep in mind that this will effectively be a factory reset.",
 }
 
 switch_known_errcode_ranges = {
