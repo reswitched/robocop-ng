@@ -18,7 +18,7 @@ class Logs:
         self.clean_re = re.compile(r'[\W_]+', re.UNICODE)
         # All lower case, no spaces, nothing non-alphanumeric
         self.susp_words = ["sx", "tx", "reinx", "tinfoil", "dz", "goldleaf",
-                           "nsp", "xci", "nut", "doge", "cdnsp"]
+                           "nsp", "xci", "nut", "doge", "cdnsp", "lithium"]
         self.ok_words = ["nspwn", "hblnsp", "exefs"]
 
     async def on_member_join(self, member):
