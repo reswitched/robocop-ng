@@ -15,6 +15,10 @@ class Logs:
         self.invite_re = re.compile(r"((discord\.gg|discordapp\.com/"
                                     r"+invite)/+[a-zA-Z0-9-]+)")
         self.name_re = re.compile(r"[a-zA-Z0-9].*")
+        self.clean_re = re.compile(r'[\W_]+', re.UNICODE)
+        # All lower case, no spaces, nothing non-alphanumeric
+        self.susp_words = ["sxos", "reinx", "tinfoil", "dz", "goldleaf",
+                           "nsp", "xci"]
 
     async def on_member_join(self, member):
         await self.bot.wait_until_ready()
@@ -74,7 +78,8 @@ class Logs:
 
     async def do_spy(self, message):
         alert = False
-        msg = f"Suspicious message by {message.author.mention} "\
+        cleancont = self.clean_re.sub('', message.content).lower()
+        msg = f"🚨 Suspicious message by {message.author.mention} "\
               f"({message.author.id}):"
 
         invites = self.invite_re.findall(message.content.lower())
@@ -82,7 +87,13 @@ class Logs:
             msg += f"\n- Has invite: https://{invite[0]}"
             alert = True
 
+        for susp_word in self.susp_words:
+            if susp_word in cleancont:
+                msg += f"\n- Contains suspicious word: `{susp_word}`"
+                alert = True
+
         if alert:
+            msg += f"\n\nJump: <{message.jump_url}>"
             spy_channel = self.bot.get_channel(config.spylog_channel)
             await spy_channel.send(msg)
 
