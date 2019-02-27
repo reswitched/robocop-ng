@@ -30,7 +30,8 @@ class Logs:
         age = member.joined_at - member.created_at
         if age < config.min_age:
             try:
-                await member.send("Your account is too new to join ReSwitched."
+                await member.send(f"Your account is too new to "
+                                  f"join {member.guild.name}."
                                   " Please try again later.")
                 sent = True
             except discord.errors.Forbidden:
