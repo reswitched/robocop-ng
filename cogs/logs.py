@@ -17,8 +17,9 @@ class Logs:
         self.name_re = re.compile(r"[a-zA-Z0-9].*")
         self.clean_re = re.compile(r'[\W_]+', re.UNICODE)
         # All lower case, no spaces, nothing non-alphanumeric
-        self.susp_words = ["sxos", "reinx", "tinfoil", "dz", "goldleaf",
-                           "nsp", "xci"]
+        self.susp_words = ["sx", "tx", "reinx", "tinfoil", "dz", "goldleaf",
+                           "nsp", "xci", "nut", "doge", "cdnsp"]
+        self.ok_words = ["nspwn", "hblnsp"]
 
     async def on_member_join(self, member):
         await self.bot.wait_until_ready()
@@ -89,7 +90,8 @@ class Logs:
             alert = True
 
         for susp_word in self.susp_words:
-            if susp_word in cleancont:
+            if susp_word in cleancont and\
+                    not any(ok_word in cleancont for ok_word in self.ok_words):
                 msg += f"\n- Contains suspicious word: `{susp_word}`"
                 alert = True
 
