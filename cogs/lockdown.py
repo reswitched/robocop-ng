@@ -36,11 +36,12 @@ class Lockdown:
             channel = ctx.channel
         log_channel = self.bot.get_channel(config.modlog_channel)
 
-        if channel.id in config.community_channels:
-            roles = [config.named_roles["community"],
-                     config.named_roles["hacker"]]
-        else:
-            roles = [config.named_roles["participant"]]
+        for key, lockdown_conf in config.lockdown_configs.items():
+            if channel.id in lockdown_conf["channels"]:
+                roles = lockdown_conf["roles"]
+
+        if roles is None:
+            roles = config.lockdown_configs["default"]["roles"]
 
         for role in roles:
             await self.set_sendmessage(channel, role, False, ctx.author)
@@ -68,11 +69,12 @@ class Lockdown:
             channel = ctx.channel
         log_channel = self.bot.get_channel(config.modlog_channel)
 
-        if ctx.channel.id in config.community_channels:
-            roles = [config.named_roles["community"],
-                     config.named_roles["hacker"]]
-        else:
-            roles = [config.named_roles["participant"]]
+        for key, lockdown_conf in config.lockdown_configs.items():
+            if channel.id in lockdown_conf["channels"]:
+                roles = lockdown_conf["roles"]
+
+        if roles is None:
+            roles = config.lockdown_configs["default"]["roles"]
 
         await self.unlock_for_staff(channel, ctx.author)
 
