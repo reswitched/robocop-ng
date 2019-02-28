@@ -89,3 +89,7 @@ hourly_clean_channels = []
 
 # Edited and deletes messages in these channels will be logged
 spy_channels = general_channels
+
+# Channels and roles where users can pin messages
+allowed_pin_channels = []
+allowed_pin_roles = []
