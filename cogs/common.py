@@ -5,9 +5,9 @@ import humanize
 import time
 import math
 import parsedatetime
+from discord.ext.commands import Cog
 
-
-class Common:
+class Common(Cog):
     def __init__(self, bot):
         self.bot = bot
 

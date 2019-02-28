@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord.ext.commands import Cog
 import asyncio
 import config
 import random
@@ -107,7 +108,7 @@ welcome_footer = (
 hidden_term_line = ' • When you have finished reading all of the rules, send a message in this channel that includes the SHA1 hash of your discord "name#discriminator" (for example, User#1234), and we\'ll grant you access to the other channels. You can find your "name#discriminator" (your username followed by a ‘#’ and four numbers) under the discord channel list.'
 
 
-class Verification:
+class Verification(Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -225,6 +226,7 @@ class Verification:
                     no_text = "ugh, wrong, read the rules."
                 await chan.send(f"{message.author.mention} {no_text}")
 
+    @Cog.listener()
     async def on_message(self, message):
         if message.author.bot:
             return
@@ -235,6 +237,7 @@ class Verification:
             chan = self.bot.get_channel(message.channel)
             await chan.send("💢 I don't have permission to do this.")
 
+    @Cog.listener()
     async def on_message_edit(self, before, after):
         if after.author.bot:
             return

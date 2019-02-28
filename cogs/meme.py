@@ -1,12 +1,13 @@
 import random
 import discord
 from discord.ext import commands
+from discord.ext.commands import Cog
 import math
 import platform
 from helpers.checks import check_if_staff_or_ot
 
 
-class Meme:
+class Meme(Cog):
     """
     Meme commands.
     """

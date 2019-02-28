@@ -1,9 +1,9 @@
 import discord
 import config
 from discord.ext import commands
+from discord.ext.commands import Cog
 
-
-class Links:
+class Links(Cog):
     """
     Commands for easily linking to projects.
     """

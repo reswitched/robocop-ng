@@ -1,11 +1,11 @@
 import discord
+from discord.ext.commands import Cog
 import json
 import re
 import config
 from helpers.restrictions import get_user_restrictions
 
-
-class Logs:
+class Logs(Cog):
     """
     Logs join and leave messages, bans and unbans, and member changes.
     """
@@ -21,6 +21,7 @@ class Logs:
                            "nsp", "xci", "nut", "doge", "cdnsp", "lithium"]
         self.ok_words = ["nspwn", "hblnsp", "exefs"]
 
+    @Cog.listener()
     async def on_member_join(self, member):
         await self.bot.wait_until_ready()
         log_channel = self.bot.get_channel(config.log_channel)
@@ -111,6 +112,7 @@ class Logs:
         spy_channel = self.bot.get_channel(config.spylog_channel)
         await spy_channel.send(msg)
 
+    @Cog.listener()
     async def on_message(self, message):
         await self.bot.wait_until_ready()
         if message.channel.id not in config.spy_channels:
@@ -118,6 +120,7 @@ class Logs:
 
         await self.do_spy(message)
 
+    @Cog.listener()
     async def on_message_edit(self, before, after):
         await self.bot.wait_until_ready()
         if after.channel.id not in config.spy_channels or after.author.bot:
@@ -143,6 +146,7 @@ class Logs:
 
         await log_channel.send(msg)
 
+    @Cog.listener()
     async def on_message_delete(self, message):
         await self.bot.wait_until_ready()
         if message.channel.id not in config.spy_channels or message.author.bot:
@@ -161,6 +165,7 @@ class Logs:
 
         await log_channel.send(msg)
 
+    @Cog.listener()
     async def on_member_remove(self, member):
         await self.bot.wait_until_ready()
         log_channel = self.bot.get_channel(config.log_channel)
@@ -169,6 +174,7 @@ class Logs:
               f"🏷 __User ID__: {member.id}"
         await log_channel.send(msg)
 
+    @Cog.listener()
     async def on_member_ban(self, guild, member):
         await self.bot.wait_until_ready()
         log_channel = self.bot.get_channel(config.modlog_channel)
@@ -177,6 +183,7 @@ class Logs:
               f"🏷 __User ID__: {member.id}"
         await log_channel.send(msg)
 
+    @Cog.listener()
     async def on_member_unban(self, guild, user):
         await self.bot.wait_until_ready()
         log_channel = self.bot.get_channel(config.modlog_channel)
@@ -194,6 +201,7 @@ class Logs:
         #             json.dump(timebans, f)
         await log_channel.send(msg)
 
+    @Cog.listener()
     async def on_member_update(self, member_before, member_after):
         await self.bot.wait_until_ready()
         msg = ""

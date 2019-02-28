@@ -1,12 +1,13 @@
 import discord
 from discord.ext import commands
+from discord.ext.commands import Cog
 import traceback
 import inspect
 import re
 from helpers.checks import check_if_bot_manager
 
 
-class Admin:
+class Admin(Cog):
     def __init__(self, bot):
         self.bot = bot
         self.last_eval_result = None
