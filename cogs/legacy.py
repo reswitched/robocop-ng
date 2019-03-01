@@ -1,7 +1,7 @@
 from discord.ext import commands
+from discord.ext.commands import Cog
 
-
-class Legacy:
+class Legacy(Cog):
     def __init__(self, bot):
         self.bot = bot
 

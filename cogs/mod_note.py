@@ -1,10 +1,11 @@
 import discord
 from discord.ext import commands
+from discord.ext.commands import Cog
 from helpers.checks import check_if_staff
 from helpers.userlogs import userlog
 
 
-class ModNote:
+class ModNote(Cog):
     def __init__(self, bot):
         self.bot = bot
 

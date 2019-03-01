@@ -4,12 +4,13 @@ import time
 import discord
 import traceback
 from discord.ext import commands
+from discord.ext.commands import Cog
 from helpers.robocronp import get_crontab, delete_job
 from helpers.restrictions import remove_restriction
 from helpers.checks import check_if_staff
 
 
-class Robocronp:
+class Robocronp(Cog):
     def __init__(self, bot):
         self.bot = bot
         bot.loop.create_task(self.minutely())

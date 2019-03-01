@@ -3,10 +3,11 @@ import asyncio
 import time
 from datetime import datetime
 from discord.ext import commands
+from discord.ext.commands import Cog
 from helpers.robocronp import add_job, get_crontab
 
 
-class Remind:
+class Remind(Cog):
     def __init__(self, bot):
         self.bot = bot
 

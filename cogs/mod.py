@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord.ext.commands import Cog
 import config
 from helpers.checks import check_if_staff, check_if_bot_manager
 from helpers.userlogs import userlog
@@ -7,7 +8,7 @@ from helpers.restrictions import add_restriction, remove_restriction
 import io
 
 
-class Mod:
+class Mod(Cog):
     def __init__(self, bot):
         self.bot = bot
 
