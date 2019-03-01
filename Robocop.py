@@ -58,7 +58,8 @@ initial_extensions = ['cogs.common',
                       'cogs.links',
                       'cogs.remind',
                       'cogs.robocronp',
-                      'cogs.meme']
+                      'cogs.meme',
+                      'cogs.pin']
 
 bot = commands.Bot(command_prefix=get_prefix,
                    description=config.bot_description, pm_help=True)

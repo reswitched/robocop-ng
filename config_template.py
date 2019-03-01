@@ -66,6 +66,19 @@ community_channels = [269333940928512010,
                       435687501068501002,
                       286612533757083648]  # Channels requiring community role
 
+# Controls which roles are blocked during lockdown
+lockdown_configs = {
+    # Used as a default value for channels without a config
+    "default": {
+        "channels": general_channels,
+        "roles": [named_roles["participant"]]
+    },
+    "community": {
+        "channels": community_channels,
+        "roles": [named_roles["community"], named_roles["hacker"]]
+    }
+}
+
 # Mute role is applied to users when they're muted
 # As we no longer have mute role on ReSwitched, I set it to 0 here
 mute_role = 0  # Mute role in ReSwitched
@@ -76,3 +89,7 @@ hourly_clean_channels = []
 
 # Edited and deletes messages in these channels will be logged
 spy_channels = general_channels
+
+# Channels and roles where users can pin messages
+allowed_pin_channels = []
+allowed_pin_roles = []
