@@ -40,7 +40,8 @@ def get_prefix(bot, message):
 
 wanted_jsons = ["data/restrictions.json",
                 "data/robocronptab.json",
-                "data/userlog.json"]
+                "data/userlog.json",
+                "data/invites.json"]
 
 initial_extensions = ['cogs.common',
                       'cogs.admin',
@@ -59,7 +60,8 @@ initial_extensions = ['cogs.common',
                       'cogs.remind',
                       'cogs.robocronp',
                       'cogs.meme',
-                      'cogs.pin']
+                      'cogs.pin',
+                      'cogs.invites']
 
 bot = commands.Bot(command_prefix=get_prefix,
                    description=config.bot_description, pm_help=True)
