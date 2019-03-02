@@ -17,7 +17,7 @@ class Logs(Cog):
         self.name_re = re.compile(r"[a-zA-Z0-9].*")
         self.clean_re = re.compile(r'[\W_]+', re.UNICODE)
         # All lower case, no spaces, nothing non-alphanumeric
-        self.susp_words = ["sx", "tx", "reinx", "tinfoil", "dz", "goldleaf",
+        self.susp_words = ["sx", "tx", "rei", "tinfoil", "dz", "goldleaf",
                            "nsp", "xci", "nut", "doge", "cdnsp", "lithium"]
         self.ok_words = ["nspwn", "hblnsp", "exefs"]
 
@@ -80,6 +80,9 @@ class Logs(Cog):
             await log_channel.send(msg)
 
     async def do_spy(self, message):
+        if message.author.bot:
+            return
+
         alert = False
         cleancont = self.clean_re.sub('', message.content).lower()
         msg = f"🚨 Suspicious message by {message.author.mention} "\

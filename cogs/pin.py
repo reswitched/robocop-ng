@@ -1,15 +1,18 @@
 import config
-import pprint
+from discord.ext.commands import Cog
 from discord.enums import MessageType
 
-class Pin:
+
+class Pin(Cog):
     """
     Allow users to pin things
     """
+
     def __init__(self, bot):
         self.bot = bot
 
     # Use raw_reaction to allow pinning old messages.
+    @Cog.listener()
     async def on_raw_reaction_add(self, payload):
         # TODO: handle more than 50 pinned message
         # BODY: If there are more than 50 pinned messages,
@@ -57,8 +60,6 @@ class Pin:
                 # Add a Pin reaction so we remember that the message is pinned
                 await target_msg.add_reaction("📌")
 
-                # Send custom pinned message
-                await target_chan.send("Pinned!")
 
 def check(msg):
     return msg.type is MessageType.pins_add

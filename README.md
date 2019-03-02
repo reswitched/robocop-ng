@@ -81,12 +81,10 @@ Secondary goal is adding new features:
 
 - [ ] Purge: On purge, send logs in form of txt file to server logs
 - [ ] New verification feature: Using log module from akbbot for logging attempts and removing old attempts
-- [ ] New moderation feature: watch-unwatch (using log module from akbbot)
 - [ ] New feature: Modmail
 - [ ] New feature: Submiterr (relies on modmail)
 - [ ] New feature: Highlights (problematic words automatically get posted to modmail channel, relies on modmail)
 - [ ] Feature creep: Shortlink completion (gl/ao/etc)
-- [ ] Feature creep: Pleroma embedding
 - [ ] New moderation feature: timelock (channel lockdown with time, relies on robocronp)
 
 <details>
@@ -104,8 +102,10 @@ Secondary goal is adding new features:
 - [x] New moderation feature: User notes
 - [x] New moderation feature: Reaction removing features (thanks misson20000!)
 - [x] New moderation feature: User nickname change
+- [x] New moderation feature: watch-unwatch
+- [x] New moderation feature: tracking suspicious keywords
+- [x] New moderation feature: tracking invites posted
 - [x] New self-moderation feature: .mywarns
-- [x] Remove sh, remove risky stuff from eval
 
 </p>
 </details>
