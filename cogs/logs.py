@@ -28,6 +28,54 @@ class Logs(Cog):
         # We use this a lot, might as well get it once
         escaped_name = self.bot.escape_message(member)
 
+        # Attempt to correlate the user joining with an invite
+        with open("data/invites.json", "r") as f:
+            invites = json.load(f)
+
+        real_invites = await member.guild.invites()
+
+        # Add unknown active invites. Can happen if invite was manually created
+        for invite in real_invites:
+            if invite.id not in invites:
+                invites[invite.id] = {
+                    "uses": 0,
+                    "url": invite.url,
+                    "max_uses": invite.max_uses,
+                    "code": invite.code
+                }
+
+        probable_invites_used = []
+        items_to_delete = []
+        # Look for invites whose usage increased since last lookup
+        for id, invite in invites.items():
+            real_invite = next((x for x in real_invites if x.id == id), None)
+
+            if real_invite is None:
+                # Invite does not exist anymore. Was either revoked manually
+                # or the final use was used up
+                probable_invites_used.append(invite)
+                items_to_delete.append(id)
+            elif invite["uses"] < real_invite.uses:
+                probable_invites_used.append(invite)
+                invite["uses"] = real_invite.uses
+
+        # Delete used up invites
+        for id in items_to_delete:
+            del invites[id]
+
+        # Save invites data.
+        with open("data/invites.json", "w") as f:
+            f.write(json.dumps(invites))
+
+        # Prepare the invite correlation message
+        if len(probable_invites_used) == 1:
+            invite_used = probable_invites_used[0]["url"]
+        elif len(probable_invites_used) == 0:
+            invite_used = "Unknown"
+        else:
+            invite_used = "One of: "
+            invite_used += ", ".join([x["code"] for x in probable_invites_used])
+
         # Check if user account is older than 15 minutes
         age = member.joined_at - member.created_at
         if age < config.min_age:
@@ -39,10 +87,12 @@ class Logs(Cog):
             except discord.errors.Forbidden:
                 sent = False
             await member.kick(reason="Too new")
+
             msg = f"🚨 **Account too new**: {member.mention} | "\
                   f"{escaped_name}\n"\
                   f"🗓 __Creation__: {member.created_at}\n"\
                   f"🕓 Account age: {age}\n"\
+                  f"✉  Joined with: {invite_used}\n"\
                   f"🏷 __User ID__: {member.id}"
             if not sent:
                 msg += "\nThe user has disabled direct messages,"\
@@ -53,6 +103,7 @@ class Logs(Cog):
               f"{escaped_name}\n"\
               f"🗓 __Creation__: {member.created_at}\n"\
               f"🕓 Account age: {age}\n"\
+              f"✉  Joined with: {invite_used}\n"\
               f"🏷 __User ID__: {member.id}"
 
         # Handles user restrictions

@@ -46,6 +46,7 @@ staff_role_ids = [364647829248933888,  # Team role in ReSwitched
 # Various log channels used to log bot and guild's activity
 # You can use same channel for multiple log types
 # Spylog channel logs suspicious messages or messages by members under watch
+# Invites created with .invite will direct to the welcome channel.
 log_channel = 290958160414375946  # server-logs in ReSwitched
 botlog_channel = 529070282409771048  # bot-logs channel in ReSwitched
 modlog_channel = 542114169244221452  # mod-logs channel in ReSwitched
@@ -93,3 +94,6 @@ spy_channels = general_channels
 # Channels and roles where users can pin messages
 allowed_pin_channels = []
 allowed_pin_roles = []
+
+# Used for the pinboard. Leave empty if you don't wish for a gist pinboard.
+github_oauth_token = ""
