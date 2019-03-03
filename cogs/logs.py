@@ -37,7 +37,12 @@ class Logs(Cog):
         # Add unknown active invites. Can happen if invite was manually created
         for invite in real_invites:
             if invite.id not in invites:
-                invites[invite.id] = { "uses": 0, "url": invite.url, "max_uses": invite.max_uses, "code": invite.code }
+                invites[invite.id] = {
+                    "uses": 0,
+                    "url": invite.url,
+                    "max_uses": invite.max_uses,
+                    "code": invite.code
+                }
 
         probable_invites_used = []
         items_to_delete = []
@@ -68,7 +73,8 @@ class Logs(Cog):
         elif len(probable_invites_used) == 0:
             invite_used = "Unknown"
         else:
-            invite_used = "One of: " + ", ".join([x["code"] for x in probable_invites_used])
+            invite_used = "One of: "
+            invite_used += ", ".join([x["code"] for x in probable_invites_used])
 
         # Check if user account is older than 15 minutes
         age = member.joined_at - member.created_at
