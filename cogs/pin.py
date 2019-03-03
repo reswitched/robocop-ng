@@ -103,6 +103,15 @@ class Pin(Cog):
                 # Avoid staying "stuck" waiting for the pin message if message
                 # was already manually pinned
                 if not target_msg.pinned:
+                    # If we already have 50 pins, we should unpin the oldest.
+                    # We should avoid unpinning the pinboard.
+                    pins = await target_chan.pins()
+                    if len(pins) >= 50:
+                        for msg in reversed(pins):
+                            if not self.is_pinboard(msg):
+                                await msg.unpin()
+                                break
+
                     # Wait for the automated "Pinned" message so we can delete it
                     waitable = self.bot.wait_for('message', check=check)
 
