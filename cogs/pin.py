@@ -1,4 +1,5 @@
 import config
+from discord.ext import commands
 from discord.ext.commands import Cog
 from discord.enums import MessageType
 from discord import Embed
@@ -15,11 +16,14 @@ class Pin(Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    def is_pinboard(self, msg):
+        return msg.author == self.bot.user and len(msg.embeds) > 0 and msg.embeds[0].title == "Pinboard"
+
     async def get_pinboard(self, gh, channel):
         # Find pinboard pin
         pinboard_msg = None
         for msg in reversed(await channel.pins()):
-            if msg.author == self.bot.user and len(msg.embeds) > 0 and msg.embeds[0].title == "Pinboard":
+            if self.is_pinboard(msg):
                 # Found pinboard, return content and gist id
                 id = msg.embeds[0].url.split("/")[-1]
                 data = await gh.getitem(f"/gists/{id}")
@@ -42,6 +46,26 @@ class Pin(Cog):
             content += "- " + data + "\n"
 
             await gh.patch(f"/gists/{id}", data={"files": {"pinboard.md": {"content": content}}})
+
+    @commands.command()
+    @commands.guild_only()
+    @commands.check(check_if_collaborator)
+    @commands.check(check_if_pin_channel)
+    async def unpin(self, ctx, idx: int):
+        """Unpins a pinned message."""
+        if idx <= 50:
+            # Get message by pin idx
+            target_msg = (await ctx.message.channel.pins())[idx]
+        else:
+            # Get message by ID
+            target_msg = await ctx.message.channel.get_message(idx)
+        if self.is_pinboard(target_msg):
+            await ctx.send("Cannot unpin pinboard!")
+        else:
+            await target_msg.unpin()
+            await target_msg.remove_reaction("📌", self.bot.user)
+            await ctx.send(f"Unpinned {target_msg.jump_url}")
+            # TODO: Remove from pinboard?
 
     # Use raw_reaction to allow pinning old messages.
     @Cog.listener()
