@@ -25,7 +25,7 @@ class Logs(Cog):
                            "nut", "doge", "cdnsp"]  # cdn dlers/dumpers
         susp_hellgex = "|".join([r"\W*".join(list(word)) for
                                  word in self.susp_words])
-        self.susp_hellgex = re.compile(susp_hellgex)
+        self.susp_hellgex = re.compile(susp_hellgex, re.IGNORECASE)
 
         self.ok_words = ["nspwn", "hblnsp", "exefs"]
 
