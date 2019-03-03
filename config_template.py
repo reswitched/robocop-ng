@@ -94,3 +94,6 @@ spy_channels = general_channels
 # Channels and roles where users can pin messages
 allowed_pin_channels = []
 allowed_pin_roles = []
+
+# Used for the pinboard. Leave empty if you don't wish for a gist pinboard.
+github_oauth_token = ""

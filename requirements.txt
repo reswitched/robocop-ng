@@ -4,3 +4,5 @@ asyncio
 python-dateutil
 humanize
 parsedatetime
+aiohttp
+gidgethub
