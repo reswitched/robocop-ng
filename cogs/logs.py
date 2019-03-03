@@ -153,7 +153,13 @@ class Logs(Cog):
         if alert:
             msg += f"\n\nJump: <{message.jump_url}>"
             spy_channel = self.bot.get_channel(config.spylog_channel)
-            await spy_channel.send(msg)
+
+            # Show a message embed
+            embed = discord.Embed(description=message.content)
+            embed.set_author(name=message.author.display_name,
+                             icon_url=message.author.avatar_url)
+
+            await spy_channel.send(msg, embed=embed)
 
     async def do_nickcheck(self, message):
         compliant = self.name_re.fullmatch(message.author.display_name)
