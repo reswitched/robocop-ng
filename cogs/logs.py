@@ -5,6 +5,7 @@ import re
 import config
 from helpers.restrictions import get_user_restrictions
 
+
 class Logs(Cog):
     """
     Logs join and leave messages, bans and unbans, and member changes.
@@ -17,8 +18,11 @@ class Logs(Cog):
         self.name_re = re.compile(r"[a-zA-Z0-9].*")
         self.clean_re = re.compile(r'[\W_]+', re.UNICODE)
         # All lower case, no spaces, nothing non-alphanumeric
-        self.susp_words = ["sx", "tx", "reinx", "tinfoil", "dz", "goldleaf",
-                           "nsp", "xci", "nut", "doge", "cdnsp", "lithium"]
+        self.susp_words = ["sx", "tx", "reinx",  # piracy-enabling cfws
+                           "tinfoil", "dz",  # title managers
+                           "goldleaf", "lithium",  # title managers
+                           "nsp", "xci",  # "backup" formats
+                           "nut", "doge", "cdnsp"]  # cdn dlers/dumpers
         self.ok_words = ["nspwn", "hblnsp", "exefs"]
 
     @Cog.listener()
