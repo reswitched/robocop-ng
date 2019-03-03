@@ -23,6 +23,10 @@ class Logs(Cog):
                            "goldleaf", "lithium",  # title managers
                            "nsp", "xci",  # "backup" formats
                            "nut", "doge", "cdnsp"]  # cdn dlers/dumpers
+        susp_hellgex = "|".join([r"\W*".join(list(word)) for
+                                 word in self.susp_words])
+        self.susp_hellgex = re.compile(susp_hellgex)
+
         self.ok_words = ["nspwn", "hblnsp", "exefs"]
 
     @Cog.listener()
@@ -158,8 +162,13 @@ class Logs(Cog):
             msg += f"\n\nJump: <{message.jump_url}>"
             spy_channel = self.bot.get_channel(config.spylog_channel)
 
+            # Bad Code :tm:, blame retr0id
+            message_clean = message.content.replace("*", "").replace("_", "")
+            regd = self.susp_hellgex.sub(lambda w: "**{}**".format(w.group(0)),
+                                         message_clean)
+
             # Show a message embed
-            embed = discord.Embed(description=message.content)
+            embed = discord.Embed(description=regd)
             embed.set_author(name=message.author.display_name,
                              icon_url=message.author.avatar_url)
 
