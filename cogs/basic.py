@@ -15,6 +15,14 @@ class Basic(Cog):
 
     @commands.guild_only()
     @commands.command()
+    async def communitycount(self, ctx):
+        """Prints the community member count of the server."""
+        community = ctx.guild.get_role(config.named_roles["community"])
+        await ctx.send(f"{ctx.guild.name} has "
+                       f"{len(community.members)} community members!")
+
+    @commands.guild_only()
+    @commands.command()
     async def membercount(self, ctx):
         """Prints the member count of the server."""
         await ctx.send(f"{ctx.guild.name} has "
