@@ -21,13 +21,12 @@ class Logs(Cog):
         self.susp_words = ["sx", "tx", "reinx",  # piracy-enabling cfws
                            "tinfoil", "dz",  # title managers
                            "goldleaf", "lithium",  # title managers
-                           "nsp", "xci",  # "backup" formats
-                           "nut", "doge", "cdnsp"]  # cdn dlers/dumpers
+                           "xci"]  # "backup" format
         susp_hellgex = "|".join([r"\W*".join(list(word)) for
                                  word in self.susp_words])
         self.susp_hellgex = re.compile(susp_hellgex, re.IGNORECASE)
 
-        self.ok_words = ["nspwn", "hblnsp", "exefs"]
+        self.ok_words = []
 
     @Cog.listener()
     async def on_member_join(self, member):
