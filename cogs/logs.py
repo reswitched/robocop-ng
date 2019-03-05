@@ -4,6 +4,7 @@ import json
 import re
 import config
 from helpers.restrictions import get_user_restrictions
+from helpers.checks import check_if_staff
 
 
 class Logs(Cog):
@@ -139,6 +140,9 @@ class Logs(Cog):
 
     async def do_spy(self, message):
         if message.author.bot:
+            return
+
+        if check_if_staff(message):
             return
 
         alert = False
