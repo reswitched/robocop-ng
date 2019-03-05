@@ -15,7 +15,8 @@ class Logs(Cog):
     def __init__(self, bot):
         self.bot = bot
         self.invite_re = re.compile(r"((discord\.gg|discordapp\.com/"
-                                    r"+invite)/+[a-zA-Z0-9-]+)")
+                                    r"+invite)/+[a-zA-Z0-9-]+)",
+                                    re.IGNORECASE)
         self.name_re = re.compile(r"[a-zA-Z0-9].*")
         self.clean_re = re.compile(r'[^a-zA-Z0-9_ ]+', re.UNICODE)
         # All lower case, no spaces, nothing non-alphanumeric
@@ -150,7 +151,7 @@ class Logs(Cog):
         msg = f"🚨 Suspicious message by {message.author.mention} "\
               f"({message.author.id}):"
 
-        invites = self.invite_re.findall(message.content.lower())
+        invites = self.invite_re.findall(message.content)
         for invite in invites:
             msg += f"\n- Has invite: https://{invite[0]}"
             alert = True
