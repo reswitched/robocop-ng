@@ -16,7 +16,7 @@ class Logs(Cog):
         self.invite_re = re.compile(r"((discord\.gg|discordapp\.com/"
                                     r"+invite)/+[a-zA-Z0-9-]+)")
         self.name_re = re.compile(r"[a-zA-Z0-9].*")
-        self.clean_re = re.compile(r'[\W_]+', re.UNICODE)
+        self.clean_re = re.compile(r'[^a-zA-Z0-9_ ]+', re.UNICODE)
         # All lower case, no spaces, nothing non-alphanumeric
         self.susp_words = ["sx", "tx", "reinx",  # piracy-enabling cfws
                            "tinfoil", "dz",  # title managers
