@@ -12,7 +12,12 @@ class Basic:
     async def hello(self, ctx):
         """Says hello. Duh."""
         await ctx.send(f"Hello {ctx.author.mention}!")
-
+        
+    @commands.command(aliases=['es', "piracy"])
+    async def patches(self, ctx):
+        """Yeet"""
+        await ctx.send("For pirated eshop-games you need ES signature patches. As their only purpose is to allow piracy we\'re not providing any help with installation of said patches or pirated games afterwards")
+        
     @commands.guild_only()
     @commands.command()
     async def membercount(self, ctx):
