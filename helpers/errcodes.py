@@ -648,7 +648,7 @@ switch_known_errcodes = {
     0x3E8E7C: 'Error in account login/creation',
     0x3E8EA0: 'Failed connection test',
     0x1F4E7C: '(normal) console ban',
-    0x27EE7C: '(potential) complete account ban', # This error is still super new, needs more informations
+    0x27EE7C: '(potential) complete account ban',  # This error is still super new, needs more informations
     0x36B72B: "Access token expired",
     0x1F486E: "Internet connection lost because the console entered sleep mode.",
     # 0x3E8E89: 'Failed to access Firmware Updates - Often because of DNS!',
@@ -685,25 +685,29 @@ switch_known_errcodes = {
     0x2f37: "Error_CloseHandle",
 
     0xDEADBEEF: "Congrats, you found some hexspeak \n \n https://www.youtube.com/watch?v=DLzxrzFCyOs",
-    
+
     # NFP Errors by HE
-    
+
     0xa073: "NFC is disabled",
     0x16473: "Could not mount tag (invalid tag type?)",
     0x8073: "Device unavailable",
     0x10073: "App area not found",
     0x11073: "Tag corrupted?",
-    
+
     # By XorTroll
-    
+
     0xc87c: "invalid user",
     0xc7e: "mii already exists",
     0xa7e: "full database",
     0x87e: "mii not found",
-    
+
     # By Friedkeenan
-    
+
     0x115b: "HBL stopped loading NROs",
+
+    # By Ave
+
+    0x0: "Happens in various situations, not necessarily an error, but still prevents booting.\n\nIf you got this because you downgraded, it's because you downgraded between major/key versions (7.0.x -> 6.2.0, 6.2.0 -> 6.1.0 etc) without console initialization (deleting system save files).\n\nTo recover from that: Delete system all save files except 80...120. Keep in mind that this will effectively be a factory reset.",
 }
 
 switch_known_errcode_ranges = {
@@ -732,8 +736,8 @@ switch_known_errcode_ranges = {
         [6300, 6399, "Error: Unsupported operation."],
         [6400, 6499, "Error: Permission denied."],
     ],
-    
-    #NIFM Support Page Links
+
+    # NIFM Support Page Links
     110: [
         [2900, 2999, "https://en-americas-support.nintendo.com/app/answers/detail/a_id/22277/p/897"],
         [2000, 2899, "https://en-americas-support.nintendo.com/app/answers/detail/a_id/22263/p/897"],
@@ -743,15 +747,15 @@ switch_known_errcode_ranges = {
 # Game Erros - Strings because Nintendo decided that it would be useless to put them into normal ints ;^)
 # Attention: These need to be formatted -> <errcode>: "<game>: <description>" - Also Nintendo support codes
 switch_game_err = {
-    #Splatoon 2
+    # Splatoon 2
     "2-AAB6A-3400": "Splatoon 2: A kick from online due to exefs edits.",
 
-    #Youtube
+    # Youtube
     "2-ARVHA-0000": "Youtube: Unknown Error",
 }
 
 switch_support_page = {
-    #Nintendo Support Page
+    # Nintendo Support Page
     "2005-0003": "This error code may indicate an issue related to the microSD card being used. (https://en-americas-support.nintendo.com/app/answers/detail/a_id/22393/p/897)",
     "2110-1100": "This error code typically indicates that the Nintendo Switch console was unable to detect a network which matches any of the saved networks within the Internet settings. (https://en-americas-support.nintendo.com/app/answers/detail/a_id/22780/p/897)",
     "2618-0516": "This error code generally indicates that your network is not optimal for peer to peer connections, likely due to your network's NAT type. (https://en-americas-support.nintendo.com/app/answers/detail/a_id/25855/p/897)",
