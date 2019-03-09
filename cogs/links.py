@@ -35,12 +35,9 @@ class Links:
     async def guide(self, ctx):
         """Link to the guide(s)"""
         await ctx.send("**Generic starter guides:**\n"
-                       "Nintendo Homebrew's Guide: "
-                       "<https://nh-server.github.io/switch-guide/>\n"
                        "AtlasNX's Guide: "
                        "<https://guide.teamatlasnx.com>\n"
-                       "Pegaswitch Guide: <https://switch.hacks.guide/> "
-                       "(outdated for anything but Pegaswitch/3.0.0)\n\n"
+                       "\n"
                        "**Specific guides:**\n"
                        "Manually Updating/Downgrading (with HOS): "
                        "<https://guide.sdsetup.com/#/manualupdate>\n"
