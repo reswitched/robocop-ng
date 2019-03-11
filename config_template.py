@@ -6,7 +6,7 @@ token = "token-goes-here"
 bot_description = "Robocop-NG, the moderation bot of ReSwitched."
 
 # If you forked robocop-ng, put your repo here
-source_url = "https://github.com/aveao/robocop-ng"
+source_url = "https://github.com/reswitched/robocop-ng"
 rules_url = "https://reswitched.team/discord/#rules"
 
 # The bot description to be used in .robocop embed
