@@ -6,6 +6,7 @@ from helpers.checks import check_if_staff, check_if_bot_manager
 from helpers.userlogs import userlog
 from helpers.restrictions import add_restriction, remove_restriction
 import io
+import os
 
 
 class Mod(Cog):
@@ -309,10 +310,24 @@ class Mod(Cog):
         log_channel = self.bot.get_channel(config.modlog_channel)
         if not channel:
             channel = ctx.channel
-        await channel.purge(limit=limit)
-        msg = f"🗑 **Purged**: {ctx.author.mention} purged {limit} "\
+        purge = await channel.purge(limit=limit)
+        newLimit = len(purge)
+        msg = f"🗑 **Purged**: {ctx.author.mention} purged {newLimit} "\ # More accurate to check for the length of the purged list.
               f"messages in {channel.mention}."
+        # Open purge_list.txt (Or create if doesn't exist)
+        f = open("purge_list.txt","w+")
+        # Loop through all messages in the purged messages
+        for m in purge:
+            mc = str(m.clean_content).encode("utf8")
+            f.write("MSG ID: " + str(m.id) + " | Author Name and Hash: " + str(m.author.name) + "#" + str(m.author.discriminator) + " |  Timestamp: " +str(m.created_at)+" | Message Content: " + str(mc).split("b'",1)[1] +" |\n")
+        # Close stream, commit changes, however you want to call it
+        f.close()
+        file = discord.File("purge_list.txt")
+        # Send File
         await log_channel.send(msg)
+        await log_channel.send(file=file)
+        # Delete file
+        os.remove("purge_list.txt")
 
     @commands.guild_only()
     @commands.check(check_if_staff)
