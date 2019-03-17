@@ -53,7 +53,7 @@ class Admin:
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
     @commands.command(name='eval')
-    async def _eval(self, ctx, *, code: str):
+    async def _eval(self, ctx):
         await ctx.send("Fuck off. This doesn't belong in production code!")
 
     @commands.guild_only()
