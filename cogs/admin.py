@@ -54,55 +54,7 @@ class Admin:
     @commands.check(check_if_bot_manager)
     @commands.command(name='eval')
     async def _eval(self, ctx, *, code: str):
-        """Evaluates some code, bot manager only."""
-        try:
-            code = code.strip('` ')
-
-            env = {
-                'bot': self.bot,
-                'ctx': ctx,
-                'message': ctx.message,
-                'server': ctx.guild,
-                'guild': ctx.guild,
-                'channel': ctx.message.channel,
-                'author': ctx.message.author,
-
-                # modules
-                'discord': discord,
-                'commands': commands,
-
-                # utilities
-                '_get': discord.utils.get,
-                '_find': discord.utils.find,
-
-                # last result
-                '_': self.last_eval_result,
-                '_p': self.previous_eval_code,
-            }
-            env.update(globals())
-
-            self.bot.log.info(f"Evaling {repr(code)}:")
-            result = eval(code, env)
-            if inspect.isawaitable(result):
-                result = await result
-
-            if result is not None:
-                self.last_eval_result = result
-
-            self.previous_eval_code = code
-
-            sliced_message = await self.bot.slice_message(repr(result),
-                                                          prefix="```",
-                                                          suffix="```")
-            for msg in sliced_message:
-                await ctx.send(msg)
-        except:
-            sliced_message = \
-                await self.bot.slice_message(traceback.format_exc(),
-                                             prefix="```",
-                                             suffix="```")
-            for msg in sliced_message:
-                await ctx.send(msg)
+        await ctx.send("Fuck off. This doesn't belong in production code!")
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
