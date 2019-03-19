@@ -112,7 +112,7 @@ class Logs(Cog):
               f"{escaped_name}\n"\
               f"🗓 __Creation__: {member.created_at}\n"\
               f"🕓 Account age: {age}\n"\
-              f"✉  Joined with: {invite_used}\n"\
+              f"✉  Joined with: \<{invite_used}\>\n"\
               f"🏷 __User ID__: {member.id}"
 
         # Handles user restrictions
