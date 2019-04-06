@@ -60,8 +60,12 @@ welcome_rules = (
 
     # 9
     """
-    Absolutely no piracy. Discussion of "backups" or other pirated materials is not permitted, even if you legally own a copy of the game. This is a zero-tolerance, non-negotiable policy, and will be enforced strictly and swiftly.
-     • Absolutely **NO** support will be provided for SX OS or other Team Xecuter ("TX") devices and software.
+    **9.** Absolutely no piracy or related discussion. This includes:
+     • "Backups", even if you legally own a copy of the game.
+     • "Installable" NSPs, XCIs, and NCAs
+     • Signature and ES patches, also known as "sigpatches"
+     • Usage of piracy-focused groups' (Team Xecuter, etc.) hardware and software, such as SX OS.
+    This is a zero-tolerance, non-negotiable policy that is enforced strictly and swiftly, up to and including instant bans without warning.
     """,
 
     # 10
