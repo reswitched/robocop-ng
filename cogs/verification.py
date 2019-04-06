@@ -62,16 +62,13 @@ welcome_rules = (
     """
     Absolutely no piracy or related discussion. This includes:
      • "Backups", even if you legally own a copy of the game.
-     • "Installable" NSPs, XCIs, and NCAs
+     • "Installable" NSPs, XCIs, and NCAs; this **includes** installable homebrew (i.e. on the Home Menu instead of within nx-hbmenu).
      • Signature and ES patches, also known as "sigpatches"
      • Usage of piracy-focused groups' (Team Xecuter, etc.) hardware and software, such as SX OS.
     This is a zero-tolerance, non-negotiable policy that is enforced strictly and swiftly, up to and including instant bans without warning.
     """,
 
     # 10
-    'Installable homebrew NSPs are not supported here. If you are confused about how to set up homebrew properly (via hbl.nsp), it is fine to ask for assistance.',
-
-    # 11
     'The first character of your server nickname should be alphanumeric if you wish to talk in chat.'
 )
 
