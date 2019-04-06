@@ -60,7 +60,7 @@ welcome_rules = (
 
     # 9
     """
-    **9.** Absolutely no piracy or related discussion. This includes:
+    Absolutely no piracy or related discussion. This includes:
      • "Backups", even if you legally own a copy of the game.
      • "Installable" NSPs, XCIs, and NCAs
      • Signature and ES patches, also known as "sigpatches"
