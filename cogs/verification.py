@@ -106,7 +106,7 @@ welcome_footer = (
     """,
 )
 
-hidden_term_line = ' • When you have finished reading all of the rules, send a message in this channel that includes the SHA1 hash of your discord "name#discriminator" (for example, User#1234), and we\'ll grant you access to the other channels. You can find your "name#discriminator" (your username followed by a ‘#’ and four numbers) under the discord channel list.'
+hidden_term_line = ' • When you have finished reading all of the rules, send a message in this channel that includes the SHA1 hash of your discord "name#discriminator" (for example, SHA1(User#1234)), and we\'ll grant you access to the other channels. You can find your "name#discriminator" (your username followed by a ‘#’ and four numbers) under the discord channel list.'
 
 
 class Verification(Cog):
