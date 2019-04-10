@@ -48,10 +48,7 @@ class Links(Cog):
                        "<https://guide.sdsetup.com/usingcfw/manualchoiupgrade>\n"
                        "How to get started developing Homebrew: "
                        "<https://gbatemp.net/threads/"
-                       "tutorial-switch-homebrew-development.507284/>\n"
-                       "Use full RAM in homebrew without installing NSPs: "
-                       "<https://gbatemp.net/threads/use-atmosphere-to-"
-                       "access-full-ram-with-homebrews-without-nsp.521240/>")
+                       "tutorial-switch-homebrew-development.507284/>\n")
 
     @commands.command()
     async def source(self, ctx):
