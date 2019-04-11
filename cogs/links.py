@@ -49,9 +49,8 @@ class Links(Cog):
                        "How to get started developing Homebrew: "
                        "<https://gbatemp.net/threads/"
                        "tutorial-switch-homebrew-development.507284/>\n"
-                       "Use full RAM in homebrew without installing NSPs: "
-                       "<https://gbatemp.net/threads/use-atmosphere-to-"
-                       "access-full-ram-with-homebrews-without-nsp.521240/>")
+                       "Getting full RAM in homebrew without NSPs: "
+                       "as of Atmosphere 0.8.6, hold R while opening any game.")
 
     @commands.command()
     async def source(self, ctx):
