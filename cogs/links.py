@@ -48,7 +48,9 @@ class Links(Cog):
                        "<https://guide.sdsetup.com/usingcfw/manualchoiupgrade>\n"
                        "How to get started developing Homebrew: "
                        "<https://gbatemp.net/threads/"
-                       "tutorial-switch-homebrew-development.507284/>\n")
+                       "tutorial-switch-homebrew-development.507284/>\n"
+                       "Getting full RAM in homebrew without NSPs: "
+                       "as of Atmosphere 0.8.6, hold R while opening any game.")
 
     @commands.command()
     async def source(self, ctx):
