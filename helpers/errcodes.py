@@ -670,7 +670,7 @@ switch_known_errcodes = {
 
     # Pegaswitch
 
-    0xa7200: "Fake-Error by Pegaswitch"
+    0xa7200: "Fake-Error by Pegaswitch",
 
     # SwitchPresence
 
