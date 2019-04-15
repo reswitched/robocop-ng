@@ -2,10 +2,10 @@ import re
 import discord
 
 from discord.ext import commands
+from discord.ext.commands import Cog
 from helpers.errcodes import *
 
-
-class Err:
+class Err(Cog):
     """Everything related to Nintendo 3DS, Wii U and Switch error codes"""
 
     def __init__(self, bot):
@@ -15,9 +15,9 @@ class Err:
         self.switch_re = re.compile(r'2\d{3}\-\d{4}')
         self.no_err_desc = "It seems like your error code is unknown. "\
                            "You should report relevant details to "\
-                           "<@141532589725974528> (tomGER) "\
+                           "<@141532589725974528> (tomGER#7462) "\
                            "so it can be added to the bot."
-        self.rickroll = "https://www.youtube.com/watch?v=yD2FSwTy2lw"
+        self.rickroll = "https://www.youtube.com/watch?v=4uj896lr3-E"
 
     @commands.command(aliases=["3dserr", "3err", "dserr"])
     async def dderr(self, ctx, err: str):
@@ -60,8 +60,8 @@ class Err:
             await ctx.send("Unknown Format - This is either "
                            "no error code or you made some mistake!")
 
-    @commands.command(aliases=["uerr","wuerr","mochaerr"])
-    async def wiiuserr(self, ctx, err: str):
+    @commands.command(aliases=["wiiuserr", "uerr", "wuerr", "mochaerr"])
+    async def wiiuerr(self, ctx, err: str):
         """Searches for Wii U error codes!
             Usage: .wiiuserr/.uerr/.wuerr/.mochaerr <Error Code>"""
         if self.wiiu_re.match(err):  # Wii U
