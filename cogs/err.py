@@ -2,7 +2,7 @@ import re
 import discord
 
 from discord.ext import commands
-from discord.ext.commands import Cog
+
 from helpers.errcodes import *
 
 class Err(Cog):
