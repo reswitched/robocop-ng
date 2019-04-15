@@ -5,7 +5,7 @@ from discord.ext import commands
 
 from helpers.errcodes import *
 
-class Err(Cog):
+class Err():
     """Everything related to Nintendo 3DS, Wii U and Switch error codes"""
 
     def __init__(self, bot):
