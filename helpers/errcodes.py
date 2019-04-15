@@ -1,4 +1,4 @@
-# Date: 08.02.2019
+# Date: 15.04.2019
 switch_modules = {
     1: "Kernel ",
     2: "FS ",
@@ -64,6 +64,7 @@ switch_modules = {
     146: "NGC (Bad Words) ",
     147: "Error Report ",
     148: "APM ",
+    149: "CEC",
     150: "Profiler ",
     151: "Error Upload ",
     153: "Audio ",
@@ -149,7 +150,12 @@ switch_known_errcodes = {
     0x10601: "Port closed ",
     0x10801: "Resource limit exceeded ",
     0x20801: "Command buffer too small ",
-    0x40a01: "No such process ",
+    0x40a01: "Invalid process ID.",
+    0x40C01: "Invalid thread ID.",
+    0x40E01: "Invalid thread ID (used in svcGetDebugThreadParam).",
+    0x6402: "NCA is older than version 3, or NCA SDK version is older than 0.11.0.0",
+    0x1408: "Program location for debug entry not found",
+    0x40080: "Unbalanced fatal section leave (returned when executing LeaveFatalSection without a preceding EnterFatalSection call)",
     0x41001: "Process not being debugged ",
     0x202: "Path does not exist. ",
     0x402: "Path already exists. ",
@@ -651,12 +657,20 @@ switch_known_errcodes = {
     0x27EE7C: '(potential) complete account ban',  # This error is still super new, needs more informations
     0x36B72B: "Access token expired",
     0x1F486E: "Internet connection lost because the console entered sleep mode.",
+    0x21C89: "Failed to base64-encode the EticketDeviceCertificate during an attempted AccountGetDynamicEtickets (personalized ticket) request to ecs.",
+    0x5089: "Failed to snprintf the AccountGetDynamicEtickets (personalized ticket) request JSON data.",
+    0x6410: "GetApplicationControlData: unable to find control for the input title ID",
+
     # 0x3E8E89: 'Failed to access Firmware Updates - Often because of DNS!',
     # ^ Also used by libcurl
 
     # Atmosphere
 
     0xCAFEF: "Atmosphere: Version Mismatch",
+
+    # Pegaswitch
+
+    0xa7200: "Fake-Error by Pegaswitch"
 
     # SwitchPresence
 
@@ -684,6 +698,8 @@ switch_known_errcodes = {
     0x2d37: "Error_GetDebugProc",
     0x2f37: "Error_CloseHandle",
 
+    # Joke
+
     0xDEADBEEF: "Congrats, you found some hexspeak \n \n https://www.youtube.com/watch?v=DLzxrzFCyOs",
 
     # NFP Errors by HE
@@ -703,7 +719,7 @@ switch_known_errcodes = {
 
     # By Friedkeenan
 
-    0x115b: "HBL stopped loading NROs",
+    0x115b: "[HBL] Stopped loading NROs",
 
     # By Ave
 
