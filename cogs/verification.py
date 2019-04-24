@@ -109,10 +109,11 @@ welcome_footer = (
 
 hidden_term_line = ' • When you have finished reading all of the rules, send a message in this channel that includes the {0} hash of your discord "name#discriminator" (for example, {0}(User#1234)), and we\'ll grant you access to the other channels. You can find your "name#discriminator" (your username followed by a ‘#’ and four numbers) under the discord channel list.'
 
+hash_choice = hashlib.sha1
+
 class Verification(Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.hash_choice = random.choice(tuple(hashlib.algorithms_guaranteed))
 
     @commands.check(check_if_staff)
     @commands.command()
@@ -123,13 +124,17 @@ class Verification(Cog):
                            f" <#{config.welcome_channel}>, unless forced.")
             return
 
+        if ctx.message.channel.id == config.welcome_channel:
+            # randomize hash_choice on reset
+            hash_choice = random.choice(tuple(hashlib.algorithms_guaranteed))
+
         await ctx.channel.purge(limit=limit)
 
         await ctx.send(welcome_header)
         rules = ['**{}**. {}'.format(i, cleandoc(r)) for i, r in
                  enumerate(welcome_rules, 1)]
         rule_choice = random.randint(2, len(rules))
-        rules[rule_choice - 1] += '\n' + hidden_term_line.format(self.hash_choice.upper())
+        rules[rule_choice - 1] += '\n' + hidden_term_line.format(hash_choice.upper())
         msg = f"🗑 **Reset**: {ctx.author.mention} cleared {limit} messages "\
               f" in {ctx.channel.mention}"
         msg += f"\n💬 __Current challenge location__: under rule {rule_choice}"
@@ -200,11 +205,11 @@ class Verification(Cog):
             close_names += [(cn + '\r') for cn in close_names]
 
             # Finally, hash the stuff so that we can access them later :)
-            hash_allow = [hashlib.new(self.hash_choice, name.encode('utf-8')).hexdigest() 
+            hash_allow = [hashlib.new(hash_choice, name.encode('utf-8')).hexdigest() 
                           for name in allowed_names]
 
             # Detect if the user uses the wrong hash algorithm 
-            for w in hashlib.algorithms_guaranteed - {self.hash_choice}:
+            for w in hashlib.algorithms_guaranteed - {hash_choice}:
                 for name in itertools.chain(allowed_names, close_names):
                     if hashlib.new(w, name.encode('utf-8')).hexdigest() in message.content.lower():
                         self.wrong_hash_algo = true
