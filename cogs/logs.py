@@ -78,7 +78,7 @@ class Logs(Cog):
 
         # Prepare the invite correlation message
         if len(probable_invites_used) == 1:
-            invite_used = probable_invites_used[0]["url"]
+            invite_used = probable_invites_used[0]["code"]
         elif len(probable_invites_used) == 0:
             invite_used = "Unknown"
         else:
