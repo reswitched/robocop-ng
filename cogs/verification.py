@@ -6,6 +6,7 @@ import config
 import random
 from inspect import cleandoc
 import hashlib
+import itertools
 from helpers.checks import check_if_staff
 
 
@@ -202,6 +203,12 @@ class Verification(Cog):
             hash_allow = [hashlib.new(self.hash_choice, name.encode('utf-8')).hexdigest() 
                           for name in allowed_names]
 
+            # Detect if the user uses the wrong hash algorithm 
+            for w in hashlib.algorithms_guaranteed - {self.hash_choice}:
+                for name in itertools.chain(allowed_names, close_names):
+                    if hashlib.new(w, name.encode('utf-8')).hexdigest() in message.content.lower():
+                        self.wrong_hash_algo = true
+
             # I'm not even going to attempt to break those into lines jfc
             if any(allow in mcl for allow in hash_allow):
                 await member.add_roles(success_role)
@@ -216,11 +223,8 @@ class Verification(Cog):
                 elif rand_num == 44:
                     no_text = "\"The definition of insanity is doing the same thing over and over again, but expecting different results.\"\n-Albert Einstein"
                 await chan.send(f"{message.author.mention} {no_text}")
-
-            # Tell the user if they use the wrong hash algorithm 
-            for w in hashlib.algorithms_guaranteed - {self.hash_choice}:
-                if hashlib.new(w, name.encode('utf-8')).hexdigest() in message.content.lower():
-                    await chan.send(f"{message.author.mention} :no_entry: Close, but not quite. Go back and re-read!")
+            elif wrong_hash_algo == true:
+                await chan.send(f"{message.author.mention} :no_entry: Close, but not quite. Go back and re-read!")
 
     @Cog.listener()
     async def on_message(self, message):
