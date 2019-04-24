@@ -109,7 +109,7 @@ welcome_footer = (
 hidden_term_line = ' • When you have finished reading all of the rules, send a message in this channel that includes the {0} hash of your discord "name#discriminator" (for example, {0}(User#1234)), and we\'ll grant you access to the other channels. You can find your "name#discriminator" (your username followed by a ‘#’ and four numbers) under the discord channel list.'
 
 class Verification(Cog):
-    def __init__(self, bot, hash_choice):
+    def __init__(self, bot):
         self.bot = bot
         self.hash_choice = random.choice(tuple(hashlib.algorithms_guaranteed))
 
