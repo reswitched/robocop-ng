@@ -167,8 +167,8 @@ class Verification(Cog):
                                 self.blacklisted_hashes -
                                 {self.hash_choice}))
 
-        msg = f"📘 **Resetted Algorithm**: {author} resetted "\
-              f" algorithm in {channel.mention}"
+        msg = f"📘 **Reset Algorithm**: {author} reset "\
+              f"algorithm in {channel.mention}"
         msg += f"\n💬 __Current algorithm__: {self.hash_choice.upper()}"
         log_channel = self.bot.get_channel(config.log_channel)
         await log_channel.send(msg)
