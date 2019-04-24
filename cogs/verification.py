@@ -106,11 +106,12 @@ welcome_footer = (
     """,
 )
 
-hidden_term_line = ' • When you have finished reading all of the rules, send a message in this channel that includes the {0} hash of your discord "name#discriminator" (for example, {0}(User#1234)), and we\'ll grant you access to the other channels. You can find your "name#discriminator" (your username followed by a ‘#’ and four numbers) under the discord channel list.'.format(hash_choice.upper())
+hidden_term_line = ' • When you have finished reading all of the rules, send a message in this channel that includes the {0} hash of your discord "name#discriminator" (for example, {0}(User#1234)), and we\'ll grant you access to the other channels. You can find your "name#discriminator" (your username followed by a ‘#’ and four numbers) under the discord channel list.'
 
 class Verification(Cog):
-    def __init__(self, bot):
+    def __init__(self, bot, hash_choice):
         self.bot = bot
+        self.hash_choice = random.choice(tuple(hashlib.algorithms_guaranteed))
 
     @commands.check(check_if_staff)
     @commands.command()
@@ -127,13 +128,13 @@ class Verification(Cog):
         rules = ['**{}**. {}'.format(i, cleandoc(r)) for i, r in
                  enumerate(welcome_rules, 1)]
         rule_choice = random.randint(2, len(rules))
-        rules[rule_choice - 1] += '\n' + hidden_term_line
+        rules[rule_choice - 1] += '\n' + hidden_term_line.format(self.hash_choice.upper())
         msg = f"🗑 **Reset**: {ctx.author.mention} cleared {limit} messages "\
               f" in {ctx.channel.mention}"
         msg += f"\n💬 __Current challenge location__: under rule {rule_choice}"
         log_channel = self.bot.get_channel(config.log_channel)
         await log_channel.send(msg)
-
+ 
         # find rule that puts us over 2,000 characters, if any
         total = 0
         messages = []
@@ -198,8 +199,7 @@ class Verification(Cog):
             close_names += [(cn + '\r') for cn in close_names]
 
             # Finally, hash the stuff so that we can access them later :)
-            hash_choice = random.choice(tuple(hashlib.algorithms_guaranteed))
-            hash_allow = [hashlib.new(hash_choice, name.encode('utf-8')).hexdigest()
+            hash_allow = [hashlib.new(self.hash_choice, name.encode('utf-8')).hexdigest() 
                           for name in allowed_names]
 
             # I'm not even going to attempt to break those into lines jfc
