@@ -15,6 +15,7 @@ class Robocronp(Cog):
         self.bot = bot
         bot.loop.create_task(self.minutely())
         bot.loop.create_task(self.hourly())
+        bot.loop.create_task(self.daily())
 
     async def send_data(self):
         data_files = [discord.File(fpath) for fpath in self.bot.wanted_jsons]
@@ -147,6 +148,26 @@ class Robocronp(Cog):
                                        f"{traceback.format_exc()}```")
             # Your stuff that should run an hour after boot
             # and after that every hour goes here
+
+    async def daily(self):
+        await self.bot.wait_until_ready()
+        log_channel = self.bot.get_channel(config.botlog_channel)
+        while not self.bot.is_closed():
+            # Your stuff that should run at boot
+            # and after that every day goes here
+            try:
+                # Reset verification and algorithm
+                # If you're not using verification cog
+                # remove or comment thsee lines
+                verif_channel = self.bot.get_channel(config.welcome_channel)
+                await self.bot.do_resetalgo(verif_channel, "daily robocronp")
+            except:
+                # Don't kill cronjobs if something goes wrong.
+                await log_channel.send("Cron-daily has errored: ```"
+                                       f"{traceback.format_exc()}```")
+            await asyncio.sleep(86400)
+            # Your stuff that should run a day after boot
+            # and after that every day goes here
 
 
 def setup(bot):

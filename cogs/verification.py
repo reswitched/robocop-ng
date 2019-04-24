@@ -118,34 +118,21 @@ class Verification(Cog):
         self.hash_choice = random.choice(tuple(hashlib.algorithms_guaranteed -
                                                self.blacklisted_hashes))
 
-    @commands.check(check_if_staff)
-    @commands.command()
-    async def reset(self, ctx, limit: int = 100, force: bool = False):
-        """Wipes messages and pastes the welcome message again. Staff only."""
-        if ctx.message.channel.id != config.welcome_channel and not force:
-            await ctx.send(f"This command is limited to"
-                           f" <#{config.welcome_channel}>, unless forced.")
-            return
+        # Export reset channel functions
+        self.bot.do_reset = self.do_reset
+        self.bot.do_resetalgo = self.do_resetalgo
 
-        if ctx.message.channel.id == config.welcome_channel:
-            # randomize hash_choice on reset
-            # TODO: do reset on start
-            # TODO: Reset algo every 24 hours
-            # TODO: Move to its own function
-            self.hash_choice = \
-                random.choice(tuple(hashlib.algorithms_guaranteed -
-                                    self.blacklisted_hashes))
+    async def do_reset(self, channel, author, limit: int = 100):
+        await channel.purge(limit=limit)
 
-        await ctx.channel.purge(limit=limit)
-
-        await ctx.send(welcome_header)
+        await channel.send(welcome_header)
         rules = ['**{}**. {}'.format(i, cleandoc(r)) for i, r in
                  enumerate(welcome_rules, 1)]
         rule_choice = random.randint(2, len(rules))
         rules[rule_choice - 1] += \
             '\n' + hidden_term_line.format(self.hash_choice.upper())
-        msg = f"🗑 **Reset**: {ctx.author.mention} cleared {limit} messages "\
-              f" in {ctx.channel.mention}"
+        msg = f"🗑 **Reset**: {author} cleared {limit} messages "\
+              f" in {channel.mention}"
         msg += f"\n💬 __Current challenge location__: under rule {rule_choice}"
         log_channel = self.bot.get_channel(config.log_channel)
         await log_channel.send(msg)
@@ -166,12 +153,48 @@ class Verification(Cog):
         messages += [current_message]
 
         for item in messages:
-            await ctx.send(item)
+            await channel.send(item)
             await asyncio.sleep(1)
 
         for x in welcome_footer:
-            await ctx.send(cleandoc(x))
+            await channel.send(cleandoc(x))
             await asyncio.sleep(1)
+
+    async def do_resetalgo(self, channel, author, limit: int = 100):
+        # randomize hash_choice on reset
+        self.hash_choice = \
+            random.choice(tuple(hashlib.algorithms_guaranteed -
+                                self.blacklisted_hashes -
+                                {self.hash_choice}))
+
+        msg = f"📘 **Resetted Algorithm**: {author} resetted "\
+              f" algorithm in {channel.mention}"
+        msg += f"\n💬 __Current algorithm__: {self.hash_choice.upper()}"
+        log_channel = self.bot.get_channel(config.log_channel)
+        await log_channel.send(msg)
+
+        await self.do_reset(channel, author)
+
+    @commands.check(check_if_staff)
+    @commands.command()
+    async def reset(self, ctx, limit: int = 100, force: bool = False):
+        """Wipes messages and pastes the welcome message again. Staff only."""
+        if ctx.message.channel.id != config.welcome_channel and not force:
+            await ctx.send(f"This command is limited to"
+                           f" <#{config.welcome_channel}>, unless forced.")
+            return
+        await self.do_reset(ctx.channel, ctx.author.mention, limit)
+
+    @commands.check(check_if_staff)
+    @commands.command()
+    async def resetalgo(self, ctx, limit: int = 100, force: bool = False):
+        """Resets the verification algorithm and does what reset does. Staff only."""
+        if ctx.message.channel.id != config.welcome_channel and not force:
+            await ctx.send(f"This command is limited to"
+                           f" <#{config.welcome_channel}>, unless forced.")
+            return
+
+        self.do_resetalgo(ctx.channel, ctx.author.mention, limit)
 
     async def process_message(self, message):
         """Big code that makes me want to shoot myself
