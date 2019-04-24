@@ -101,18 +101,18 @@ class Logs(Cog):
                   f"{escaped_name}\n"\
                   f"🗓 __Creation__: {member.created_at}\n"\
                   f"🕓 Account age: {age}\n"\
-                  f"✉  Joined with: {invite_used}\n"\
+                  f"✉ Joined with: {invite_used}\n"\
                   f"🏷 __User ID__: {member.id}"
             if not sent:
-                msg += "\nThe user has disabled direct messages,"\
-                       " so the reason was not sent."
+                msg += "\nThe user has disabled direct messages, "\
+                       "so the reason was not sent."
             await log_channel.send(msg)
             return
         msg = f"✅ **Join**: {member.mention} | "\
               f"{escaped_name}\n"\
               f"🗓 __Creation__: {member.created_at}\n"\
               f"🕓 Account age: {age}\n"\
-              f"✉  Joined with: {invite_used}\n"\
+              f"✉ Joined with: {invite_used}\n"\
               f"🏷 __User ID__: {member.id}"
 
         # Handles user restrictions
