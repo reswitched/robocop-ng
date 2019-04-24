@@ -223,7 +223,7 @@ class Verification(Cog):
                 elif rand_num == 44:
                     no_text = "\"The definition of insanity is doing the same thing over and over again, but expecting different results.\"\n-Albert Einstein"
                 await chan.send(f"{message.author.mention} {no_text}")
-            elif wrong_hash_algo == true:
+            elif self.wrong_hash_algo == true:
                 await chan.send(f"{message.author.mention} :no_entry: Close, but not quite. Go back and re-read!")
 
     @Cog.listener()
