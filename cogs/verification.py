@@ -106,8 +106,7 @@ welcome_footer = (
     """,
 )
 
-hidden_term_line = ' • When you have finished reading all of the rules, send a message in this channel that includes the SHA1 hash of your discord "name#discriminator" (for example, SHA1(User#1234)), and we\'ll grant you access to the other channels. You can find your "name#discriminator" (your username followed by a ‘#’ and four numbers) under the discord channel list.'
-
+hidden_term_line = ' • When you have finished reading all of the rules, send a message in this channel that includes the {0} hash of your discord "name#discriminator" (for example, {0}(User#1234)), and we\'ll grant you access to the other channels. You can find your "name#discriminator" (your username followed by a ‘#’ and four numbers) under the discord channel list.'.format(hash_choice.upper())
 
 class Verification(Cog):
     def __init__(self, bot):
@@ -199,25 +198,14 @@ class Verification(Cog):
             close_names += [(cn + '\r') for cn in close_names]
 
             # Finally, hash the stuff so that we can access them later :)
-            sha1_allow = [hashlib.sha1(name.encode('utf-8')).hexdigest()
+            hash_choice = random.choice(tuple(hashlib.algorithms_guaranteed))
+            hash_allow = [hashlib.new(hash_choice, name.encode('utf-8')).hexdigest()
                           for name in allowed_names]
-            md5_allow = [hashlib.md5(name.encode('utf-8')).hexdigest()
-                         for name in allowed_names]
-            sha256_allow = [hashlib.sha256(name.encode('utf-8')).hexdigest()
-                            for name in allowed_names]
-            sha1_close = [hashlib.sha1(name.encode('utf-8')).hexdigest()
-                          for name in close_names]
 
             # I'm not even going to attempt to break those into lines jfc
-            if any(allow in mcl for allow in sha1_allow):
+            if any(allow in mcl for allow in hash_allow):
                 await member.add_roles(success_role)
                 await chan.purge(limit=100, check=lambda m: m.author == message.author or (m.author == self.bot.user and message.author.mention in m.content))
-            elif any(close in mcl for close in sha1_close):
-                await chan.send(f"{message.author.mention} :no_entry: Close, but incorrect. You got the process right, but you're not doing it on your name and discriminator properly. Please re-read the rules carefully and look up any terms you are not familiar with.")
-            elif any(allow in mcl for allow in md5_allow):
-                await chan.send(f"{message.author.mention} :no_entry: Close, but incorrect. You're processing your name and discriminator properly, but you're not using the right process. Please re-read the rules carefully and look up any terms you are not familiar with.")
-            elif any(allow in mcl for allow in sha256_allow):
-                await chan.send(f"{message.author.mention} :no_entry: Close, but incorrect. You're processing your name and discriminator properly, but you're not using the right process. Please re-read the rules carefully and look up any terms you are not familiar with.")
             elif full_name in message.content or str(member.id) in message.content or member.name in message.content or discrim in message.content:
                 no_text = ":no_entry: Incorrect. You need to do something *specific* with your name and discriminator instead of just posting it. Please re-read the rules carefully and look up any terms you are not familiar with."
                 rand_num = random.randint(1, 100)
