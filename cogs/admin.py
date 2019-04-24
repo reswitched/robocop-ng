@@ -109,7 +109,8 @@ class Admin(Cog):
             cogs_to_reload = re.findall(r'cogs/([a-z_]*).py[ ]*\|', git_output)
             for cog in cogs_to_reload:
                 try:
-                    self.bot.reload_extension("cogs." + cog)
+                    self.bot.unload_extension("cogs." + cog)
+                    self.bot.load_extension("cogs." + cog)
                     self.bot.log.info(f'Reloaded ext {cog}')
                     await ctx.send(f':white_check_mark: `{cog}` '
                                    'successfully reloaded.')
@@ -153,7 +154,8 @@ class Admin(Cog):
             self.lastreload = ext
 
         try:
-            self.bot.reload_extension("cogs." + ext)
+            self.bot.unload_extension("cogs." + ext)
+            self.bot.load_extension("cogs." + ext)
             await self.cog_load_actions(ext)
         except:
             await ctx.send(f':x: Cog reloading failed, traceback: '
