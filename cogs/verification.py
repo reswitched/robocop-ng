@@ -251,7 +251,9 @@ class Verification(Cog):
                 {self.hash_choice} - self.blacklisted_hashes
             for algo in wrong_hash_algos:
                 for name in itertools.chain(allowed_names, close_names):
-                    if hashlib.new(algo, name.encode('utf-8')).hexdigest() in message.content.lower():
+                    if hashlib.new(algo, name.encode('utf-8')).hexdigest() in mcl:
+                        log_channel = self.bot.get_channel(config.log_channel)
+                        await log_channel.send(f"User {message.author.mention} tried verification with algo {algo} instead of {self.hash_choice}.")
                         return await chan.send(f"{message.author.mention} :no_entry: Close, but not quite. Go back and re-read!")
 
             if full_name in message.content or str(member.id) in message.content or member.name in message.content or discrim in message.content:
