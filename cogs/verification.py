@@ -109,11 +109,14 @@ welcome_footer = (
 
 hidden_term_line = ' • When you have finished reading all of the rules, send a message in this channel that includes the {0} hash of your discord "name#discriminator" (for example, {0}(User#1234)), and we\'ll grant you access to the other channels. You can find your "name#discriminator" (your username followed by a ‘#’ and four numbers) under the discord channel list.'
 
-hash_choice = hashlib.sha1
 
 class Verification(Cog):
     def __init__(self, bot):
         self.bot = bot
+        # https://docs.python.org/3.7/library/hashlib.html#shake-variable-length-digests
+        self.blacklisted_hashes = {"shake_128", "shake_256"}
+        self.hash_choice = random.choice(tuple(hashlib.algorithms_guaranteed -
+                                               self.blacklisted_hashes))
 
     @commands.check(check_if_staff)
     @commands.command()
@@ -126,7 +129,12 @@ class Verification(Cog):
 
         if ctx.message.channel.id == config.welcome_channel:
             # randomize hash_choice on reset
-            hash_choice = random.choice(tuple(hashlib.algorithms_guaranteed))
+            # TODO: do reset on start
+            # TODO: Reset algo every 24 hours
+            # TODO: Move to its own function
+            self.hash_choice = \
+                random.choice(tuple(hashlib.algorithms_guaranteed -
+                                    self.blacklisted_hashes))
 
         await ctx.channel.purge(limit=limit)
 
@@ -134,13 +142,14 @@ class Verification(Cog):
         rules = ['**{}**. {}'.format(i, cleandoc(r)) for i, r in
                  enumerate(welcome_rules, 1)]
         rule_choice = random.randint(2, len(rules))
-        rules[rule_choice - 1] += '\n' + hidden_term_line.format(hash_choice.upper())
+        rules[rule_choice - 1] += \
+            '\n' + hidden_term_line.format(self.hash_choice.upper())
         msg = f"🗑 **Reset**: {ctx.author.mention} cleared {limit} messages "\
               f" in {ctx.channel.mention}"
         msg += f"\n💬 __Current challenge location__: under rule {rule_choice}"
         log_channel = self.bot.get_channel(config.log_channel)
         await log_channel.send(msg)
- 
+
         # find rule that puts us over 2,000 characters, if any
         total = 0
         messages = []
@@ -205,20 +214,24 @@ class Verification(Cog):
             close_names += [(cn + '\r') for cn in close_names]
 
             # Finally, hash the stuff so that we can access them later :)
-            hash_allow = [hashlib.new(hash_choice, name.encode('utf-8')).hexdigest() 
+            hash_allow = [hashlib.new(self.hash_choice,
+                                      name.encode('utf-8')).hexdigest()
                           for name in allowed_names]
-
-            # Detect if the user uses the wrong hash algorithm 
-            for w in hashlib.algorithms_guaranteed - {hash_choice}:
-                for name in itertools.chain(allowed_names, close_names):
-                    if hashlib.new(w, name.encode('utf-8')).hexdigest() in message.content.lower():
-                        self.wrong_hash_algo = true
 
             # I'm not even going to attempt to break those into lines jfc
             if any(allow in mcl for allow in hash_allow):
                 await member.add_roles(success_role)
-                await chan.purge(limit=100, check=lambda m: m.author == message.author or (m.author == self.bot.user and message.author.mention in m.content))
-            elif full_name in message.content or str(member.id) in message.content or member.name in message.content or discrim in message.content:
+                return await chan.purge(limit=100, check=lambda m: m.author == message.author or (m.author == self.bot.user and message.author.mention in m.content))
+
+            # Detect if the user uses the wrong hash algorithm
+            wrong_hash_algos = hashlib.algorithms_guaranteed - \
+                {self.hash_choice} - self.blacklisted_hashes
+            for algo in wrong_hash_algos:
+                for name in itertools.chain(allowed_names, close_names):
+                    if hashlib.new(algo, name.encode('utf-8')).hexdigest() in message.content.lower():
+                        return await chan.send(f"{message.author.mention} :no_entry: Close, but not quite. Go back and re-read!")
+
+            if full_name in message.content or str(member.id) in message.content or member.name in message.content or discrim in message.content:
                 no_text = ":no_entry: Incorrect. You need to do something *specific* with your name and discriminator instead of just posting it. Please re-read the rules carefully and look up any terms you are not familiar with."
                 rand_num = random.randint(1, 100)
                 if rand_num == 42:
@@ -228,8 +241,6 @@ class Verification(Cog):
                 elif rand_num == 44:
                     no_text = "\"The definition of insanity is doing the same thing over and over again, but expecting different results.\"\n-Albert Einstein"
                 await chan.send(f"{message.author.mention} {no_text}")
-            elif self.wrong_hash_algo == true:
-                await chan.send(f"{message.author.mention} :no_entry: Close, but not quite. Go back and re-read!")
 
     @Cog.listener()
     async def on_message(self, message):
@@ -252,56 +263,6 @@ class Verification(Cog):
         except discord.errors.Forbidden:
             chan = self.bot.get_channel(after.channel)
             await chan.send("💢 I don't have permission to do this.")
-
-    # @commands.guild_only()
-    # @commands.command()
-    # async def verify(self, ctx, *, verification_string: str):
-    #     """Does verification.
-
-    #     See text on top of #verification for more info."""
-
-    #     await ctx.message.delete()
-
-    #     veriflogs_channel = ctx.guild.get_channel(config.veriflogs_chanid)
-    #     verification_role = ctx.guild.get_role(config.read_rules_roleid)
-    #     verification_wanted = config.verification_code\
-    #         .replace("[discrim]", ctx.author.discriminator)
-
-    #     # Do checks on if the user can even attempt to verify
-    #     if ctx.channel.id != config.verification_chanid:
-    #         resp = await ctx.send("This command can only be used "
-    #                               f"on <#{config.verification_chanid}>.")
-    #         await asyncio.sleep(config.sleep_secs)
-    #         return await resp.delete()
-
-    #     if verification_role in ctx.author.roles:
-    #         resp = await ctx.send("This command can only by those without "
-    #                               f"<@&{config.read_rules_roleid}> role.")
-    #         await asyncio.sleep(config.sleep_secs)
-    #         return await resp.delete()
-
-    #     # Log verification attempt
-    #     await self.bot.update_logs("Verification Attempt",
-    #                                ctx.author.id,
-    #                                veriflogs_channel,
-    #                                log_text=verification_string,
-    #                                digdepth=50, result=-1)
-
-    #     # Check verification code
-    #     if verification_string.lower().strip() == verification_wanted:
-    #         resp = await ctx.send("Success! Welcome to the "
-    #                               f"club, {str(ctx.author)}.")
-    #         await self.bot.update_logs("Verification Attempt",
-    #                                    ctx.author.id,
-    #                                    veriflogs_channel,
-    #                                    digdepth=50, result=0)
-    #         await asyncio.sleep(config.sleep_secs)
-    #         await ctx.author.add_roles(verification_role)
-    #         await resp.delete()
-    #     else:
-    #         resp = await ctx.send(f"Incorrect password, {str(ctx.author)}.")
-    #         await asyncio.sleep(config.sleep_secs)
-    #         await resp.delete()
 
 
 def setup(bot):
