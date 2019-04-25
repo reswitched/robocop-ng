@@ -80,10 +80,8 @@ The main goal of this project, to get Robocop functionality done, is complete.
 Secondary goal is adding new features:
 
 - [ ] Purge: On purge, send logs in form of txt file to server logs
-- [ ] New verification feature: Using log module from akbbot for logging attempts and removing old attempts
 - [ ] New feature: Modmail
 - [ ] New feature: Submiterr (relies on modmail)
-- [ ] New feature: Highlights (problematic words automatically get posted to modmail channel, relies on modmail)
 - [ ] Feature creep: Shortlink completion (gl/ao/etc)
 - [ ] New moderation feature: timelock (channel lockdown with time, relies on robocronp)
 
@@ -106,6 +104,7 @@ Secondary goal is adding new features:
 - [x] New moderation feature: tracking suspicious keywords
 - [x] New moderation feature: tracking invites posted
 - [x] New self-moderation feature: .mywarns
+- [x] New feature: Highlights (problematic words automatically get posted to modmail channel, relies on modmail)
 
 </p>
 </details>
@@ -128,10 +127,14 @@ the following require me to rethink some of the lockdown code, which I don't fee
 
 ---
 
-## Thanks to
+## Credits
+
+Robocop-NG is currently developed and maintained by @aveao and @tumGER. The official bot is hosted by @yuukieve.
+
+I (ave) would like to thank the following, in no particular order:
 
 - ReSwitched community, for being amazing
 - ihaveamac/ihaveahax and f916253 for the original kurisu/robocop
-- tomGER for working hard on rewriting the .err/.serr commands, those were a nightmare
 - misson20000 for adding in reaction removal feature and putting up with my many BS requests on PR reviews
+- Everyone who contributed to robocop-ng in any way (reporting a bug, sending a PR, forking and hosting their own at their own guild, etc).
 
