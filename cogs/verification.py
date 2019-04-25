@@ -194,7 +194,7 @@ class Verification(Cog):
                            f" <#{config.welcome_channel}>, unless forced.")
             return
 
-        self.do_resetalgo(ctx.channel, ctx.author.mention, limit)
+        await self.do_resetalgo(ctx.channel, ctx.author.mention, limit)
 
     async def process_message(self, message):
         """Big code that makes me want to shoot myself
