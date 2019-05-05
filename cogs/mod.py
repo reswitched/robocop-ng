@@ -325,10 +325,9 @@ class Mod:
             cogs.mod_timed.timeban.callback(ctx, target, 3600, reason)
         if warn_count == 4:
             msg += " __You have been muted for 30 days__"
-            cogs.mod_timed.timeban.callback(ctx, target, 3600, reason)
+            cogs.mod_timed.timeban.callback(ctx, target, 2592000, reason)
         if warn_count == 5:
-            msg += "__You're now muted forever__"
-            self.mute.callback(ctx, target, reason)
+            msg += "\n\nYou were automatically banned due to five warnings."
         try:
             await target.send(msg)
         except discord.errors.Forbidden:
@@ -336,6 +335,9 @@ class Mod:
             # or has DMs disabled
             pass
 
+        if warn_count >= 5:  # just in case
+            await target.ban(reason="exceeded warn limit",
+                             delete_message_days=0)
         await ctx.send(f"{target.mention} warned. "
                        f"User has {warn_count} warning(s).")
 
