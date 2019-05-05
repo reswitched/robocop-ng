@@ -319,7 +319,7 @@ class Mod:
                f"This is warn #{warn_count}."
         if warn_count == 2:
             msg += " __You have been muted for 15 minutes__"
-            cogs.mod_timed.timeban.callback(ctx, target, 900, reason)
+            cogs.mod_timed.timeban.callback(ctx, target=target, duration=900, reason=reason)
         if warn_count == 3:
             msg += " __You have been muted for 60 minutes__"
             cogs.mod_timed.timeban.callback(ctx, target, 3600, reason)
