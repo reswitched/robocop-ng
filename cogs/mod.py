@@ -5,7 +5,6 @@ from helpers.checks import check_if_staff
 from helpers.userlogs import userlog
 from helpers.restrictions import add_restriction, remove_restriction
 
-import cogs.mod_timed
 
 class Mod:
     def __init__(self, bot):
@@ -318,14 +317,16 @@ class Mod:
         msg += f"\n\nPlease read the rules in {config.rules_url}. "\
                f"This is warn #{warn_count}."
         if warn_count == 2:
-            msg += " __You have been muted for 15 minutes__"
-            cogs.mod_timed.timeban.callback(ctx, target=target, duration=900, reason=reason)
+            msg += " __The next warn will automatically kick.__"
         if warn_count == 3:
-            msg += " __You have been muted for 60 minutes__"
-            cogs.mod_timed.timeban.callback(ctx, target, 3600, reason)
+            msg += "\n\nYou were kicked because of this warning. "\
+                   "You can join again right away. "\
+                   "Two more warnings will result in an automatic ban."
         if warn_count == 4:
-            msg += " __You have been muted for 30 days__"
-            cogs.mod_timed.timeban.callback(ctx, target, 2592000, reason)
+            msg += "\n\nYou were kicked because of this warning. "\
+                   "This is your final warning. "\
+                   "You can join again, but "\
+                   "**one more warn will result in a ban**."
         if warn_count == 5:
             msg += "\n\nYou were automatically banned due to five warnings."
         try:
@@ -334,7 +335,8 @@ class Mod:
             # Prevents log issues in cases where user blocked bot
             # or has DMs disabled
             pass
-
+        if warn_count == 3 or warn_count == 4:
+            await target.kick()
         if warn_count >= 5:  # just in case
             await target.ban(reason="exceeded warn limit",
                              delete_message_days=0)
