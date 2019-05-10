@@ -75,54 +75,67 @@ All Robocop features are now supported.
 
 ---
 
-Main goal of this project is to get Robocop functionality done, secondary goal is adding new features. The following entries are secondary, less "urgent" goals:
+The main goal of this project, to get Robocop functionality done, is complete.
 
-- [x] Better security, better checks and better guild whitelisting
+Secondary goal is adding new features:
+
 - [ ] Purge: On purge, send logs in form of txt file to server logs
-- [ ] New verification feature: Using log module from akbbot for logging attempts and removing old attempts
-- [ ] New moderation feature: watch-unwatch (using log module from akbbot)
 - [ ] New feature: Modmail
 - [ ] New feature: Submiterr (relies on modmail)
-- [ ] New feature: Highlights (problematic words automatically get posted to modmail channel, relies on modmail)
 - [ ] Feature creep: Shortlink completion (gl/ao/etc)
-- [ ] Feature creep: Pleroma embedding
+- [ ] New moderation feature: timelock (channel lockdown with time, relies on robocronp)
+
+<details>
+<summary>Completed features</summary>
+<p>
+
+- [x] Better security, better checks and better guild whitelisting
 - [x] Feature creep: Reminds
 - [x] A system for running jobs in background with an interval (will be called robocronp)
 - [x] Commands to list said jobs and remove them
 - [x] New moderation feature: timemute (mute with time, relies on robocronp)
 - [x] New moderation feature: timeban (ban with expiry, relies on robocronp)
-- [ ] New moderation feature: timelock (channel lockdown with time, relies on robocronp)
 - [x] Improvements to lockdown to ensure that staff can talk
 - [x] New moderation feature: Display of mutes, bans and kicks on listwarns (.userlog now)
 - [x] New moderation feature: User notes
 - [x] New moderation feature: Reaction removing features (thanks misson20000!)
 - [x] New moderation feature: User nickname change
+- [x] New moderation feature: watch-unwatch
+- [x] New moderation feature: tracking suspicious keywords
+- [x] New moderation feature: tracking invites posted
 - [x] New self-moderation feature: .mywarns
-- [x] Remove sh, remove risky stuff from eval
+- [x] New feature: Highlights (problematic words automatically get posted to modmail channel, relies on modmail)
+
+</p>
+</details>
 
 <details>
 <summary>TODO for robocronp</summary>
 <p>
 
-[ ] Reduce code repetition on mod_timed.py
-[x] Allow non-hour values on timed bans
+- [ ] Reduce code repetition on mod_timed.py
+- [x] Allow non-hour values on timed bans
 
 the following require me to rethink some of the lockdown code, which I don't feel like
 
-[ ] lockdown in helper
-[ ] timelock command
-[ ] working cronjob for unlock
+- [ ] lockdown in helper
+- [ ] timelock command
+- [ ] working cronjob for unlock
 
 </p>
 </details>
 
 ---
 
-## Thanks to
+## Credits
+
+Robocop-NG is currently developed and maintained by @aveao and @tumGER. The official bot is hosted by @yuukieve.
+
+I (ave) would like to thank the following, in no particular order:
 
 - Ave, writing most code
 - ReSwitched community, for being amazing
 - ihaveamac/ihaveahax and f916253 for the original kurisu/robocop
-- tomGER for working hard on rewriting the .err/.serr commands, those were a nightmare
 - misson20000 for adding in reaction removal feature and putting up with my many BS requests on PR reviews
+- Everyone who contributed to robocop-ng in any way (reporting a bug, sending a PR, forking and hosting their own at their own guild, etc).
 

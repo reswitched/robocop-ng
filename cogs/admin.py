@@ -1,12 +1,14 @@
 import discord
 from discord.ext import commands
+from discord.ext.commands import Cog
 import traceback
 import inspect
 import re
+import config
 from helpers.checks import check_if_bot_manager
 
 
-class Admin:
+class Admin(Cog):
     def __init__(self, bot):
         self.bot = bot
         self.last_eval_result = None
@@ -19,20 +21,6 @@ class Admin:
         """Shuts down the bot, bot manager only."""
         await ctx.send(":wave: Goodbye!")
         await self.bot.logout()
-
-    @commands.guild_only()
-    @commands.check(check_if_bot_manager)
-    @commands.command()
-    async def load(self, ctx, ext: str):
-        """Loads a cog, bot manager only."""
-        try:
-            self.bot.load_extension("cogs." + ext)
-        except:
-            await ctx.send(f':x: Cog loading failed, traceback: '
-                           f'```\n{traceback.format_exc()}\n```')
-            return
-        self.bot.log.info(f'Loaded ext {ext}')
-        await ctx.send(f':white_check_mark: `{ext}` successfully loaded.')
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
@@ -56,6 +44,11 @@ class Admin:
     async def _eval(self, ctx):
         await ctx.send("Fuck off. This doesn't belong in production code!")
 
+    async def cog_load_actions(self, cog_name):
+        if cog_name == "verification":
+            verif_channel = self.bot.get_channel(config.welcome_channel)
+            await self.bot.do_resetalgo(verif_channel, "cog load")
+
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
     @commands.command()
@@ -73,10 +66,26 @@ class Admin:
                     self.bot.log.info(f'Reloaded ext {cog}')
                     await ctx.send(f':white_check_mark: `{cog}` '
                                    'successfully reloaded.')
+                    await self.cog_load_actions(cog)
                 except:
                     await ctx.send(f':x: Cog reloading failed, traceback: '
                                    f'```\n{traceback.format_exc()}\n```')
                     return
+
+    @commands.guild_only()
+    @commands.check(check_if_bot_manager)
+    @commands.command()
+    async def load(self, ctx, ext: str):
+        """Loads a cog, bot manager only."""
+        try:
+            self.bot.load_extension("cogs." + ext)
+            await self.cog_load_actions(ext)
+        except:
+            await ctx.send(f':x: Cog loading failed, traceback: '
+                           f'```\n{traceback.format_exc()}\n```')
+            return
+        self.bot.log.info(f'Loaded ext {ext}')
+        await ctx.send(f':white_check_mark: `{ext}` successfully loaded.')
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
@@ -99,6 +108,7 @@ class Admin:
         try:
             self.bot.unload_extension("cogs." + ext)
             self.bot.load_extension("cogs." + ext)
+            await self.cog_load_actions(ext)
         except:
             await ctx.send(f':x: Cog reloading failed, traceback: '
                            f'```\n{traceback.format_exc()}\n```')

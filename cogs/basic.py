@@ -2,9 +2,9 @@ import time
 import config
 import discord
 from discord.ext import commands
+from discord.ext.commands import Cog
 
-
-class Basic:
+class Basic(Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -18,6 +18,14 @@ class Basic:
         """Yeet"""
         await ctx.send("For pirated eshop-games you need ES signature patches. As their only purpose is to allow piracy we\'re not providing any help with installation of said patches or pirated games afterwards")
         
+    @commands.guild_only()
+    @commands.command()
+    async def communitycount(self, ctx):
+        """Prints the community member count of the server."""
+        community = ctx.guild.get_role(config.named_roles["community"])
+        await ctx.send(f"{ctx.guild.name} has "
+                       f"{len(community.members)} community members!")
+
     @commands.guild_only()
     @commands.command()
     async def membercount(self, ctx):

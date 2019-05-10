@@ -1,21 +1,28 @@
 from discord.ext import commands
+from discord.ext.commands import Cog
 import config
 import discord
 from helpers.checks import check_if_staff
 
-
-class Lockdown:
+class Lockdown(Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    async def set_sendmessage(self, channel: discord.TextChannel,
+                              role, allow_send, issuer):
+        try:
+            roleobj = channel.guild.get_role(role)
+            overrides = channel.overwrites_for(roleobj)
+            overrides.send_messages = allow_send
+            await channel.set_permissions(roleobj,
+                                          overwrite=overrides,
+                                          reason=str(issuer))
+        except:
+            pass
+
     async def unlock_for_staff(self, channel: discord.TextChannel, issuer):
         for role in config.staff_role_ids:
-            try:
-                await channel.set_permissions(channel.guild.get_role(role),
-                                              send_messages=True,
-                                              reason=str(issuer))
-            except:
-                pass
+            await self.set_sendmessage(channel, role, True, issuer)
 
     @commands.guild_only()
     @commands.check(check_if_staff)
@@ -29,17 +36,15 @@ class Lockdown:
             channel = ctx.channel
         log_channel = self.bot.get_channel(config.log_channel)
 
-        if channel.id in config.community_channels:
-            roles = [config.named_roles["community"],
-                     config.named_roles["hacker"]]
-        else:
-            roles = [config.named_roles["participant"],
-                     ctx.guild.default_role.id]
+        for key, lockdown_conf in config.lockdown_configs.items():
+            if channel.id in lockdown_conf["channels"]:
+                roles = lockdown_conf["roles"]
+
+        if roles is None:
+            roles = config.lockdown_configs["default"]["roles"]
 
         for role in roles:
-            await channel.set_permissions(channel.guild.get_role(role),
-                                          send_messages=False,
-                                          reason=str(ctx.author))
+            await self.set_sendmessage(channel, role, False, ctx.author)
 
         await self.unlock_for_staff(channel, ctx.author)
 
@@ -64,19 +69,17 @@ class Lockdown:
             channel = ctx.channel
         log_channel = self.bot.get_channel(config.log_channel)
 
-        if ctx.channel.id in config.community_channels:
-            roles = [config.named_roles["community"],
-                     config.named_roles["hacker"]]
-        else:
-            roles = [config.named_roles["participant"],
-                     ctx.guild.default_role.id]
+        for key, lockdown_conf in config.lockdown_configs.items():
+            if channel.id in lockdown_conf["channels"]:
+                roles = lockdown_conf["roles"]
+
+        if roles is None:
+            roles = config.lockdown_configs["default"]["roles"]
 
         await self.unlock_for_staff(channel, ctx.author)
 
         for role in roles:
-            await ctx.channel.set_permissions(ctx.guild.get_role(role),
-                                              send_messages=True,
-                                              reason=str(ctx.author))
+            await self.set_sendmessage(channel, role, True, ctx.author)
 
         safe_name = await commands.clean_content().convert(ctx, str(ctx.author))
         await ctx.send("🔓 Channel unlocked.")

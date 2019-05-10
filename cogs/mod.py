@@ -1,17 +1,36 @@
 import discord
 from discord.ext import commands
+from discord.ext.commands import Cog
 import config
-from helpers.checks import check_if_staff
+from helpers.checks import check_if_staff, check_if_bot_manager
 from helpers.userlogs import userlog
 from helpers.restrictions import add_restriction, remove_restriction
+import io
 
 
-class Mod:
+class Mod(Cog):
     def __init__(self, bot):
         self.bot = bot
 
     def check_if_target_is_staff(self, target):
         return any(r.id in config.staff_role_ids for r in target.roles)
+
+    @commands.guild_only()
+    @commands.check(check_if_bot_manager)
+    @commands.command()
+    async def setguildicon(self, ctx, url):
+        """Changes guild icon, bot manager only."""
+        img_bytes = await self.bot.aiogetbytes(url)
+        await ctx.guild.edit(icon=img_bytes, reason=str(ctx.author))
+        await ctx.send(f"Done!")
+
+        log_channel = self.bot.get_channel(config.modlog_channel)
+        log_msg = f"✏️ **Guild Icon Update**: {ctx.author} "\
+                  "changed the guild icon."
+        img_filename = url.split("/")[-1].split("#")[0]  # hacky
+        img_file = discord.File(io.BytesIO(img_bytes),
+                                filename=img_filename)
+        await log_channel.send(log_msg, file=img_file)
 
     @commands.guild_only()
     @commands.check(check_if_staff)
@@ -311,6 +330,11 @@ class Mod:
         warn_count = userlog(target.id, ctx.author, reason,
                              "warns", target.name)
 
+        safe_name = await commands.clean_content().convert(ctx, str(target))
+        chan_msg = f"⚠️ **Warned**: {ctx.author.mention} warned "\
+                   f"{target.mention} (warn #{warn_count}) "\
+                   f"| {safe_name}\n"
+
         msg = f"You were warned on {ctx.guild.name}."
         if reason:
             msg += " The given reason is: " + reason
@@ -327,8 +351,10 @@ class Mod:
                    "This is your final warning. "\
                    "You can join again, but "\
                    "**one more warn will result in a ban**."
+            chan_msg += "**This resulted in an auto-kick.**\n"
         if warn_count == 5:
             msg += "\n\nYou were automatically banned due to five warnings."
+            chan_msg += "**This resulted in an auto-ban.**\n"
         try:
             await target.send(msg)
         except discord.errors.Forbidden:
@@ -343,17 +369,13 @@ class Mod:
         await ctx.send(f"{target.mention} warned. "
                        f"User has {warn_count} warning(s).")
 
-        safe_name = await commands.clean_content().convert(ctx, str(target))
-        msg = f"⚠️ **Warned**: {ctx.author.mention} warned {target.mention}"\
-              f" (warn #{warn_count}) | {safe_name}\n"
-
         if reason:
-            msg += f"✏️ __Reason__: \"{reason}\""
+            chan_msg += f"✏️ __Reason__: \"{reason}\""
         else:
-            msg += "Please add an explanation below. In the future"\
-                   ", it is recommended to use `.ban <user> [reason]`"\
-                   " as the reason is automatically sent to the user."
-        await log_channel.send(msg)
+            chan_msg += "Please add an explanation below. In the future"\
+                        ", it is recommended to use `.ban <user> [reason]`"\
+                        " as the reason is automatically sent to the user."
+        await log_channel.send(chan_msg)
 
     @commands.guild_only()
     @commands.check(check_if_staff)

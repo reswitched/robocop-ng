@@ -1,9 +1,9 @@
 import discord
 import config
 from discord.ext import commands
+from discord.ext.commands import Cog
 
-
-class Links:
+class Links(Cog):
     """
     Commands for easily linking to projects.
     """
@@ -40,14 +40,14 @@ class Links:
                        "\n"
                        "**Specific guides:**\n"
                        "Manually Updating/Downgrading (with HOS): "
-                       "<https://guide.sdsetup.com/#/manualupdate>\n"
+                       "<https://guide.sdsetup.com/usingcfw/manualupgrade>\n"
                        "Manually Repairing/Downgrading (without HOS): "
-                       "<https://guide.sdsetup.com/#/manualchoidowngrade>\n"
+                       "<https://guide.sdsetup.com/usingcfw/manualchoiupgrade>\n"
                        "How to get started developing Homebrew: "
-                       "<https://gbatemp.net/threads/tutorial-switch-homebrew-development.507284/>\n"
-                       "Use full RAM in homebrew without installing NSPs: "
-                       "<https://gbatemp.net/threads/use-atmosphere-to-"
-                       "access-full-ram-with-homebrews-without-nsp.521240/>")
+                       "<https://gbatemp.net/threads/"
+                       "tutorial-switch-homebrew-development.507284/>\n"
+                       "Getting full RAM in homebrew without NSPs: "
+                       "as of Atmosphere 0.8.6, hold R while opening any game.")
 
     @commands.command(hidden=True, aliases=["patron"])
     async def patreon(self, ctx):

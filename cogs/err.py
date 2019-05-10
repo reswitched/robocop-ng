@@ -2,10 +2,10 @@ import re
 import discord
 
 from discord.ext import commands
-
+from discord.ext.commands import Cog
 from helpers.errcodes import *
 
-class Err():
+class Err(Cog):
     """Everything related to Nintendo 3DS, Wii U and Switch error codes"""
 
     def __init__(self, bot):
@@ -47,11 +47,11 @@ class Err():
             summ = (rc >> 21) & 0x3F
             level = (rc >> 27) & 0x1F
             embed = discord.Embed(title=f"0x{rc:X}")
-            embed.add_field(name="Module", value=dds_modules[mod])
+            embed.add_field(name="Module", value=dds_modules.get(mod, mod))
             embed.add_field(name="Description",
-                            value=dds_descriptions[desc])
-            embed.add_field(name="Summary", value=dds_summaries[summ])
-            embed.add_field(name="Level", value=dds_levels[level])
+                            value=dds_descriptions.get(desc, desc))
+            embed.add_field(name="Summary", value=dds_summaries.get(summ, summ))
+            embed.add_field(name="Level", value=dds_levels.get(level, level))
             embed.set_footer(text="Console: 3DS")
 
             await ctx.send(embed=embed)

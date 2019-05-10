@@ -1,12 +1,13 @@
 import discord
 from discord.ext import commands
+from discord.ext.commands import Cog
 import config
 import json
 from helpers.checks import check_if_staff
 from helpers.userlogs import get_userlog, set_userlog, userlog_event_types
 
 
-class ModUserlog:
+class ModUserlog(Cog):
     def __init__(self, bot):
         self.bot = bot
 

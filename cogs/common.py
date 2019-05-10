@@ -5,9 +5,9 @@ import humanize
 import time
 import math
 import parsedatetime
+from discord.ext.commands import Cog
 
-
-class Common:
+class Common(Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -22,6 +22,7 @@ class Common:
         self.bot.get_relative_timestamp = self.get_relative_timestamp
         self.bot.escape_message = self.escape_message
         self.bot.parse_time = self.parse_time
+        self.bot.haste = self.haste
 
     def parse_time(self, delta_str):
         cal = parsedatetime.Calendar()
@@ -140,12 +141,14 @@ class Common:
         reply_list.append(f"{prefix}{text}{suffix}")
         return reply_list
 
-    async def haste(self, text, instance='https://hastebin.com/'):
+    async def haste(self, text, instance='https://mystb.in/'):
         response = await self.bot.aiosession.post(f"{instance}documents",
                                                   data=text)
         if response.status == 200:
             result_json = await response.json()
             return f"{instance}{result_json['key']}"
+        else:
+            return f"Error {response.status}: {response.text}"
 
     async def async_call_shell(self, shell_command: str,
                                inc_stdout=True, inc_stderr=True):

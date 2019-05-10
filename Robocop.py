@@ -40,7 +40,8 @@ def get_prefix(bot, message):
 
 wanted_jsons = ["data/restrictions.json",
                 "data/robocronptab.json",
-                "data/userlog.json"]
+                "data/userlog.json",
+                "data/invites.json"]
 
 initial_extensions = ['cogs.common',
                       'cogs.admin',
@@ -49,6 +50,7 @@ initial_extensions = ['cogs.common',
                       'cogs.mod_reacts',
                       'cogs.mod_userlog',
                       'cogs.mod_timed',
+                      'cogs.mod_watch',
                       'cogs.basic',
                       'cogs.logs',
                       'cogs.err',
@@ -57,7 +59,9 @@ initial_extensions = ['cogs.common',
                       'cogs.links',
                       'cogs.remind',
                       'cogs.robocronp',
-                      'cogs.meme']
+                      'cogs.meme',
+                      'cogs.pin',
+                      'cogs.invites']
 
 bot = commands.Bot(command_prefix=get_prefix,
                    description=config.bot_description, pm_help=True)
@@ -185,9 +189,11 @@ async def on_message(message):
     if (message.guild) and (message.guild.id not in config.guild_whitelist):
         return
 
-    # Ignore messages in newcomers channel, unless it's potentially reset
+    # Ignore messages in newcomers channel, unless it's potentially
+    # an allowed command
+    welcome_allowed = ["reset", "kick", "ban", "warn"]
     if message.channel.id == config.welcome_channel and\
-            "reset" not in message.content:
+            not any(cmd in message.content for cmd in welcome_allowed):
         return
 
     ctx = await bot.get_context(message)
