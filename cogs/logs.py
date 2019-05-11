@@ -86,27 +86,7 @@ class Logs(Cog):
 
         # Check if user account is older than 15 minutes
         age = member.joined_at - member.created_at
-        if age < config.min_age:
-            try:
-                await member.send(f"Your account is too new to "
-                                  f"join {member.guild.name}."
-                                  " Please try again later.")
-                sent = True
-            except discord.errors.Forbidden:
-                sent = False
-            await member.kick(reason="Too new")
 
-            msg = f"🚨 **Account too new**: {member.mention} | "\
-                  f"{escaped_name}\n"\
-                  f"🗓 __Creation__: {member.created_at}\n"\
-                  f"🕓 Account age: {age}\n"\
-                  f"✉ Joined with: {invite_used}\n"\
-                  f"🏷 __User ID__: {member.id}"
-            if not sent:
-                msg += "\nThe user has disabled direct messages, "\
-                       "so the reason was not sent."
-            await log_channel.send(msg)
-            return
         msg = f"✅ **Join**: {member.mention} | "\
               f"{escaped_name}\n"\
               f"🗓 __Creation__: {member.created_at}\n"\
