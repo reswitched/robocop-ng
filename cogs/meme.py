@@ -46,6 +46,29 @@ class Meme(Cog):
                        f"({fahrenheit}°F, {kelvin}K).")
 
     @commands.check(check_if_staff_or_ot)
+    @commands.command(hidden=True, name="boil")
+    async def warm_member(self, ctx, user: discord.Member):
+        """Boils a user >:E"""
+        celsius = 100
+        fahrenheit = self.c_to_f(celsius)
+        kelvin = self.c_to_k(celsius)
+        await ctx.send(f"{user.mention} boiled alive!"
+                       f" User is now {celsius}°C "
+                       f"({fahrenheit}°F, {kelvin}K).")
+
+    @commands.check(check_if_staff_or_ot)
+    @commands.command(hidden=True, name="freeze")
+    async def warm_member(self, ctx, user: discord.Member):
+        """Freezes a user >:o"""
+        celsius = 0
+        fahrenheit = self.c_to_f(celsius)
+        kelvin = self.c_to_k(celsius)
+        await ctx.send(f"{user.mention} frozen solid!"
+                       f" User is now {celsius}°C "
+                       f"({fahrenheit}°F, {kelvin}K).")
+
+        
+    @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True, aliases=["thank", "reswitchedgold"])
     async def gild(self, ctx, user: discord.Member):
         """Gives a star to a user"""
