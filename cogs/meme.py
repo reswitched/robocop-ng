@@ -35,7 +35,7 @@ class Meme(Cog):
                        f"({fahrenheit}°F, {kelvin}K).")
 
     @commands.check(check_if_staff_or_ot)
-    @commands.command(hidden=True, name="chill", aliases=["cold"])
+    @commands.command(hidden=True, name="chill", aliases=["cold", "cool"])
     async def chill_member(self, ctx, user: discord.Member):
         """Chills a user >:3"""
         celsius = random.randint(-50, 15)
@@ -126,6 +126,12 @@ class Meme(Cog):
     async def frolics(self, ctx):
         """test"""
         await ctx.send("https://www.youtube.com/watch?v=VmarNEsjpDI")
+            
+    @commands.command(hidden=True, aliases=['bs', "biracy", ":b:iracy", "🅱iracy])
+    async def batches(self, ctx):
+        """Yeet"""
+        await ctx.send("🅱or 🅱irated 🅱shop-🅱ames 🅱ou 🅱eed 🅱S 🅱ignature 🅱atches. 🅱s 🅱heir 🅱nly 🅱urpose 🅱s 🅱o 🅱llow 🅱iracy 🅱e\'re 🅱ot 🅱roviding 🅱ny 🅱elp 🅱ith 🅱nstallation 🅱f 🅱aid 🅱atches 🅱r 🅱irated 🅱ames 🅱fterwards")
+        
 
 
 def setup(bot):
