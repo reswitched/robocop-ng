@@ -3,6 +3,7 @@ import config
 from discord.ext import commands
 from discord.ext.commands import Cog
 
+
 class Links(Cog):
     """
     Commands for easily linking to projects.
@@ -50,7 +51,9 @@ class Links(Cog):
                        "<https://gbatemp.net/threads/"
                        "tutorial-switch-homebrew-development.507284/>\n"
                        "Getting full RAM in homebrew without NSPs: "
-                       "as of Atmosphere 0.8.6, hold R while opening any game.")
+                       "as of Atmosphere 0.8.6, hold R while opening any game.\n"
+                       "Check if a switch is vulnerable to RCM through serial: "
+                       "https://akdm.github.io/ssnc/checker/")
 
     @commands.command()
     async def source(self, ctx):
