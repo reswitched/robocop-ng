@@ -53,7 +53,7 @@ class Links(Cog):
                        "Getting full RAM in homebrew without NSPs: "
                        "as of Atmosphere 0.8.6, hold R while opening any game.\n"
                        "Check if a switch is vulnerable to RCM through serial: "
-                       "https://akdm.github.io/ssnc/checker/")
+                       "<https://akdm.github.io/ssnc/checker/>")
 
     @commands.command()
     async def source(self, ctx):
