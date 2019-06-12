@@ -302,7 +302,7 @@ class Logs(Cog):
             msg += f": {self.bot.escape_message(member_before.nick)} → "\
                    f"{self.bot.escape_message(member_after.nick)}"
         if msg:
-            msg = f"ℹ️ **Member update**: {member_after.mention} | "\
+            msg = f"ℹ️ **Member update**: {member_after.id} | "\
                   f"{self.bot.escape_message(member_after)}{msg}"
             await log_channel.send(msg)
 
