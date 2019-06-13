@@ -1,4 +1,4 @@
-# Date: 15.04.2019
+# Date: 13.06.2019
 switch_modules = {
     1: "Kernel ",
     2: "FS ",
@@ -21,6 +21,7 @@ switch_modules = {
     24: "SDMMC ",
     25: "OVLN ",
     26: "SPL ",
+    30: "Bus",
     100: "ETHC ",
     101: "I2C ",
     102: "GPIO ",
@@ -59,7 +60,7 @@ switch_modules = {
     141: "NSD ",
     142: "PCTL ",
     143: "BTM ",
-    144: "EC (Shop) ",
+    144: "LA (Library Applet)",
     145: "ETicket ",
     146: "NGC (Bad Words) ",
     147: "Error Report ",
@@ -71,7 +72,7 @@ switch_modules = {
     154: "NPNS ",
     155: "NPNS HTTP Stream ",
     157: "ARP ",
-    158: "Boot ",
+    158: "Updater ",
     159: "SWKBD ",
     161: "NFC Mifare ",
     162: "Userland assert ",
@@ -84,6 +85,9 @@ switch_modules = {
     179: "OLSC ",
     180: "SREPO ",
     181: "Dauth ",
+    191: "RTC",
+    192: "Regulator",
+    197: "Clkrst",
     202: "HID ",
     203: "LDN ",
     205: "Irsensor ",
@@ -135,7 +139,7 @@ switch_known_errcodes = {
     0xE601: "Invalid pointer/Syscall copy from user failed. ",
     0xE801: "Invalid combination ",
     0xEA01: "Time out. Also when you give 0 handles to svcWaitSynchronizationN. ",
-    0xEC01: "Canceled/interrupted [?] ",
+    0xEC01: "Operation canceled",
     0xEE01: "Out of range ",
     0xF001: "Invalid enum ",
     0xF201: "No such entry ",
@@ -165,7 +169,7 @@ switch_known_errcodes = {
     0x4A02: "Not enough free space for BIS User partition. ",
     0x4C02: "Not enough free space for BIS System partition. ",
     0x4E02: "Not enough free space on SD card. ",
-    0x7802: "The specified NCA-type doesn\'t exist for this title. ",
+    0x7802: "Specified mount name already exists.",
     0x7D202: "Process does not have RomFs ",
     0x7D402: "Title-id not found / savedata not found. ",
     0xFA202: "SD card not inserted ",
@@ -327,11 +331,11 @@ switch_known_errcodes = {
     0x80A16: "NRR not loaded ",
     0x80C16: "Already initialized ",
     0x80E16: "Not initialized ",
-    0x41A: "Argument is invalid ",
-    0xC81A: "Incorrect buffer size ",
-    0xCA1A: "Unknown TZ error ",
-    0xD01A: "All AES engines busy ",
-    0xD21A: "Invalid AES engine-id ",
+    0x41A: "SMC argument is invalid",
+    0xC81A: "Invalid (buffer) size",
+    0xCA1A: "Decryption failure",
+    0xD01A: "No AES keyslots available",
+    0xD21A: "Invalid AES keyslot",
     0x19669: "Null settings value",
     0x1A069: "Null setting value size buffer ",
     0x1A269: "Null debug mode flag buffer ",
@@ -508,7 +512,7 @@ switch_known_errcodes = {
     0x87E: "Entry not found",
     0x27E: "Invalid argument",
     0x7BC74: "Unimplemented functionality",
-    0x7BA74: "Entry not found",
+    0x7BA74: "TimeZone location name not found",
     0x70C74: "Value out of valid range",
     0x70A74: "Null pointer",
     0x64274: "Memory allocation failure",
@@ -536,6 +540,37 @@ switch_known_errcodes = {
     0x244602: "Invalid Partition FS hash",
     0x244402: "Invalid Partition file hashed region bounds",
     0xE02: "Resource already in use (file already opened, savedata filesystem already mounted).",
+    0x31AE02: "Operation not supported in nn::fssystem::ConcatenationFileSystem",
+    0x31B002: "Operation not supported in nn::fssystem::ConcatenationFile",
+    0x327202: "Writable file not closed when committing",
+    0x35F202: "Mount name not found in table.",
+    0x21A: "SMC is not implemented",
+    0x61A: "SMC is currently in progress/secmon is busy", 
+    0x81A: "Secmon not currently performing async operation",
+    0xA1A: "Invalid SMC async callback key",
+    0xC1A: "SMC is blacklisted during current boot",
+    0xD41A: "BootReason already set",
+    0xD61A: "BootReason not set",
+    0xD81A: "Invalid argument",
+    0x70E74: " TimeZoneRule conversion failed",
+    0x27A: "Object not found",
+    0x67A: "Object locked/in used",
+    0x87A: "Target already mounted",
+    0xA7A: "Target not mounted",
+    0xC7A: "Object already opened",
+    0xE7A: "Object not opened",
+    0xA07A: "Passphrase not found",
+    0xA27A: "Data verification failed",
+    0xB47A: "Invalid API call",
+    0xC47A: "Invalid operation",
+    0x290: "Exited Abnormally ([[Applet_Manager_services#LibraryAppletExitReason|ExitReason]] == Abormal)",
+    0x690: "Canceled ([[Applet_Manager_services#LibraryAppletExitReason|ExitReason]] == Canceled)",
+    0x890: "Rejected", #me_irl
+    0xA90: "Exited Unexpectedly ([[Applet_Manager_services#LibraryAppletExitReason|ExitReason]] == Unexpected)",
+    0x58ACA: " Npad ID is out of range.",
+    0x1A8CD: "IR camera handle pointer is null.",
+    0x198CD: "IR camera invalid handle value.",
+
 
     # FS Codes
 
@@ -660,6 +695,19 @@ switch_known_errcodes = {
     0x21C89: "Failed to base64-encode the EticketDeviceCertificate during an attempted AccountGetDynamicEtickets (personalized ticket) request to ecs.",
     0x5089: "Failed to snprintf the AccountGetDynamicEtickets (personalized ticket) request JSON data.",
     0x6410: "GetApplicationControlData: unable to find control for the input title ID",
+    0xa073: "NFC is disabled",
+    0x16473: "Could not mount tag (invalid tag type?)",
+    0x8073: "Device unavailable",
+    0x10073: "App area not found",
+    0x11073: "Tag corrupted?",
+    0xc880: "thrown by AM when qlaunch is terminated",
+    0xc87c: "invalid user",
+    0xc7e: "mii already exists",
+    0xa7e: "full database",
+    0x87e: "mii not found",
+    0x115b: "[HBL] Stopped loading NROs",
+    0x48c69: "device_cert_ecc_b223 failed to load",
+
 
     # 0x3E8E89: 'Failed to access Firmware Updates - Often because of DNS!',
     # ^ Also used by libcurl
@@ -673,53 +721,34 @@ switch_known_errcodes = {
     0xa7200: "Fake-Error by Pegaswitch",
 
     # SwitchPresence
-
-    0x337: "Error_InitSocket",
-    0x537: "Error_Listen",
-    0x737: "Error_Accepting",
-    0x937: "Error_ListAppFailed",
-    0xb37: "Error_InvalidMagic",
-    0xd37: "Error_CmdIdNotConfirm",
-    0xf37: "Error_CmdIdNotSendBuff",
-    0x1137: "Error_RecData",
-    0x1337: "Error_SendData",
-    0x1537: "Error_InitNS",
-    0x1737: "Error_InitACC",
-    0x1937: "Error_GetControlData",
-    0x1b37: "Error_InvalidControlSize",
-    0x1d37: "Error_GetAciveUser",
-    0x1f37: "Error_GetProfile",
-    0x2137: "Error_ProfileGet",
-    0x2337: "Error_InitPMDMNT",
-    0x2537: "Error_GetAppPid",
-    0x2737: "Error_GetProcessTid",
-    0x2937: "Error_InitPMINFO",
-    0x2b37: "Error_GetPidList",
-    0x2d37: "Error_GetDebugProc",
-    0x2f37: "Error_CloseHandle",
+    #Archived because the plugin got discontinued
+    #0x337: "Error_InitSocket",
+    #0x537: "Error_Listen",
+    #0x737: "Error_Accepting",
+    #0x937: "Error_ListAppFailed",
+    # 0xb37: "Error_InvalidMagic",
+    #0xd37: "Error_CmdIdNotConfirm",
+    #0xf37: "Error_CmdIdNotSendBuff",
+    #0x1137: "Error_RecData",
+    #0x1337: "Error_SendData",
+    #0x1537: "Error_InitNS",
+    #0x1737: "Error_InitACC",
+    #0x1937: "Error_GetControlData",
+    #0x1b37: "Error_InvalidControlSize",
+    #0x1d37: "Error_GetAciveUser",
+    #0x1f37: "Error_GetProfile",
+    #0x2137: "Error_ProfileGet",
+    #0x2337: "Error_InitPMDMNT",
+    #0x2537: "Error_GetAppPid",
+    #0x2737: "Error_GetProcessTid",
+    #0x2937: "Error_InitPMINFO",
+    #0x2b37: "Error_GetPidList",
+    #0x2d37: "Error_GetDebugProc",
+    #0x2f37: "Error_CloseHandle",
 
     # Joke
 
     0xDEADBEEF: "Congrats, you found some hexspeak \n \n https://www.youtube.com/watch?v=DLzxrzFCyOs",
-
-    # NFP Errors by HE
-
-    0xa073: "NFC is disabled",
-    0x16473: "Could not mount tag (invalid tag type?)",
-    0x8073: "Device unavailable",
-    0x10073: "App area not found",
-    0x11073: "Tag corrupted?",
-
-    # By XorTroll
-
-    0xc87c: "invalid user",
-    0xc7e: "mii already exists",
-    0xa7e: "full database",
-    0x87e: "mii not found",
-
-    # By Friedkeenan
-
-    0x115b: "[HBL] Stopped loading NROs",
 
     # By Ave
 
@@ -1081,6 +1110,6 @@ wii_u_errors = {
     '199-9999': 'Usually occurs when trying to run an unsigned title without signature patches, or something unknown(?) is corrupted.',
 }
 
-# 1K (+23) Lines PogChamp
+# 1K (+115) Lines PogChamp
 # Secret Memory Training: https://www.youtube.com/watch?v=h-mUGj41hWA
 # Secret Running Training: https://www.youtube.com/watch?v=XCiDuy4mrWU
