@@ -14,10 +14,10 @@ class Err(Cog):
         self.wiiu_re = re.compile(r'1\d{2}\-\d{4}')
         self.switch_re = re.compile(r'2\d{3}\-\d{4}')
         self.no_err_desc = "It seems like your error code is unknown. "\
-                           "You should report relevant details to "\
+                           "You should report **relevant** details to "\
                            "<@141532589725974528> (tomGER#7462) "\
                            "so it can be added to the bot."
-        self.rickroll = "https://www.youtube.com/watch?v=4uj896lr3-E"
+        self.rickroll = "https://www.youtube.com/watch?v=z3ZiVn5L9vM"
 
     @commands.command(aliases=["3dserr", "3err", "dserr"])
     async def dderr(self, ctx, err: str):
@@ -103,7 +103,7 @@ class Err(Cog):
                 desc = int(err[5:9])
                 errcode = (desc << 9) + module
 
-            str_errcode = f'{(module + 2000):04}-{desc:04}'
+            str_errcode = f"{(module + 2000):04}-{desc:04}"
 
             # Searching for Modules in list
             if module in switch_modules:
@@ -180,7 +180,7 @@ class Err(Cog):
             err = int(err, 16)
             module = err & 0x1FF
             desc = (err >> 9) & 0x3FFF
-            errcode = f'{(module + 2000):04}-{desc:04}'
+            errcode = f"{(module + 2000):04}-{desc:04}"
             await ctx.send(errcode)
         else:
             await ctx.send("This doesn't look like typical hex!")
