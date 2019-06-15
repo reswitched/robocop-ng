@@ -106,7 +106,7 @@ class Meme(Cog):
 
     @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True, aliases=["when", "etawhen",
-                                            "emunand", "thermosphere"])
+                                            "emunand", "emummc", "thermosphere"])
     async def eta(self, ctx):
         await ctx.send("June 15.")
 
