@@ -14,11 +14,18 @@ class Basic(Cog):
         """Says hello. Duh."""
         await ctx.send(f"Hello {ctx.author.mention}!")
 
+    @commands.cooldown(1, 10, type=commands.BucketType.user)
     @commands.command(name="hex")
     async def _hex(self, ctx, num: int):
         """Converts base 10 to 16 (for emummc sector calculation)"""
         hex_val = hex(num).upper().replace("0X", "0x")
         await ctx.send(f"{ctx.author.mention}: {hex_val}")
+
+    @commands.cooldown(1, 10, type=commands.BucketType.user)
+    @commands.command(name="dec")
+    async def _dec(self, ctx, num):
+        """Converts base 10 to 16"""
+        await ctx.send(f"{ctx.author.mention}: {int(num)}")
 
     @commands.guild_only()
     @commands.command()
