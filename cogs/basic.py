@@ -25,7 +25,7 @@ class Basic(Cog):
     @commands.command(name="dec")
     async def _dec(self, ctx, num):
         """Converts base 10 to 16"""
-        await ctx.send(f"{ctx.author.mention}: {int(num)}")
+        await ctx.send(f"{ctx.author.mention}: {int(num, 16)}")
 
     @commands.guild_only()
     @commands.command()
