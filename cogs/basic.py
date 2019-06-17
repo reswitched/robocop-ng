@@ -17,7 +17,8 @@ class Basic(Cog):
     @commands.command(name="hex")
     async def _hex(self, ctx, num: int):
         """Converts base 10 to 16 (for emummc sector calculation)"""
-        await ctx.send(f"{ctx.author.mention}: {hex(num).upper()}")
+        hex_val = hex(num).upper().replace("0X", "0x")
+        await ctx.send(f"{ctx.author.mention}: {hex_val}")
 
     @commands.guild_only()
     @commands.command()
