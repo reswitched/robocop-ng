@@ -373,7 +373,7 @@ class Mod(Cog):
             chan_msg += f"✏️ __Reason__: \"{reason}\""
         else:
             chan_msg += "Please add an explanation below. In the future"\
-                        ", it is recommended to use `.ban <user> [reason]`"\
+                        ", it is recommended to use `.warn <user> [reason]`"\
                         " as the reason is automatically sent to the user."
         await log_channel.send(chan_msg)
 
