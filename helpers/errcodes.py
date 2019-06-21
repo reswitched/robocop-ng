@@ -708,6 +708,10 @@ switch_known_errcodes = {
     0x115b: "[HBL] Stopped loading NROs",
     0x48c69: "device_cert_ecc_b223 failed to load",
     0x138E02: "gamecard cmd buffer too small - must be 0x40 (or bigger)",
+    0x138E02: "gc out of bounds sector access",
+    0x13DC02: "gc sector start is out of range for partition 1",
+    0x13D802: " gc sector end out of range for partition 1",
+    0x13DA02: "gc sector wrong partition access",
 
 
     # 0x3E8E89: 'Failed to access Firmware Updates - Often because of DNS!',
