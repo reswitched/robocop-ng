@@ -707,6 +707,7 @@ switch_known_errcodes = {
     0x87e: "mii not found",
     0x115b: "[HBL] Stopped loading NROs",
     0x48c69: "device_cert_ecc_b223 failed to load",
+    0x138E02: "gamecard cmd buffer too small - must be 0x40 (or bigger)",
 
 
     # 0x3E8E89: 'Failed to access Firmware Updates - Often because of DNS!',
