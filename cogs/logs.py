@@ -23,6 +23,7 @@ class Logs(Cog):
         self.susp_words = ["sx", "tx", "reinx",  # piracy-enabling cfws
                            "tinfoil", "dz",  # title managers
                            "goldleaf", "lithium",  # title managers
+                           "cracked", # older term for pirated games
                            "xci"]  # "backup" format
         susp_hellgex = "|".join([r"\W*".join(list(word)) for
                                  word in self.susp_words])
