@@ -545,14 +545,14 @@ switch_known_errcodes = {
     0x327202: "Writable file not closed when committing",
     0x35F202: "Mount name not found in table.",
     0x21A: "SMC is not implemented",
-    0x61A: "SMC is currently in progress/secmon is busy", 
+    0x61A: "SMC is currently in progress/secmon is busy",
     0x81A: "Secmon not currently performing async operation",
     0xA1A: "Invalid SMC async callback key",
     0xC1A: "SMC is blacklisted during current boot",
     0xD41A: "BootReason already set",
     0xD61A: "BootReason not set",
     0xD81A: "Invalid argument",
-    0x70E74: " TimeZoneRule conversion failed",
+    0x70E74: "TimeZoneRule conversion failed",
     0x27A: "Object not found",
     0x67A: "Object locked/in used",
     0x87A: "Target already mounted",
@@ -565,9 +565,9 @@ switch_known_errcodes = {
     0xC47A: "Invalid operation",
     0x290: "Exited Abnormally ([[Applet_Manager_services#LibraryAppletExitReason|ExitReason]] == Abormal)",
     0x690: "Canceled ([[Applet_Manager_services#LibraryAppletExitReason|ExitReason]] == Canceled)",
-    0x890: "Rejected", #me_irl
+    0x890: "Rejected",  #me_irl
     0xA90: "Exited Unexpectedly ([[Applet_Manager_services#LibraryAppletExitReason|ExitReason]] == Unexpected)",
-    0x58ACA: " Npad ID is out of range.",
+    0x58ACA: "Npad ID is out of range.",
     0x1A8CD: "IR camera handle pointer is null.",
     0x198CD: "IR camera invalid handle value.",
 
@@ -710,7 +710,7 @@ switch_known_errcodes = {
     0x138E02: "gamecard cmd buffer too small - must be 0x40 (or bigger)",
     0x138E02: "gc out of bounds sector access",
     0x13DC02: "gc sector start is out of range for partition 1",
-    0x13D802: " gc sector end out of range for partition 1",
+    0x13D802: "gc sector end out of range for partition 1",
     0x13DA02: "gc sector wrong partition access",
 
 
@@ -1115,6 +1115,6 @@ wii_u_errors = {
     '199-9999': 'Usually occurs when trying to run an unsigned title without signature patches, or something unknown(?) is corrupted.',
 }
 
-# 1K (+115) Lines PogChamp
+# 1K (+120) Lines PogChamp
 # Secret Memory Training: https://www.youtube.com/watch?v=h-mUGj41hWA
 # Secret Running Training: https://www.youtube.com/watch?v=XCiDuy4mrWU
