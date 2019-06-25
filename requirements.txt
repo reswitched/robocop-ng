@@ -1,5 +1,4 @@
-git+https://github.com/Rapptz/discord.py
-
+discord.py
 asyncio
 python-dateutil
 humanize

@@ -68,7 +68,6 @@ bot = commands.Bot(command_prefix=get_prefix,
                    description=config.bot_description, pm_help=True)
 
 bot.log = log
-bot.loop = asyncio.get_event_loop()
 bot.config = config
 bot.script_name = script_name
 bot.wanted_jsons = wanted_jsons
@@ -208,4 +207,4 @@ for wanted_json in wanted_jsons:
         with open(wanted_json, "w") as f:
             f.write("{}")
 
-bot.run(config.token, bot=True, reconnect=True, loop=bot.loop)
+bot.run(config.token, bot=True, reconnect=True)
