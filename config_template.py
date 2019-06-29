@@ -46,6 +46,10 @@ staff_role_ids = [364647829248933888,  # Team role in ReSwitched
                   360138163156549632,  # Admin role in ReSwitched
                   287289529986187266]  # Wizard role in ReSwitched
 
+kek_role_ids = [578239919542239243,  # Kekdad role in AtlasNX
+                574670558910742531,  # Kekmon role in AtlasNX
+                594592298763943977]  # Kekreport role in AtlasNX
+
 # Various log channels used to log bot and guild's activity
 # You can use same channel for multiple log types
 # Spylog channel logs suspicious messages or messages by members under watch
