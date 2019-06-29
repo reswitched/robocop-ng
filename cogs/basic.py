@@ -44,7 +44,7 @@ class Basic(Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(aliases=['p'])
+    @commands.command(aliases=['p', "ddos"])
     async def ping(self, ctx):
         """Shows ping values to discord.
 
