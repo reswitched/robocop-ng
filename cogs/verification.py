@@ -107,7 +107,7 @@ welcome_footer = (
     """,
 )
 
-hidden_term_line = ' • When you have finished reading all of the rules, send a message in this channel that includes the {0} hash of your discord "name#discriminator", and bot will automatically grant you access to the other channels. You can find your "name#discriminator" (your username followed by a ‘#’ and four numbers) under the discord channel list.'
+hidden_term_line = ' • When you have finished reading all of the rules, send a message in this channel that includes the {0} hex digest of your discord "name#discriminator", and bot will automatically grant you access to the other channels. You can find your "name#discriminator" (your username followed by a ‘#’ and four numbers) under the discord channel list.'
 
 
 class Verification(Cog):
@@ -129,8 +129,13 @@ class Verification(Cog):
         rules = ['**{}**. {}'.format(i, cleandoc(r)) for i, r in
                  enumerate(welcome_rules, 1)]
         rule_choice = random.randint(2, len(rules))
+        hash_choice_str = self.hash_choice.upper()
+        if hash_choice_str == "BLAKE2B":
+            hash_choice_str += "-512"
+        elif hash_choice_str == "BLAKE2S":
+            hash_choice_str += "-256"
         rules[rule_choice - 1] += \
-            '\n' + hidden_term_line.format(self.hash_choice.upper())
+            '\n' + hidden_term_line.format(hash_choice_str)
         msg = f"🗑 **Reset**: {author} cleared {limit} messages "\
               f" in {channel.mention}"
         msg += f"\n💬 __Current challenge location__: under rule {rule_choice}"
