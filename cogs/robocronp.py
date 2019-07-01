@@ -61,7 +61,7 @@ class Robocronp(Cog):
             try:
                 job_details = ctab[jobtype][timestamp][job_name]
                 if jobtype == "unban":
-                    target_user = await self.bot.get_user_info(job_name)
+                    target_user = await self.bot.fetch_user(job_name)
                     target_guild = self.bot.get_guild(job_details["guild"])
                     delete_job(timestamp, jobtype, job_name)
                     await target_guild.unban(target_user,
@@ -79,7 +79,7 @@ class Robocronp(Cog):
                 elif jobtype == "remind":
                     text = job_details["text"]
                     added_on = job_details["added"]
-                    target = await self.bot.get_user_info(int(job_name))
+                    target = await self.bot.fetch_user(int(job_name))
                     if target:
                         await target.send("You asked to be reminded about"
                                           f" `{text}` on {added_on}.")
