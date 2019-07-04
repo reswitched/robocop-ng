@@ -109,7 +109,7 @@ class Meme(Cog):
     @commands.command(hidden=True, aliases=["when", "etawhen",
                                             "emunand", "thermosphere", "emummc"])
     async def eta(self, ctx):
-        await ctx.send(random.choice(["June 15th.", "Wednesday.", "Tuesday."]))
+        await ctx.send(random.choice(["June 15.", "Wednesday.", "Tuesday."]))
 
     @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True, name="bam", aliases=["boom"])
