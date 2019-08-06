@@ -10,6 +10,8 @@ Code is based on https://gitlab.com/ao/dpybotbase and https://github.com/916253/
 ## How to run
 
 - Copy `config.py.template` to `config.py`, configure all necessary parts to your server.
+- (obviously) Add the bot to your guild. Many resources about this online.
+- If you haven't already done this already, **move the bot's role above the roles it'll need to manage, or else it won't function properly**, this is especially important for verification as it doesn't work otherwise.
 - Install python3.6+.
 - Install python dependencies (`pip3 install -Ur requirements.txt`, you might need to put `sudo -H` before that)
 - If you're moving from Kurisu or Robocop: Follow `Tips for people moving from Kurisu/Robocop` below.
