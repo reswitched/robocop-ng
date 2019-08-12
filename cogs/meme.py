@@ -5,6 +5,7 @@ from discord.ext.commands import Cog
 import math
 import platform
 from helpers.checks import check_if_staff_or_ot
+import datetime
 
 
 class Meme(Cog):
@@ -126,6 +127,12 @@ class Meme(Cog):
     async def frolics(self, ctx):
         """test"""
         await ctx.send("https://www.youtube.com/watch?v=VmarNEsjpDI")
+
+    @commands.command(hidden=True, aliases=["yotld"])
+    async def yearoflinux(self, ctx):
+        """Shows the year of Linux on the desktop"""
+        await ctx.send(f"{datetime.datetime.now().year} is the year of "
+                       "Linux on the Desktop")
 
 
 def setup(bot):
