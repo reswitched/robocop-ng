@@ -309,7 +309,7 @@ class Mod(Cog):
         log_channel = self.bot.get_channel(config.log_channel)
         if not channel:
             channel = ctx.channel
-        if sanity != 'yes_im_fucking_sure' and limit > purge_warning_limit:
+        if sanity != 'yes_im_fucking_sure' and limit > config.purge_warning_limit:
             await channel.send('Read the help text.')
             return
 
