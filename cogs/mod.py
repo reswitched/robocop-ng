@@ -309,8 +309,8 @@ class Mod(Cog):
         log_channel = self.bot.get_channel(config.log_channel)
         if not channel:
             channel = ctx.channel
-        if sanity != 'yes_im_fucking_sure' and limit > config.purge_warning_limit:
-            await channel.send('Read the help text.')
+        if sanity != 'yes_im_sure' and limit > config.purge_warning_limit:
+            await channel.send(f"Are you sure you want to delete the last {limit} messages in {channel.name}? If you are absolutely sure add `yes_im_sure` to the sanity flag of this command.")
             return
 
         await channel.purge(limit=limit)
