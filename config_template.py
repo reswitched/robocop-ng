@@ -87,6 +87,9 @@ lockdown_configs = {
     }
 }
 
+# The maximum amount of messages that can be purged before a sanity check is put in place
+purge_warning_limit = 50
+
 # Mute role is applied to users when they're muted
 # As we no longer have mute role on ReSwitched, I set it to 0 here
 mute_role = 0  # Mute role in ReSwitched

@@ -304,11 +304,15 @@ class Mod(Cog):
     @commands.guild_only()
     @commands.check(check_if_staff)
     @commands.command(aliases=["clear"])
-    async def purge(self, ctx, limit: int, channel: discord.TextChannel = None):
+    async def purge(self, ctx, limit: int, channel: discord.TextChannel = None, sanity: str = ''):
         """Clears a given number of messages, staff only."""
         log_channel = self.bot.get_channel(config.log_channel)
         if not channel:
             channel = ctx.channel
+        if sanity != 'yes_im_fucking_sure' and limit > purge_warning_limit:
+            await channel.send('Read the help text.')
+            return
+
         await channel.purge(limit=limit)
         msg = f"🗑 **Purged**: {ctx.author.mention} purged {limit} "\
               f"messages in {channel.mention}."
