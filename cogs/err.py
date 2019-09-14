@@ -14,7 +14,8 @@ class Err(Cog):
         self.wiiu_re = re.compile(r'1\d{2}\-\d{4}')
         self.switch_re = re.compile(r'2\d{3}\-\d{4}')
         self.no_err_desc = "It seems like your error code is unknown. "\
-                           "Try using https://github.com/atlasnx/betch. "
+                           "You can check on Switchbrew for your error code at "\
+                           "<https://switchbrew.org/wiki/Error_codes>"
         self.rickroll = "https://www.youtube.com/watch?v=z3ZiVn5L9vM"
 
     @commands.command(aliases=["3dserr", "3err", "dserr"])
@@ -135,7 +136,7 @@ class Err(Cog):
             if "ban" in err_description:
                 embed.set_footer("F to you | Console: Switch")
             else:
-                embed.set_footer(text="Console: Switch | OUTDATED - Try using: https://github.com/atlasnx/betch")
+                embed.set_footer(text="Console: Switch")
             
             await ctx.send(embed=embed)
 
