@@ -136,7 +136,7 @@ class Err(Cog):
             if "ban" in err_description:
                 embed.set_footer("F to you | Console: Switch")
             else:
-                embed.set_footer(text="Console: Switch | OUTDATED - Try using: https://github.com/atlasnx/betch")
+                embed.set_footer(text="Console: Switch")
             
             await ctx.send(embed=embed)
 
