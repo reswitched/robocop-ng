@@ -15,7 +15,7 @@ welcome_header = """
 
 __**Be sure you read the following rules and information before participating. If you came here to ask about "backups", this is NOT the place.**__
 
-__**This is a server for technical discussion and development support. If you are looking for end-user support, the Nintendo Homebrew discord server may be a better fit: https://discord.gg/C29hYvh.**__
+__**This is a server for technical discussion and development support. If you are looking for end-user support, the Nintendo Homebrew discord server may be a better fit: <https://discord.gg/C29hYvh>.**__
 
 __**Got questions about Nintendo Switch hacking? Before asking in the server, please see our FAQ at <https://reswitched.team/faq/> to see if your question has already been answered.**__
 
