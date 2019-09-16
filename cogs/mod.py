@@ -106,6 +106,9 @@ class Mod(Cog):
         # Hedge-proofing the code
         if target == ctx.author:
             return await ctx.send("You can't do mod actions on yourself.")
+        elif ctx.bot.user == target:
+            return await ctx.send(f"I'm sorry {ctx.author.mention}, I'm afraid "
+                                   "I can't do that.")
         elif self.check_if_target_is_staff(target):
             return await ctx.send("I can't kick this user as "
                                   "they're a member of staff.")
@@ -151,6 +154,9 @@ class Mod(Cog):
         # Hedge-proofing the code
         if target == ctx.author:
             return await ctx.send("You can't do mod actions on yourself.")
+        elif ctx.bot.user == target:
+            return await ctx.send(f"I'm sorry {ctx.author.mention}, I'm afraid "
+                                   "I can't do that.")
         elif self.check_if_target_is_staff(target):
             return await ctx.send("I can't ban this user as "
                                   "they're a member of staff.")
