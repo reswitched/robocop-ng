@@ -150,7 +150,7 @@ class Mod(Cog):
         """Bans a user, staff only."""
         # Hedge-proofing the code
         if target == ctx.author:
-            return await ctx.send("You can't do mod actions on yourself.")
+            return await ctx.send("hedgeberg#7337 is now b&. 👍")
         elif self.check_if_target_is_staff(target):
             return await ctx.send("I can't ban this user as "
                                   "they're a member of staff.")
