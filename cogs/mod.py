@@ -156,6 +156,8 @@ class Mod(Cog):
         """Bans a user, staff only."""
         # Hedge-proofing the code
         if target == ctx.author:
+            if target.id == 181627658520625152:
+                return await ctx.send("No, not again.")
             return await ctx.send("hedgeberg#7337 is now b&. 👍")
         elif target == self.bot.user:
             return await ctx.send(f"I'm sorry {ctx.author.mention}, "
