@@ -115,6 +115,14 @@ class Meme(Cog):
     @commands.command(hidden=True, name="bam")
     async def bam_member(self, ctx, target: discord.Member):
         """Bams a user owo"""
+        if target == ctx.author:
+            if target.id == 181627658520625152:
+                return await ctx.send("https://cdn.discordapp.com/attachments/286612533757083648/403080855402315796/rehedge.PNG")
+            return await ctx.send("hedgeberg#7337 is now b&. 👍")
+        elif target == self.bot.user:
+            return await ctx.send(f"I'm sorry {ctx.author.mention}, "
+                                  "I'm afraid I can't do that.")
+
         safe_name = await commands.clean_content().convert(ctx, str(target))
         await ctx.send(f"{safe_name} is ̶n͢ow b̕&̡.̷ 👍̡")
 
