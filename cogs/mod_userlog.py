@@ -205,12 +205,15 @@ class ModUserlog(Cog):
         embed = self.get_userlog_embed_for_id(str(user.id), str(user),
                                               event=event_types)
 
-        await ctx.send(f"user = {user}\n"
+        user_name = await commands.clean_content().convert(ctx, user.name)
+        display_name = await commands.clean_content().convert(ctx, user.display_name)
+
+        await ctx.send(f"user = {user_name}\n"
                        f"id = {user.id}\n"
                        f"avatar = {user.avatar_url}\n"
                        f"bot = {user.bot}\n"
                        f"created_at = {user.created_at}\n"
-                       f"display_name = {user.display_name}\n"
+                       f"display_name = {display_name}\n"
                        f"joined_at = {user.joined_at}\n"
                        f"activities = `{user.activities}`\n"
                        f"color = {user.colour}\n"
