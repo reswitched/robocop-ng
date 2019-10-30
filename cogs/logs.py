@@ -20,7 +20,7 @@ class Logs(Cog):
         self.name_re = re.compile(r"[a-zA-Z0-9].*")
         self.clean_re = re.compile(r'[^a-zA-Z0-9_ ]+', re.UNICODE)
         # All lower case, no spaces, nothing non-alphanumeric
-        self.susp_words = ["sx", "tx", "reinx",  # piracy-enabling cfws
+        self.susp_words = ["sx", "tx", "reinx", "ppatmos",  # piracy-enabling cfws
                            "tinfoil", "dz",  # title managers
                            "goldleaf", "lithium",  # title managers
                            "cracked", # older term for pirated games
