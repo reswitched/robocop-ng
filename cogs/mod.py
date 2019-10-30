@@ -147,6 +147,7 @@ class Mod(Cog):
 
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
+        await ctx.send(f"👢 {safe_name}, 👍.")
 
     @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
