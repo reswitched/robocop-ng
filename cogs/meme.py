@@ -81,6 +81,12 @@ class Meme(Cog):
 
     @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True)
+    async def blackalabi(self, ctx):
+        """secret command"""
+        await ctx.send("https://elixi.re/i/discord.png")
+
+    @commands.check(check_if_staff_or_ot)
+    @commands.command(hidden=True)
     async def peng(self, ctx):
         """heck tomger"""
         await ctx.send(f"🐧")
