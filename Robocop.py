@@ -170,7 +170,7 @@ async def on_command_error(ctx, error):
         # Nothing to do when command is not found.
         return
 
-    help_text = f"Usage of this command is: ```{ctx.prefix}"\
+    help_text = f"Usage of this command is: ```{ctx.prefix}{ctx.command.name} "\
                 f"{ctx.command.signature}```\nPlease see `{ctx.prefix}help "\
                 f"{ctx.command.name}` for more info about this command."
     if isinstance(error, commands.BadArgument):
