@@ -65,7 +65,8 @@ initial_extensions = ['cogs.common',
                       'cogs.invites']
 
 bot = commands.Bot(command_prefix=get_prefix,
-                   description=config.bot_description, dm_help=True)
+                   description=config.bot_description)
+bot.help_command = commands.DefaultHelpCommand(dm_help=True)
 
 bot.log = log
 bot.config = config
