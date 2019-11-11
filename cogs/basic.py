@@ -37,6 +37,14 @@ class Basic(Cog):
 
     @commands.guild_only()
     @commands.command()
+    async def hackercount(self, ctx):
+        """Prints the hacker member count of the server."""
+        h4x0r = ctx.guild.get_role(config.named_roles["hacker"])
+        await ctx.send(f"{ctx.guild.name} has "
+                       f"{len(h4x0r.members)} people with hacker role!")
+
+    @commands.guild_only()
+    @commands.command()
     async def membercount(self, ctx):
         """Prints the member count of the server."""
         await ctx.send(f"{ctx.guild.name} has "
