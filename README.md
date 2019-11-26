@@ -2,7 +2,7 @@
 
 Next-gen rewrite of Kurisu/Robocop bot used on ReSwitched bot with discord.py rewrite, designed to be relatively clean, consistent and un-bloated.
 
-Code is based on https://gitlab.com/ao/dpybotbase and https://github.com/916253/Kurisu-Reswitched.
+Code is based on https://gitlab.com/a/dpybotbase and https://github.com/916253/Kurisu-Reswitched.
 
 
 ---
