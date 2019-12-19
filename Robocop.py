@@ -61,6 +61,7 @@ initial_extensions = ['cogs.common',
                       'cogs.remind',
                       'cogs.robocronp',
                       'cogs.meme',
+                      'cogs.imagemanip',
                       'cogs.pin',
                       'cogs.invites']
 

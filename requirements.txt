@@ -5,3 +5,6 @@ humanize
 parsedatetime
 aiohttp
 gidgethub
+
+# Only if you'll enable imagemanip, which is only used for meme commands
+Pillow
