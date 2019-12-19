@@ -98,7 +98,7 @@ class ImageManip(Cog):
         # Wrap into lines
         lines = textwrap.wrap(headline, width=font_wrap_count)
         # not great, 4am be like
-        image_height = (len(lines) + 2) * vertpos
+        image_height = (len(lines) + 3) * vertpos
 
         # Load font
         f = PIL.ImageFont.truetype(font_path, font_size)
