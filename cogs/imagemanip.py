@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from discord.ext.commands import Cog
+from helpers.checks import check_if_staff_or_ot
 import textwrap
 import PIL.Image
 import PIL.ImageFilter
@@ -13,7 +14,8 @@ class ImageManip(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.check(check_if_staff_or_ot)
+    @commands.command(hidden=True)
     async def cox(self, ctx, *, headline: str):
         """Gives a cox headline"""
         mention = ctx.author.mention
