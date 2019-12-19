@@ -14,7 +14,7 @@ class ImageManip(Cog):
         self.bot = bot
 
     @commands.command()
-    async def cox(self, ctx, *headline: str):
+    async def cox(self, ctx, *, headline: str):
         """Gives a cox headline"""
         mention = ctx.author.mention
 
