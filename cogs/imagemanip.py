@@ -14,6 +14,7 @@ class ImageManip(Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.cooldown(1, 60 * 60 * 3, type=commands.BucketType.user)
     @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True)
     async def cox(self, ctx, *, headline: str):
