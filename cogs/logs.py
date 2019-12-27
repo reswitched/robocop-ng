@@ -34,6 +34,10 @@ class Logs(Cog):
     @Cog.listener()
     async def on_member_join(self, member):
         await self.bot.wait_until_ready()
+
+        if (member_after.guild.id not in config.guild_whitelist):
+            return
+
         log_channel = self.bot.get_channel(config.log_channel)
         # We use this a lot, might as well get it once
         escaped_name = self.bot.escape_message(member)
@@ -246,6 +250,10 @@ class Logs(Cog):
     @Cog.listener()
     async def on_member_remove(self, member):
         await self.bot.wait_until_ready()
+
+        if (member.guild.id not in config.guild_whitelist):
+            return
+
         log_channel = self.bot.get_channel(config.log_channel)
         msg = f"⬅️ **Leave**: {member.mention} | "\
               f"{self.bot.escape_message(member)}\n"\
@@ -255,6 +263,10 @@ class Logs(Cog):
     @Cog.listener()
     async def on_member_ban(self, guild, member):
         await self.bot.wait_until_ready()
+
+        if (guild.id not in config.guild_whitelist):
+            return
+
         log_channel = self.bot.get_channel(config.modlog_channel)
         msg = f"⛔ **Ban**: {member.mention} | "\
               f"{self.bot.escape_message(member)}\n"\
@@ -264,6 +276,10 @@ class Logs(Cog):
     @Cog.listener()
     async def on_member_unban(self, guild, user):
         await self.bot.wait_until_ready()
+
+        if (guild.id not in config.guild_whitelist):
+            return
+
         log_channel = self.bot.get_channel(config.modlog_channel)
         msg = f"⚠️ **Unban**: {user.mention} | "\
               f"{self.bot.escape_message(user)}\n"\
@@ -282,6 +298,10 @@ class Logs(Cog):
     @Cog.listener()
     async def on_member_update(self, member_before, member_after):
         await self.bot.wait_until_ready()
+
+        if (member_after.guild.id not in config.guild_whitelist):
+            return
+
         msg = ""
         log_channel = self.bot.get_channel(config.log_channel)
         if member_before.roles != member_after.roles:
