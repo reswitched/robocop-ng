@@ -18,9 +18,9 @@ def set_userlog(contents):
         f.write(contents)
 
 
-def userlog(uid, issuer, reason, event_type, uname: str = ""):
+def fill_userlog(userid, uname):
     userlogs = get_userlog()
-    uid = str(uid)
+    uid = str(userid)
     if uid not in userlogs:
         userlogs[uid] = {"warns": [],
                          "mutes": [],
@@ -31,6 +31,13 @@ def userlog(uid, issuer, reason, event_type, uname: str = ""):
                          "name": "n/a"}
     if uname:
         userlogs[uid]["name"] = uname
+
+    return userlogs, uid
+    
+    
+def userlog(uid, issuer, reason, event_type, uname: str = ""):
+    userlogs, uid = fill_userlog(uid, uname)
+
     timestamp = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     log_data = {"issuer_id": issuer.id,
                 "issuer_name": f"{issuer}",
@@ -44,19 +51,7 @@ def userlog(uid, issuer, reason, event_type, uname: str = ""):
 
 
 def setwatch(uid, issuer, watch_state, uname: str = ""):
-    userlogs = get_userlog()
-    uid = str(uid)
-    # Can we reduce code repetition here?
-    if uid not in userlogs:
-        userlogs[uid] = {"warns": [],
-                         "mutes": [],
-                         "kicks": [],
-                         "bans": [],
-                         "notes": [],
-                         "watch": False,
-                         "name": "n/a"}
-    if uname:
-        userlogs[uid]["name"] = uname
+    userlogs, uid = fill_userlog(uid, uname)
 
     userlogs[uid]["watch"] = watch_state
     set_userlog(json.dumps(userlogs))
