@@ -121,9 +121,9 @@ class ModUserlog(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command(aliases=["listwarnsid"])
-    async def userlogid(self, ctx, target: int):
-        """Lists the userlog events for a user by ID, staff only."""
+    @commands.command(aliases=["listwarns","userlogid","listwarnsid"])
+    async def userlog(self, ctx, target: discord.Member):
+        """Lists the userlog events for a user, staff only."""
         embed = self.get_userlog_embed_for_id(str(target), str(target))
         await ctx.send(embed=embed)
 
@@ -142,17 +142,6 @@ class ModUserlog(Cog):
               f"{safe_name}"
         await log_channel.send(msg)
 
-    @commands.guild_only()
-    @commands.check(check_if_staff)
-    @commands.command(aliases=["clearwarnsid"])
-    async def cleareventid(self, ctx, target: int, event="warns"):
-        """Clears all events of given type for a userid, staff only."""
-        log_channel = self.bot.get_channel(config.modlog_channel)
-        msg = self.clear_event_from_id(str(target), event)
-        await ctx.send(msg)
-        msg = f"🗑 **Cleared {event}**: {ctx.author.mention} cleared"\
-              f" all {event} events of <@{target}> "
-        await log_channel.send(msg)
 
     @commands.guild_only()
     @commands.check(check_if_staff)
@@ -174,23 +163,6 @@ class ModUserlog(Cog):
         else:
             await ctx.send(del_event)
 
-    @commands.guild_only()
-    @commands.check(check_if_staff)
-    @commands.command(aliases=["delwarnid"])
-    async def deleventid(self, ctx, target: int, idx: int, event="warns"):
-        """Removes a specific event from a userid, staff only."""
-        log_channel = self.bot.get_channel(config.modlog_channel)
-        del_event = self.delete_event_from_id(str(target), idx, event)
-        event_name = userlog_event_types[event].lower()
-        # This is hell.
-        if isinstance(del_event, discord.Embed):
-            await ctx.send(f"<@{target}> has a {event_name} removed!")
-            msg = f"🗑 **Deleted {event_name}**: "\
-                  f"{ctx.author.mention} removed "\
-                  f"{event_name} {idx} from <@{target}> "
-            await log_channel.send(msg, embed=del_event)
-        else:
-            await ctx.send(del_event)
 
     @commands.guild_only()
     @commands.check(check_if_staff)
