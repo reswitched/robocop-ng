@@ -185,7 +185,7 @@ class Mod(Cog):
         if target == ctx.author:
             if target.id == 181627658520625152:
                 return await ctx.send("https://cdn.discordapp.com/attachments/286612533757083648/403080855402315796/rehedge.PNG")
-            return await ctx.send("You can't do mod actions on yourself.")
+            return await ctx.send("hedgeberg#7337 is now b&. 👍")
         elif target == self.bot.user:
             return await ctx.send(f"I'm sorry {ctx.author.mention}, "
                                   "I'm afraid I can't do that.")
