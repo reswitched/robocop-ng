@@ -149,36 +149,10 @@ class Mod(Cog):
         await log_channel.send(chan_message)
         await ctx.send(f"👢 {safe_name}, 👍.")
 
-
-    async def do_ban(self,ctx,target,reason):
-        userlog(target.id, ctx.author, reason, "bans", target.name)
-
-        safe_name = await commands.clean_content().convert(ctx, str(target))
-
-        await ctx.guild.ban(target,
-                            reason=f"{ctx.author}, reason: {reason}",
-                            delete_message_days=0)
-
-        ban_type = ctx.command.name
-        chan_message = f"⛔ **{ban_type.title()}**: {ctx.author.mention} banned "\
-                       f"{target.mention} | {safe_name}\n"\
-                       f"🏷 __User ID__: {target.id}\n"
-        if reason:
-            chan_message += f"✏️ __Reason__: \"{reason}\""
-        else:
-            chan_message += "Please add an explanation below. In the future"\
-                            f", it is recommended to use `.{ban_type} <user> [reason]`"\
-                            " as the reason is automatically sent to the user."
-
-        log_channel = self.bot.get_channel(config.modlog_channel)
-        await log_channel.send(chan_message)
-        await ctx.send(f"{safe_name} is now b&. 👍")
-
-        
     @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
     @commands.check(check_if_staff)
-    @commands.command(aliases=["yeet"])
+    @commands.command(aliases=["yeet","softban","silentban"])
     async def ban(self, ctx, target: discord.Member, *, reason: str = ""):
         """Bans a user, staff only."""
         # Hedge-proofing the code
@@ -193,40 +167,40 @@ class Mod(Cog):
             return await ctx.send("I can't ban this user as "
                                   "they're a member of staff.")
 
-        self.do_ban(ctx,target,reason)
+        userlog(target.id, ctx.author, reason, "bans", target.name)
 
+        safe_name = await commands.clean_content().convert(ctx, str(target))
+        
+        ban_type = "Ban"
+        if ctx.invoked_with in ["softban","silentban"]:
+            ban_type = "Silent Ban"
+            dm_message = f"You were banned from {ctx.guild.name}."
+            if reason:
+                dm_message += f" The given reason is: \"{reason}\"."
+            dm_message += "\n\nThis ban does not expire."
 
-    @commands.guild_only()
-    @commands.bot_has_permissions(ban_members=True)
-    @commands.check(check_if_staff)
-    async def softban(self, ctx, target: discord.Member, *, reason: str = ""):
-        """Bans a user, staff only."""
-        # Hedge-proofing the code
-        if target == ctx.author:
-            if target.id == 181627658520625152:
-                return await ctx.send("https://cdn.discordapp.com/attachments/286612533757083648/403080855402315796/rehedge.PNG")
-            return await ctx.send("You can't do mod actions on yourself.")
-        elif target == self.bot.user:
-            return await ctx.send(f"I'm sorry {ctx.author.mention}, "
-                                  "I'm afraid I can't do that.")
-        elif self.check_if_target_is_staff(target):
-            return await ctx.send("I can't ban this user as "
-                                  "they're a member of staff.")
+            try:
+                await target.send(dm_message)
+            except discord.errors.Forbidden:
+                # Prevents ban issues in cases where user blocked bot
+                # or has DMs disabled
+                pass
 
-        dm_message = f"You were banned from {ctx.guild.name}."
+        await target.ban(reason=f"{ctx.author}, reason: {reason}",
+                         delete_message_days=0)
+        chan_message = f"⛔ **{ban_type}**: {ctx.author.mention} banned "\
+                       f"{target.mention} | {safe_name}\n"\
+                       f"🏷 __User ID__: {target.id}\n"
         if reason:
-            dm_message += f" The given reason is: \"{reason}\"."
-        dm_message += "\n\nThis ban does not expire."
+            chan_message += f"✏️ __Reason__: \"{reason}\""
+        else:
+            chan_message += "Please add an explanation below. In the future"\
+                           f", it is recommended to use `.{ctx.invoked_with} <user> [reason]`"\
+                            " as the reason is automatically sent to the user."
 
-        try:
-            await target.send(dm_message)
-        except discord.errors.Forbidden:
-            # Prevents ban issues in cases where user blocked bot
-            # or has DMs disabled
-            pass
-
-        self.do_ban(ctx,target,reason)
-
+        log_channel = self.bot.get_channel(config.modlog_channel)
+        await log_channel.send(chan_message)
+        await ctx.send(f"{safe_name} is now b&. 👍")
 
     @commands.guild_only()
     @commands.check(check_if_staff)
