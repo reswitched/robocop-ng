@@ -18,15 +18,6 @@ class ModNote(Cog):
                 "notes", target.name)
         await ctx.send(f"{ctx.author.mention}: noted!")
 
-    @commands.guild_only()
-    @commands.check(check_if_staff)
-    @commands.command(aliases=["addnoteid"])
-    async def noteid(self, ctx, target: int, *, note: str = ""):
-        """Adds a note to a user by userid, staff only."""
-        userlog(target, ctx.author, note,
-                "notes")
-        await ctx.send(f"{target.mention}: noted!")
-
 
 def setup(bot):
     bot.add_cog(ModNote(bot))
