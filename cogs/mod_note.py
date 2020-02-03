@@ -25,7 +25,7 @@ class ModNote(Cog):
         """Adds a note to a user by userid, staff only."""
         userlog(target, ctx.author, note,
                 "notes")
-        await ctx.send(f"{target.mention}: noted!")
+        await ctx.send(f"{ctx.author.mention}: noted!")
 
 
 def setup(bot):
