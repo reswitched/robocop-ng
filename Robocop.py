@@ -63,7 +63,8 @@ initial_extensions = ['cogs.common',
                       'cogs.meme',
                       'cogs.imagemanip',
                       'cogs.pin',
-                      'cogs.invites']
+                      'cogs.invites',
+                      'cogs.lists']
 
 bot = commands.Bot(command_prefix=get_prefix,
                    description=config.bot_description)
