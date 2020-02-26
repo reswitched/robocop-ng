@@ -5,6 +5,7 @@ import urllib.parse
 from discord.ext import commands
 from discord.ext.commands import Cog
 
+
 class Lists(Cog):
     """
     Manages channels that are dedicated to lists.
@@ -59,7 +60,7 @@ class Lists(Cog):
                 user_ids = map(lambda user: user.id, users)
                 if user_id in user_ids:
                     reactions.append(reaction)
-        
+
         return reactions
 
     def create_log_message(self, emoji, action, user, channel, reason = ""):
@@ -68,7 +69,7 @@ class Lists(Cog):
 
         if reason != "":
             msg += f":\n`{reason}`"
-        
+
         return msg
 
     async def clean_up_raw_text_file_message(self, message):
@@ -82,7 +83,7 @@ class Lists(Cog):
                 files_channel = self.bot.get_channel(config.list_files_channel)
                 file_message = await files_channel.fetch_message(int(field.value))
                 await file_message.delete()
-        
+
         await message.edit(embed = None)
 
     # Commands
@@ -131,7 +132,9 @@ class Lists(Cog):
         message = await channel.fetch_message(payload.message_id)
         member = channel.guild.get_member(payload.user_id)
         user = self.bot.get_user(payload.user_id)
-        reaction = next((reaction for reaction in message.reactions if str(reaction.emoji) == str(payload.emoji)), None)
+        reaction = next(
+            (reaction for reaction in message.reactions
+                if str(reaction.emoji) == str(payload.emoji)), None)
         if reaction is None:
             return
 
@@ -152,20 +155,25 @@ class Lists(Cog):
 
         # Remove all other reactions from user in this channel.
         for r in await self.find_reactions(payload.user_id, payload.channel_id):
-            if r.message.id != message.id or (r.message.id == message.id  and str(r.emoji) != str(reaction.emoji)):
+            if r.message.id != message.id or (r.message.id == message.id and
+                str(r.emoji) != str(reaction.emoji)):
                 await r.remove(user)
 
         # When editing we want to provide the user a copy of the raw text.
         if self.is_edit(reaction.emoji) and config.list_files_channel != 0:
             files_channel = self.bot.get_channel(config.list_files_channel)
-            file = discord.File(io.BytesIO(message.content.encode("utf-8")), filename = f"{message.id}.txt")
+            file = discord.File(
+                io.BytesIO(message.content.encode("utf-8")),
+                filename = f"{message.id}.txt")
             file_message = await files_channel.send(file = file)
 
             embed = discord.Embed(
                 title = "Click here to get the raw text to modify.",
-                url = f"{file_message.attachments[0].url}?"
-            )
-            embed.add_field(name = "Message ID", value = file_message.id, inline = False)
+                url = f"{file_message.attachments[0].url}?")
+            embed.add_field(
+                name = "Message ID",
+                value = file_message.id,
+                inline = False)
             await message.edit(embed = embed)
 
     @Cog.listener()
@@ -194,7 +202,7 @@ class Lists(Cog):
         # We only care about messages in Rules, and Support FAQ
         if message.channel.id not in config.list_channels:
             return
-            
+
         # We don"t care about messages from bots.
         if message.author.bot:
             return
@@ -213,8 +221,10 @@ class Lists(Cog):
         attachment_data = None
         if len(message.attachments) != 0:
             # Lists will only reupload the first image.
-            attachment = next((a for a in message.attachments if a.filename.endswith(".png") or a.filename.endswith(".jpg") or a.filename.endswith(".jpeg")), None)
-            if attachment != None:
+            attachment = next((a for a in message.attachments if 
+                a.filename.endswith(".png") or a.filename.endswith(".jpg") or
+                a.filename.endswith(".jpeg")), None)
+            if attachment is not None:
                 attachment_filename = attachment.filename
                 attachment_data = await attachment.read()
 
@@ -222,10 +232,13 @@ class Lists(Cog):
 
         reactions = await self.find_reactions(user.id, channel.id)
 
-        # Add to the end of the list if there is no reactions or somehow more than one.
+        # Add to the end of the list if there is no reactions or somehow more
+        # than one.
         if len(reactions) != 1:
-            if attachment_filename != None and attachment_data != None:
-                file = discord.File(io.BytesIO(attachment_data), filename = attachment_filename)
+            if attachment_filename is not None and attachment_data is not None:
+                file = discord.File(
+                    io.BytesIO(attachment_data),
+                    filename = attachment_filename)
                 await channel.send(content = content, file = file)
             else:
                 await channel.send(content)
@@ -285,6 +298,7 @@ class Lists(Cog):
                 await channel.send(message.content)
 
             await log_channel.send(self.create_log_message("💬", "List item added:", user, channel))
+
 
 def setup(bot):
     bot.add_cog(Lists(bot))
