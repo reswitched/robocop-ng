@@ -282,7 +282,6 @@ class Lists(Cog):
             await channel.send(content)
             await channel.send(targeted_message.content)
             for message in messages:
-                self.bot.log.info(message.content)
                 await channel.send(message.content)
 
             await log_channel.send(self.create_log_message("💬", "List item added:", user, channel))
@@ -294,7 +293,6 @@ class Lists(Cog):
             await channel.send(targeted_message.content)
             await channel.send(content)
             for message in messages:
-                self.bot.log.info(message.content)
                 await channel.send(message.content)
 
             await log_channel.send(self.create_log_message("💬", "List item added:", user, channel))
