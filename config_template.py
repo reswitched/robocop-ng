@@ -97,3 +97,9 @@ allowed_pin_roles = []
 
 # Used for the pinboard. Leave empty if you don't wish for a gist pinboard.
 github_oauth_token = ""
+
+# Channel to upload text files while editing list items. (They are cleaned up.)
+list_files_channel = 0
+
+# Channels that are lists that are controlled by the lists cog.
+list_channels = []
