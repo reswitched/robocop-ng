@@ -131,7 +131,7 @@ the following require me to rethink some of the lockdown code, which I don't fee
 
 ## Credits
 
-Robocop-NG is currently developed and maintained by @aveao and @tumGER. The official bot is hosted by @yuukieve.
+Robocop-NG was initially developed by @aveao and @tumGER. It is currently maintained by @aveao. Similarly, the official robocop-ng on reswitched discord guild is hosted by @aveao too.
 
 I (ave) would like to thank the following, in no particular order:
 
