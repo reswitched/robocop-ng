@@ -47,6 +47,8 @@ class Links(Cog):
                        "<https://switch.homebrew.guide/usingcfw/manualupgrade>\n"
                        "Manually Repairing/Downgrading (without HOS): "
                        "<https://switch.homebrew.guide/usingcfw/manualchoiupgrade>\n"
+                       "How to set up a Homebrew development environment: "
+                       "<https://switchbrew.org/wiki/Setting_up_Development_Environment>\n"
                        "How to get started developing Homebrew: "
                        "<https://gbatemp.net/threads/"
                        "tutorial-switch-homebrew-development.507284/>\n"
