@@ -21,7 +21,7 @@ class ImageManip(Cog):
         """Gives a cox headline"""
         mention = ctx.author.mention
 
-        headline = await commands.clean_content().convert(ctx, headline, fix_channel_mentions=True)
+        headline = await commands.clean_content(fix_channel_mentions=True).convert(ctx, headline)
 
         in_vice = "assets/motherboardlogo.png"
         in_byjcox = "assets/byjcox.png"
