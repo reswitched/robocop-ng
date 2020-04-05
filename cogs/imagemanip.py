@@ -21,6 +21,8 @@ class ImageManip(Cog):
         """Gives a cox headline"""
         mention = ctx.author.mention
 
+        headline = await commands.clean_content().convert(ctx, headline, fix_channel_mentions=True)
+
         in_vice = "assets/motherboardlogo.png"
         in_byjcox = "assets/byjcox.png"
         font_path = "assets/neue-haas-grotesk-display-bold-regular.otf"
@@ -30,7 +32,7 @@ class ImageManip(Cog):
         vertpos = 75
         line_spacing = 10
         font_size = 50
-        image_width = 750
+        image_width = 800
         font_wrap_count = 30
         sig_height = 15
 
