@@ -36,7 +36,7 @@ class Logs(Cog):
     async def on_member_join(self, member):
         await self.bot.wait_until_ready()
 
-        if (member_after.guild.id not in config.guild_whitelist):
+        if (member.guild.id not in config.guild_whitelist):
             return
 
         log_channel = self.bot.get_channel(config.log_channel)
