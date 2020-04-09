@@ -20,17 +20,9 @@ class Logs(Cog):
         self.name_re = re.compile(r"[a-zA-Z0-9].*")
         self.clean_re = re.compile(r'[^a-zA-Z0-9_ ]+', re.UNICODE)
         # All lower case, no spaces, nothing non-alphanumeric
-        self.susp_words = ["sx", "tx", "reinx",  # piracy-enabling cfws
-                           "gomanx",  # piracy-enabling cfws
-                           "tinfoil", "dz",  # title managers
-                           "goldleaf", "lithium",  # title managers
-                           "cracked", # older term for pirated games
-                           "xci", "nsz"]  # "backup" format
         susp_hellgex = "|".join([r"\W*".join(list(word)) for
-                                 word in self.susp_words])
+                                 word in config.suspect_words])
         self.susp_hellgex = re.compile(susp_hellgex, re.IGNORECASE)
-
-        self.ok_words = []
 
     @Cog.listener()
     async def on_member_join(self, member):
@@ -162,9 +154,9 @@ class Logs(Cog):
             msg += f"\n- Has invite: https://{invite[0]}"
             alert = True
 
-        for susp_word in self.susp_words:
+        for susp_word in config.suspect_words:
             if susp_word in cleancont and\
-                    not any(ok_word in cleancont for ok_word in self.ok_words):
+                    not any(ok_word in cleancont for ok_word in config.suspect_ignored_words):
                 msg += f"\n- Contains suspicious word: `{susp_word}`"
                 alert = True
 
