@@ -103,3 +103,14 @@ list_files_channel = 0
 
 # Channels that are lists that are controlled by the lists cog.
 list_channels = []
+
+# All lower case, no spaces, nothing non-alphanumeric
+suspect_words = ["sx", "tx", "reinx",    # piracy-enabling cfws
+                 "gomanx",               # piracy-enabling cfws
+                 "tinfoil", "dz",        # title managers
+                 "goldleaf", "lithium",  # title managers
+                 "cracked",              # older term for pirated games
+                 "xci", "nsz"]           # "backup" format
+
+# List of words that will be ignored if they match one of the suspect_words (This is used to remove false positives)
+suspect_ignored_words = []
