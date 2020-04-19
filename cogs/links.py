@@ -48,7 +48,7 @@ class Links(Cog):
                        "Manually Repairing/Downgrading (without HOS): "
                        "<https://switch.homebrew.guide/usingcfw/manualchoiupgrade>\n"
                        "How to set up a Homebrew development environment: "
-                       "<https://switchbrew.org/wiki/Setting_up_Development_Environment>\n"
+                       "<https://devkitpro.org/wiki/Getting_Started>\n"
                        "Getting full RAM in homebrew without NSPs: "
                        "as of Atmosphere 0.8.6, hold R while opening any game.\n"
                        "Check if a switch is vulnerable to RCM through serial: "
