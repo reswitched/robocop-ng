@@ -15,6 +15,36 @@ embed_desc = "Robocop-NG is developed by [Ave](https://github.com/aveao)"\
              "of Robocop.\nRobocop is based on Kurisu by 916253 and ihaveamac."
 
 
+# The cogs the bot will load on startup.
+initial_cogs = ['cogs.common',
+                'cogs.admin',
+                'cogs.verification',
+                'cogs.mod',
+                'cogs.mod_note',
+                'cogs.mod_reacts',
+                'cogs.mod_userlog',
+                'cogs.mod_timed',
+                'cogs.mod_watch',
+                'cogs.basic',
+                'cogs.logs',
+                'cogs.err',
+                'cogs.lockdown',
+                'cogs.legacy',
+                'cogs.links',
+                'cogs.remind',
+                'cogs.robocronp',
+                'cogs.meme',
+                'cogs.invites']
+
+# The following cogs are also available but aren't loaded by default:
+# cogs.imagemanip - Adds a meme command called .cox.
+# Requires Pillow to be installed with pip.
+# cogs.lists - Allows managing list channels (rules, FAQ) easily through the bot
+# PR'd in at: https://github.com/reswitched/robocop-ng/pull/65
+# cogs.pin - Lets users pin important messages
+# and sends pins above limit to a github gist
+
+
 # Minimum account age required to join the guild
 # If user's account creation is shorter than the time delta given here
 # then user will be kicked and informed
@@ -84,7 +114,9 @@ lockdown_configs = {
 # As we no longer have mute role on ReSwitched, I set it to 0 here
 mute_role = 0  # Mute role in ReSwitched
 
-# Channels that will be cleaned every minute/hour
+# Channels that will be cleaned every minute/hour.
+# This feature isn't very good rn.
+# See https://github.com/reswitched/robocop-ng/issues/23
 minutely_clean_channels = []
 hourly_clean_channels = []
 
@@ -94,9 +126,6 @@ spy_channels = general_channels
 # Channels and roles where users can pin messages
 allowed_pin_channels = []
 allowed_pin_roles = []
-
-# Used for the pinboard. Leave empty if you don't wish for a gist pinboard.
-github_oauth_token = ""
 
 # Channel to upload text files while editing list items. (They are cleaned up.)
 list_files_channel = 0
@@ -112,5 +141,18 @@ suspect_words = ["sx", "tx", "reinx",    # piracy-enabling cfws
                  "cracked",              # older term for pirated games
                  "xci", "nsz"]           # "backup" format
 
-# List of words that will be ignored if they match one of the suspect_words (This is used to remove false positives)
-suspect_ignored_words = []
+# List of words that will be ignored if they match one of the
+# suspect_words (This is used to remove false positives)
+suspect_ignored_words = ["excit",
+                         "s/x",
+                         "3dsx",
+                         "psx",
+                         "txt",
+                         "s(x",
+                         "txd",
+                         "t=x",
+                         "osx"]
+
+# == Only if you want to use cogs.pin ==
+# Used for the pinboard. Leave empty if you don't wish for a gist pinboard.
+github_oauth_token = ""

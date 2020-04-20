@@ -1,5 +1,4 @@
 import os
-import asyncio
 import sys
 import logging
 import logging.handlers
@@ -43,29 +42,6 @@ wanted_jsons = ["data/restrictions.json",
                 "data/userlog.json",
                 "data/invites.json"]
 
-initial_extensions = ['cogs.common',
-                      'cogs.admin',
-                      'cogs.verification',
-                      'cogs.mod',
-                      'cogs.mod_note',
-                      'cogs.mod_reacts',
-                      'cogs.mod_userlog',
-                      'cogs.mod_timed',
-                      'cogs.mod_watch',
-                      'cogs.basic',
-                      'cogs.logs',
-                      'cogs.err',
-                      'cogs.lockdown',
-                      'cogs.legacy',
-                      'cogs.links',
-                      'cogs.remind',
-                      'cogs.robocronp',
-                      'cogs.meme',
-                      'cogs.imagemanip',
-                      'cogs.pin',
-                      'cogs.invites',
-                      'cogs.lists']
-
 bot = commands.Bot(command_prefix=get_prefix,
                    description=config.bot_description)
 bot.help_command = commands.DefaultHelpCommand(dm_help=True)
@@ -76,11 +52,11 @@ bot.script_name = script_name
 bot.wanted_jsons = wanted_jsons
 
 if __name__ == '__main__':
-    for extension in initial_extensions:
+    for cog in config.initial_cogs:
         try:
-            bot.load_extension(extension)
-        except Exception as e:
-            log.error(f'Failed to load extension {extension}.')
+            bot.load_extension(cog)
+        except:
+            log.error(f'Failed to load cog {cog}.')
             log.error(traceback.print_exc())
 
 
