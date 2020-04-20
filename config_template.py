@@ -158,21 +158,6 @@ suspect_ignored_words = [
     "osx",
 ]
 
-# == Only if you want to use cogs.pin ==
-# Used for the pinboard. Leave empty if you don't wish for a gist pinboard.
-github_oauth_token = ""
-
-# Channels and roles where users can pin messages
-allowed_pin_channels = []
-allowed_pin_roles = []
-
-# Channel to upload text files while editing list items. (They are cleaned up.)
-list_files_channel = 0
-
-# == Only if you want to use cogs.lists ==
-# Channels that are lists that are controlled by the lists cog.
-list_channels = []
-
 # == For cogs.links ==
 links_guide_text = """**Generic starter guides:**
 Nintendo Homebrew's Guide: <https://nh-server.github.io/switch-guide/>
@@ -297,3 +282,18 @@ welcome_footer = (
 
 # Line to be hidden in rules
 hidden_term_line = ' • When you have finished reading all of the rules, send a message in this channel that includes the {0} hex digest of your discord "name#discriminator", and bot will automatically grant you access to the other channels. You can find your "name#discriminator" (your username followed by a ‘#’ and four numbers) under the discord channel list.'
+
+# == Only if you want to use cogs.pin ==
+# Used for the pinboard. Leave empty if you don't wish for a gist pinboard.
+github_oauth_token = ""
+
+# Channels and roles where users can pin messages
+allowed_pin_channels = []
+allowed_pin_roles = []
+
+# Channel to upload text files while editing list items. (They are cleaned up.)
+list_files_channel = 0
+
+# == Only if you want to use cogs.lists ==
+# Channels that are lists that are controlled by the lists cog.
+list_channels = []
