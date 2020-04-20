@@ -1,3 +1,4 @@
+import hashlib
 import datetime
 
 # Basic bot config, insert your token here, update description if you want
@@ -156,3 +157,127 @@ suspect_ignored_words = ["excit",
 # == Only if you want to use cogs.pin ==
 # Used for the pinboard. Leave empty if you don't wish for a gist pinboard.
 github_oauth_token = ""
+
+# == For cogs.verification ==
+# ReSwitched verification system is rather unique.
+# You might want to reimplement it.
+# If you do, use a different name for easier upstream merge.
+
+# https://docs.python.org/3.7/library/hashlib.html#shake-variable-length-digests
+_welcome_blacklisted_hashes = {"shake_128", "shake_256"}
+
+# List of hashes that are to be used during verification
+welcome_hashes = tuple(hashlib.algorithms_guaranteed - _welcome_blacklisted_hashes)
+
+# Header before rules in #newcomers - https://elixi.re/i/opviq90y.png
+welcome_header = """
+<:ReSwitched:326421448543567872> __**Welcome to ReSwitched!**__
+
+__**Be sure you read the following rules and information before participating. If you came here to ask about "backups", this is NOT the place.**__
+
+__**Got questions about Nintendo Switch hacking? Before asking in the server, please see our FAQ at <https://reswitched.team/faq/> to see if your question has already been answered.**__
+
+__**This is a server for technical discussion and development support. If you are looking for end-user support, the Nintendo Homebrew discord server may be a better fit: <https://discord.gg/C29hYvh>.**__
+
+​:bookmark_tabs:__Rules:__
+"""
+
+# Rules in #newcomers - https://elixi.re/i/dp3enq5i.png
+welcome_rules = (
+    # 1
+    """
+    Read all the rules before participating in chat. Not reading the rules is *not* an excuse for breaking them.
+     • It's suggested that you read channel topics and pins before asking questions as well, as some questions may have already been answered in those.
+    """,
+
+    # 2
+    """
+    Be nice to each other. It's fine to disagree, it's not fine to insult or attack other people.
+     • You may disagree with anyone or anything you like, but you should try to keep it to opinions, and not people. Avoid vitriol.
+     • Constant antagonistic behavior is considered uncivil and appropriate action will be taken.
+     • The use of derogatory slurs -- sexist, racist, homophobic, transphobic, or otherwise -- is unacceptable and may be grounds for an immediate ban.
+    """,
+
+    # 3
+    'If you have concerns about another user, please take up your concerns with a staff member (someone with the "mod" role in the sidebar) in private. Don\'t publicly call other users out.',
+
+    # 4
+    """
+    From time to time, we may mention everyone in the server. We do this when we feel something important is going on that requires attention. Complaining about these pings may result in a ban.
+     • To disable notifications for these pings, suppress them in "ReSwitched → Notification Settings".
+    """,
+
+    # 5
+    """
+    Don't spam.
+     • For excessively long text, use a service like <https://0bin.net/>.
+    """,
+
+    # 6
+    "Don't brigade, raid, or otherwise attack other people or communities. Don't discuss participation in these attacks. This may warrant an immediate permanent ban.",
+
+    # 7
+    'Off-topic content goes to #off-topic. Keep low-quality content like memes out.',
+
+    # 8
+    'Trying to evade, look for loopholes, or stay borderline within the rules will be treated as breaking them.',
+
+    # 9
+    """
+    Absolutely no piracy or related discussion. This includes:
+     • "Backups", even if you legally own a copy of the game.
+     • "Installable" NSPs, XCIs, and NCAs; this **includes** installable homebrew (i.e. on the Home Menu instead of within nx-hbmenu).
+     • Signature and ES patches, also known as "sigpatches"
+     • Usage of piracy-focused groups' (Team Xecuter, etc.) hardware and software, such as SX OS.
+    This is a zero-tolerance, non-negotiable policy that is enforced strictly and swiftly, up to and including instant bans without warning.
+    """,
+
+    # 10
+    'The first character of your server nickname should be alphanumeric if you wish to talk in chat.',
+
+    # 11
+    """
+    Do not boost the server.
+     • ReSwitched neither wants nor needs your server boosts, and your money is better off elsewhere. Consider the EFF (or a charity of your choice).
+     • Boosting the server is liable to get you kicked (to remove the nitro boost role), and/or warned. Roles you possessed prior to the kick may not be restored in a timely fashion.
+    """
+)
+
+
+# Footer after rules in #newcomers - https://elixi.re/i/uhfiecib.png
+welcome_footer = (
+    """
+    :hash: __Channel Breakdown:__
+    #news - Used exclusively for updates on ReSwitched progress and community information. Most major announcements are passed through this channel and whenever something is posted there it's usually something you'll want to look at.
+
+    #switch-hacking-meta - For "meta-discussion" related to hacking the switch. This is where we talk *about* the switch hacking that's going on, and where you can get clarification about the hacks that exist and the work that's being done.
+
+    #user-support - End-user focused support, mainly between users. Ask your questions about using switch homebrew here.
+
+    #tool-support - Developer focused support. Ask your questions about using PegaSwitch, libtransistor, Mephisto, and other tools here.
+
+    #hack-n-all - General hacking, hardware and software development channel for hacking on things *other* than the switch. This is a great place to ask about hacking other systems-- and for the community to have technical discussions.
+    """,
+
+    """
+    #switch-hacking-general - Channel for everyone working on hacking the switch-- both in an exploit and a low-level hardware sense. This is where a lot of our in-the-open development goes on. Note that this isn't the place for developing homebrew-- we have #homebrew-development for that!
+
+    #homebrew-development - Discussion about the development of homebrew goes there. Feel free to show off your latest creation here.
+
+    #off-topic - Channel for discussion of anything that doesn't belong in #general. Anything goes, so long as you make sure to follow the rules and be on your best behavior.
+
+    #toolchain-development - Discussion about the development of libtransistor itself goes there.
+
+    #cfw-development - Development discussion regarding custom firmware (CFW) projects, such as Atmosphère. This channel is meant for the discussion accompanying active development.
+
+    #bot-cmds - Channel for excessive/random use of Robocop's various commands.
+
+    **If you are still not sure how to get access to the other channels, please read the rules again.**
+    **If you have questions about the rules, feel free to ask here!**
+
+    **Note: This channel is completely automated (aside from responding to questions about the rules). If your message didn't give you access to the other channels, you failed the test. Feel free to try again.**
+    """,
+)
+
+# Line to be hidden in rules
+hidden_term_line = ' • When you have finished reading all of the rules, send a message in this channel that includes the {0} hex digest of your discord "name#discriminator", and bot will automatically grant you access to the other channels. You can find your "name#discriminator" (your username followed by a ‘#’ and four numbers) under the discord channel list.'
