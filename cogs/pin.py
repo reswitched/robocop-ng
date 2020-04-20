@@ -8,6 +8,7 @@ import gidgethub.aiohttp
 from helpers.checks import check_if_collaborator
 from helpers.checks import check_if_pin_channel
 
+
 class Pin(Cog):
     """
     Allow users to pin things
@@ -17,9 +18,11 @@ class Pin(Cog):
         self.bot = bot
 
     def is_pinboard(self, msg):
-        return msg.author == self.bot.user and \
-            len(msg.embeds) > 0 and \
-            msg.embeds[0].title == "Pinboard"
+        return (
+            msg.author == self.bot.user
+            and len(msg.embeds) > 0
+            and msg.embeds[0].title == "Pinboard"
+        )
 
     async def get_pinboard(self, gh, channel):
         # Find pinboard pin
@@ -32,21 +35,25 @@ class Pin(Cog):
                 return (id, data["files"]["pinboard.md"]["content"])
 
         # Create pinboard pin if it does not exist
-        data = await gh.post("/gists", data={
-            "files": {
-                "pinboard.md": {
-                    "content": "Old pins are available here:\n\n"
-                }
+        data = await gh.post(
+            "/gists",
+            data={
+                "files": {
+                    "pinboard.md": {"content": "Old pins are available here:\n\n"}
+                },
+                "description": f"Pinboard for SwitchRoot #{channel.name}",
+                "public": True,
             },
-            "description": f"Pinboard for SwitchRoot #{channel.name}",
-            "public": True
-        })
+        )
 
-        msg = await channel.send(embed=Embed(
-            title="Pinboard",
-            description="Old pins are moved to the pinboard to make space for \
+        msg = await channel.send(
+            embed=Embed(
+                title="Pinboard",
+                description="Old pins are moved to the pinboard to make space for \
                          new ones. Check it out!",
-            url=data["html_url"]))
+                url=data["html_url"],
+            )
+        )
         await msg.pin()
 
         return (data["id"], data["files"]["pinboard.md"]["content"])
@@ -57,18 +64,15 @@ class Pin(Cog):
             return
 
         async with aiohttp.ClientSession() as session:
-            gh = gidgethub.aiohttp.GitHubAPI(session, "RoboCop-NG",
-                    oauth_token=config.github_oauth_token)
+            gh = gidgethub.aiohttp.GitHubAPI(
+                session, "RoboCop-NG", oauth_token=config.github_oauth_token
+            )
             (id, content) = await self.get_pinboard(gh, channel)
             content += "- " + data + "\n"
 
-            await gh.patch(f"/gists/{id}", data={
-                "files": {
-                    "pinboard.md": {
-                        "content": content
-                    }
-                }
-            })
+            await gh.patch(
+                f"/gists/{id}", data={"files": {"pinboard.md": {"content": content}}}
+            )
 
     @commands.command()
     @commands.guild_only()
@@ -136,7 +140,7 @@ class Pin(Cog):
                                 break
 
                     # Wait for the automated "Pinned" message so we can delete it
-                    waitable = self.bot.wait_for('message', check=check)
+                    waitable = self.bot.wait_for("message", check=check)
 
                     # Pin the message
                     await target_msg.pin()

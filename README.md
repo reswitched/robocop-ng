@@ -31,6 +31,14 @@ If you're moving from Kurisu/Robocop, and want to preserve your data, you'll wan
 
 ---
 
+## Contributing
+
+Contributions are welcome. If you're unsure if your PR would be merged or not, either open an issue, ask on ReSwitched off-topic pinging ave or DM ave.
+
+You're expected to use [black](https://github.com/psf/black) for code formatting before sending a PR. Simply install it with pip (`pip3 install black`), and run it with `black .`.
+
+---
+
 ## Credits
 
 Robocop-NG was initially developed by @aveao and @tumGER. It is currently maintained by @aveao. Similarly, the official robocop-ng on reswitched discord guild is hosted by @aveao too.

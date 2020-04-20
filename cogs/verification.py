@@ -23,18 +23,20 @@ class Verification(Cog):
         await channel.purge(limit=limit)
 
         await channel.send(config.welcome_header)
-        rules = ['**{}**. {}'.format(i, cleandoc(r)) for i, r in
-                 enumerate(config.welcome_rules, 1)]
+        rules = [
+            "**{}**. {}".format(i, cleandoc(r))
+            for i, r in enumerate(config.welcome_rules, 1)
+        ]
         rule_choice = random.randint(2, len(rules))
         hash_choice_str = self.hash_choice.upper()
         if hash_choice_str == "BLAKE2B":
             hash_choice_str += "-512"
         elif hash_choice_str == "BLAKE2S":
             hash_choice_str += "-256"
-        rules[rule_choice - 1] += \
-            '\n' + config.hidden_term_line.format(hash_choice_str)
-        msg = f"🗑 **Reset**: {author} cleared {limit} messages "\
-              f" in {channel.mention}"
+        rules[rule_choice - 1] += "\n" + config.hidden_term_line.format(hash_choice_str)
+        msg = (
+            f"🗑 **Reset**: {author} cleared {limit} messages " f" in {channel.mention}"
+        )
         msg += f"\n💬 __Current challenge location__: under rule {rule_choice}"
         log_channel = self.bot.get_channel(config.log_channel)
         await log_channel.send(msg)
@@ -64,13 +66,17 @@ class Verification(Cog):
 
     async def do_resetalgo(self, channel, author, limit: int = 100):
         # randomize hash_choice on reset
-        self.hash_choice = \
-            random.choice(tuple(hashlib.algorithms_guaranteed -
-                                self.blacklisted_hashes -
-                                {self.hash_choice}))
+        self.hash_choice = random.choice(
+            tuple(
+                hashlib.algorithms_guaranteed
+                - self.blacklisted_hashes
+                - {self.hash_choice}
+            )
+        )
 
-        msg = f"📘 **Reset Algorithm**: {author} reset "\
-              f"algorithm in {channel.mention}"
+        msg = (
+            f"📘 **Reset Algorithm**: {author} reset " f"algorithm in {channel.mention}"
+        )
         msg += f"\n💬 __Current algorithm__: {self.hash_choice.upper()}"
         log_channel = self.bot.get_channel(config.log_channel)
         await log_channel.send(msg)
@@ -82,8 +88,10 @@ class Verification(Cog):
     async def reset(self, ctx, limit: int = 100, force: bool = False):
         """Wipes messages and pastes the welcome message again. Staff only."""
         if ctx.message.channel.id != config.welcome_channel and not force:
-            await ctx.send(f"This command is limited to"
-                           f" <#{config.welcome_channel}>, unless forced.")
+            await ctx.send(
+                f"This command is limited to"
+                f" <#{config.welcome_channel}>, unless forced."
+            )
             return
         await self.do_reset(ctx.channel, ctx.author.mention, limit)
 
@@ -92,8 +100,10 @@ class Verification(Cog):
     async def resetalgo(self, ctx, limit: int = 100, force: bool = False):
         """Resets the verification algorithm and does what reset does. Staff only."""
         if ctx.message.channel.id != config.welcome_channel and not force:
-            await ctx.send(f"This command is limited to"
-                           f" <#{config.welcome_channel}>, unless forced.")
+            await ctx.send(
+                f"This command is limited to"
+                f" <#{config.welcome_channel}>, unless forced."
+            )
             return
 
         await self.do_resetalgo(ctx.channel, ctx.author.mention, limit)
@@ -113,13 +123,20 @@ class Verification(Cog):
             mcl = message.content.lower()
 
             # Reply to users that insult the bot
-            oof = ["bad", "broken", "buggy", "bugged",
-                   "stupid", "dumb", "silly", "fuck", "heck", "h*ck"]
+            oof = [
+                "bad",
+                "broken",
+                "buggy",
+                "bugged",
+                "stupid",
+                "dumb",
+                "silly",
+                "fuck",
+                "heck",
+                "h*ck",
+            ]
             if "bot" in mcl and any(insult in mcl for insult in oof):
-                snark = random.choice(["bad human",
-                                       "no u",
-                                       "no u, rtfm",
-                                       "pebkac"])
+                snark = random.choice(["bad human", "no u", "no u, rtfm", "pebkac"])
                 return await chan.send(snark)
 
             # Get the role we will give in case of success
@@ -127,38 +144,57 @@ class Verification(Cog):
 
             # Get a list of stuff we'll allow and will consider close
             allowed_names = [f"@{full_name}", full_name, str(member.id)]
-            close_names = [f"@{member.name}", member.name, discrim,
-                           f"#{discrim}"]
+            close_names = [f"@{member.name}", member.name, discrim, f"#{discrim}"]
             # Now add the same things but with newlines at the end of them
-            allowed_names += [(an + '\n') for an in allowed_names]
-            close_names += [(cn + '\n') for cn in close_names]
-            allowed_names += [(an + '\r\n') for an in allowed_names]
-            close_names += [(cn + '\r\n') for cn in close_names]
+            allowed_names += [(an + "\n") for an in allowed_names]
+            close_names += [(cn + "\n") for cn in close_names]
+            allowed_names += [(an + "\r\n") for an in allowed_names]
+            close_names += [(cn + "\r\n") for cn in close_names]
             # [ ͡° ͜ᔦ ͡°] 𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐭𝐨 𝐌𝐚𝐜 𝐎𝐒 𝟗.
-            allowed_names += [(an + '\r') for an in allowed_names]
-            close_names += [(cn + '\r') for cn in close_names]
+            allowed_names += [(an + "\r") for an in allowed_names]
+            close_names += [(cn + "\r") for cn in close_names]
 
             # Finally, hash the stuff so that we can access them later :)
-            hash_allow = [hashlib.new(self.hash_choice,
-                                      name.encode('utf-8')).hexdigest()
-                          for name in allowed_names]
+            hash_allow = [
+                hashlib.new(self.hash_choice, name.encode("utf-8")).hexdigest()
+                for name in allowed_names
+            ]
 
             # I'm not even going to attempt to break those into lines jfc
             if any(allow in mcl for allow in hash_allow):
                 await member.add_roles(success_role)
-                return await chan.purge(limit=100, check=lambda m: m.author == message.author or (m.author == self.bot.user and message.author.mention in m.content))
+                return await chan.purge(
+                    limit=100,
+                    check=lambda m: m.author == message.author
+                    or (
+                        m.author == self.bot.user
+                        and message.author.mention in m.content
+                    ),
+                )
 
             # Detect if the user uses the wrong hash algorithm
-            wrong_hash_algos = hashlib.algorithms_guaranteed - \
-                {self.hash_choice} - self.blacklisted_hashes
+            wrong_hash_algos = (
+                hashlib.algorithms_guaranteed
+                - {self.hash_choice}
+                - self.blacklisted_hashes
+            )
             for algo in wrong_hash_algos:
                 for name in itertools.chain(allowed_names, close_names):
-                    if hashlib.new(algo, name.encode('utf-8')).hexdigest() in mcl:
+                    if hashlib.new(algo, name.encode("utf-8")).hexdigest() in mcl:
                         log_channel = self.bot.get_channel(config.log_channel)
-                        await log_channel.send(f"User {message.author.mention} tried verification with algo {algo} instead of {self.hash_choice}.")
-                        return await chan.send(f"{message.author.mention} :no_entry: Close, but not quite. Go back and re-read!")
+                        await log_channel.send(
+                            f"User {message.author.mention} tried verification with algo {algo} instead of {self.hash_choice}."
+                        )
+                        return await chan.send(
+                            f"{message.author.mention} :no_entry: Close, but not quite. Go back and re-read!"
+                        )
 
-            if full_name in message.content or str(member.id) in message.content or member.name in message.content or discrim in message.content:
+            if (
+                full_name in message.content
+                or str(member.id) in message.content
+                or member.name in message.content
+                or discrim in message.content
+            ):
                 no_text = ":no_entry: Incorrect. You need to do something *specific* with your name and discriminator instead of just posting it. Please re-read the rules carefully and look up any terms you are not familiar with."
                 rand_num = random.randint(1, 100)
                 if rand_num == 42:
@@ -166,7 +202,7 @@ class Verification(Cog):
                 elif rand_num == 43:
                     no_text = "ugh, wrong, read the rules."
                 elif rand_num == 44:
-                    no_text = "\"The definition of insanity is doing the same thing over and over again, but expecting different results.\"\n-Albert Einstein"
+                    no_text = '"The definition of insanity is doing the same thing over and over again, but expecting different results."\n-Albert Einstein'
                 await chan.send(f"{message.author.mention} {no_text}")
 
     @Cog.listener()

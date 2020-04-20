@@ -22,12 +22,15 @@ class Remind(Cog):
             if uid not in ctab["remind"][jobtimestamp]:
                 continue
             job_details = ctab["remind"][jobtimestamp][uid]
-            expiry_timestr = datetime.utcfromtimestamp(int(jobtimestamp))\
-                .strftime('%Y-%m-%d %H:%M:%S (UTC)')
-            embed.add_field(name=f"Reminder for {expiry_timestr}",
-                            value=f"Added on: {job_details['added']}, "
-                            f"Text: {job_details['text']}",
-                            inline=False)
+            expiry_timestr = datetime.utcfromtimestamp(int(jobtimestamp)).strftime(
+                "%Y-%m-%d %H:%M:%S (UTC)"
+            )
+            embed.add_field(
+                name=f"Reminder for {expiry_timestr}",
+                value=f"Added on: {job_details['added']}, "
+                f"Text: {job_details['text']}",
+                inline=False,
+            )
         await ctx.send(embed=embed)
 
     @commands.cooldown(1, 60, type=commands.BucketType.user)
@@ -40,27 +43,32 @@ class Remind(Cog):
         expiry_timestamp = self.bot.parse_time(when)
 
         if current_timestamp + 5 > expiry_timestamp:
-            msg = await ctx.send(f"{ctx.author.mention}: Minimum "
-                                 "remind interval is 5 seconds.")
+            msg = await ctx.send(
+                f"{ctx.author.mention}: Minimum " "remind interval is 5 seconds."
+            )
             await asyncio.sleep(5)
             await msg.delete()
             return
 
         expiry_datetime = datetime.utcfromtimestamp(expiry_timestamp)
-        duration_text = self.bot.get_relative_timestamp(time_to=expiry_datetime,
-                                                        include_to=True,
-                                                        humanized=True)
+        duration_text = self.bot.get_relative_timestamp(
+            time_to=expiry_datetime, include_to=True, humanized=True
+        )
 
         safe_text = await commands.clean_content().convert(ctx, str(text))
         added_on = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S (UTC)")
 
-        add_job("remind",
-                ctx.author.id,
-                {"text": safe_text, "added": added_on},
-                expiry_timestamp)
+        add_job(
+            "remind",
+            ctx.author.id,
+            {"text": safe_text, "added": added_on},
+            expiry_timestamp,
+        )
 
-        msg = await ctx.send(f"{ctx.author.mention}: I'll remind you in "
-                             f"DMs about `{safe_text}` in {duration_text}.")
+        msg = await ctx.send(
+            f"{ctx.author.mention}: I'll remind you in "
+            f"DMs about `{safe_text}` in {duration_text}."
+        )
         await asyncio.sleep(5)
         await msg.delete()
 

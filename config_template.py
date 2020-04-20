@@ -11,31 +11,35 @@ source_url = "https://github.com/reswitched/robocop-ng"
 rules_url = "https://reswitched.team/discord/#rules"
 
 # The bot description to be used in .robocop embed
-embed_desc = "Robocop-NG is developed by [Ave](https://github.com/aveao)"\
-             " and [tomGER](https://github.com/tumGER), and is a rewrite "\
-             "of Robocop.\nRobocop is based on Kurisu by 916253 and ihaveamac."
+embed_desc = (
+    "Robocop-NG is developed by [Ave](https://github.com/aveao)"
+    " and [tomGER](https://github.com/tumGER), and is a rewrite "
+    "of Robocop.\nRobocop is based on Kurisu by 916253 and ihaveamac."
+)
 
 
 # The cogs the bot will load on startup.
-initial_cogs = ['cogs.common',
-                'cogs.admin',
-                'cogs.verification',
-                'cogs.mod',
-                'cogs.mod_note',
-                'cogs.mod_reacts',
-                'cogs.mod_userlog',
-                'cogs.mod_timed',
-                'cogs.mod_watch',
-                'cogs.basic',
-                'cogs.logs',
-                'cogs.err',
-                'cogs.lockdown',
-                'cogs.legacy',
-                'cogs.links',
-                'cogs.remind',
-                'cogs.robocronp',
-                'cogs.meme',
-                'cogs.invites']
+initial_cogs = [
+    "cogs.common",
+    "cogs.admin",
+    "cogs.verification",
+    "cogs.mod",
+    "cogs.mod_note",
+    "cogs.mod_reacts",
+    "cogs.mod_userlog",
+    "cogs.mod_timed",
+    "cogs.mod_watch",
+    "cogs.basic",
+    "cogs.logs",
+    "cogs.err",
+    "cogs.lockdown",
+    "cogs.legacy",
+    "cogs.links",
+    "cogs.remind",
+    "cogs.robocronp",
+    "cogs.meme",
+    "cogs.invites",
+]
 
 # The following cogs are also available but aren't loaded by default:
 # cogs.imagemanip - Adds a meme command called .cox.
@@ -52,27 +56,27 @@ initial_cogs = ['cogs.common',
 min_age = datetime.timedelta(minutes=15)
 
 # The bot will only work in these guilds
-guild_whitelist = [
-    269333940928512010  # ReSwitched discord
-]
+guild_whitelist = [269333940928512010]  # ReSwitched discord
 
 # Named roles to be used with .approve and .revoke
 # Example: .approve User hacker
 named_roles = {
     "community": 420010997877833731,
     "hacker": 364508795038072833,
-    "participant": 434353085926866946
+    "participant": 434353085926866946,
 }
 
 # The bot manager and staff roles
 # Bot manager can run eval, exit and other destructive commands
 # Staff can run administrative commands
 bot_manager_role_id = 466447265863696394  # Bot management role in ReSwitched
-staff_role_ids = [364647829248933888,  # Team role in ReSwitched
-                  360138431524765707,  # Mod role in ReSwitched
-                  466447265863696394,  # Bot management role in ReSwitched
-                  360138163156549632,  # Admin role in ReSwitched
-                  287289529986187266]  # Wizard role in ReSwitched
+staff_role_ids = [
+    364647829248933888,  # Team role in ReSwitched
+    360138431524765707,  # Mod role in ReSwitched
+    466447265863696394,  # Bot management role in ReSwitched
+    360138163156549632,  # Admin role in ReSwitched
+    287289529986187266,
+]  # Wizard role in ReSwitched
 
 # Various log channels used to log bot and guild's activity
 # You can use same channel for multiple log types
@@ -86,29 +90,30 @@ welcome_channel = 326416669058662401  # newcomers channel in ReSwitched
 
 # These channel entries are used to determine which roles will be given
 # access when we unmute on them
-general_channels = [420029476634886144,
-                    414949821003202562,
-                    383368936466546698,
-                    343244421044633602,
-                    491316901692178432,
-                    539212260350885908]  # Channels everyone can access
-community_channels = [269333940928512010,
-                      438839875970662400,
-                      404722395845361668,
-                      435687501068501002,
-                      286612533757083648]  # Channels requiring community role
+general_channels = [
+    420029476634886144,
+    414949821003202562,
+    383368936466546698,
+    343244421044633602,
+    491316901692178432,
+    539212260350885908,
+]  # Channels everyone can access
+community_channels = [
+    269333940928512010,
+    438839875970662400,
+    404722395845361668,
+    435687501068501002,
+    286612533757083648,
+]  # Channels requiring community role
 
 # Controls which roles are blocked during lockdown
 lockdown_configs = {
     # Used as a default value for channels without a config
-    "default": {
-        "channels": general_channels,
-        "roles": [named_roles["participant"]]
-    },
+    "default": {"channels": general_channels, "roles": [named_roles["participant"]]},
     "community": {
         "channels": community_channels,
-        "roles": [named_roles["community"], named_roles["hacker"]]
-    }
+        "roles": [named_roles["community"], named_roles["hacker"]],
+    },
 }
 
 # Mute role is applied to users when they're muted
@@ -135,24 +140,33 @@ list_files_channel = 0
 list_channels = []
 
 # All lower case, no spaces, nothing non-alphanumeric
-suspect_words = ["sx", "tx", "reinx",    # piracy-enabling cfws
-                 "gomanx",               # piracy-enabling cfws
-                 "tinfoil", "dz",        # title managers
-                 "goldleaf", "lithium",  # title managers
-                 "cracked",              # older term for pirated games
-                 "xci", "nsz"]           # "backup" format
+suspect_words = [
+    "sx",
+    "tx",
+    "reinx",  # piracy-enabling cfws
+    "gomanx",  # piracy-enabling cfws
+    "tinfoil",
+    "dz",  # title managers
+    "goldleaf",
+    "lithium",  # title managers
+    "cracked",  # older term for pirated games
+    "xci",
+    "nsz",
+]  # "backup" format
 
 # List of words that will be ignored if they match one of the
 # suspect_words (This is used to remove false positives)
-suspect_ignored_words = ["excit",
-                         "s/x",
-                         "3dsx",
-                         "psx",
-                         "txt",
-                         "s(x",
-                         "txd",
-                         "t=x",
-                         "osx"]
+suspect_ignored_words = [
+    "excit",
+    "s/x",
+    "3dsx",
+    "psx",
+    "txt",
+    "s(x",
+    "txd",
+    "t=x",
+    "osx",
+]
 
 # == Only if you want to use cogs.pin ==
 # Used for the pinboard. Leave empty if you don't wish for a gist pinboard.
@@ -189,7 +203,6 @@ welcome_rules = (
     Read all the rules before participating in chat. Not reading the rules is *not* an excuse for breaking them.
      • It's suggested that you read channel topics and pins before asking questions as well, as some questions may have already been answered in those.
     """,
-
     # 2
     """
     Be nice to each other. It's fine to disagree, it's not fine to insult or attack other people.
@@ -197,31 +210,24 @@ welcome_rules = (
      • Constant antagonistic behavior is considered uncivil and appropriate action will be taken.
      • The use of derogatory slurs -- sexist, racist, homophobic, transphobic, or otherwise -- is unacceptable and may be grounds for an immediate ban.
     """,
-
     # 3
     'If you have concerns about another user, please take up your concerns with a staff member (someone with the "mod" role in the sidebar) in private. Don\'t publicly call other users out.',
-
     # 4
     """
     From time to time, we may mention everyone in the server. We do this when we feel something important is going on that requires attention. Complaining about these pings may result in a ban.
      • To disable notifications for these pings, suppress them in "ReSwitched → Notification Settings".
     """,
-
     # 5
     """
     Don't spam.
      • For excessively long text, use a service like <https://0bin.net/>.
     """,
-
     # 6
     "Don't brigade, raid, or otherwise attack other people or communities. Don't discuss participation in these attacks. This may warrant an immediate permanent ban.",
-
     # 7
-    'Off-topic content goes to #off-topic. Keep low-quality content like memes out.',
-
+    "Off-topic content goes to #off-topic. Keep low-quality content like memes out.",
     # 8
-    'Trying to evade, look for loopholes, or stay borderline within the rules will be treated as breaking them.',
-
+    "Trying to evade, look for loopholes, or stay borderline within the rules will be treated as breaking them.",
     # 9
     """
     Absolutely no piracy or related discussion. This includes:
@@ -231,16 +237,14 @@ welcome_rules = (
      • Usage of piracy-focused groups' (Team Xecuter, etc.) hardware and software, such as SX OS.
     This is a zero-tolerance, non-negotiable policy that is enforced strictly and swiftly, up to and including instant bans without warning.
     """,
-
     # 10
-    'The first character of your server nickname should be alphanumeric if you wish to talk in chat.',
-
+    "The first character of your server nickname should be alphanumeric if you wish to talk in chat.",
     # 11
     """
     Do not boost the server.
      • ReSwitched neither wants nor needs your server boosts, and your money is better off elsewhere. Consider the EFF (or a charity of your choice).
      • Boosting the server is liable to get you kicked (to remove the nitro boost role), and/or warned. Roles you possessed prior to the kick may not be restored in a timely fashion.
-    """
+    """,
 )
 
 
@@ -258,7 +262,6 @@ welcome_footer = (
 
     #hack-n-all - General hacking, hardware and software development channel for hacking on things *other* than the switch. This is a great place to ask about hacking other systems-- and for the community to have technical discussions.
     """,
-
     """
     #switch-hacking-general - Channel for everyone working on hacking the switch-- both in an exploit and a low-level hardware sense. This is where a lot of our in-the-open development goes on. Note that this isn't the place for developing homebrew-- we have #homebrew-development for that!
 

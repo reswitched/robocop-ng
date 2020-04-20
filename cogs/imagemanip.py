@@ -21,7 +21,9 @@ class ImageManip(Cog):
         """Gives a cox headline"""
         mention = ctx.author.mention
 
-        headline = await commands.clean_content(fix_channel_mentions=True).convert(ctx, headline)
+        headline = await commands.clean_content(fix_channel_mentions=True).convert(
+            ctx, headline
+        )
 
         in_vice = "assets/motherboardlogo.png"
         in_byjcox = "assets/byjcox.png"
@@ -53,7 +55,7 @@ class ImageManip(Cog):
         for line in lines:
             # Get size of the text by font, create a new image of that size
             size = f.getsize(line)
-            txt = PIL.Image.new('L', size)
+            txt = PIL.Image.new("L", size)
 
             # Draw the text
             d = PIL.ImageDraw.Draw(txt)
@@ -61,8 +63,9 @@ class ImageManip(Cog):
 
             # Paste the text into the base image
             w = txt.rotate(0, expand=1)
-            im.paste(PIL.ImageOps.colorize(w, (0, 0, 0),
-                                           (0, 0, 0)), (horipos, vertpos), w)
+            im.paste(
+                PIL.ImageOps.colorize(w, (0, 0, 0), (0, 0, 0)), (horipos, vertpos), w
+            )
 
             # Calculate position on next line
             vertpos += size[1] + line_spacing
@@ -77,8 +80,7 @@ class ImageManip(Cog):
         # Save image
         out_filename = f"/tmp/{ctx.message.id}-out.png"
         im.save(out_filename, quality=100, optimize=True)
-        await ctx.send(content=f"{mention}: Enjoy.",
-                       file=discord.File(out_filename))
+        await ctx.send(content=f"{mention}: Enjoy.", file=discord.File(out_filename))
 
 
 def setup(bot):
