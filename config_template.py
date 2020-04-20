@@ -75,8 +75,8 @@ staff_role_ids = [
     360138431524765707,  # Mod role in ReSwitched
     466447265863696394,  # Bot management role in ReSwitched
     360138163156549632,  # Admin role in ReSwitched
-    287289529986187266,
-]  # Wizard role in ReSwitched
+    287289529986187266,  # Wizard role in ReSwitched
+]
 
 # Various log channels used to log bot and guild's activity
 # You can use same channel for multiple log types
@@ -129,30 +129,20 @@ hourly_clean_channels = []
 # Edited and deletes messages in these channels will be logged
 spy_channels = general_channels
 
-# Channels and roles where users can pin messages
-allowed_pin_channels = []
-allowed_pin_roles = []
-
-# Channel to upload text files while editing list items. (They are cleaned up.)
-list_files_channel = 0
-
-# Channels that are lists that are controlled by the lists cog.
-list_channels = []
-
 # All lower case, no spaces, nothing non-alphanumeric
 suspect_words = [
-    "sx",
-    "tx",
-    "reinx",  # piracy-enabling cfws
-    "gomanx",  # piracy-enabling cfws
-    "tinfoil",
-    "dz",  # title managers
-    "goldleaf",
-    "lithium",  # title managers
+    "sx",  # piracy-enabling cfw
+    "tx",  # piracy-enabling cfw
+    "reinx",  # piracy-enabling cfw
+    "gomanx",  # piracy-enabling cfw
+    "tinfoil",  # title manager
+    "dz",  # title manager
+    "goldleaf",  # potential title manager
+    "lithium",  # title manager
     "cracked",  # older term for pirated games
-    "xci",
-    "nsz",
-]  # "backup" format
+    "xci",  # "backup" format
+    "nsz",  # "backup" format
+]
 
 # List of words that will be ignored if they match one of the
 # suspect_words (This is used to remove false positives)
@@ -171,6 +161,17 @@ suspect_ignored_words = [
 # == Only if you want to use cogs.pin ==
 # Used for the pinboard. Leave empty if you don't wish for a gist pinboard.
 github_oauth_token = ""
+
+# Channels and roles where users can pin messages
+allowed_pin_channels = []
+allowed_pin_roles = []
+
+# Channel to upload text files while editing list items. (They are cleaned up.)
+list_files_channel = 0
+
+# == Only if you want to use cogs.lists ==
+# Channels that are lists that are controlled by the lists cog.
+list_channels = []
 
 # == For cogs.verification ==
 # ReSwitched verification system is rather unique.
