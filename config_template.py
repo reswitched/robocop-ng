@@ -173,6 +173,18 @@ list_files_channel = 0
 # Channels that are lists that are controlled by the lists cog.
 list_channels = []
 
+# == For cogs.links ==
+links_guide_text = """**Generic starter guides:**
+Nintendo Homebrew's Guide: <https://nh-server.github.io/switch-guide/>
+
+**Specific guides:**
+Manually Updating/Downgrading (with HOS): <https://switch.homebrew.guide/usingcfw/manualupgrade>
+Manually Repairing/Downgrading (without HOS): <https://switch.homebrew.guide/usingcfw/manualchoiupgrade>
+How to set up a Homebrew development environment: <https://devkitpro.org/wiki/Getting_Started>
+Getting full RAM in homebrew without NSPs: As of Atmosphere 0.8.6, hold R while opening any game.
+Check if a switch is vulnerable to RCM through serial: <https://akdm.github.io/ssnc/checker/>
+"""
+
 # == For cogs.verification ==
 # ReSwitched verification system is rather unique.
 # You might want to reimplement it.

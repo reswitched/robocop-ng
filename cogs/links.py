@@ -36,27 +36,8 @@ class Links(Cog):
 
     @commands.command(hidden=True, aliases=["guides", "link"])
     async def guide(self, ctx):
-        """Link to the guide(s)"""
-        await ctx.send(
-            "**Generic starter guides:**\n"
-            "Nintendo Homebrew's Guide: "
-            "<https://nh-server.github.io/switch-guide/>\n"
-            # "AtlasNX's Guide: "
-            # "<https://switch.homebrew.guide>\n"
-            # "Pegaswitch Guide: <https://switch.hacks.guide/> "
-            # "(outdated for anything but Pegaswitch/3.0.0)\n"
-            "\n**Specific guides:**\n"
-            "Manually Updating/Downgrading (with HOS): "
-            "<https://switch.homebrew.guide/usingcfw/manualupgrade>\n"
-            "Manually Repairing/Downgrading (without HOS): "
-            "<https://switch.homebrew.guide/usingcfw/manualchoiupgrade>\n"
-            "How to set up a Homebrew development environment: "
-            "<https://devkitpro.org/wiki/Getting_Started>\n"
-            "Getting full RAM in homebrew without NSPs: "
-            "as of Atmosphere 0.8.6, hold R while opening any game.\n"
-            "Check if a switch is vulnerable to RCM through serial: "
-            "<https://akdm.github.io/ssnc/checker/>"
-        )
+        """Link to the guides"""
+        await ctx.send(config.links_guide_text)
 
     @commands.command()
     async def source(self, ctx):
