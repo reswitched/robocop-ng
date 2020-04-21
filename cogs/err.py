@@ -5,17 +5,20 @@ from discord.ext import commands
 from discord.ext.commands import Cog
 from helpers.errcodes import *
 
+
 class Err(Cog):
     """Everything related to Nintendo 3DS, Wii U and Switch error codes"""
 
     def __init__(self, bot):
         self.bot = bot
-        self.dds_re = re.compile(r'0\d{2}\-\d{4}')
-        self.wiiu_re = re.compile(r'1\d{2}\-\d{4}')
-        self.switch_re = re.compile(r'2\d{3}\-\d{4}')
-        self.no_err_desc = "It seems like your error code is unknown. "\
-                           "You can check on Switchbrew for your error code at "\
-                           "<https://switchbrew.org/wiki/Error_codes>"
+        self.dds_re = re.compile(r"0\d{2}\-\d{4}")
+        self.wiiu_re = re.compile(r"1\d{2}\-\d{4}")
+        self.switch_re = re.compile(r"2\d{3}\-\d{4}")
+        self.no_err_desc = (
+            "It seems like your error code is unknown. "
+            "You can check on Switchbrew for your error code at "
+            "<https://switchbrew.org/wiki/Error_codes>"
+        )
         self.rickroll = "https://www.youtube.com/watch?v=z3ZiVn5L9vM"
 
     @commands.command(aliases=["3dserr", "3err", "dserr"])
@@ -28,9 +31,9 @@ class Err(Cog):
             else:
                 err_description = self.no_err_desc
             # Make a nice Embed out of it
-            embed = discord.Embed(title=err,
-                                  url=self.rickroll,
-                                  description=err_description)
+            embed = discord.Embed(
+                title=err, url=self.rickroll, description=err_description
+            )
             embed.set_footer(text="Console: 3DS")
 
             # Send message, crazy
@@ -47,8 +50,7 @@ class Err(Cog):
             level = (rc >> 27) & 0x1F
             embed = discord.Embed(title=f"0x{rc:X}")
             embed.add_field(name="Module", value=dds_modules.get(mod, mod))
-            embed.add_field(name="Description",
-                            value=dds_descriptions.get(desc, desc))
+            embed.add_field(name="Description", value=dds_descriptions.get(desc, desc))
             embed.add_field(name="Summary", value=dds_summaries.get(summ, summ))
             embed.add_field(name="Level", value=dds_levels.get(level, level))
             embed.set_footer(text="Console: 3DS")
@@ -56,8 +58,10 @@ class Err(Cog):
             await ctx.send(embed=embed)
             return
         else:
-            await ctx.send("Unknown Format - This is either "
-                           "no error code or you made some mistake!")
+            await ctx.send(
+                "Unknown Format - This is either "
+                "no error code or you made some mistake!"
+            )
 
     @commands.command(aliases=["wiiuserr", "uerr", "wuerr", "mochaerr"])
     async def wiiuerr(self, ctx, err: str):
@@ -72,9 +76,9 @@ class Err(Cog):
                 err_description = self.no_err_desc
 
             # Make a nice Embed out of it
-            embed = discord.Embed(title=err,
-                                  url=self.rickroll,
-                                  description=err_description)
+            embed = discord.Embed(
+                title=err, url=self.rickroll, description=err_description
+            )
             embed.set_footer(text="Console: Wii U")
             embed.add_field(name="Module", value=module, inline=True)
             embed.add_field(name="Description", value=desc, inline=True)
@@ -82,8 +86,10 @@ class Err(Cog):
             # Send message, crazy
             await ctx.send(embed=embed)
         else:
-            await ctx.send("Unknown Format - This is either "
-                           "no error code or you made some mistake!")
+            await ctx.send(
+                "Unknown Format - This is either "
+                "no error code or you made some mistake!"
+            )
 
     @commands.command(aliases=["nxerr", "serr"])
     async def err(self, ctx, err: str):
@@ -125,19 +131,21 @@ class Err(Cog):
                         err_description = errcode_range[2]
 
             # Make a nice Embed out of it
-            embed = discord.Embed(title=f"{str_errcode} / {hex(errcode)}",
-                                  url=self.rickroll,
-                                  description=err_description)
-            embed.add_field(name="Module",
-                            value=f"{err_module} ({module})",
-                            inline=True)
+            embed = discord.Embed(
+                title=f"{str_errcode} / {hex(errcode)}",
+                url=self.rickroll,
+                description=err_description,
+            )
+            embed.add_field(
+                name="Module", value=f"{err_module} ({module})", inline=True
+            )
             embed.add_field(name="Description", value=desc, inline=True)
 
             if "ban" in err_description:
                 embed.set_footer("F to you | Console: Switch")
             else:
                 embed.set_footer(text="Console: Switch")
-            
+
             await ctx.send(embed=embed)
 
         # Special case handling because Nintendo feels like
@@ -145,17 +153,17 @@ class Err(Cog):
         elif err in switch_game_err:
             game, desc = switch_game_err[err].split(":")
 
-            embed = discord.Embed(title=err,
-                                  url=self.rickroll,
-                                  description=desc)
+            embed = discord.Embed(title=err, url=self.rickroll, description=desc)
             embed.set_footer(text="Console: Switch")
             embed.add_field(name="Game", value=game, inline=True)
 
             await ctx.send(embed=embed)
 
         else:
-            await ctx.send("Unknown Format - This is either "
-                           "no error code or you made some mistake!")
+            await ctx.send(
+                "Unknown Format - This is either "
+                "no error code or you made some mistake!"
+            )
 
     @commands.command(aliases=["e2h"])
     async def err2hex(self, ctx, err: str):
@@ -167,8 +175,9 @@ class Err(Cog):
             errcode = (desc << 9) + module
             await ctx.send(hex(errcode))
         else:
-            await ctx.send("This doesn't follow the typical"
-                           " Nintendo Switch 2XXX-XXXX format!")
+            await ctx.send(
+                "This doesn't follow the typical" " Nintendo Switch 2XXX-XXXX format!"
+            )
 
     @commands.command(aliases=["h2e"])
     async def hex2err(self, ctx, err: str):

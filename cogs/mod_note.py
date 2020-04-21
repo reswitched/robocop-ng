@@ -14,8 +14,7 @@ class ModNote(Cog):
     @commands.command(aliases=["addnote"])
     async def note(self, ctx, target: discord.Member, *, note: str = ""):
         """Adds a note to a user, staff only."""
-        userlog(target.id, ctx.author, note,
-                "notes", target.name)
+        userlog(target.id, ctx.author, note, "notes", target.name)
         await ctx.send(f"{ctx.author.mention}: noted!")
 
     @commands.guild_only()
@@ -23,9 +22,8 @@ class ModNote(Cog):
     @commands.command(aliases=["addnoteid"])
     async def noteid(self, ctx, target: int, *, note: str = ""):
         """Adds a note to a user by userid, staff only."""
-        userlog(target, ctx.author, note,
-                "notes")
-        await ctx.send(f"{target.mention}: noted!")
+        userlog(target, ctx.author, note, "notes")
+        await ctx.send(f"{ctx.author.mention}: noted!")
 
 
 def setup(bot):

@@ -4,7 +4,7 @@ PRs to this file to improve wording are welcome.
 
 Please do not try to exploit public instances if it's going to cause harm, instead, set up your own instance of robocop-ng.
 
-Breaking "database" files, running arbitrary code, using an unprivileged uesr to do something user can't normally do (editing channels or guild, deleting others' messages, making bot do an @e or @h mention, reading channels that user can't read, writing to channels user can't write to etc) are all considered harmful.
+Breaking "database" files, running arbitrary code, using an unprivileged user to do something user can't normally do (editing channels or guild, deleting others' messages, making bot do an @e or @h mention, reading channels that user can't read, writing to channels that user can't write to, etc.) are all considered harmful.
 
 ## Supported Versions
 

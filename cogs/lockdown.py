@@ -4,19 +4,21 @@ import config
 import discord
 from helpers.checks import check_if_staff
 
+
 class Lockdown(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    async def set_sendmessage(self, channel: discord.TextChannel,
-                              role, allow_send, issuer):
+    async def set_sendmessage(
+        self, channel: discord.TextChannel, role, allow_send, issuer
+    ):
         try:
             roleobj = channel.guild.get_role(role)
             overrides = channel.overwrites_for(roleobj)
             overrides.send_messages = allow_send
-            await channel.set_permissions(roleobj,
-                                          overwrite=overrides,
-                                          reason=str(issuer))
+            await channel.set_permissions(
+                roleobj, overwrite=overrides, reason=str(issuer)
+            )
         except:
             pass
 
@@ -27,8 +29,7 @@ class Lockdown(Cog):
     @commands.guild_only()
     @commands.check(check_if_staff)
     @commands.command()
-    async def lock(self, ctx, channel: discord.TextChannel = None,
-                   soft: bool = False):
+    async def lock(self, ctx, channel: discord.TextChannel = None, soft: bool = False):
         """Prevents people from speaking in a channel, staff only.
 
         Defaults to current channel."""
@@ -50,14 +51,18 @@ class Lockdown(Cog):
 
         public_msg = "🔒 Channel locked down. "
         if not soft:
-            public_msg += "Only staff members may speak. "\
-                          "Do not bring the topic to other channels or risk "\
-                          "disciplinary actions."
+            public_msg += (
+                "Only staff members may speak. "
+                "Do not bring the topic to other channels or risk "
+                "disciplinary actions."
+            )
 
         await ctx.send(public_msg)
         safe_name = await commands.clean_content().convert(ctx, str(ctx.author))
-        msg = f"🔒 **Lockdown**: {ctx.channel.mention} by {ctx.author.mention} "\
-              f"| {safe_name}"
+        msg = (
+            f"🔒 **Lockdown**: {ctx.channel.mention} by {ctx.author.mention} "
+            f"| {safe_name}"
+        )
         await log_channel.send(msg)
 
     @commands.guild_only()
@@ -83,8 +88,10 @@ class Lockdown(Cog):
 
         safe_name = await commands.clean_content().convert(ctx, str(ctx.author))
         await ctx.send("🔓 Channel unlocked.")
-        msg = f"🔓 **Unlock**: {ctx.channel.mention} by {ctx.author.mention} "\
-              f"| {safe_name}"
+        msg = (
+            f"🔓 **Unlock**: {ctx.channel.mention} by {ctx.author.mention} "
+            f"| {safe_name}"
+        )
         await log_channel.send(msg)
 
 

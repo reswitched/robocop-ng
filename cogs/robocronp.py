@@ -33,17 +33,17 @@ class Robocronp(Cog):
             for jobtimestamp in ctab[jobtype]:
                 for job_name in ctab[jobtype][jobtimestamp]:
                     job_details = repr(ctab[jobtype][jobtimestamp][job_name])
-                    embed.add_field(name=f"{jobtype} for {job_name}",
-                                    value=f"Timestamp: {jobtimestamp}, "
-                                    f"Details: {job_details}",
-                                    inline=False)
+                    embed.add_field(
+                        name=f"{jobtype} for {job_name}",
+                        value=f"Timestamp: {jobtimestamp}, " f"Details: {job_details}",
+                        inline=False,
+                    )
         await ctx.send(embed=embed)
 
     @commands.guild_only()
     @commands.check(check_if_staff)
     @commands.command(aliases=["removejob"])
-    async def deletejob(self, ctx, timestamp: str,
-                        job_type: str, job_name: str):
+    async def deletejob(self, ctx, timestamp: str, job_type: str, job_name: str):
         """Removes a timed robocronp job, staff only.
 
         You'll need to supply:
@@ -64,31 +64,34 @@ class Robocronp(Cog):
                     target_user = await self.bot.fetch_user(job_name)
                     target_guild = self.bot.get_guild(job_details["guild"])
                     delete_job(timestamp, jobtype, job_name)
-                    await target_guild.unban(target_user,
-                                             reason="Robocronp: Timed "
-                                                    "ban expired.")
+                    await target_guild.unban(
+                        target_user, reason="Robocronp: Timed " "ban expired."
+                    )
                 elif jobtype == "unmute":
                     remove_restriction(job_name, config.mute_role)
                     target_guild = self.bot.get_guild(job_details["guild"])
                     target_member = target_guild.get_member(int(job_name))
                     target_role = target_guild.get_role(config.mute_role)
-                    await target_member.remove_roles(target_role,
-                                                     reason="Robocronp: Timed "
-                                                            "mute expired.")
+                    await target_member.remove_roles(
+                        target_role, reason="Robocronp: Timed " "mute expired."
+                    )
                     delete_job(timestamp, jobtype, job_name)
                 elif jobtype == "remind":
                     text = job_details["text"]
                     added_on = job_details["added"]
                     target = await self.bot.fetch_user(int(job_name))
                     if target:
-                        await target.send("You asked to be reminded about"
-                                          f" `{text}` on {added_on}.")
+                        await target.send(
+                            "You asked to be reminded about" f" `{text}` on {added_on}."
+                        )
                     delete_job(timestamp, jobtype, job_name)
             except:
                 # Don't kill cronjobs if something goes wrong.
                 delete_job(timestamp, jobtype, job_name)
-                await log_channel.send("Crondo has errored, job deleted: ```"
-                                       f"{traceback.format_exc()}```")
+                await log_channel.send(
+                    "Crondo has errored, job deleted: ```"
+                    f"{traceback.format_exc()}```"
+                )
 
     async def clean_channel(self, channel_id):
         log_channel = self.bot.get_channel(config.botlog_channel)
@@ -101,12 +104,14 @@ class Robocronp(Cog):
                 count += len(purge_res)
                 if len(purge_res) != 100:
                     done_cleaning = True
-            await log_channel.send(f"Wiped {count} messages from "
-                                   f"<#{channel.id}> automatically.")
+            await log_channel.send(
+                f"Wiped {count} messages from " f"<#{channel.id}> automatically."
+            )
         except:
             # Don't kill cronjobs if something goes wrong.
-            await log_channel.send("Cronclean has errored: ```"
-                                   f"{traceback.format_exc()}```")
+            await log_channel.send(
+                "Cronclean has errored: ```" f"{traceback.format_exc()}```"
+            )
 
     async def minutely(self):
         await self.bot.wait_until_ready()
@@ -125,8 +130,9 @@ class Robocronp(Cog):
                     await self.clean_channel(clean_channel)
             except:
                 # Don't kill cronjobs if something goes wrong.
-                await log_channel.send("Cron-minutely has errored: ```"
-                                       f"{traceback.format_exc()}```")
+                await log_channel.send(
+                    "Cron-minutely has errored: ```" f"{traceback.format_exc()}```"
+                )
             await asyncio.sleep(60)
 
     async def hourly(self):
@@ -144,8 +150,9 @@ class Robocronp(Cog):
                     await self.clean_channel(clean_channel)
             except:
                 # Don't kill cronjobs if something goes wrong.
-                await log_channel.send("Cron-hourly has errored: ```"
-                                       f"{traceback.format_exc()}```")
+                await log_channel.send(
+                    "Cron-hourly has errored: ```" f"{traceback.format_exc()}```"
+                )
             # Your stuff that should run an hour after boot
             # and after that every hour goes here
 
@@ -163,8 +170,9 @@ class Robocronp(Cog):
                 await self.bot.do_resetalgo(verif_channel, "daily robocronp")
             except:
                 # Don't kill cronjobs if something goes wrong.
-                await log_channel.send("Cron-daily has errored: ```"
-                                       f"{traceback.format_exc()}```")
+                await log_channel.send(
+                    "Cron-daily has errored: ```" f"{traceback.format_exc()}```"
+                )
             await asyncio.sleep(86400)
             # Your stuff that should run a day after boot
             # and after that every day goes here

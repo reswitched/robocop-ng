@@ -14,26 +14,24 @@ class Logs(Cog):
 
     def __init__(self, bot):
         self.bot = bot
-        self.invite_re = re.compile(r"((discord\.gg|discordapp\.com/"
-                                    r"+invite)/+[a-zA-Z0-9-]+)",
-                                    re.IGNORECASE)
+        self.invite_re = re.compile(
+            r"((discord\.gg|discordapp\.com/" r"+invite)/+[a-zA-Z0-9-]+)", re.IGNORECASE
+        )
         self.name_re = re.compile(r"[a-zA-Z0-9].*")
-        self.clean_re = re.compile(r'[^a-zA-Z0-9_ ]+', re.UNICODE)
+        self.clean_re = re.compile(r"[^a-zA-Z0-9_ ]+", re.UNICODE)
         # All lower case, no spaces, nothing non-alphanumeric
-        self.susp_words = ["sx", "tx", "reinx",  # piracy-enabling cfws
-                           "tinfoil", "dz",  # title managers
-                           "goldleaf", "lithium",  # title managers
-                           "cracked", # older term for pirated games
-                           "xci"]  # "backup" format
-        susp_hellgex = "|".join([r"\W*".join(list(word)) for
-                                 word in self.susp_words])
+        susp_hellgex = "|".join(
+            [r"\W*".join(list(word)) for word in config.suspect_words]
+        )
         self.susp_hellgex = re.compile(susp_hellgex, re.IGNORECASE)
-
-        self.ok_words = []
 
     @Cog.listener()
     async def on_member_join(self, member):
         await self.bot.wait_until_ready()
+
+        if member.guild.id not in config.guild_whitelist:
+            return
+
         log_channel = self.bot.get_channel(config.log_channel)
         # We use this a lot, might as well get it once
         escaped_name = self.bot.escape_message(member)
@@ -51,7 +49,7 @@ class Logs(Cog):
                     "uses": 0,
                     "url": invite.url,
                     "max_uses": invite.max_uses,
-                    "code": invite.code
+                    "code": invite.code,
                 }
 
         probable_invites_used = []
@@ -90,31 +88,39 @@ class Logs(Cog):
         age = member.joined_at - member.created_at
         if age < config.min_age:
             try:
-                await member.send(f"Your account is too new to "
-                                  f"join {member.guild.name}."
-                                  " Please try again later.")
+                await member.send(
+                    f"Your account is too new to "
+                    f"join {member.guild.name}."
+                    " Please try again later."
+                )
                 sent = True
             except discord.errors.Forbidden:
                 sent = False
             await member.kick(reason="Too new")
 
-            msg = f"🚨 **Account too new**: {member.mention} | "\
-                  f"{escaped_name}\n"\
-                  f"🗓 __Creation__: {member.created_at}\n"\
-                  f"🕓 Account age: {age}\n"\
-                  f"✉ Joined with: {invite_used}\n"\
-                  f"🏷 __User ID__: {member.id}"
+            msg = (
+                f"🚨 **Account too new**: {member.mention} | "
+                f"{escaped_name}\n"
+                f"🗓 __Creation__: {member.created_at}\n"
+                f"🕓 Account age: {age}\n"
+                f"✉ Joined with: {invite_used}\n"
+                f"🏷 __User ID__: {member.id}"
+            )
             if not sent:
-                msg += "\nThe user has disabled direct messages, "\
-                       "so the reason was not sent."
+                msg += (
+                    "\nThe user has disabled direct messages, "
+                    "so the reason was not sent."
+                )
             await log_channel.send(msg)
             return
-        msg = f"✅ **Join**: {member.mention} | "\
-              f"{escaped_name}\n"\
-              f"🗓 __Creation__: {member.created_at}\n"\
-              f"🕓 Account age: {age}\n"\
-              f"✉ Joined with: {invite_used}\n"\
-              f"🏷 __User ID__: {member.id}"
+        msg = (
+            f"✅ **Join**: {member.mention} | "
+            f"{escaped_name}\n"
+            f"🗓 __Creation__: {member.created_at}\n"
+            f"🕓 Account age: {age}\n"
+            f"✉ Joined with: {invite_used}\n"
+            f"🏷 __User ID__: {member.id}"
+        )
 
         # Handles user restrictions
         # Basically, gives back muted role to users that leave with it.
@@ -129,13 +135,16 @@ class Logs(Cog):
             if len(warns[str(member.id)]["warns"]) == 0:
                 await log_channel.send(msg)
             else:
-                embed = discord.Embed(color=discord.Color.dark_red(),
-                                      title=f"Warns for {escaped_name}")
+                embed = discord.Embed(
+                    color=discord.Color.dark_red(), title=f"Warns for {escaped_name}"
+                )
                 embed.set_thumbnail(url=member.avatar_url)
                 for idx, warn in enumerate(warns[str(member.id)]["warns"]):
-                    embed.add_field(name=f"{idx + 1}: {warn['timestamp']}",
-                                    value=f"Issuer: {warn['issuer_name']}"
-                                          f"\nReason: {warn['reason']}")
+                    embed.add_field(
+                        name=f"{idx + 1}: {warn['timestamp']}",
+                        value=f"Issuer: {warn['issuer_name']}"
+                        f"\nReason: {warn['reason']}",
+                    )
                 await log_channel.send(msg, embed=embed)
         except KeyError:  # if the user is not in the file
             await log_channel.send(msg)
@@ -148,18 +157,21 @@ class Logs(Cog):
             return
 
         alert = False
-        cleancont = self.clean_re.sub('', message.content).lower()
-        msg = f"🚨 Suspicious message by {message.author.mention} "\
-              f"({message.author.id}):"
+        cleancont = self.clean_re.sub("", message.content).lower()
+        msg = (
+            f"🚨 Suspicious message by {message.author.mention} "
+            f"({message.author.id}):"
+        )
 
         invites = self.invite_re.findall(message.content)
         for invite in invites:
             msg += f"\n- Has invite: https://{invite[0]}"
             alert = True
 
-        for susp_word in self.susp_words:
-            if susp_word in cleancont and\
-                    not any(ok_word in cleancont for ok_word in self.ok_words):
+        for susp_word in config.suspect_words:
+            if susp_word in cleancont and not any(
+                ok_word in cleancont for ok_word in config.suspect_ignored_words
+            ):
                 msg += f"\n- Contains suspicious word: `{susp_word}`"
                 alert = True
 
@@ -169,13 +181,15 @@ class Logs(Cog):
 
             # Bad Code :tm:, blame retr0id
             message_clean = message.content.replace("*", "").replace("_", "")
-            regd = self.susp_hellgex.sub(lambda w: "**{}**".format(w.group(0)),
-                                         message_clean)
+            regd = self.susp_hellgex.sub(
+                lambda w: "**{}**".format(w.group(0)), message_clean
+            )
 
             # Show a message embed
             embed = discord.Embed(description=regd)
-            embed.set_author(name=message.author.display_name,
-                             icon_url=message.author.avatar_url)
+            embed.set_author(
+                name=message.author.display_name, icon_url=message.author.avatar_url
+            )
 
             await spy_channel.send(msg, embed=embed)
 
@@ -184,8 +198,9 @@ class Logs(Cog):
         if compliant:
             return
 
-        msg = f"R11 violating name by {message.author.mention} "\
-              f"({message.author.id})."
+        msg = (
+            f"R11 violating name by {message.author.mention} " f"({message.author.id})."
+        )
 
         spy_channel = self.bot.get_channel(config.spylog_channel)
         await spy_channel.send(msg)
@@ -216,10 +231,13 @@ class Logs(Cog):
         after_content = after.clean_content.replace("`", "`\u200d")
 
         log_channel = self.bot.get_channel(config.log_channel)
-        msg = "📝 **Message edit**: \n"\
-              f"from {self.bot.escape_message(after.author.name)} "\
-              f"({after.author.id}), in {after.channel.mention}:\n"\
-              f"```{before_content}``` → ```{after_content}```"
+
+        msg = (
+             "📝 **Message edit**: \n"\
+            f"from {self.bot.escape_message(after.author.name)} "\
+            f"({after.author.id}), in {after.channel.mention}:\n"\
+            f"```{before_content}``` → ```{after_content}```"
+        )
 
         # If resulting message is too long, upload to hastebin
         if len(msg) > 2000:
@@ -235,10 +253,12 @@ class Logs(Cog):
             return
 
         log_channel = self.bot.get_channel(config.log_channel)
-        msg = "🗑️ **Message delete**: \n"\
-              f"from {self.bot.escape_message(message.author.name)} "\
-              f"({message.author.id}), in {message.channel.mention}:\n"\
-              f"`{message.clean_content}`"
+        msg = (
+            "🗑️ **Message delete**: \n"
+            f"from {self.bot.escape_message(message.author.name)} "
+            f"({message.author.id}), in {message.channel.mention}:\n"
+            f"`{message.clean_content}`"
+        )
 
         # If resulting message is too long, upload to hastebin
         if len(msg) > 2000:
@@ -250,28 +270,46 @@ class Logs(Cog):
     @Cog.listener()
     async def on_member_remove(self, member):
         await self.bot.wait_until_ready()
+
+        if member.guild.id not in config.guild_whitelist:
+            return
+
         log_channel = self.bot.get_channel(config.log_channel)
-        msg = f"⬅️ **Leave**: {member.mention} | "\
-              f"{self.bot.escape_message(member)}\n"\
-              f"🏷 __User ID__: {member.id}"
+        msg = (
+            f"⬅️ **Leave**: {member.mention} | "
+            f"{self.bot.escape_message(member)}\n"
+            f"🏷 __User ID__: {member.id}"
+        )
         await log_channel.send(msg)
 
     @Cog.listener()
     async def on_member_ban(self, guild, member):
         await self.bot.wait_until_ready()
+
+        if guild.id not in config.guild_whitelist:
+            return
+
         log_channel = self.bot.get_channel(config.modlog_channel)
-        msg = f"⛔ **Ban**: {member.mention} | "\
-              f"{self.bot.escape_message(member)}\n"\
-              f"🏷 __User ID__: {member.id}"
+        msg = (
+            f"⛔ **Ban**: {member.mention} | "
+            f"{self.bot.escape_message(member)}\n"
+            f"🏷 __User ID__: {member.id}"
+        )
         await log_channel.send(msg)
 
     @Cog.listener()
     async def on_member_unban(self, guild, user):
         await self.bot.wait_until_ready()
+
+        if guild.id not in config.guild_whitelist:
+            return
+
         log_channel = self.bot.get_channel(config.modlog_channel)
-        msg = f"⚠️ **Unban**: {user.mention} | "\
-              f"{self.bot.escape_message(user)}\n"\
-              f"🏷 __User ID__: {user.id}"
+        msg = (
+            f"⚠️ **Unban**: {user.mention} | "
+            f"{self.bot.escape_message(user)}\n"
+            f"🏷 __User ID__: {user.id}"
+        )
         # if user.id in self.bot.timebans:
         #     msg += "\nTimeban removed."
         #     self.bot.timebans.pop(user.id)
@@ -286,6 +324,10 @@ class Logs(Cog):
     @Cog.listener()
     async def on_member_update(self, member_before, member_after):
         await self.bot.wait_until_ready()
+
+        if member_after.guild.id not in config.guild_whitelist:
+            return
+
         msg = ""
         log_channel = self.bot.get_channel(config.log_channel)
         if member_before.roles != member_after.roles:
@@ -315,9 +357,11 @@ class Logs(Cog):
                 msg += ", ".join(roles)
 
         if member_before.name != member_after.name:
-            msg += "\n📝 __Username change__: "\
-                   f"{self.bot.escape_message(member_before)} → "\
-                   f"{self.bot.escape_message(member_after)}"
+            msg += (
+                "\n📝 __Username change__: "
+                f"{self.bot.escape_message(member_before)} → "
+                f"{self.bot.escape_message(member_after)}"
+            )
         if member_before.nick != member_after.nick:
             if not member_before.nick:
                 msg += "\n🏷 __Nickname addition__"
@@ -325,11 +369,15 @@ class Logs(Cog):
                 msg += "\n🏷 __Nickname removal__"
             else:
                 msg += "\n🏷 __Nickname change__"
-            msg += f": {self.bot.escape_message(member_before.nick)} → "\
-                   f"{self.bot.escape_message(member_after.nick)}"
+            msg += (
+                f": {self.bot.escape_message(member_before.nick)} → "
+                f"{self.bot.escape_message(member_after.nick)}"
+            )
         if msg:
-            msg = f"ℹ️ **Member update**: {member_after.mention} | "\
-                  f"{self.bot.escape_message(member_after)}{msg}"
+            msg = (
+                f"ℹ️ **Member update**: {member_after.mention} | "
+                f"{self.bot.escape_message(member_after)}{msg}"
+            )
             await log_channel.send(msg)
 
 

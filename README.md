@@ -2,7 +2,7 @@
 
 Next-gen rewrite of Kurisu/Robocop bot used on ReSwitched bot with discord.py rewrite, designed to be relatively clean, consistent and un-bloated.
 
-Code is based on https://gitlab.com/ao/dpybotbase and https://github.com/916253/Kurisu-Reswitched.
+Code is based on https://gitlab.com/a/dpybotbase and https://github.com/916253/Kurisu-Reswitched.
 
 
 ---
@@ -31,107 +31,17 @@ If you're moving from Kurisu/Robocop, and want to preserve your data, you'll wan
 
 ---
 
-## TODO
+## Contributing
 
-All Robocop features are now supported.
+Contributions are welcome. If you're unsure if your PR would be merged or not, either open an issue, ask on ReSwitched off-topic pinging ave or DM ave.
 
-<details>
-<summary>List of added Kurisu/Robocop features</summary>
-<p>
-
-- [x] .py configs
-- [x] membercount command
-- [x] Meme commands and pegaswitch (honestly the easiest part)
-- [x] source command
-- [x] robocop command
-- [x] Verification: Actual verification system
-- [x] Verification: Reset command
-- [x] Logging: joins
-- [x] Logging: leaves
-- [x] Logging: role changes
-- [x] Logging: bans
-- [x] Logging: kicks
-- [x] Moderation: speak
-- [x] Moderation: ban
-- [x] Moderation: silentban
-- [x] Moderation: kick
-- [x] Moderation: userinfo
-- [x] Moderation: approve-revoke (community)
-- [x] Moderation: addhacker-removehacker (hacker)
-- [x] Moderation: probate-unprobate (participant)
-- [x] Moderation: lock-softlock-unlock (channel lockdown)
-- [x] Moderation: mute-unmute
-- [x] Moderation: playing
-- [x] Moderation: botnickname
-- [x] Moderation: nickname
-- [x] Moderation: clear/purge
-- [x] Moderation: restrictions (people who leave with muted role will get muted role on join)
-- [x] Warns: warn
-- [x] Warns: listwarns-listwarnsid
-- [x] Warns: clearwarns-clearwarnsid
-- [x] Warns: delwarnid-delwarn
-- [x] .serr and .err (thanks tomger!)
-
-</p>
-</details>
-
----
-
-The main goal of this project, to get Robocop functionality done, is complete.
-
-Secondary goal is adding new features:
-
-- [ ] Purge: On purge, send logs in form of txt file to server logs
-- [ ] New feature: Modmail
-- [ ] New feature: Submiterr (relies on modmail)
-- [ ] Feature creep: Shortlink completion (gl/ao/etc)
-- [ ] New moderation feature: timelock (channel lockdown with time, relies on robocronp)
-
-<details>
-<summary>Completed features</summary>
-<p>
-
-- [x] Better security, better checks and better guild whitelisting
-- [x] Feature creep: Reminds
-- [x] A system for running jobs in background with an interval (will be called robocronp)
-- [x] Commands to list said jobs and remove them
-- [x] New moderation feature: timemute (mute with time, relies on robocronp)
-- [x] New moderation feature: timeban (ban with expiry, relies on robocronp)
-- [x] Improvements to lockdown to ensure that staff can talk
-- [x] New moderation feature: Display of mutes, bans and kicks on listwarns (.userlog now)
-- [x] New moderation feature: User notes
-- [x] New moderation feature: Reaction removing features (thanks misson20000!)
-- [x] New moderation feature: User nickname change
-- [x] New moderation feature: watch-unwatch
-- [x] New moderation feature: tracking suspicious keywords
-- [x] New moderation feature: tracking invites posted
-- [x] New self-moderation feature: .mywarns
-- [x] New feature: Highlights (problematic words automatically get posted to modmail channel, relies on modmail)
-
-</p>
-</details>
-
-<details>
-<summary>TODO for robocronp</summary>
-<p>
-
-- [ ] Reduce code repetition on mod_timed.py
-- [x] Allow non-hour values on timed bans
-
-the following require me to rethink some of the lockdown code, which I don't feel like
-
-- [ ] lockdown in helper
-- [ ] timelock command
-- [ ] working cronjob for unlock
-
-</p>
-</details>
+You're expected to use [black](https://github.com/psf/black) for code formatting before sending a PR. Simply install it with pip (`pip3 install black`), and run it with `black .`.
 
 ---
 
 ## Credits
 
-Robocop-NG is currently developed and maintained by @aveao and @tumGER. The official bot is hosted by @yuukieve.
+Robocop-NG was initially developed by @aveao and @tumGER. It is currently maintained by @aveao. Similarly, the official robocop-ng on reswitched discord guild is hosted by @aveao too.
 
 I (ave) would like to thank the following, in no particular order:
 

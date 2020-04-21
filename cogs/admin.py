@@ -16,7 +16,7 @@ class Admin(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
-    @commands.command(name='exit', aliases=["quit", "bye"])
+    @commands.command(name="exit", aliases=["quit", "bye"])
     async def _exit(self, ctx):
         """Shuts down the bot, bot manager only."""
         await ctx.send(":wave: Goodbye!")
@@ -27,8 +27,10 @@ class Admin(Cog):
     @commands.command()
     async def fetchlog(self, ctx):
         """Returns log"""
-        await ctx.send("Here's the current log file:",
-                       file=discord.File(f"{self.bot.script_name}.log"))
+        await ctx.send(
+            "Here's the current log file:",
+            file=discord.File(f"{self.bot.script_name}.log"),
+        )
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
@@ -40,32 +42,29 @@ class Admin(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
-    @commands.command(name='eval')
+    @commands.command(name="eval")
     async def _eval(self, ctx, *, code: str):
         """Evaluates some code, bot manager only."""
         try:
-            code = code.strip('` ')
+            code = code.strip("` ")
 
             env = {
-                'bot': self.bot,
-                'ctx': ctx,
-                'message': ctx.message,
-                'server': ctx.guild,
-                'guild': ctx.guild,
-                'channel': ctx.message.channel,
-                'author': ctx.message.author,
-
+                "bot": self.bot,
+                "ctx": ctx,
+                "message": ctx.message,
+                "server": ctx.guild,
+                "guild": ctx.guild,
+                "channel": ctx.message.channel,
+                "author": ctx.message.author,
                 # modules
-                'discord': discord,
-                'commands': commands,
-
+                "discord": discord,
+                "commands": commands,
                 # utilities
-                '_get': discord.utils.get,
-                '_find': discord.utils.find,
-
+                "_get": discord.utils.get,
+                "_find": discord.utils.find,
                 # last result
-                '_': self.last_eval_result,
-                '_p': self.previous_eval_code,
+                "_": self.last_eval_result,
+                "_p": self.previous_eval_code,
             }
             env.update(globals())
 
@@ -79,16 +78,15 @@ class Admin(Cog):
 
             self.previous_eval_code = code
 
-            sliced_message = await self.bot.slice_message(repr(result),
-                                                          prefix="```",
-                                                          suffix="```")
+            sliced_message = await self.bot.slice_message(
+                repr(result), prefix="```", suffix="```"
+            )
             for msg in sliced_message:
                 await ctx.send(msg)
         except:
-            sliced_message = \
-                await self.bot.slice_message(traceback.format_exc(),
-                                             prefix="```",
-                                             suffix="```")
+            sliced_message = await self.bot.slice_message(
+                traceback.format_exc(), prefix="```", suffix="```"
+            )
             for msg in sliced_message:
                 await ctx.send(msg)
 
@@ -102,22 +100,25 @@ class Admin(Cog):
     @commands.command()
     async def pull(self, ctx, auto=False):
         """Does a git pull, bot manager only."""
-        tmp = await ctx.send('Pulling...')
+        tmp = await ctx.send("Pulling...")
         git_output = await self.bot.async_call_shell("git pull")
         await tmp.edit(content=f"Pull complete. Output: ```{git_output}```")
         if auto:
-            cogs_to_reload = re.findall(r'cogs/([a-z_]*).py[ ]*\|', git_output)
+            cogs_to_reload = re.findall(r"cogs/([a-z_]*).py[ ]*\|", git_output)
             for cog in cogs_to_reload:
                 try:
                     self.bot.unload_extension("cogs." + cog)
                     self.bot.load_extension("cogs." + cog)
-                    self.bot.log.info(f'Reloaded ext {cog}')
-                    await ctx.send(f':white_check_mark: `{cog}` '
-                                   'successfully reloaded.')
+                    self.bot.log.info(f"Reloaded ext {cog}")
+                    await ctx.send(
+                        f":white_check_mark: `{cog}` " "successfully reloaded."
+                    )
                     await self.cog_load_actions(cog)
                 except:
-                    await ctx.send(f':x: Cog reloading failed, traceback: '
-                                   f'```\n{traceback.format_exc()}\n```')
+                    await ctx.send(
+                        f":x: Cog reloading failed, traceback: "
+                        f"```\n{traceback.format_exc()}\n```"
+                    )
                     return
 
     @commands.guild_only()
@@ -129,11 +130,13 @@ class Admin(Cog):
             self.bot.load_extension("cogs." + ext)
             await self.cog_load_actions(ext)
         except:
-            await ctx.send(f':x: Cog loading failed, traceback: '
-                           f'```\n{traceback.format_exc()}\n```')
+            await ctx.send(
+                f":x: Cog loading failed, traceback: "
+                f"```\n{traceback.format_exc()}\n```"
+            )
             return
-        self.bot.log.info(f'Loaded ext {ext}')
-        await ctx.send(f':white_check_mark: `{ext}` successfully loaded.')
+        self.bot.log.info(f"Loaded ext {ext}")
+        await ctx.send(f":white_check_mark: `{ext}` successfully loaded.")
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
@@ -141,8 +144,8 @@ class Admin(Cog):
     async def unload(self, ctx, ext: str):
         """Unloads a cog, bot manager only."""
         self.bot.unload_extension("cogs." + ext)
-        self.bot.log.info(f'Unloaded ext {ext}')
-        await ctx.send(f':white_check_mark: `{ext}` successfully unloaded.')
+        self.bot.log.info(f"Unloaded ext {ext}")
+        await ctx.send(f":white_check_mark: `{ext}` successfully unloaded.")
 
     @commands.check(check_if_bot_manager)
     @commands.command()
@@ -158,11 +161,13 @@ class Admin(Cog):
             self.bot.load_extension("cogs." + ext)
             await self.cog_load_actions(ext)
         except:
-            await ctx.send(f':x: Cog reloading failed, traceback: '
-                           f'```\n{traceback.format_exc()}\n```')
+            await ctx.send(
+                f":x: Cog reloading failed, traceback: "
+                f"```\n{traceback.format_exc()}\n```"
+            )
             return
-        self.bot.log.info(f'Reloaded ext {ext}')
-        await ctx.send(f':white_check_mark: `{ext}` successfully reloaded.')
+        self.bot.log.info(f"Reloaded ext {ext}")
+        await ctx.send(f":white_check_mark: `{ext}` successfully reloaded.")
 
 
 def setup(bot):
