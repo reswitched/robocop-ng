@@ -226,12 +226,17 @@ class Logs(Cog):
 
         await self.do_spy(after)
 
+        # U+200D is a Zero Width Joiner stopping backticks from breaking the formatting
+        before_content = before.clean_content.replace("`", "`\u200d")
+        after_content = after.clean_content.replace("`", "`\u200d")
+
         log_channel = self.bot.get_channel(config.log_channel)
+
         msg = (
-            "📝 **Message edit**: \n"
-            f"from {self.bot.escape_message(after.author.name)} "
-            f"({after.author.id}), in {after.channel.mention}:\n"
-            f"`{before.clean_content}` → `{after.clean_content}`"
+             "📝 **Message edit**: \n"\
+            f"from {self.bot.escape_message(after.author.name)} "\
+            f"({after.author.id}), in {after.channel.mention}:\n"\
+            f"```{before_content}``` → ```{after_content}```"
         )
 
         # If resulting message is too long, upload to hastebin
