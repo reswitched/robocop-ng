@@ -68,9 +68,7 @@ class Verification(Cog):
         # randomize hash_choice on reset
         self.hash_choice = random.choice(
             tuple(
-                hashlib.algorithms_guaranteed
-                - self.blacklisted_hashes
-                - {self.hash_choice}
+                config.welcome_hashes
             )
         )
 
@@ -174,9 +172,8 @@ class Verification(Cog):
 
             # Detect if the user uses the wrong hash algorithm
             wrong_hash_algos = (
-                hashlib.algorithms_guaranteed
+                config.welcome_hashes
                 - {self.hash_choice}
-                - self.blacklisted_hashes
             )
             for algo in wrong_hash_algos:
                 for name in itertools.chain(allowed_names, close_names):
