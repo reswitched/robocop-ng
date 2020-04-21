@@ -138,7 +138,7 @@ class Verification(Cog):
                 return await chan.send(snark)
 
             # Get the role we will give in case of success
-            success_role = guild.get_role(config.participant_role)
+            success_role = guild.get_role(config.named_roles["participant"])
 
             # Get a list of stuff we'll allow and will consider close
             allowed_names = [f"@{full_name}", full_name, str(member.id)]
