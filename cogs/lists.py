@@ -2,6 +2,7 @@ import config
 import discord
 import io
 import urllib.parse
+import os.path
 from discord.ext import commands
 from discord.ext.commands import Cog
 
@@ -87,6 +88,40 @@ class Lists(Cog):
                 await file_message.delete()
 
         await message.edit(embed=None)
+
+    async def cache_message(self, message):
+        msg = {
+            "has_attachment": False,
+            "attachment_filename": "",
+            "attachment_data": b"",
+            "content": message.content,
+        }
+
+        if len(message.attachments) != 0:
+            attachment = next(
+                (
+                    a
+                    for a in message.attachments
+                    if os.path.splitext(a.filename)[1] in [".png", ".jpg", ".jpeg"]
+                ),
+                None,
+            )
+            if attachment is not None:
+                msg["has_attachment"] = True
+                msg["attachment_filename"] = attachment.filename
+                msg["attachment_data"] = await attachment.read()
+
+        return msg
+
+    async def send_cached_message(self, channel, message):
+        if message["has_attachment"] == True:
+            file = discord.File(
+                io.BytesIO(message["attachment_data"]),
+                filename=message["attachment_filename"],
+            )
+            await channel.send(content=message["content"], file=file)
+        else:
+            await channel.send(content=message["content"])
 
     # Commands
 
@@ -229,9 +264,7 @@ class Lists(Cog):
                 (
                     a
                     for a in message.attachments
-                    if a.filename.endswith(".png")
-                    or a.filename.endswith(".jpg")
-                    or a.filename.endswith(".jpeg")
+                    if os.path.splitext(a.filename)[1] in [".png", ".jpg", ".jpeg"]
                 ),
                 None,
             )
@@ -285,14 +318,17 @@ class Lists(Cog):
             )
 
         elif self.is_recycle(targeted_reaction):
-            messages = await channel.history(
+            messages = [await self.cache_message(targeted_message)]
+
+            for message in await channel.history(
                 limit=None, after=targeted_message, oldest_first=True
-            ).flatten()
+            ).flatten():
+                messages.append(await self.cache_message(message))
+
             await channel.purge(limit=len(messages) + 1, bulk=True)
 
-            await channel.send(targeted_message.content)
             for message in messages:
-                await channel.send(message.content)
+                await self.send_cached_message(channel, message)
 
             await log_channel.send(
                 self.create_log_message(
@@ -301,30 +337,52 @@ class Lists(Cog):
             )
 
         elif self.is_insert_above(targeted_reaction):
-            messages = await channel.history(
+            messages = [await self.cache_message(targeted_message)]
+
+            for message in await channel.history(
                 limit=None, after=targeted_message, oldest_first=True
-            ).flatten()
+            ).flatten():
+                messages.append(await self.cache_message(message))
+
             await channel.purge(limit=len(messages) + 1, bulk=True)
 
-            await channel.send(content)
-            await channel.send(targeted_message.content)
+            if attachment_filename is not None and attachment_data is not None:
+                file = discord.File(
+                    io.BytesIO(attachment_data), filename=attachment_filename
+                )
+                await channel.send(content=content, file=file)
+            else:
+                await channel.send(content)
+
             for message in messages:
-                await channel.send(message.content)
+                await self.send_cached_message(channel, message)
 
             await log_channel.send(
                 self.create_log_message("💬", "List item added:", user, channel)
             )
 
         elif self.is_insert_below(targeted_reaction):
-            messages = await channel.history(
-                limit=None, after=targeted_message, oldest_first=True
-            ).flatten()
-            await channel.purge(limit=len(messages) + 1, bulk=True)
+            await targeted_reaction.remove(user)
 
-            await channel.send(targeted_message.content)
-            await channel.send(content)
+            messages = []
+
+            for message in await channel.history(
+                limit=None, after=targeted_message, oldest_first=True
+            ).flatten():
+                messages.append(await self.cache_message(message))
+
+            await channel.purge(limit=len(messages), bulk=True)
+
+            if attachment_filename is not None and attachment_data is not None:
+                file = discord.File(
+                    io.BytesIO(attachment_data), filename=attachment_filename
+                )
+                await channel.send(content=content, file=file)
+            else:
+                await channel.send(content)
+
             for message in messages:
-                await channel.send(message.content)
+                await self.send_cached_message(channel, message)
 
             await log_channel.send(
                 self.create_log_message("💬", "List item added:", user, channel)
