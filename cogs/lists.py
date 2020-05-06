@@ -2,6 +2,7 @@ import config
 import discord
 import io
 import urllib.parse
+import os.path
 from discord.ext import commands
 from discord.ext.commands import Cog
 
@@ -101,9 +102,7 @@ class Lists(Cog):
                 (
                     a
                     for a in message.attachments
-                    if a.filename.endswith(".png")
-                    or a.filename.endswith(".jpg")
-                    or a.filename.endswith(".jpeg")
+                    if os.path.splitext(a.filename)[1] in [".png", ".jpg", ".jpeg"]
                 ),
                 None,
             )
@@ -265,9 +264,7 @@ class Lists(Cog):
                 (
                     a
                     for a in message.attachments
-                    if a.filename.endswith(".png")
-                    or a.filename.endswith(".jpg")
-                    or a.filename.endswith(".jpeg")
+                    if os.path.splitext(a.filename)[1] in [".png", ".jpg", ".jpeg"]
                 ),
                 None,
             )
