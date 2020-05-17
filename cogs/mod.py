@@ -25,7 +25,7 @@ class Mod(Cog):
         await ctx.send(f"Done!")
 
         log_channel = self.bot.get_channel(config.modlog_channel)
-        log_msg = f"✏️ **Guild Icon Update**: {ctx.author} " "changed the guild icon."
+        log_msg = f"✏️ **Guild Icon Update**: {ctx.author} changed the guild icon."
         img_filename = url.split("/")[-1].split("#")[0]  # hacky
         img_file = discord.File(io.BytesIO(img_bytes), filename=img_filename)
         await log_channel.send(log_msg, file=img_file)
@@ -40,11 +40,11 @@ class Mod(Cog):
             return await ctx.send("You can't do mod actions on yourself.")
         elif target == self.bot.user:
             return await ctx.send(
-                f"I'm sorry {ctx.author.mention}, " "I'm afraid I can't do that."
+                f"I'm sorry {ctx.author.mention}, I'm afraid I can't do that."
             )
         elif self.check_if_target_is_staff(target):
             return await ctx.send(
-                "I can't mute this user as " "they're a member of staff."
+                "I can't mute this user as they're a member of staff."
             )
 
         userlog(target.id, ctx.author, reason, "mutes", target.name)
@@ -117,11 +117,11 @@ class Mod(Cog):
             return await ctx.send("You can't do mod actions on yourself.")
         elif target == self.bot.user:
             return await ctx.send(
-                f"I'm sorry {ctx.author.mention}, " "I'm afraid I can't do that."
+                f"I'm sorry {ctx.author.mention}, I'm afraid I can't do that."
             )
         elif self.check_if_target_is_staff(target):
             return await ctx.send(
-                "I can't kick this user as " "they're a member of staff."
+                "I can't kick this user as they're a member of staff."
             )
 
         userlog(target.id, ctx.author, reason, "kicks", target.name)
@@ -178,12 +178,10 @@ class Mod(Cog):
             return await ctx.send("hedgeberg#7337 is now b&. 👍")
         elif target == self.bot.user:
             return await ctx.send(
-                f"I'm sorry {ctx.author.mention}, " "I'm afraid I can't do that."
+                f"I'm sorry {ctx.author.mention}, I'm afraid I can't do that."
             )
         elif self.check_if_target_is_staff(target):
-            return await ctx.send(
-                "I can't ban this user as " "they're a member of staff."
-            )
+            return await ctx.send("I can't ban this user as they're a member of staff.")
 
         userlog(target.id, ctx.author, reason, "bans", target.name)
 
@@ -235,12 +233,10 @@ class Mod(Cog):
             return await ctx.send("You can't do mod actions on yourself.")
         elif target == self.bot.user:
             return await ctx.send(
-                f"I'm sorry {ctx.author.mention}, " "I'm afraid I can't do that."
+                f"I'm sorry {ctx.author.mention}, I'm afraid I can't do that."
             )
         elif target_member and self.check_if_target_is_staff(target_member):
-            return await ctx.send(
-                "I can't ban this user as " "they're a member of staff."
-            )
+            return await ctx.send("I can't ban this user as they're a member of staff.")
 
         userlog(target, ctx.author, reason, "bans", target_user.name)
 
@@ -271,6 +267,35 @@ class Mod(Cog):
     @commands.bot_has_permissions(ban_members=True)
     @commands.check(check_if_staff)
     @commands.command()
+    async def unban(self, ctx, target: int, *, reason: str = ""):
+        """Unbans a user with their ID, doesn't message them, staff only."""
+        target_user = await self.bot.fetch_user(target)
+
+        safe_name = await commands.clean_content().convert(ctx, str(target))
+
+        await ctx.guild.unban(target_user, reason=f"{ctx.author}, reason: {reason}")
+        chan_message = (
+            f"⚠️ **Unban**: {ctx.author.mention} unbanned "
+            f"{target_user.mention} | {safe_name}\n"
+            f"🏷 __User ID__: {target}\n"
+        )
+        if reason:
+            chan_message += f'✏️ __Reason__: "{reason}"'
+        else:
+            chan_message += (
+                "Please add an explanation below. In the future"
+                ", it is recommended to use "
+                "`.unban <user id> [reason]`."
+            )
+
+        log_channel = self.bot.get_channel(config.modlog_channel)
+        await log_channel.send(chan_message)
+        await ctx.send(f"{safe_name} is now unb&.")
+
+    @commands.guild_only()
+    @commands.bot_has_permissions(ban_members=True)
+    @commands.check(check_if_staff)
+    @commands.command()
     async def silentban(self, ctx, target: discord.Member, *, reason: str = ""):
         """Bans a user, staff only."""
         # Hedge-proofing the code
@@ -278,12 +303,10 @@ class Mod(Cog):
             return await ctx.send("You can't do mod actions on yourself.")
         elif target == self.bot.user:
             return await ctx.send(
-                f"I'm sorry {ctx.author.mention}, " "I'm afraid I can't do that."
+                f"I'm sorry {ctx.author.mention}, I'm afraid I can't do that."
             )
         elif self.check_if_target_is_staff(target):
-            return await ctx.send(
-                "I can't ban this user as " "they're a member of staff."
-            )
+            return await ctx.send("I can't ban this user as they're a member of staff.")
 
         userlog(target.id, ctx.author, reason, "bans", target.name)
 
@@ -383,11 +406,11 @@ class Mod(Cog):
             return await ctx.send("You can't do mod actions on yourself.")
         elif target == self.bot.user:
             return await ctx.send(
-                f"I'm sorry {ctx.author.mention}, " "I'm afraid I can't do that."
+                f"I'm sorry {ctx.author.mention}, I'm afraid I can't do that."
             )
         elif self.check_if_target_is_staff(target):
             return await ctx.send(
-                "I can't warn this user as " "they're a member of staff."
+                "I can't warn this user as they're a member of staff."
             )
 
         log_channel = self.bot.get_channel(config.modlog_channel)

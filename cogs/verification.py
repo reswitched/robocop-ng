@@ -66,11 +66,7 @@ class Verification(Cog):
 
     async def do_resetalgo(self, channel, author, limit: int = 100):
         # randomize hash_choice on reset
-        self.hash_choice = random.choice(
-            tuple(
-                config.welcome_hashes
-            )
-        )
+        self.hash_choice = random.choice(tuple(config.welcome_hashes))
 
         msg = (
             f"📘 **Reset Algorithm**: {author} reset " f"algorithm in {channel.mention}"
@@ -171,10 +167,7 @@ class Verification(Cog):
                 )
 
             # Detect if the user uses the wrong hash algorithm
-            wrong_hash_algos = (
-                config.welcome_hashes
-                - {self.hash_choice}
-            )
+            wrong_hash_algos = config.welcome_hashes - {self.hash_choice}
             for algo in wrong_hash_algos:
                 for name in itertools.chain(allowed_names, close_names):
                     if hashlib.new(algo, name.encode("utf-8")).hexdigest() in mcl:

@@ -233,9 +233,9 @@ class Logs(Cog):
         log_channel = self.bot.get_channel(config.log_channel)
 
         msg = (
-             "📝 **Message edit**: \n"\
-            f"from {self.bot.escape_message(after.author.name)} "\
-            f"({after.author.id}), in {after.channel.mention}:\n"\
+            "📝 **Message edit**: \n"
+            f"from {self.bot.escape_message(after.author.name)} "
+            f"({after.author.id}), in {after.channel.mention}:\n"
             f"```{before_content}``` → ```{after_content}```"
         )
 
