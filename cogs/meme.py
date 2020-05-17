@@ -67,7 +67,7 @@ class Meme(Cog):
             description=f"Here's your ReSwitched Silver™," f"{user.mention}!",
         )
         embed.set_image(
-            url="https://cdn.discordapp.com/emojis/" "548623626916724747.png?v=1"
+            url="https://cdn.discordapp.com/emojis/548623626916724747.png?v=1"
         )
         await ctx.send(embed=embed)
 
@@ -113,16 +113,12 @@ class Meme(Cog):
     @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True)
     async def bones(self, ctx):
-        await ctx.send(
-            "https://cdn.discordapp.com/emojis/" "443501365843591169.png?v=1"
-        )
+        await ctx.send("https://cdn.discordapp.com/emojis/443501365843591169.png?v=1")
 
     @commands.check(check_if_staff_or_ot)
     @commands.command(hidden=True)
     async def headpat(self, ctx):
-        await ctx.send(
-            "https://cdn.discordapp.com/emojis/" "465650811909701642.png?v=1"
-        )
+        await ctx.send("https://cdn.discordapp.com/emojis/465650811909701642.png?v=1")
 
     @commands.check(check_if_staff_or_ot)
     @commands.command(
@@ -143,7 +139,7 @@ class Meme(Cog):
             return await ctx.send("hedgeberg#7337 is ̶n͢ow b̕&̡.̷ 👍̡")
         elif target == self.bot.user:
             return await ctx.send(
-                f"I'm sorry {ctx.author.mention}, " "I'm afraid I can't do that."
+                f"I'm sorry {ctx.author.mention}, I'm afraid I can't do that."
             )
 
         safe_name = await commands.clean_content().convert(ctx, str(target))
@@ -163,7 +159,7 @@ class Meme(Cog):
     async def yearoflinux(self, ctx):
         """Shows the year of Linux on the desktop"""
         await ctx.send(
-            f"{datetime.datetime.now().year} is the year of " "Linux on the Desktop"
+            f"{datetime.datetime.now().year} is the year of Linux on the Desktop"
         )
 
 

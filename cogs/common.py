@@ -79,7 +79,7 @@ class Common(Cog):
                 self.bot.log.info(f"Data from {url}: {text_data}")
                 return text_data
             else:
-                self.bot.log.error(f"HTTP Error {data.status} " "while getting {url}")
+                self.bot.log.error(f"HTTP Error {data.status} while getting {url}")
         except:
             self.bot.log.error(
                 f"Error while getting {url} "
@@ -94,7 +94,7 @@ class Common(Cog):
                 self.bot.log.debug(f"Data from {url}: {byte_data}")
                 return byte_data
             else:
-                self.bot.log.error(f"HTTP Error {data.status} " "while getting {url}")
+                self.bot.log.error(f"HTTP Error {data.status} while getting {url}")
         except:
             self.bot.log.error(
                 f"Error while getting {url} "
@@ -110,7 +110,7 @@ class Common(Cog):
                 content_type = data.headers["Content-Type"]
                 return await data.json(content_type=content_type)
             else:
-                self.bot.log.error(f"HTTP Error {data.status} " "while getting {url}")
+                self.bot.log.error(f"HTTP Error {data.status} while getting {url}")
         except:
             self.bot.log.error(
                 f"Error while getting {url} "

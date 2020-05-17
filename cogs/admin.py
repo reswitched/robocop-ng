@@ -110,9 +110,7 @@ class Admin(Cog):
                     self.bot.unload_extension("cogs." + cog)
                     self.bot.load_extension("cogs." + cog)
                     self.bot.log.info(f"Reloaded ext {cog}")
-                    await ctx.send(
-                        f":white_check_mark: `{cog}` " "successfully reloaded."
-                    )
+                    await ctx.send(f":white_check_mark: `{cog}` successfully reloaded.")
                     await self.cog_load_actions(cog)
                 except:
                     await ctx.send(

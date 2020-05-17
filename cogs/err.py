@@ -176,7 +176,7 @@ class Err(Cog):
             await ctx.send(hex(errcode))
         else:
             await ctx.send(
-                "This doesn't follow the typical" " Nintendo Switch 2XXX-XXXX format!"
+                "This doesn't follow the typical Nintendo Switch 2XXX-XXXX format!"
             )
 
     @commands.command(aliases=["h2e"])

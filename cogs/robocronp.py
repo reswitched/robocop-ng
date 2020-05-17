@@ -65,7 +65,7 @@ class Robocronp(Cog):
                     target_guild = self.bot.get_guild(job_details["guild"])
                     delete_job(timestamp, jobtype, job_name)
                     await target_guild.unban(
-                        target_user, reason="Robocronp: Timed " "ban expired."
+                        target_user, reason="Robocronp: Timed ban expired."
                     )
                 elif jobtype == "unmute":
                     remove_restriction(job_name, config.mute_role)
@@ -73,7 +73,7 @@ class Robocronp(Cog):
                     target_member = target_guild.get_member(int(job_name))
                     target_role = target_guild.get_role(config.mute_role)
                     await target_member.remove_roles(
-                        target_role, reason="Robocronp: Timed " "mute expired."
+                        target_role, reason="Robocronp: Timed mute expired."
                     )
                     delete_job(timestamp, jobtype, job_name)
                 elif jobtype == "remind":

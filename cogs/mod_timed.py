@@ -28,9 +28,7 @@ class ModTimed(Cog):
         if target == ctx.author:
             return await ctx.send("You can't do mod actions on yourself.")
         elif self.check_if_target_is_staff(target):
-            return await ctx.send(
-                "I can't ban this user as " "they're a member of staff."
-            )
+            return await ctx.send("I can't ban this user as they're a member of staff.")
 
         expiry_timestamp = self.bot.parse_time(duration)
         expiry_datetime = datetime.utcfromtimestamp(expiry_timestamp)
@@ -95,7 +93,7 @@ class ModTimed(Cog):
             return await ctx.send("You can't do mod actions on yourself.")
         elif self.check_if_target_is_staff(target):
             return await ctx.send(
-                "I can't mute this user as " "they're a member of staff."
+                "I can't mute this user as they're a member of staff."
             )
 
         expiry_timestamp = self.bot.parse_time(duration)

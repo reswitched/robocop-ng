@@ -44,7 +44,7 @@ class Remind(Cog):
 
         if current_timestamp + 5 > expiry_timestamp:
             msg = await ctx.send(
-                f"{ctx.author.mention}: Minimum " "remind interval is 5 seconds."
+                f"{ctx.author.mention}: Minimum remind interval is 5 seconds."
             )
             await asyncio.sleep(5)
             await msg.delete()
