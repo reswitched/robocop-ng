@@ -481,12 +481,18 @@ class Mod(Cog):
 
         Just send .nickname <user> to wipe the nickname."""
 
-        if nick:
-            await target.edit(nick=nick, reason=str(ctx.author))
-        else:
-            await target.edit(nick=None, reason=str(ctx.author))
+        try:
+            if nick:
+                await target.edit(nick=nick, reason=str(ctx.author))
+            else:
+                await target.edit(nick=None, reason=str(ctx.author))
 
-        await ctx.send("Successfully set nickname.")
+            await ctx.send("Successfully set nickname.")
+        except discord.errors.Forbidden:
+            await ctx.send(
+                "I don't have the permission to set that user's nickname.\n"
+                "User's top role may be above mine, or I may lack Manage Nicknames permission."
+            )
 
     @commands.guild_only()
     @commands.check(check_if_staff)
