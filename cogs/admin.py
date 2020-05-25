@@ -106,9 +106,13 @@ class Admin(Cog):
         if auto:
             cogs_to_reload = re.findall(r"cogs/([a-z_]*).py[ ]*\|", git_output)
             for cog in cogs_to_reload:
+                cog_name = "cogs." + cog
+                if cog_name not in config.initial_cogs:
+                    continue
+
                 try:
-                    self.bot.unload_extension("cogs." + cog)
-                    self.bot.load_extension("cogs." + cog)
+                    self.bot.unload_extension(cog_name)
+                    self.bot.load_extension(cog_name)
                     self.bot.log.info(f"Reloaded ext {cog}")
                     await ctx.send(f":white_check_mark: `{cog}` successfully reloaded.")
                     await self.cog_load_actions(cog)
