@@ -135,6 +135,9 @@ suspect_words = [
     "tx",  # piracy-enabling cfw
     "reinx",  # piracy-enabling cfw
     "gomanx",  # piracy-enabling cfw
+    "neutos", # piracy-enabling cfw
+    "underpack", # piracy-enabling cfw
+    "underos", # piracy-enabling cfw
     "tinfoil",  # title manager
     "dz",  # title manager
     "goldleaf",  # potential title manager
@@ -142,6 +145,8 @@ suspect_words = [
     "cracked",  # older term for pirated games
     "xci",  # "backup" format
     "nsz",  # "backup" format
+    "hbg", # piracy source
+    "jits", # piracy source
 ]
 
 # List of words that will be ignored if they match one of the
