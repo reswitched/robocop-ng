@@ -144,6 +144,7 @@ suspect_words = [
     "lithium",  # title manager
     "cracked",  # older term for pirated games
     "xci",  # "backup" format
+    "xcz", # "backup" format
     "nsz",  # "backup" format
     "hbg", # piracy source
     "jits", # piracy source
