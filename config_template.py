@@ -161,6 +161,14 @@ suspect_ignored_words = [
     "txd",
     "t=x",
     "osx",
+    "rtx",
+    "shift-x",
+    "users/x",
+    "tx1",
+    "tx2",
+    "tcptx",
+    "udptx",
+    "phyctx",
 ]
 
 # == For cogs.links ==
