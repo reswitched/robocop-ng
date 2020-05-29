@@ -135,19 +135,19 @@ suspect_words = [
     "tx",  # piracy-enabling cfw
     "reinx",  # piracy-enabling cfw
     "gomanx",  # piracy-enabling cfw
-    "neutos", # piracy-enabling cfw
-    "underpack", # piracy-enabling cfw
-    "underos", # piracy-enabling cfw
+    "neutos",  # piracy-enabling cfw
+    "underpack",  # piracy-enabling cfw
+    "underos",  # piracy-enabling cfw
     "tinfoil",  # title manager
     "dz",  # title manager
     "goldleaf",  # potential title manager
     "lithium",  # title manager
     "cracked",  # older term for pirated games
     "xci",  # "backup" format
-    "xcz", # "backup" format
+    "xcz",  # "backup" format
     "nsz",  # "backup" format
-    "hbg", # piracy source
-    "jits", # piracy source
+    "hbg",  # piracy source
+    "jits",  # piracy source
 ]
 
 # List of words that will be ignored if they match one of the
@@ -311,3 +311,8 @@ list_files_channel = 0
 # == Only if you want to use cogs.lists ==
 # Channels that are lists that are controlled by the lists cog.
 list_channels = []
+
+# == Only if you want to use cogs.sar ==
+self_assignable_roles = {
+    "streamnotifs": 715158689060880384,
+}
