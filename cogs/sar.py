@@ -16,7 +16,7 @@ class SAR(Cog):
         return await ctx.send(
             "Self assignable roles in this guild: "
             + ",".join(config.self_assignable_roles)
-            + f"\nRun {config.prefixes[0]}iam role_name_goes_here to get or remove one."
+            + f"\n\nRun `{config.prefixes[0]}iam role_name_goes_here` to get or remove one."
         )
 
     @commands.cooldown(1, 30, type=commands.BucketType.user)
