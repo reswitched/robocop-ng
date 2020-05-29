@@ -25,8 +25,10 @@ class Mod(Cog):
         await ctx.send(f"Done!")
 
         log_channel = self.bot.get_channel(config.modlog_channel)
-        log_msg = (f"✏️ **Guild Icon Update**: {ctx.author} changed the guild icon."
-                   f"\n\nJump: <{ctx.message.jump_url}>")
+        log_msg = (
+            f"✏️ **Guild Icon Update**: {ctx.author} changed the guild icon."
+            f"\n\n🔗 __Jump__: <{ctx.message.jump_url}>"
+        )
         img_filename = url.split("/")[-1].split("#")[0]  # hacky
         img_file = discord.File(io.BytesIO(img_bytes), filename=img_filename)
         await log_channel.send(log_msg, file=img_file)
@@ -81,7 +83,7 @@ class Mod(Cog):
                 " as the reason is automatically sent to the user."
             )
 
-        chan_message += f"\n\nJump: <{ctx.message.jump_url}>"
+        chan_message += f"\n\n🔗 __Jump__: <{ctx.message.jump_url}>"
 
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
@@ -104,7 +106,7 @@ class Mod(Cog):
             f"🏷 __User ID__: {target.id}\n"
         )
 
-        chan_message += f"\n\nJump: <{ctx.message.jump_url}>"
+        chan_message += f"\n\n🔗 __Jump__: <{ctx.message.jump_url}>"
 
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
@@ -164,7 +166,7 @@ class Mod(Cog):
                 " as the reason is automatically sent to the user."
             )
 
-        chan_message += f"\n\nJump: <{ctx.message.jump_url}>"
+        chan_message += f"\n\n🔗 __Jump__: <{ctx.message.jump_url}>"
 
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
@@ -223,7 +225,7 @@ class Mod(Cog):
                 " as the reason is automatically sent to the user."
             )
 
-        chan_message += f"\n\nJump: <{ctx.message.jump_url}>"
+        chan_message += f"\n\n🔗 __Jump__: <{ctx.message.jump_url}>"
 
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
@@ -268,7 +270,7 @@ class Mod(Cog):
                 "`.hackban <user> [reason]`."
             )
 
-        chan_message += f"\n\nJump: <{ctx.message.jump_url}>"
+        chan_message += f"\n\n🔗 __Jump__: <{ctx.message.jump_url}>"
 
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
@@ -299,7 +301,7 @@ class Mod(Cog):
                 "`.unban <user id> [reason]`."
             )
 
-        chan_message += f"\n\nJump: <{ctx.message.jump_url}>"
+        chan_message += f"\n\n🔗 __Jump__: <{ctx.message.jump_url}>"
 
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
@@ -342,7 +344,7 @@ class Mod(Cog):
                 " as the reason is automatically sent to the user."
             )
 
-        chan_message += f"\n\nJump: <{ctx.message.jump_url}>"
+        chan_message += f"\n\n🔗 __Jump__: <{ctx.message.jump_url}>"
 
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
@@ -368,8 +370,9 @@ class Mod(Cog):
         await ctx.send(f"Approved {target.mention} to `{role}` role.")
 
         await log_channel.send(
-            f"✅ Approved: {ctx.author.mention} added" f" {role} to {target.mention}"
-            f"\n\nJump: <{ctx.message.jump_url}>"
+            f"✅ Approved: {ctx.author.mention} added"
+            f" {role} to {target.mention}"
+            f"\n\n🔗 __Jump__: <{ctx.message.jump_url}>"
         )
 
     @commands.guild_only()
@@ -395,7 +398,7 @@ class Mod(Cog):
         await log_channel.send(
             f"❌ Un-approved: {ctx.author.mention} removed"
             f" {role} from {target.mention}"
-            f"\n\nJump: <{ctx.message.jump_url}>"
+            f"\n\n🔗 __Jump__: <{ctx.message.jump_url}>"
         )
 
     @commands.guild_only()
@@ -489,7 +492,7 @@ class Mod(Cog):
                 " as the reason is automatically sent to the user."
             )
 
-        chan_msg += f"\n\nJump: <{ctx.message.jump_url}>"
+        chan_msg += f"\n\n🔗 __Jump__: <{ctx.message.jump_url}>"
 
         await log_channel.send(chan_msg)
 
