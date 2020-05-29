@@ -143,6 +143,7 @@ class ModUserlog(Cog):
             f"🗑 **Cleared {event}**: {ctx.author.mention} cleared"
             f" all {event} events of {target.mention} | "
             f"{safe_name}"
+            f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
         )
         await log_channel.send(msg)
 
@@ -157,6 +158,7 @@ class ModUserlog(Cog):
         msg = (
             f"🗑 **Cleared {event}**: {ctx.author.mention} cleared"
             f" all {event} events of <@{target}> "
+            f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
         )
         await log_channel.send(msg)
 
@@ -176,6 +178,7 @@ class ModUserlog(Cog):
                 f"🗑 **Deleted {event_name}**: "
                 f"{ctx.author.mention} removed "
                 f"{event_name} {idx} from {target.mention} | {safe_name}"
+                f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
             )
             await log_channel.send(msg, embed=del_event)
         else:
@@ -196,6 +199,7 @@ class ModUserlog(Cog):
                 f"🗑 **Deleted {event_name}**: "
                 f"{ctx.author.mention} removed "
                 f"{event_name} {idx} from <@{target}> "
+                f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
             )
             await log_channel.send(msg, embed=del_event)
         else:
