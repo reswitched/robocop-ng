@@ -11,8 +11,8 @@ class SAR(Cog):
     @commands.guild_only()
     @commands.command()
     @commands.check(check_if_staff_or_ot)
-    async def sar(self, ctx, role: str):
-        """Gets you a self assignable role."""
+    async def sar(self, ctx):
+        """Lists self assignable roles."""
         return await ctx.send(
             "Self assignable roles in this guild: "
             + ",".join(config.self_assignable_roles)
