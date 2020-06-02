@@ -131,6 +131,7 @@ spy_channels = general_channels
 
 # All lower case, no spaces, nothing non-alphanumeric
 suspect_words = [
+    "deepsea",  # piracy-enabling cfw
     "sx",  # piracy-enabling cfw
     "tx",  # piracy-enabling cfw
     "reinx",  # piracy-enabling cfw
