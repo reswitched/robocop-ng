@@ -170,7 +170,8 @@ suspect_ignored_words = [
     "tx2",
     "tcptx",
     "udptx",
-    "phyctx",
+    "ctx",
+    "jit's"
 ]
 
 # == For cogs.links ==
