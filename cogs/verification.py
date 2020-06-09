@@ -167,7 +167,7 @@ class Verification(Cog):
                 )
 
             # Detect if the user uses the wrong hash algorithm
-            wrong_hash_algos = config.welcome_hashes - {self.hash_choice}
+            wrong_hash_algos = list(set(config.welcome_hashes) - {self.hash_choice}
             for algo in wrong_hash_algos:
                 for name in itertools.chain(allowed_names, close_names):
                     if hashlib.new(algo, name.encode("utf-8")).hexdigest() in mcl:
