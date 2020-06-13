@@ -164,10 +164,9 @@ class Robocronp(Cog):
             # and after that every day goes here
             try:
                 # Reset verification and algorithm
-                # If you're not using verification cog
-                # remove or comment thsee lines
-                verif_channel = self.bot.get_channel(config.welcome_channel)
-                await self.bot.do_resetalgo(verif_channel, "daily robocronp")
+                if "verification" in config.initial_cogs:
+                    verif_channel = self.bot.get_channel(config.welcome_channel)
+                    await self.bot.do_resetalgo(verif_channel, "daily robocronp")
             except:
                 # Don't kill cronjobs if something goes wrong.
                 await log_channel.send(
