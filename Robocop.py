@@ -176,13 +176,25 @@ async def on_command_error(ctx, error):
         f"{ctx.command.signature}```\nPlease see `{ctx.prefix}help "
         f"{ctx.command.name}` for more info about this command."
     )
+
+    # Keep a list of commands that involve mentioning users
+    # and can involve users leaving/getting banned
+    ಠ_ಠ = ["warn", "kick", "ban"]
+
     if isinstance(error, commands.BadArgument):
+        # and if said commands get used, add a specific notice.
+        if ctx.command.name in ಠ_ಠ:
+            help_text = (
+                "This probably means that user left (or already got kicked/banned).\n"
+                + help_text
+            )
+
         return await ctx.send(
-            f"{ctx.author.mention}: You gave incorrect " f"arguments. {help_text}"
+            f"{ctx.author.mention}: You gave incorrect arguments. {help_text}"
         )
     elif isinstance(error, commands.MissingRequiredArgument):
         return await ctx.send(
-            f"{ctx.author.mention}: You gave incomplete " f"arguments. {help_text}"
+            f"{ctx.author.mention}: You gave incomplete arguments. {help_text}"
         )
 
 
