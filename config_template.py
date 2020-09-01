@@ -318,3 +318,8 @@ list_channels = []
 self_assignable_roles = {
     "streamnotifs": 715158689060880384,
 }
+
+# == Only if you want to use cogs.mod_reswitched ==
+pingmods_allow = [named_roles["community"]] + staff_role_ids
+pingmods_role = 360138431524765707
+modtoggle_role = 360138431524765707
