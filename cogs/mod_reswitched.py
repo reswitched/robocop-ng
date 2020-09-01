@@ -11,7 +11,7 @@ class ModReswitched(Cog):
     @commands.guild_only()
     @commands.command(aliases=["pingmods", "summonmods"])
     async def pingmod(self, ctx):
-        """Pings mods, only use when there's an emergency and such."""
+        """Pings mods, only use when there's an emergency."""
         can_ping = any(r.id in config.pingmods_allow for r in ctx.author.roles)
         if can_ping:
             await ctx.send(
@@ -19,7 +19,7 @@ class ModReswitched(Cog):
             )
         else:
             await ctx.send(
-                f"{ctx.author.mention}: You need community to be able to ping the entire staff team, please pick an online staff member, check if they have the mod role, and ping them instead."
+                f"{ctx.author.mention}: You need the community role to be able to ping the entire mod team, please pick an online mod (not staff, please!), and ping them instead."
             )
 
     @commands.guild_only()
