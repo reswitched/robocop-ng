@@ -155,7 +155,7 @@ class Meme(Cog):
         """test"""
         await ctx.send("https://www.youtube.com/watch?v=VmarNEsjpDI")
 
-    @commands.command(hidden=True, aliases=["yotld"])
+    @commands.command(hidden=True, aliases=["yotld", "yold", "yoltd", "yearoflinuxondesktop", "yearoflinuxonthedesktop"])
     async def yearoflinux(self, ctx):
         """Shows the year of Linux on the desktop"""
         await ctx.send(
