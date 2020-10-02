@@ -137,7 +137,9 @@ class ModUserlog(Cog):
         """Clears all events of given type for a user, staff only."""
         log_channel = self.bot.get_channel(config.modlog_channel)
         msg = self.clear_event_from_id(str(target.id), event)
-        safe_name = await commands.clean_content().convert(ctx, str(target))
+        safe_name = await commands.clean_content(escape_markdown=True).convert(
+            ctx, str(target)
+        )
         await ctx.send(msg)
         msg = (
             f"🗑 **Cleared {event}**: {ctx.author.mention} cleared"
@@ -173,7 +175,9 @@ class ModUserlog(Cog):
         # This is hell.
         if isinstance(del_event, discord.Embed):
             await ctx.send(f"{target.mention} has a {event_name} removed!")
-            safe_name = await commands.clean_content().convert(ctx, str(target))
+            safe_name = await commands.clean_content(escape_markdown=True).convert(
+                ctx, str(target)
+            )
             msg = (
                 f"🗑 **Deleted {event_name}**: "
                 f"{ctx.author.mention} removed "
@@ -219,8 +223,12 @@ class ModUserlog(Cog):
             str(user.id), str(user), event=event_types
         )
 
-        user_name = await commands.clean_content().convert(ctx, user.name)
-        display_name = await commands.clean_content().convert(ctx, user.display_name)
+        user_name = await commands.clean_content(escape_markdown=True).convert(
+            ctx, user.name
+        )
+        display_name = await commands.clean_content(escape_markdown=True).convert(
+            ctx, user.display_name
+        )
 
         await ctx.send(
             f"user = {user_name}\n"

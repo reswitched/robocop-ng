@@ -50,7 +50,9 @@ intents = discord.Intents.default()
 intents.typing = False
 intents.members = True
 
-bot = commands.Bot(command_prefix=get_prefix, description=config.bot_description, intents=intents)
+bot = commands.Bot(
+    command_prefix=get_prefix, description=config.bot_description, intents=intents
+)
 bot.help_command = commands.DefaultHelpCommand(dm_help=True)
 
 bot.log = log

@@ -52,7 +52,9 @@ class Mod(Cog):
 
         userlog(target.id, ctx.author, reason, "mutes", target.name)
 
-        safe_name = await commands.clean_content().convert(ctx, str(target))
+        safe_name = await commands.clean_content(escape_markdown=True).convert(
+            ctx, str(target)
+        )
 
         dm_message = f"You were muted!"
         if reason:
@@ -95,7 +97,9 @@ class Mod(Cog):
     @commands.command()
     async def unmute(self, ctx, target: discord.Member):
         """Unmutes a user, staff only."""
-        safe_name = await commands.clean_content().convert(ctx, str(target))
+        safe_name = await commands.clean_content(escape_markdown=True).convert(
+            ctx, str(target)
+        )
 
         mute_role = ctx.guild.get_role(config.mute_role)
         await target.remove_roles(mute_role, reason=str(ctx.author))
@@ -133,7 +137,9 @@ class Mod(Cog):
 
         userlog(target.id, ctx.author, reason, "kicks", target.name)
 
-        safe_name = await commands.clean_content().convert(ctx, str(target))
+        safe_name = await commands.clean_content(escape_markdown=True).convert(
+            ctx, str(target)
+        )
 
         dm_message = f"You were kicked from {ctx.guild.name}."
         if reason:
@@ -194,7 +200,9 @@ class Mod(Cog):
 
         userlog(target.id, ctx.author, reason, "bans", target.name)
 
-        safe_name = await commands.clean_content().convert(ctx, str(target))
+        safe_name = await commands.clean_content(escape_markdown=True).convert(
+            ctx, str(target)
+        )
 
         dm_message = f"You were banned from {ctx.guild.name}."
         if reason:
@@ -251,7 +259,9 @@ class Mod(Cog):
 
         userlog(target, ctx.author, reason, "bans", target_user.name)
 
-        safe_name = await commands.clean_content().convert(ctx, str(target))
+        safe_name = await commands.clean_content(escape_markdown=True).convert(
+            ctx, str(target)
+        )
 
         await ctx.guild.ban(
             target_user, reason=f"{ctx.author}, reason: {reason}", delete_message_days=0
@@ -284,7 +294,9 @@ class Mod(Cog):
         """Unbans a user with their ID, doesn't message them, staff only."""
         target_user = await self.bot.fetch_user(target)
 
-        safe_name = await commands.clean_content().convert(ctx, str(target))
+        safe_name = await commands.clean_content(escape_markdown=True).convert(
+            ctx, str(target)
+        )
 
         await ctx.guild.unban(target_user, reason=f"{ctx.author}, reason: {reason}")
         chan_message = (
@@ -325,7 +337,9 @@ class Mod(Cog):
 
         userlog(target.id, ctx.author, reason, "bans", target.name)
 
-        safe_name = await commands.clean_content().convert(ctx, str(target))
+        safe_name = await commands.clean_content(escape_markdown=True).convert(
+            ctx, str(target)
+        )
 
         await target.ban(
             reason=f"{ctx.author}, reason: {reason}", delete_message_days=0
@@ -436,7 +450,9 @@ class Mod(Cog):
         log_channel = self.bot.get_channel(config.modlog_channel)
         warn_count = userlog(target.id, ctx.author, reason, "warns", target.name)
 
-        safe_name = await commands.clean_content().convert(ctx, str(target))
+        safe_name = await commands.clean_content(escape_markdown=True).convert(
+            ctx, str(target)
+        )
         chan_msg = (
             f"⚠️ **Warned**: {ctx.author.mention} warned "
             f"{target.mention} (warn #{warn_count}) "
