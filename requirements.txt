@@ -1,5 +1,4 @@
 discord.py
-asyncio
 python-dateutil
 humanize
 parsedatetime
