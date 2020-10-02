@@ -58,7 +58,9 @@ class Lockdown(Cog):
             )
 
         await ctx.send(public_msg)
-        safe_name = await commands.clean_content().convert(ctx, str(ctx.author))
+        safe_name = await commands.clean_content(escape_markdown=True).convert(
+            ctx, str(ctx.author)
+        )
         msg = (
             f"🔒 **Lockdown**: {ctx.channel.mention} by {ctx.author.mention} "
             f"| {safe_name}"
@@ -86,7 +88,9 @@ class Lockdown(Cog):
         for role in roles:
             await self.set_sendmessage(channel, role, True, ctx.author)
 
-        safe_name = await commands.clean_content().convert(ctx, str(ctx.author))
+        safe_name = await commands.clean_content(escape_markdown=True).convert(
+            ctx, str(ctx.author)
+        )
         await ctx.send("🔓 Channel unlocked.")
         msg = (
             f"🔓 **Unlock**: {ctx.channel.mention} by {ctx.author.mention} "

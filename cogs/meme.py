@@ -142,7 +142,9 @@ class Meme(Cog):
                 f"I'm sorry {ctx.author.mention}, I'm afraid I can't do that."
             )
 
-        safe_name = await commands.clean_content().convert(ctx, str(target))
+        safe_name = await commands.clean_content(escape_markdown=True).convert(
+            ctx, str(target)
+        )
         await ctx.send(f"{safe_name} is ̶n͢ow b̕&̡.̷ 👍̡")
 
     @commands.command(hidden=True)
@@ -155,7 +157,16 @@ class Meme(Cog):
         """test"""
         await ctx.send("https://www.youtube.com/watch?v=VmarNEsjpDI")
 
-    @commands.command(hidden=True, aliases=["yotld", "yold", "yoltd", "yearoflinuxondesktop", "yearoflinuxonthedesktop"])
+    @commands.command(
+        hidden=True,
+        aliases=[
+            "yotld",
+            "yold",
+            "yoltd",
+            "yearoflinuxondesktop",
+            "yearoflinuxonthedesktop",
+        ],
+    )
     async def yearoflinux(self, ctx):
         """Shows the year of Linux on the desktop"""
         await ctx.send(

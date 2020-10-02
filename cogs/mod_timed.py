@@ -44,7 +44,9 @@ class ModTimed(Cog):
             target.name,
         )
 
-        safe_name = await commands.clean_content().convert(ctx, str(target))
+        safe_name = await commands.clean_content(escape_markdown=True).convert(
+            ctx, str(target)
+        )
 
         dm_message = f"You were banned from {ctx.guild.name}."
         if reason:
@@ -110,7 +112,9 @@ class ModTimed(Cog):
             target.name,
         )
 
-        safe_name = await commands.clean_content().convert(ctx, str(target))
+        safe_name = await commands.clean_content(escape_markdown=True).convert(
+            ctx, str(target)
+        )
 
         dm_message = f"You were muted!"
         if reason:
