@@ -94,8 +94,8 @@ class YubicoOTP(Cog):
     async def on_message(self, message):
         await self.bot.wait_until_ready()
         otps = self.otp_re.findall(message.content.strip())
-        for otp_entry in otps:
-            otp = otp_entry[0]
+        if otps:
+            otp = otps[0][0]
             # Validate OTP
             validation_result = await self.validate_yubico_otp(otp)
             if validation_result is not True:
