@@ -326,9 +326,9 @@ pingmods_role = 360138431524765707
 modtoggle_role = 360138431524765707
 
 # == Only if you want to use cogs.yubicootp ==
-# Client ID from https://upgrade.yubico.com/getapikey/
+# Optiona: Get your own from https://upgrade.yubico.com/getapikey/
 yubico_otp_client_id = 1
+# Note: You can keep client ID on 1, it will function.
 yubico_otp_secret = ""
-# Note: YOU CAN KEEP THIS ON 1, IT WILL STILL FUNCTION.
-# Note: Secret is not currently used, but it's recommended for you to add
-# if you use your own client ID so if I ever implement it, your bot won't break.
+# Optional: If you provide a secret, requests will be signed
+# and responses will be verified.

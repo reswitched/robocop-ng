@@ -3,6 +3,8 @@ import re
 import config
 import secrets
 import asyncio
+import base64
+import hmac
 
 
 class YubicoOTP(Cog):
@@ -53,10 +55,31 @@ class YubicoOTP(Cog):
 
         return int("".join(hexconv), 16)
 
+    def calc_signature(self, text):
+        key = base64.b64decode(config.yubico_otp_secret)
+        signature_bytes = hmac.digest(key, text.encode(), "SHA1")
+        return base64.b64encode(signature_bytes).decode()
+
+    def validate_response_signature(self, response_dict):
+        yubico_signature = response_dict["h"]
+        to_sign = ""
+        for key in sorted(response_dict.keys()):
+            if key == "h":
+                continue
+            to_sign += f"{key}={response_dict[key]}&"
+        our_signature = self.calc_signature(to_sign.strip("&"))
+        return our_signature == yubico_signature
+
     async def validate_yubico_otp(self, otp):
         nonce = secrets.token_hex(15)  # Random number in the valid range
+        params = f"id={config.yubico_otp_client_id}&nonce={nonce}&otp={otp}"
+
+        # If secret is supplied, sign our request
+        if config.yubico_otp_secret:
+            params += "&h=" + self.calc_signature(params)
+
         for api_server in self.api_servers:
-            url = f"{api_server}/wsapi/2.0/verify?id={config.yubico_otp_client_id}&otp={otp}&nonce={nonce}"
+            url = f"{api_server}/wsapi/2.0/verify?{params}"
             try:
                 resp = await self.bot.aiosession.get(url)
                 assert resp.status == 200
@@ -71,7 +94,13 @@ class YubicoOTP(Cog):
             datafields = resptext.strip().split("\r\n")
             datafields = {line.split("=")[0]: line.split("=")[1] for line in datafields}
 
-            datafields["nonce"] != nonce
+            # Verify nonce
+            assert datafields["nonce"] == nonce
+
+            # Verify signature if secret is present
+            if config.yubico_otp_secret:
+                assert self.validate_response_signature(datafields)
+
             # If we got a success, then return True
             if datafields["status"] == "OK":
                 return True
