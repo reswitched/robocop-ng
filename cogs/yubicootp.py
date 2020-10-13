@@ -8,7 +8,7 @@ import asyncio
 class YubicoOTP(Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.otp_re = re.compile("^[cbdefghijklnrtuv]{44}$")
+        self.otp_re = re.compile("(cc|vv)[cbdefghijklnrtuv]{42}$")
         self.api_servers = [
             "https://api.yubico.com",
             "https://api2.yubico.com",
@@ -93,8 +93,8 @@ class YubicoOTP(Cog):
     @Cog.listener()
     async def on_message(self, message):
         await self.bot.wait_until_ready()
-        strin = self.otp_re.match(message.content)
-        if strin and (strin.string[:2] == "cc" or strin.string[:2] == "vv"):
+        strin = self.otp_re.match(message.content.strip())
+        if strin:
             otp = strin.string
             # Validate OTP
             validation_result = await self.validate_yubico_otp(otp)
@@ -104,6 +104,10 @@ class YubicoOTP(Cog):
             # Derive serial and a string to use it
             serial = self.get_serial(otp)
             serial_str = f" (serial: `{serial}`)" if serial else ""
+
+            # If the message content is _just_ the OTP code, delete it too
+            if message.content.strip() == otp:
+                await message.delete()
 
             # If OTP is valid, tell user that it was revoked
             msg = await message.channel.send(
