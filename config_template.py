@@ -39,6 +39,7 @@ initial_cogs = [
     "cogs.robocronp",
     "cogs.meme",
     "cogs.invites",
+    "cogs.yubicootp"
 ]
 
 # The following cogs are also available but aren't loaded by default:
@@ -323,3 +324,11 @@ self_assignable_roles = {
 pingmods_allow = [named_roles["community"]] + staff_role_ids
 pingmods_role = 360138431524765707
 modtoggle_role = 360138431524765707
+
+# == Only if you want to use cogs.yubicootp ==
+# Client ID from https://upgrade.yubico.com/getapikey/
+yubico_otp_client_id = 1
+yubico_otp_secret = ""
+# Note: YOU CAN KEEP THIS ON 1, IT WILL STILL FUNCTION.
+# Note: Secret is not currently used, but it's recommended for you to add
+# if you use your own client ID so if I ever implement it, your bot won't break.

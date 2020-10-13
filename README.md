@@ -49,5 +49,6 @@ I (ave) would like to thank the following, in no particular order:
 - ReSwitched community, for being amazing
 - ihaveamac/ihaveahax and f916253 for the original kurisu/robocop
 - misson20000 for adding in reaction removal feature and putting up with my many BS requests on PR reviews
+- linuxgemini for helping out with Yubico OTP revocation code (which is based on their work)
 - Everyone who contributed to robocop-ng in any way (reporting a bug, sending a PR, forking and hosting their own at their own guild, etc).
 
