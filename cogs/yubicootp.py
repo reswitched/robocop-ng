@@ -92,7 +92,7 @@ class YubicoOTP(Cog):
 
             # Turn the fields to a python dict for easier parsing
             datafields = resptext.strip().split("\r\n")
-            datafields = {line[line.index("=") + 1:]: line[line.index("="):] for line in datafields}
+            datafields = {line[line.index("=") + 1]: line[:line.index("=")] for line in datafields}
 
             # Verify nonce
             assert datafields["nonce"] == nonce
