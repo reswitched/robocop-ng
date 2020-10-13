@@ -8,7 +8,7 @@ import asyncio
 class YubicoOTP(Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.otp_re = re.compile("(cc|vv)[cbdefghijklnrtuv]{42}$")
+        self.otp_re = re.compile("((cc|vv)[cbdefghijklnrtuv]{42})$")
         self.api_servers = [
             "https://api.yubico.com",
             "https://api2.yubico.com",
@@ -93,9 +93,9 @@ class YubicoOTP(Cog):
     @Cog.listener()
     async def on_message(self, message):
         await self.bot.wait_until_ready()
-        strin = self.otp_re.match(message.content.strip())
-        if strin:
-            otp = strin.string
+        otps = self.otp_re.findall(message.content.strip())
+        for otp_entry in otps:
+            otp = otp_entry[0]
             # Validate OTP
             validation_result = await self.validate_yubico_otp(otp)
             if validation_result is not True:
@@ -105,7 +105,7 @@ class YubicoOTP(Cog):
             serial = self.get_serial(otp)
             serial_str = f" (serial: `{serial}`)" if serial else ""
 
-            # If the message content is _just_ the OTP code, delete it too
+            # If the message content is _just_ the OTP code, delete it toos
             if message.content.strip() == otp:
                 await message.delete()
 
