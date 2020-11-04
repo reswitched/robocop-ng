@@ -24,7 +24,7 @@ class ModReswitched(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.command(aliases=["togglemod"])
     async def modtoggle(self, ctx):
         """Toggles your mod role, staff only."""
         target_role = ctx.guild.get_role(config.modtoggle_role)
