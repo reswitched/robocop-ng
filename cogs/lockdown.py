@@ -37,6 +37,7 @@ class Lockdown(Cog):
             channel = ctx.channel
         log_channel = self.bot.get_channel(config.modlog_channel)
 
+        roles = None
         for key, lockdown_conf in config.lockdown_configs.items():
             if channel.id in lockdown_conf["channels"]:
                 roles = lockdown_conf["roles"]
@@ -76,6 +77,7 @@ class Lockdown(Cog):
             channel = ctx.channel
         log_channel = self.bot.get_channel(config.modlog_channel)
 
+        roles = None
         for key, lockdown_conf in config.lockdown_configs.items():
             if channel.id in lockdown_conf["channels"]:
                 roles = lockdown_conf["roles"]
