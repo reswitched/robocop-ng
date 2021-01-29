@@ -72,7 +72,7 @@ class Mod(Cog):
         await target.add_roles(mute_role, reason=str(ctx.author))
 
         chan_message = (
-            f"🔇 **Muted**: {ctx.author.mention} muted "
+            f"🔇 **Muted**: {str(ctx.author)} muted "
             f"{target.mention} | {safe_name}\n"
             f"🏷 __User ID__: {target.id}\n"
         )
@@ -105,7 +105,7 @@ class Mod(Cog):
         await target.remove_roles(mute_role, reason=str(ctx.author))
 
         chan_message = (
-            f"🔈 **Unmuted**: {ctx.author.mention} unmuted "
+            f"🔈 **Unmuted**: {str(ctx.author)} unmuted "
             f"{target.mention} | {safe_name}\n"
             f"🏷 __User ID__: {target.id}\n"
         )
@@ -158,7 +158,7 @@ class Mod(Cog):
 
         await target.kick(reason=f"{ctx.author}, reason: {reason}")
         chan_message = (
-            f"👢 **Kick**: {ctx.author.mention} kicked "
+            f"👢 **Kick**: {str(ctx.author)} kicked "
             f"{target.mention} | {safe_name}\n"
             f"🏷 __User ID__: {target.id}\n"
         )
@@ -220,7 +220,7 @@ class Mod(Cog):
             reason=f"{ctx.author}, reason: {reason}", delete_message_days=0
         )
         chan_message = (
-            f"⛔ **Ban**: {ctx.author.mention} banned "
+            f"⛔ **Ban**: {str(ctx.author)} banned "
             f"{target.mention} | {safe_name}\n"
             f"🏷 __User ID__: {target.id}\n"
         )
@@ -267,7 +267,7 @@ class Mod(Cog):
             target_user, reason=f"{ctx.author}, reason: {reason}", delete_message_days=0
         )
         chan_message = (
-            f"⛔ **Hackban**: {ctx.author.mention} banned "
+            f"⛔ **Hackban**: {str(ctx.author)} banned "
             f"{target_user.mention} | {safe_name}\n"
             f"🏷 __User ID__: {target}\n"
         )
@@ -300,7 +300,7 @@ class Mod(Cog):
 
         await ctx.guild.unban(target_user, reason=f"{ctx.author}, reason: {reason}")
         chan_message = (
-            f"⚠️ **Unban**: {ctx.author.mention} unbanned "
+            f"⚠️ **Unban**: {str(ctx.author)} unbanned "
             f"{target_user.mention} | {safe_name}\n"
             f"🏷 __User ID__: {target}\n"
         )
@@ -345,7 +345,7 @@ class Mod(Cog):
             reason=f"{ctx.author}, reason: {reason}", delete_message_days=0
         )
         chan_message = (
-            f"⛔ **Silent ban**: {ctx.author.mention} banned "
+            f"⛔ **Silent ban**: {str(ctx.author)} banned "
             f"{target.mention} | {safe_name}\n"
             f"🏷 __User ID__: {target.id}\n"
         )
@@ -384,7 +384,7 @@ class Mod(Cog):
         await ctx.send(f"Approved {target.mention} to `{role}` role.")
 
         await log_channel.send(
-            f"✅ Approved: {ctx.author.mention} added"
+            f"✅ Approved: {str(ctx.author)} added"
             f" {role} to {target.mention}"
             f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
         )
@@ -410,7 +410,7 @@ class Mod(Cog):
         await ctx.send(f"Un-approved {target.mention} from `{role}` role.")
 
         await log_channel.send(
-            f"❌ Un-approved: {ctx.author.mention} removed"
+            f"❌ Un-approved: {str(ctx.author)} removed"
             f" {role} from {target.mention}"
             f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
         )
@@ -425,7 +425,7 @@ class Mod(Cog):
             channel = ctx.channel
         await channel.purge(limit=limit)
         msg = (
-            f"🗑 **Purged**: {ctx.author.mention} purged {limit} "
+            f"🗑 **Purged**: str(ctx.author)} purged {limit} "
             f"messages in {channel.mention}."
         )
         await log_channel.send(msg)
@@ -454,7 +454,7 @@ class Mod(Cog):
             ctx, str(target)
         )
         chan_msg = (
-            f"⚠️ **Warned**: {ctx.author.mention} warned "
+            f"⚠️ **Warned**: {str(ctx.author)} warned "
             f"{target.mention} (warn #{warn_count}) "
             f"| {safe_name}\n"
         )
