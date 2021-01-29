@@ -425,7 +425,7 @@ class Mod(Cog):
             channel = ctx.channel
         await channel.purge(limit=limit)
         msg = (
-            f"🗑 **Purged**: str(ctx.author)} purged {limit} "
+            f"🗑 **Purged**: {str(ctx.author)} purged {limit} "
             f"messages in {channel.mention}."
         )
         await log_channel.send(msg)
