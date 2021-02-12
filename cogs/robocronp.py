@@ -35,7 +35,7 @@ class Robocronp(Cog):
                     job_details = repr(ctab[jobtype][jobtimestamp][job_name])
                     embed.add_field(
                         name=f"{jobtype} for {job_name}",
-                        value=f"Timestamp: {jobtimestamp}, " f"Details: {job_details}",
+                        value=f"Timestamp: {jobtimestamp}, Details: {job_details}",
                         inline=False,
                     )
         await ctx.send(embed=embed)
@@ -82,7 +82,7 @@ class Robocronp(Cog):
                     target = await self.bot.fetch_user(int(job_name))
                     if target:
                         await target.send(
-                            "You asked to be reminded about" f" `{text}` on {added_on}."
+                            f"You asked to be reminded about `{text}` on {added_on}."
                         )
                     delete_job(timestamp, jobtype, job_name)
             except:
@@ -105,12 +105,12 @@ class Robocronp(Cog):
                 if len(purge_res) != 100:
                     done_cleaning = True
             await log_channel.send(
-                f"Wiped {count} messages from " f"<#{channel.id}> automatically."
+                f"Wiped {count} messages from <#{channel.id}> automatically."
             )
         except:
             # Don't kill cronjobs if something goes wrong.
             await log_channel.send(
-                "Cronclean has errored: ```" f"{traceback.format_exc()}```"
+                f"Cronclean has errored: ```{traceback.format_exc()}```"
             )
 
     async def minutely(self):
@@ -131,7 +131,7 @@ class Robocronp(Cog):
             except:
                 # Don't kill cronjobs if something goes wrong.
                 await log_channel.send(
-                    "Cron-minutely has errored: ```" f"{traceback.format_exc()}```"
+                    f"Cron-minutely has errored: ```{traceback.format_exc()}```"
                 )
             await asyncio.sleep(60)
 
@@ -151,7 +151,7 @@ class Robocronp(Cog):
             except:
                 # Don't kill cronjobs if something goes wrong.
                 await log_channel.send(
-                    "Cron-hourly has errored: ```" f"{traceback.format_exc()}```"
+                    f"Cron-hourly has errored: ```{traceback.format_exc()}```"
                 )
             # Your stuff that should run an hour after boot
             # and after that every hour goes here
@@ -170,7 +170,7 @@ class Robocronp(Cog):
             except:
                 # Don't kill cronjobs if something goes wrong.
                 await log_channel.send(
-                    "Cron-daily has errored: ```" f"{traceback.format_exc()}```"
+                    f"Cron-daily has errored: ```{traceback.format_exc()}```"
                 )
             await asyncio.sleep(86400)
             # Your stuff that should run a day after boot

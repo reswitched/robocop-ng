@@ -29,27 +29,9 @@ class Basic(Cog):
 
     @commands.guild_only()
     @commands.command()
-    async def communitycount(self, ctx):
-        """Prints the community member count of the server."""
-        community = ctx.guild.get_role(config.named_roles["community"])
-        await ctx.send(
-            f"{ctx.guild.name} has " f"{len(community.members)} community members!"
-        )
-
-    @commands.guild_only()
-    @commands.command()
-    async def hackercount(self, ctx):
-        """Prints the hacker member count of the server."""
-        h4x0r = ctx.guild.get_role(config.named_roles["hacker"])
-        await ctx.send(
-            f"{ctx.guild.name} has " f"{len(h4x0r.members)} people with hacker role!"
-        )
-
-    @commands.guild_only()
-    @commands.command()
     async def membercount(self, ctx):
         """Prints the member count of the server."""
-        await ctx.send(f"{ctx.guild.name} has " f"{ctx.guild.member_count} members!")
+        await ctx.send(f"{ctx.guild.name} has {ctx.guild.member_count} members!")
 
     @commands.command(aliases=["robocopng", "robocop-ng"])
     async def robocop(self, ctx):
@@ -75,7 +57,7 @@ class Basic(Cog):
         gw_ms = self.bot.latency * 1000
 
         message_text = (
-            f":ping_pong:\n" f"rtt: `{rtt_ms:.1f}ms`\n" f"gw: `{gw_ms:.1f}ms`"
+            f":ping_pong:\nrtt: `{rtt_ms:.1f}ms`\ngw: `{gw_ms:.1f}ms`"
         )
         self.bot.log.info(message_text)
         await tmp.edit(content=message_text)
