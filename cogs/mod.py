@@ -290,7 +290,7 @@ class Mod(Cog):
     @commands.bot_has_permissions(ban_members=True)
     @commands.check(check_if_staff)
     @commands.command()
-    async def massban(self, ctx, targets: str):
+    async def massban(self, ctx, *, targets: str):
         """Bans users with their IDs, doesn't message them, staff only."""
         targets_int = [int(target) for target in targets.strip().split(" ")]
         for target in targets_int:
