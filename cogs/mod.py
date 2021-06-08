@@ -292,8 +292,8 @@ class Mod(Cog):
     @commands.command()
     async def massban(self, ctx, targets: str):
         """Bans users with their IDs, doesn't message them, staff only."""
-        for target_str in targets.split(" "):
-            target = int(target_str)
+        targets_int = [int(target) for target in targets.strip().split(" ")]
+        for target in targets_int:
             target_user = await self.bot.fetch_user(target)
             target_member = ctx.guild.get_member(target)
             # Hedge-proofing the code
@@ -326,7 +326,7 @@ class Mod(Cog):
 
             log_channel = self.bot.get_channel(config.modlog_channel)
             await log_channel.send(chan_message)
-        await ctx.send(f"All {len(targets)} users are now b&. 👍")
+        await ctx.send(f"All {len(targets_int)} users are now b&. 👍")
 
     @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
