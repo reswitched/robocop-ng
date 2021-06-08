@@ -298,13 +298,16 @@ class Mod(Cog):
             target_member = ctx.guild.get_member(target)
             # Hedge-proofing the code
             if target == ctx.author.id:
-                return await ctx.send("You can't do mod actions on yourself.")
+                await ctx.send(f"(re: {target}) You can't do mod actions on yourself.")
+                continue
             elif target == self.bot.user:
-                return await ctx.send(
-                    f"I'm sorry {ctx.author.mention}, I'm afraid I can't do that."
+                await ctx.send(
+                    f"(re: {target}) I'm sorry {ctx.author.mention}, I'm afraid I can't do that."
                 )
+                continue
             elif target_member and self.check_if_target_is_staff(target_member):
-                return await ctx.send("I can't ban this user as they're a member of staff.")
+                await ctx.send(f"(re: {target}) I can't ban this user as they're a member of staff.")
+                continue
 
             userlog(target, ctx.author, f"massban", "bans", target_user.name)
 
