@@ -316,7 +316,7 @@ class Mod(Cog):
                 target_user, reason=f"{ctx.author}, reason: massban", delete_message_days=0
             )
             chan_message = (
-                f"⛔ **Hackban**: {str(ctx.author)} banned "
+                f"⛔ **Massban**: {str(ctx.author)} banned "
                 f"{target_user.mention} | {safe_name}\n"
                 f"🏷 __User ID__: {target}\n"
                 "Please add an explanation below."
