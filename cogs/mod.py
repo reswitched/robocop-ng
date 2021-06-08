@@ -290,6 +290,48 @@ class Mod(Cog):
     @commands.bot_has_permissions(ban_members=True)
     @commands.check(check_if_staff)
     @commands.command()
+    async def massban(self, ctx, targets: str):
+        """Bans users with their IDs, doesn't message them, staff only."""
+        for target_str in targets.split(" "):
+            target = int(target_str)
+            target_user = await self.bot.fetch_user(target)
+            target_member = ctx.guild.get_member(target)
+            # Hedge-proofing the code
+            if target == ctx.author.id:
+                return await ctx.send("You can't do mod actions on yourself.")
+            elif target == self.bot.user:
+                return await ctx.send(
+                    f"I'm sorry {ctx.author.mention}, I'm afraid I can't do that."
+                )
+            elif target_member and self.check_if_target_is_staff(target_member):
+                return await ctx.send("I can't ban this user as they're a member of staff.")
+
+            userlog(target, ctx.author, f"massban", "bans", target_user.name)
+
+            safe_name = await commands.clean_content(escape_markdown=True).convert(
+                ctx, str(target)
+            )
+
+            await ctx.guild.ban(
+                target_user, reason=f"{ctx.author}, reason: massban", delete_message_days=0
+            )
+            chan_message = (
+                f"⛔ **Hackban**: {str(ctx.author)} banned "
+                f"{target_user.mention} | {safe_name}\n"
+                f"🏷 __User ID__: {target}\n"
+                "Please add an explanation below."
+            )
+
+            chan_message += f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
+
+            log_channel = self.bot.get_channel(config.modlog_channel)
+            await log_channel.send(chan_message)
+        await ctx.send(f"All {len(targets)} users are now b&. 👍")
+
+    @commands.guild_only()
+    @commands.bot_has_permissions(ban_members=True)
+    @commands.check(check_if_staff)
+    @commands.command()
     async def unban(self, ctx, target: int, *, reason: str = ""):
         """Unbans a user with their ID, doesn't message them, staff only."""
         target_user = await self.bot.fetch_user(target)
