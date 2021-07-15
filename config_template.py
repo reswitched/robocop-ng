@@ -8,7 +8,7 @@ bot_description = "Robocop-NG, the moderation bot of ReSwitched."
 
 # If you forked robocop-ng, put your repo here
 source_url = "https://github.com/reswitched/robocop-ng"
-rules_url = "https://reswitched.team/discord/#rules"
+rules_url = "https://reswitched.github.io/discord/#rules"
 
 # The bot description to be used in .robocop embed
 embed_desc = (
@@ -204,7 +204,7 @@ welcome_header = """
 
 __**Be sure you read the following rules and information before participating. If you came here to ask about "backups", this is NOT the place.**__
 
-__**Got questions about Nintendo Switch hacking? Before asking in the server, please see our FAQ at <https://reswitched.team/faq/> to see if your question has already been answered.**__
+__**Got questions about Nintendo Switch hacking? Before asking in the server, please see our FAQ at <https://reswitched.github.io/faq/> to see if your question has already been answered.**__
 
 __**This is a server for technical discussion and development support. If you are looking for end-user support, the Nintendo Homebrew discord server may be a better fit: <https://discord.gg/C29hYvh>.**__
 
