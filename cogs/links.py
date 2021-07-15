@@ -64,7 +64,7 @@ class Links(Cog):
             targetuser = ctx.author
         await ctx.send(
             f"{targetuser.mention}: "
-            "https://reswitched.team/discord/#member-roles-breakdown"
+            "https://reswitched.github.io/discord/#member-roles-breakdown"
             "\n\n"
             "Community role allows access to the set of channels "
             "on the community category (#off-topic, "
