@@ -242,6 +242,76 @@ class Mod(Cog):
     @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
     @commands.check(check_if_staff)
+    async def bandel(
+        self, ctx, day_count: int, target: discord.Member, *, reason: str = ""
+    ):
+        """Bans a user for a given number of days, staff only."""
+        # Hedge-proofing the code
+        if target == ctx.author:
+            if target.id == 181627658520625152:
+                return await ctx.send(
+                    "https://cdn.discordapp.com/attachments/286612533757083648/403080855402315796/rehedge.PNG"
+                )
+            return await ctx.send("hedgeberg#7337 is now b&. 👍")
+        elif target == self.bot.user:
+            return await ctx.send(
+                f"I'm sorry {ctx.author.mention}, I'm afraid I can't do that."
+            )
+        elif self.check_if_target_is_staff(target):
+            return await ctx.send("I can't ban this user as they're a member of staff.")
+
+        if day_count < 0 or day_count > 7:
+            return await ctx.send(
+                "Message delete day count needs to be between 0 and 7 days."
+            )
+
+        userlog(target.id, ctx.author, reason, "bans", target.name)
+
+        safe_name = await commands.clean_content(escape_markdown=True).convert(
+            ctx, str(target)
+        )
+
+        dm_message = f"You were banned from {ctx.guild.name}."
+        if reason:
+            dm_message += f' The given reason is: "{reason}".'
+        dm_message += "\n\nThis ban does not expire."
+
+        try:
+            await target.send(dm_message)
+        except discord.errors.Forbidden:
+            # Prevents ban issues in cases where user blocked bot
+            # or has DMs disabled
+            pass
+
+        await target.ban(
+            reason=f"{ctx.author}, days of message deletions: {day_count}, reason: {reason}",
+            delete_message_days=day_count,
+        )
+        chan_message = (
+            f"⛔ **Ban**: {str(ctx.author)} banned with {day_count} of messages deleted "
+            f"{target.mention} | {safe_name}\n"
+            f"🏷 __User ID__: {target.id}\n"
+        )
+        if reason:
+            chan_message += f'✏️ __Reason__: "{reason}"'
+        else:
+            chan_message += (
+                "Please add an explanation below. In the future"
+                ", it is recommended to use `.bandel <daycount> <user> [reason]`"
+                " as the reason is automatically sent to the user."
+            )
+
+        chan_message += f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
+
+        log_channel = self.bot.get_channel(config.modlog_channel)
+        await log_channel.send(chan_message)
+        await ctx.send(
+            f"{safe_name} is now b&, with {day_count} days of messages deleted. 👍"
+        )
+
+    @commands.guild_only()
+    @commands.bot_has_permissions(ban_members=True)
+    @commands.check(check_if_staff)
     @commands.command(aliases=["softban"])
     async def hackban(self, ctx, target: int, *, reason: str = ""):
         """Bans a user with their ID, doesn't message them, staff only."""
@@ -306,7 +376,9 @@ class Mod(Cog):
                 )
                 continue
             elif target_member and self.check_if_target_is_staff(target_member):
-                await ctx.send(f"(re: {target}) I can't ban this user as they're a member of staff.")
+                await ctx.send(
+                    f"(re: {target}) I can't ban this user as they're a member of staff."
+                )
                 continue
 
             userlog(target, ctx.author, f"massban", "bans", target_user.name)
@@ -316,7 +388,9 @@ class Mod(Cog):
             )
 
             await ctx.guild.ban(
-                target_user, reason=f"{ctx.author}, reason: massban", delete_message_days=0
+                target_user,
+                reason=f"{ctx.author}, reason: massban",
+                delete_message_days=0,
             )
             chan_message = (
                 f"⛔ **Massban**: {str(ctx.author)} banned "
