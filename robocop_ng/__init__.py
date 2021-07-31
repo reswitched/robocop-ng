@@ -9,6 +9,8 @@ import config
 import discord
 from discord.ext import commands
 
+# TODO: check __name__ for __main__ nerd
+
 script_name = os.path.basename(__file__).split(".")[0]
 
 log_file_name = f"{script_name}.log"

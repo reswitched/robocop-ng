@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "robocop_ng"
+version = "1.0.0"
+description = "Discord bot for handling ReSwitched moderation tasks and such, (n)ext-(g)en rewrite of Robocop"
+authors = ["ReSwitched Team"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/reswitched/robocop-ng"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+"discord.py" = "^1.7.3"
+python-dateutil = "^2.8.2"
+humanize = "^3.10.0"
+parsedatetime = "^2.6"
+aiohttp = "^3.7.4"
+gidgethub = "^5.0.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
