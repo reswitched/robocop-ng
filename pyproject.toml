@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "robocop_ng"
-version = "1.0.0"
+version = "1.0.1"
 description = "Discord bot for handling ReSwitched moderation tasks and such, (n)ext-(g)en rewrite of Robocop"
 authors = ["ReSwitched Team"]
 license = "MIT"
