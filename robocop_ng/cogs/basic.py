@@ -24,7 +24,7 @@ class Basic(Cog):
     @commands.cooldown(1, 10, type=commands.BucketType.user)
     @commands.command(name="dec")
     async def _dec(self, ctx, num):
-        """Converts base 10 to 16"""
+        """Converts base 16 to 10"""
         await ctx.send(f"{ctx.author.mention}: {int(num, 16)}")
 
     @commands.guild_only()
