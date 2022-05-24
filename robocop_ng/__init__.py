@@ -2,7 +2,7 @@ import os
 import sys
 import logging
 import logging.handlers
-import traceback
+import asyncio
 import aiohttp
 import config
 
@@ -62,13 +62,15 @@ bot.config = config
 bot.script_name = script_name
 bot.wanted_jsons = wanted_jsons
 
-if __name__ == "__main__":
+async def load_initial_cogs():
     for cog in config.initial_cogs:
         try:
-            bot.load_extension(cog)
+            await bot.load_extension(cog)
         except:
-            log.error(f"Failed to load cog {cog}.")
-            log.error(traceback.print_exc())
+            log.exception(f"Failed to load cog {cog}.")
+
+if __name__ == "__main__":
+    asyncio.run(load_initial_cogs())
 
 
 @bot.event
