@@ -48,9 +48,8 @@ wanted_jsons = [
     "data/invites.json",
 ]
 
-intents = discord.Intents.default()
+intents = discord.Intents.all()
 intents.typing = False
-intents.members = True
 
 bot = commands.Bot(
     command_prefix=get_prefix, description=config.bot_description, intents=intents
