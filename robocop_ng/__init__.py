@@ -235,5 +235,6 @@ async def main():
                 log.exception(f"Failed to load cog {cog}.")
         await bot.start(config.token)
 
+
 if __name__ == "__main__":
     asyncio.run(main())
