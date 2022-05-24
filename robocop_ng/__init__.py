@@ -62,16 +62,6 @@ bot.config = config
 bot.script_name = script_name
 bot.wanted_jsons = wanted_jsons
 
-async def load_initial_cogs():
-    for cog in config.initial_cogs:
-        try:
-            await bot.load_extension(cog)
-        except:
-            log.exception(f"Failed to load cog {cog}.")
-
-if __name__ == "__main__":
-    asyncio.run(load_initial_cogs())
-
 
 @bot.event
 async def on_ready():
@@ -236,4 +226,15 @@ for wanted_json in wanted_jsons:
         with open(wanted_json, "w") as f:
             f.write("{}")
 
-bot.run(config.token, reconnect=True)
+
+async def main():
+    async with bot:
+        for cog in config.initial_cogs:
+            try:
+                await bot.load_extension(cog)
+            except:
+                log.exception(f"Failed to load cog {cog}.")
+        await bot.start(config.token)
+
+if __name__ == "__main__":
+    asyncio.run(main())
