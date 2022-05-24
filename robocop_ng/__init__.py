@@ -236,4 +236,4 @@ for wanted_json in wanted_jsons:
         with open(wanted_json, "w") as f:
             f.write("{}")
 
-bot.run(config.token, bot=True, reconnect=True)
+bot.run(config.token, reconnect=True)

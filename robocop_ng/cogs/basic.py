@@ -63,5 +63,5 @@ class Basic(Cog):
         await tmp.edit(content=message_text)
 
 
-def setup(bot):
-    bot.add_cog(Basic(bot))
+async def setup(bot):
+    await bot.add_cog(Basic(bot))

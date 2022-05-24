@@ -26,5 +26,5 @@ class ModNote(Cog):
         await ctx.send(f"{ctx.author.mention}: noted!")
 
 
-def setup(bot):
-    bot.add_cog(ModNote(bot))
+async def setup(bot):
+    await bot.add_cog(ModNote(bot))

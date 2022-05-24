@@ -191,5 +191,5 @@ class Common(Cog):
         return "No output."
 
 
-def setup(bot):
-    bot.add_cog(Common(bot))
+async def setup(bot):
+    await bot.add_cog(Common(bot))

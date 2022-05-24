@@ -156,5 +156,5 @@ class ModTimed(Cog):
         add_restriction(target.id, config.mute_role)
 
 
-def setup(bot):
-    bot.add_cog(ModTimed(bot))
+async def setup(bot):
+    await bot.add_cog(ModTimed(bot))

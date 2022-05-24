@@ -194,5 +194,5 @@ class Err(Cog):
             await ctx.send("This doesn't look like typical hex!")
 
 
-def setup(bot):
-    bot.add_cog(Err(bot))
+async def setup(bot):
+    await bot.add_cog(Err(bot))

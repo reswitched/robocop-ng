@@ -41,5 +41,5 @@ class ModReswitched(Cog):
             await ctx.send(f"{ctx.author.mention}: Gave you mod role.")
 
 
-def setup(bot):
-    bot.add_cog(ModReswitched(bot))
+async def setup(bot):
+    await bot.add_cog(ModReswitched(bot))

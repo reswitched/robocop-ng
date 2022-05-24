@@ -3,7 +3,7 @@ import config
 import time
 import discord
 import traceback
-from discord.ext import commands
+from discord.ext import commands, tasks
 from discord.ext.commands import Cog
 from helpers.robocronp import get_crontab, delete_job
 from helpers.restrictions import remove_restriction
@@ -13,9 +13,14 @@ from helpers.checks import check_if_staff
 class Robocronp(Cog):
     def __init__(self, bot):
         self.bot = bot
-        bot.loop.create_task(self.minutely())
-        bot.loop.create_task(self.hourly())
-        bot.loop.create_task(self.daily())
+        self.minutely.start()
+        self.hourly.start()
+        self.daily.start()
+
+    def cog_unload(self):
+        self.minutely.cancel()
+        self.hourly.cancel()
+        self.daily.cancel()
 
     async def send_data(self):
         data_files = [discord.File(fpath) for fpath in self.bot.wanted_jsons]
@@ -113,69 +118,54 @@ class Robocronp(Cog):
                 f"Cronclean has errored: ```{traceback.format_exc()}```"
             )
 
+    @tasks.loop(minutes=1)
     async def minutely(self):
-        await self.bot.wait_until_ready()
         log_channel = self.bot.get_channel(config.botlog_channel)
-        while not self.bot.is_closed():
-            try:
-                ctab = get_crontab()
-                timestamp = time.time()
-                for jobtype in ctab:
-                    for jobtimestamp in ctab[jobtype]:
-                        if timestamp > int(jobtimestamp):
-                            await self.do_jobs(ctab, jobtype, jobtimestamp)
+        try:
+            ctab = get_crontab()
+            timestamp = time.time()
+            for jobtype in ctab:
+                for jobtimestamp in ctab[jobtype]:
+                    if timestamp > int(jobtimestamp):
+                        await self.do_jobs(ctab, jobtype, jobtimestamp)
 
-                # Handle clean channels
-                for clean_channel in config.minutely_clean_channels:
-                    await self.clean_channel(clean_channel)
-            except:
-                # Don't kill cronjobs if something goes wrong.
-                await log_channel.send(
-                    f"Cron-minutely has errored: ```{traceback.format_exc()}```"
-                )
-            await asyncio.sleep(60)
+            # Handle clean channels
+            for clean_channel in config.minutely_clean_channels:
+                await self.clean_channel(clean_channel)
+        except:
+            # Don't kill cronjobs if something goes wrong.
+            await log_channel.send(
+                f"Cron-minutely has errored: ```{traceback.format_exc()}```"
+            )
 
+    @tasks.loop(hours=1)
     async def hourly(self):
-        await self.bot.wait_until_ready()
         log_channel = self.bot.get_channel(config.botlog_channel)
-        while not self.bot.is_closed():
-            # Your stuff that should run at boot
-            # and after that every hour goes here
-            await asyncio.sleep(3600)
-            try:
-                await self.send_data()
+        try:
+            await self.send_data()
+            # Handle clean channels
+            for clean_channel in config.hourly_clean_channels:
+                await self.clean_channel(clean_channel)
+        except:
+            # Don't kill cronjobs if something goes wrong.
+            await log_channel.send(
+                f"Cron-hourly has errored: ```{traceback.format_exc()}```"
+            )
 
-                # Handle clean channels
-                for clean_channel in config.hourly_clean_channels:
-                    await self.clean_channel(clean_channel)
-            except:
-                # Don't kill cronjobs if something goes wrong.
-                await log_channel.send(
-                    f"Cron-hourly has errored: ```{traceback.format_exc()}```"
-                )
-            # Your stuff that should run an hour after boot
-            # and after that every hour goes here
-
+    @tasks.loop(hours=24)
     async def daily(self):
-        await self.bot.wait_until_ready()
         log_channel = self.bot.get_channel(config.botlog_channel)
-        while not self.bot.is_closed():
-            # Your stuff that should run at boot
-            # and after that every day goes here
-            try:
-                # Reset verification and algorithm
-                if "cogs.verification" in config.initial_cogs:
-                    verif_channel = self.bot.get_channel(config.welcome_channel)
-                    await self.bot.do_resetalgo(verif_channel, "daily robocronp")
-            except:
-                # Don't kill cronjobs if something goes wrong.
-                await log_channel.send(
-                    f"Cron-daily has errored: ```{traceback.format_exc()}```"
-                )
-            await asyncio.sleep(86400)
-            # Your stuff that should run a day after boot
-            # and after that every day goes here
+        try:
+            # Reset verification and algorithm
+            if "cogs.verification" in config.initial_cogs:
+                verif_channel = self.bot.get_channel(config.welcome_channel)
+                await self.bot.do_resetalgo(verif_channel, "daily robocronp")
+        except:
+            # Don't kill cronjobs if something goes wrong.
+            await log_channel.send(
+                f"Cron-daily has errored: ```{traceback.format_exc()}```"
+            )
 
 
-def setup(bot):
-    bot.add_cog(Robocronp(bot))
+async def setup(bot):
+    await bot.add_cog(Robocronp(bot))

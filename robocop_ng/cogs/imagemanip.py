@@ -83,5 +83,5 @@ class ImageManip(Cog):
         await ctx.send(content=f"{mention}: Enjoy.", file=discord.File(out_filename))
 
 
-def setup(bot):
-    bot.add_cog(ImageManip(bot))
+async def setup(bot):
+    await bot.add_cog(ImageManip(bot))

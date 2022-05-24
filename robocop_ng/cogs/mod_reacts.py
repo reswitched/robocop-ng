@@ -118,5 +118,5 @@ class ModReact(Cog):
             await msg.edit(content=f"{msg_text} Done!")
 
 
-def setup(bot):
-    bot.add_cog(ModReact(bot))
+async def setup(bot):
+    await bot.add_cog(ModReact(bot))
