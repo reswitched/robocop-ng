@@ -4,13 +4,14 @@ Next-gen rewrite of Kurisu/Robocop bot used on ReSwitched bot with discord.py re
 
 Code is based on https://gitlab.com/a/dpybotbase and https://github.com/916253/Kurisu-Reswitched.
 
+**This is the discord.py 2.0.0beta branch. It may be unstable. If you want the stable, discord.py 1.x.x based robocop-ng, see [the master branch](https://github.com/reswitched/robocop-ng/tree/master).**
 
 ---
 
 ## How to run
 
 - Copy `robocop_ng/config_template.py` to `robocop_ng/config.py`, configure all necessary parts to your server.
-- Enable the `Server Members` privileged intent ([guide here](https://discordpy.readthedocs.io/en/latest/intents.html?highlight=intents#privileged-intents)) for the bot. You don't need to give Discord your passport as Robocop-NG is not designed to run at >1 guild at once, let alone >100.
+- Enable all privileged intents ([guide here](https://discordpy.readthedocs.io/en/latest/intents.html?highlight=intents#privileged-intents)) for the bot. You don't need to give Discord your passport as Robocop-NG is not designed to run at >1 guild at once, let alone >100.
 - (obviously) Add the bot to your guild. Many resources about this online.
 - If you haven't already done this already, **move the bot's role above the roles it'll need to manage, or else it won't function properly**, this is especially important for verification as it doesn't work otherwise.
 - Install python3.6+.
