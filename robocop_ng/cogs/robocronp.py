@@ -1,4 +1,3 @@
-import asyncio
 import config
 import time
 import discord
@@ -120,6 +119,7 @@ class Robocronp(Cog):
 
     @tasks.loop(minutes=1)
     async def minutely(self):
+        await self.bot.wait_until_ready()
         log_channel = self.bot.get_channel(config.botlog_channel)
         try:
             ctab = get_crontab()
@@ -140,6 +140,7 @@ class Robocronp(Cog):
 
     @tasks.loop(hours=1)
     async def hourly(self):
+        await self.bot.wait_until_ready()
         log_channel = self.bot.get_channel(config.botlog_channel)
         try:
             await self.send_data()
@@ -154,6 +155,7 @@ class Robocronp(Cog):
 
     @tasks.loop(hours=24)
     async def daily(self):
+        await self.bot.wait_until_ready()
         log_channel = self.bot.get_channel(config.botlog_channel)
         try:
             # Reset verification and algorithm
