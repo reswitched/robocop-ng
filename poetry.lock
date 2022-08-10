@@ -94,7 +94,7 @@ test = ["pytest (>=6.2.0)", "pytest-benchmark", "pytest-cov", "pytest-subtests",
 
 [[package]]
 name = "discord.py"
-version = "2.0.0a4299+g69b4d9a4"
+version = "2.0.0a4485+g11278d55"
 description = "A Python wrapper for the Discord API"
 category = "main"
 optional = false
@@ -113,8 +113,8 @@ voice = ["PyNaCl (>=1.3.0,<1.6)"]
 [package.source]
 type = "git"
 url = "https://github.com/Rapptz/discord.py.git"
-reference = "69b4d9a4"
-resolved_reference = "69b4d9a4fae44bef5414c5846f6e0c4712c1fda5"
+reference = "11278d55e80fb7b1e928ce95b2eff32a1b4e0596"
+resolved_reference = "11278d55e80fb7b1e928ce95b2eff32a1b4e0596"
 
 [[package]]
 name = "frozenlist"
@@ -246,7 +246,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "9e3615fe114fa54c1330f1945186c35be9c53d1a436fee7cde61448e5c754b83"
+content-hash = "49ed992ab33dd193bc4082fdadb8eee63c11b288fa9c9e8f2eabe315b56cdf07"
 
 [metadata.files]
 aiohttp = [

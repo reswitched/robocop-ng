@@ -9,7 +9,7 @@ repository = "https://github.com/reswitched/robocop-ng"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-"discord.py" = {git = "https://github.com/Rapptz/discord.py.git", rev = "69b4d9a4"}
+"discord.py" = {git = "https://github.com/Rapptz/discord.py.git", rev = "11278d55e80fb7b1e928ce95b2eff32a1b4e0596"}
 python-dateutil = "^2.8.2"
 humanize = "^3.3.0"
 parsedatetime = "^2.6"
