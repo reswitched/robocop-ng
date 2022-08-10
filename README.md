@@ -21,6 +21,11 @@ Code is based on https://gitlab.com/a/dpybotbase and https://github.com/916253/K
 
 To keep the bot running, you might want to use pm2 or a systemd service.
 
+### Alternatively, dockerization
+
+- `docker build . -t robocopng`
+- `docker run --restart=always -v ~/robocop-ng:/usr/src/app/robocop_ng python:3.10`
+
 ---
 
 ## Tips for people moving from Kurisu/Robocop
