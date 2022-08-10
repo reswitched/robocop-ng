@@ -24,7 +24,7 @@ To keep the bot running, you might want to use pm2 or a systemd service.
 ### Alternatively, dockerization
 
 - `docker build . -t robocopng`
-- `docker run --restart=always -v ~/robocop-ng:/usr/src/app/robocop_ng python:3.10`
+- Assuming your robocop-ng repo is on `~/docker/`: `docker run --restart=always -v ~/docker/robocop-ng:/usr/src/app --name robocop_ng robocopng:latest`
 
 ---
 
