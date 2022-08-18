@@ -697,5 +697,5 @@ class Mod(Cog):
         await ctx.send("Successfully set bot nickname.")
 
 
-def setup(bot):
-    bot.add_cog(Mod(bot))
+async def setup(bot):
+    await bot.add_cog(Mod(bot))

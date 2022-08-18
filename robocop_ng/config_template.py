@@ -39,7 +39,7 @@ initial_cogs = [
     "cogs.robocronp",
     "cogs.meme",
     "cogs.invites",
-    "cogs.yubicootp"
+    "cogs.yubicootp",
 ]
 
 # The following cogs are also available but aren't loaded by default:

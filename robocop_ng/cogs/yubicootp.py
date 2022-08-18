@@ -84,15 +84,16 @@ class YubicoOTP(Cog):
                 resp = await self.bot.aiosession.get(url)
                 assert resp.status == 200
             except Exception as ex:
-                self.bot.log.warning(
-                    f"Got {repr(ex)} on {api_server} with otp {otp}."
-                )
+                self.bot.log.warning(f"Got {repr(ex)} on {api_server} with otp {otp}.")
                 continue
             resptext = await resp.text()
 
             # Turn the fields to a python dict for easier parsing
             datafields = resptext.strip().split("\r\n")
-            datafields = {line[:line.index("=")]: line[line.index("=") + 1:] for line in datafields}
+            datafields = {
+                line[: line.index("=")]: line[line.index("=") + 1 :]
+                for line in datafields
+            }
 
             # Verify nonce
             assert datafields["nonce"] == nonce
@@ -148,5 +149,5 @@ class YubicoOTP(Cog):
             await msg.delete()
 
 
-def setup(bot):
-    bot.add_cog(YubicoOTP(bot))
+async def setup(bot):
+    await bot.add_cog(YubicoOTP(bot))

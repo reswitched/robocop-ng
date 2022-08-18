@@ -20,7 +20,7 @@ class Admin(Cog):
     async def _exit(self, ctx):
         """Shuts down the bot, bot manager only."""
         await ctx.send(":wave: Goodbye!")
-        await self.bot.logout()
+        await self.bot.close()
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
@@ -111,8 +111,8 @@ class Admin(Cog):
                     continue
 
                 try:
-                    self.bot.unload_extension(cog_name)
-                    self.bot.load_extension(cog_name)
+                    await self.bot.unload_extension(cog_name)
+                    await self.bot.load_extension(cog_name)
                     self.bot.log.info(f"Reloaded ext {cog}")
                     await ctx.send(f":white_check_mark: `{cog}` successfully reloaded.")
                     await self.cog_load_actions(cog)
@@ -129,7 +129,7 @@ class Admin(Cog):
     async def load(self, ctx, ext: str):
         """Loads a cog, bot manager only."""
         try:
-            self.bot.load_extension("cogs." + ext)
+            await self.bot.load_extension("cogs." + ext)
             await self.cog_load_actions(ext)
         except:
             await ctx.send(
@@ -145,7 +145,7 @@ class Admin(Cog):
     @commands.command()
     async def unload(self, ctx, ext: str):
         """Unloads a cog, bot manager only."""
-        self.bot.unload_extension("cogs." + ext)
+        await self.bot.unload_extension("cogs." + ext)
         self.bot.log.info(f"Unloaded ext {ext}")
         await ctx.send(f":white_check_mark: `{ext}` successfully unloaded.")
 
@@ -159,8 +159,8 @@ class Admin(Cog):
             self.lastreload = ext
 
         try:
-            self.bot.unload_extension("cogs." + ext)
-            self.bot.load_extension("cogs." + ext)
+            await self.bot.unload_extension("cogs." + ext)
+            await self.bot.load_extension("cogs." + ext)
             await self.cog_load_actions(ext)
         except:
             await ctx.send(
@@ -172,5 +172,5 @@ class Admin(Cog):
         await ctx.send(f":white_check_mark: `{ext}` successfully reloaded.")
 
 
-def setup(bot):
-    bot.add_cog(Admin(bot))
+async def setup(bot):
+    await bot.add_cog(Admin(bot))

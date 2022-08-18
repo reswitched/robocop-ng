@@ -218,5 +218,5 @@ class Verification(Cog):
             await chan.send("💢 I don't have permission to do this.")
 
 
-def setup(bot):
-    bot.add_cog(Verification(bot))
+async def setup(bot):
+    await bot.add_cog(Verification(bot))

@@ -73,5 +73,5 @@ class Remind(Cog):
         await msg.delete()
 
 
-def setup(bot):
-    bot.add_cog(Remind(bot))
+async def setup(bot):
+    await bot.add_cog(Remind(bot))

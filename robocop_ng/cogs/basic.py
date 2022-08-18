@@ -56,12 +56,10 @@ class Basic(Cog):
         rtt_ms = (after - before) * 1000
         gw_ms = self.bot.latency * 1000
 
-        message_text = (
-            f":ping_pong:\nrtt: `{rtt_ms:.1f}ms`\ngw: `{gw_ms:.1f}ms`"
-        )
+        message_text = f":ping_pong:\nrtt: `{rtt_ms:.1f}ms`\ngw: `{gw_ms:.1f}ms`"
         self.bot.log.info(message_text)
         await tmp.edit(content=message_text)
 
 
-def setup(bot):
-    bot.add_cog(Basic(bot))
+async def setup(bot):
+    await bot.add_cog(Basic(bot))

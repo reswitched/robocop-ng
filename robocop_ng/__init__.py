@@ -2,7 +2,7 @@ import os
 import sys
 import logging
 import logging.handlers
-import traceback
+import asyncio
 import aiohttp
 import config
 
@@ -48,9 +48,8 @@ wanted_jsons = [
     "data/invites.json",
 ]
 
-intents = discord.Intents.default()
+intents = discord.Intents.all()
 intents.typing = False
-intents.members = True
 
 bot = commands.Bot(
     command_prefix=get_prefix, description=config.bot_description, intents=intents
@@ -61,14 +60,6 @@ bot.log = log
 bot.config = config
 bot.script_name = script_name
 bot.wanted_jsons = wanted_jsons
-
-if __name__ == "__main__":
-    for cog in config.initial_cogs:
-        try:
-            bot.load_extension(cog)
-        except:
-            log.error(f"Failed to load cog {cog}.")
-            log.error(traceback.print_exc())
 
 
 @bot.event
@@ -234,4 +225,16 @@ for wanted_json in wanted_jsons:
         with open(wanted_json, "w") as f:
             f.write("{}")
 
-bot.run(config.token, bot=True, reconnect=True)
+
+async def main():
+    async with bot:
+        for cog in config.initial_cogs:
+            try:
+                await bot.load_extension(cog)
+            except:
+                log.exception(f"Failed to load cog {cog}.")
+        await bot.start(config.token)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
