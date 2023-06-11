@@ -110,11 +110,11 @@ class Verification(Cog):
         if message.channel.id == config.welcome_channel:
             # Assign common stuff into variables to make stuff less of a mess
             member = message.author
-            full_name = str(member)
             discrim = str(member.discriminator)
             guild = message.guild
             chan = message.channel
             mcl = message.content.lower()
+            has_new_username = (discrim == "0000")
 
             # Reply to users that insult the bot
             oof = [
@@ -137,8 +137,13 @@ class Verification(Cog):
             success_role = guild.get_role(config.named_roles["participant"])
 
             # Get a list of stuff we'll allow and will consider close
-            allowed_names = [f"@{full_name}", full_name, str(member.id)]
-            close_names = [f"@{member.name}", member.name, discrim, f"#{discrim}"]
+            if has_new_username:
+                allowed_names = [f"@{member.name}", member.name, str(member.id)]
+                close_names = []
+            else:
+                allowed_names = [f"@{member.name}#{discrim}", f"{member.name}#{discrim}", str(member.id)]
+                close_names = [f"@{member.name}", discrim, f"#{discrim}"]
+
             # Now add the same things but with newlines at the end of them
             allowed_names += [(an + "\n") for an in allowed_names]
             close_names += [(cn + "\n") for cn in close_names]
@@ -180,19 +185,18 @@ class Verification(Cog):
                         )
 
             if (
-                full_name in message.content
-                or str(member.id) in message.content
+                str(member.id) in message.content
                 or member.name in message.content
                 or discrim in message.content
             ):
-                no_text = ":no_entry: Incorrect. You need to do something *specific* with your name and discriminator instead of just posting it. Please re-read the rules carefully and look up any terms you are not familiar with."
+                no_text = ":no_entry: Incorrect. You need to do something *specific* with your username (and if you have not migrated to a username yet, also your discriminator) instead of just posting it. Please re-read the rules carefully and look up any terms you are not familiar with."
                 rand_num = random.randint(1, 100)
                 if rand_num == 42:
                     no_text = "you're doing it wrong"
                 elif rand_num == 43:
                     no_text = "ugh, wrong, read the rules."
                 elif rand_num == 44:
-                    no_text = '"The definition of insanity is doing the same thing over and over again, but expecting different results."\n-Albert Einstein'
+                    no_text = 'The definition of insanity is doing the same thing over and over again, but expecting different results.'
                 await chan.send(f"{message.author.mention} {no_text}")
 
     @Cog.listener()

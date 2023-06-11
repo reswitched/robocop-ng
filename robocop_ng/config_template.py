@@ -298,7 +298,7 @@ welcome_footer = (
 )
 
 # Line to be hidden in rules
-hidden_term_line = ' • When you have finished reading all of the rules, send a message in this channel that includes the {0} hex digest of your discord "name#discriminator", and bot will automatically grant you access to the other channels. You can find your "name#discriminator" (your username followed by a ‘#’ and four numbers) under the discord channel list.'
+hidden_term_line = ' • When you have finished reading all of the rules, send a message in this channel that includes the {0} hex digest of your discord "username" (or if you have not yet migrated to a username, "username#discriminator"), and bot will automatically grant you access to the other channels.'
 
 # == Only if you want to use cogs.pin ==
 # Used for the pinboard. Leave empty if you don't wish for a gist pinboard.
