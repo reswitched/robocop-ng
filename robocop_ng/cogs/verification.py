@@ -110,7 +110,7 @@ class Verification(Cog):
         if message.channel.id == config.welcome_channel:
             # Assign common stuff into variables to make stuff less of a mess
             member = message.author
-            discrim = str(member.discriminator)
+            discrim = "{:04d}".format(member.discriminator)
             guild = message.guild
             chan = message.channel
             mcl = message.content.lower()
@@ -187,7 +187,7 @@ class Verification(Cog):
             if (
                 str(member.id) in message.content
                 or member.name in message.content
-                or discrim in message.content
+                or (discrim in message.content and not has_new_username)
             ):
                 no_text = ":no_entry: Incorrect. You need to do something *specific* with your username (and if you have not migrated to a username yet, also your discriminator) instead of just posting it. Please re-read the rules carefully and look up any terms you are not familiar with."
                 rand_num = random.randint(1, 100)
