@@ -110,7 +110,7 @@ class Verification(Cog):
         if message.channel.id == config.welcome_channel:
             # Assign common stuff into variables to make stuff less of a mess
             member = message.author
-            discrim = "{:04d}".format(member.discriminator)
+            discrim = "{:04d}".format(int(member.discriminator))
             guild = message.guild
             chan = message.channel
             mcl = message.content.lower()
