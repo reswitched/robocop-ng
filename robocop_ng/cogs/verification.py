@@ -185,7 +185,7 @@ class Verification(Cog):
                 or member.name in message.content
                 or discrim in message.content
             ):
-                no_text = ":no_entry: Incorrect. You need to do something *specific* with your name and discriminator instead of just posting it. Please re-read the rules carefully and look up any terms you are not familiar with."
+                no_text = ":no_entry: Incorrect. You need to do something *specific* with your member ID instead of just posting it. Please re-read the rules carefully and look up any terms you are not familiar with."
                 rand_num = random.randint(1, 100)
                 if rand_num == 42:
                     no_text = "you're doing it wrong"

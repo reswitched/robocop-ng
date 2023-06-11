@@ -260,10 +260,6 @@ welcome_rules = (
      • ReSwitched neither wants nor needs your server boosts, and your money is better off elsewhere. Consider the EFF (or a charity of your choice).
      • Boosting the server is liable to get you kicked (to remove the nitro boost role), and/or warned. Roles you possessed prior to the kick may not be restored in a timely fashion.
     """,
-    # 12 
-    "No hornyposting (don't post things because they titillate you, or with intent to titillate or appeal to the prurient interest: when in doubt, keep any discussions of sex or sexuality clinical/academic).",
-    # 13
-    "DMing moderators/staff for help with getting past newcomers is not allowed and will result in a kick.",
 )
 
 
