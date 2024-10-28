@@ -233,7 +233,7 @@ class ModUserlog(Cog):
         await ctx.send(
             f"user = {user_name}\n"
             f"id = {user.id}\n"
-            f"avatar = {user.avatar_url}\n"
+            f"avatar = {user.display_avatar}\n"
             f"bot = {user.bot}\n"
             f"created_at = {user.created_at}\n"
             f"display_name = {display_name}\n"
