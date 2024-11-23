@@ -138,7 +138,7 @@ class Logs(Cog):
                 embed = discord.Embed(
                     color=discord.Color.dark_red(), title=f"Warns for {escaped_name}"
                 )
-                embed.set_thumbnail(url=member.avatar_url)
+                embed.set_thumbnail(url=member.display_avatar)
                 for idx, warn in enumerate(warns[str(member.id)]["warns"]):
                     embed.add_field(
                         name=f"{idx + 1}: {warn['timestamp']}",
@@ -188,7 +188,7 @@ class Logs(Cog):
             # Show a message embed
             embed = discord.Embed(description=regd)
             embed.set_author(
-                name=message.author.display_name, icon_url=message.author.avatar_url
+                name=message.author.display_name, icon_url=message.author.display_avatar
             )
 
             await spy_channel.send(msg, embed=embed)
