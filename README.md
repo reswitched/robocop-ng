@@ -6,18 +6,6 @@ Code is based on https://gitlab.com/a/dpybotbase and https://github.com/916253/K
 
 ---
 
-## How to migrate from discord.py v1 to v2
-
-As of 18.08.2022 this repo is based on discord.py v2.
-
-Only changes needed are updating your cogs and ensuring that all privileged intents are enabled for your bot.
-
-You can find the privileged intents guide here: https://discordpy.readthedocs.io/en/latest/intents.html?highlight=intents#privileged-intents
-
-You can see the migration instructions for your cogs here: https://discordpy.readthedocs.io/en/latest/migrating.html
-
----
-
 ## How to run
 
 - Copy `robocop_ng/config_template.py` to `robocop_ng/config.py`, configure all necessary parts to your server.
@@ -29,15 +17,15 @@ You can see the migration instructions for your cogs here: https://discordpy.rea
 ### Running with docker
 
 - `docker build . -t robocopng`
-- Assuming your robocop-ng repo is on `~/docker/`: `docker run --restart=always -v ~/docker/robocop-ng:/usr/src/app --name robocop_ng robocopng:latest`
+- Assuming your robocop-ng repo is on `~/docker/`: `docker run --restart=unless-stopped -v ~/docker/robocop-ng:/usr/src/app --name robocop_ng robocopng:latest`
 
-For updates I just `git pull;docker rm -f robocop_ng` then run the two commands above again.
+For updates I just `git pull; docker rm -f robocop_ng` then run the two commands above again.
 
 ### Running manually
 
-- Install python3.9+.
-- Install python dependencies with [poetry](https://python-poetry.org/) (`poetry install`).
-- Run `robocop_ng/__init__.py` (`cd robocop_ng;python3 __init__.py`). Alternatively, if you did `poetry install`, run `python3 -m robocop_ng` in the same directory as your config files.
+- Install python3.9+ (tested up to 3.13).
+- Install [uv](https://github.com/astral-sh/uv).
+- Run `uv run python3 -m robocop_ng.__init__` in the same directory as your config files.
 
 To keep the bot running, you might want to use pm2 or a systemd service.
 
@@ -50,6 +38,18 @@ If you're moving from Kurisu/Robocop, and want to preserve your data, you'll wan
 - Copy your `data` folder over into the `robocop_ng` folder.
 - Rename your `data/warnsv2.json` file to `data/userlog.json`.
 - Edit `data/restrictions.json` and replace role names (`"Muted"` etc) with role IDs (`526500080879140874` etc). Make sure to have it as int, not as str (don't wrap role id with `"` or `'`).
+
+---
+
+## How to migrate from discord.py v1 to v2
+
+As of 18.08.2022 this repo is based on discord.py v2.
+
+Only changes needed are updating your cogs and ensuring that all privileged intents are enabled for your bot.
+
+You can find the privileged intents guide here: https://discordpy.readthedocs.io/en/latest/intents.html?highlight=intents#privileged-intents
+
+You can see the migration instructions for your cogs here: https://discordpy.readthedocs.io/en/latest/migrating.html
 
 ---
 
