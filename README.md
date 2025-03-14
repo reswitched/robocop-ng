@@ -1,6 +1,6 @@
 # robocop-ng
 
-Next-gen rewrite of Kurisu/Robocop bot used on ReSwitched bot with discord.py rewrite, designed to be relatively clean, consistent and un-bloated.
+Next-gen rewrite of Kurisu/Robocop bot used on ReSwitched bot with discord.py rewrite. Very lightly maintained (as of ~2025).
 
 Code is based on https://gitlab.com/a/dpybotbase and https://github.com/916253/Kurisu-Reswitched.
 
@@ -35,8 +35,8 @@ For updates I just `git pull;docker rm -f robocop_ng` then run the two commands 
 
 ### Running manually
 
-- Install python3.8+.
-- Install python dependencies (`pip3 install -Ur requirements.txt`, you might need to put `sudo -H` before that). You can also install with [poetry](https://python-poetry.org/) with just `poetry install`.
+- Install python3.9+.
+- Install python dependencies with [poetry](https://python-poetry.org/) (`poetry install`).
 - Run `robocop_ng/__init__.py` (`cd robocop_ng;python3 __init__.py`). Alternatively, if you did `poetry install`, run `python3 -m robocop_ng` in the same directory as your config files.
 
 To keep the bot running, you might want to use pm2 or a systemd service.
