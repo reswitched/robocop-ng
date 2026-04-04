@@ -34,11 +34,6 @@ class Links(Cog):
             "if you're not actually trying to solve a problem."
         )
 
-    @commands.command(hidden=True, aliases=["guides", "link"])
-    async def guide(self, ctx):
-        """Link to the guides"""
-        await ctx.send(config.links_guide_text)
-
     @commands.command()
     async def source(self, ctx):
         """Gives link to source code."""
