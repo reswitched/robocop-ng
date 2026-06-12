@@ -1,0 +1,5 @@
+services:
+  robocop_ng:
+    build: .
+    container_name: robocop_ng
+    restart: unless-stopped
