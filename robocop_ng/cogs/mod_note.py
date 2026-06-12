@@ -11,7 +11,7 @@ class ModNote(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command(aliases=["addnote"])
+    @commands.hybrid_command(aliases=["addnote"])
     async def note(self, ctx, target: discord.Member, *, note: str = ""):
         """Adds a note to a user, staff only."""
         userlog(target.id, ctx.author, note, "notes", target.name)
@@ -19,7 +19,7 @@ class ModNote(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command(aliases=["addnoteid"])
+    @commands.hybrid_command(aliases=["addnoteid"])
     async def noteid(self, ctx, target: int, *, note: str = ""):
         """Adds a note to a user by userid, staff only."""
         userlog(target, ctx.author, note, "notes")

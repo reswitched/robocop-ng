@@ -3,6 +3,17 @@ import datetime
 
 # Basic bot config, insert your token here, update description if you want
 prefixes = [".", "!"]
+
+# Privileged intents. The bot works fully via slash commands with message
+# content OFF. Enable it only if you are under Discord's privileged-intent
+# limit and want the optional message-content features (logs filter,
+# auto-verification, OTP scrubbing, message lists).
+intent_message_content = (
+    False  # privileged; needed for logs/verification/yubicootp/lists message scanning
+)
+intent_members = (
+    True  # privileged; needed for join/leave logging, member lookups, verification
+)
 token = "token-goes-here"
 bot_description = "Robocop-NG, the moderation bot of ReSwitched."
 

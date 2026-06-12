@@ -11,7 +11,7 @@ class ModWatch(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def watch(self, ctx, target: discord.Member, *, note: str = ""):
         """Puts a user under watch, staff only."""
         setwatch(target.id, ctx.author, True, target.name)
@@ -19,7 +19,7 @@ class ModWatch(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def watchid(self, ctx, target: int, *, note: str = ""):
         """Puts a user under watch by userid, staff only."""
         setwatch(target, ctx.author, True, target.name)
@@ -27,7 +27,7 @@ class ModWatch(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def unwatch(self, ctx, target: discord.Member, *, note: str = ""):
         """Removes a user from watch, staff only."""
         setwatch(target.id, ctx.author, False, target.name)
@@ -35,7 +35,7 @@ class ModWatch(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def unwatchid(self, ctx, target: int, *, note: str = ""):
         """Removes a user from watch by userid, staff only."""
         setwatch(target, ctx.author, False, target.name)

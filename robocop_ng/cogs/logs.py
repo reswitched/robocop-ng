@@ -207,6 +207,8 @@ class Logs(Cog):
 
     @Cog.listener()
     async def on_message(self, message):
+        if not self.bot.intents.message_content:
+            return
         await self.bot.wait_until_ready()
         if message.channel.id not in config.spy_channels:
             return
@@ -215,6 +217,8 @@ class Logs(Cog):
 
     @Cog.listener()
     async def on_message_edit(self, before, after):
+        if not self.bot.intents.message_content:
+            return
         await self.bot.wait_until_ready()
         if after.channel.id not in config.spy_channels or after.author.bot:
             return
@@ -248,6 +252,8 @@ class Logs(Cog):
 
     @Cog.listener()
     async def on_message_delete(self, message):
+        if not self.bot.intents.message_content:
+            return
         await self.bot.wait_until_ready()
         if message.channel.id not in config.spy_channels or message.author.bot:
             return

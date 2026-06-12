@@ -46,13 +46,38 @@ wanted_jsons = [
     "data/invites.json",
 ]
 
-intents = discord.Intents.all()
+intents = discord.Intents.default()
 intents.typing = False
+intents.message_content = getattr(config, "intent_message_content", False)
+intents.members = getattr(config, "intent_members", True)
 
 bot = commands.Bot(
     command_prefix=get_prefix, description=config.bot_description, intents=intents
 )
 bot.help_command = commands.DefaultHelpCommand(dm_help=True)
+
+
+async def setup_hook():
+    for guild_id in config.guild_whitelist:
+        guild = discord.Object(id=guild_id)
+        bot.tree.copy_global_to(guild=guild)
+        await bot.tree.sync(guild=guild)
+    log.info(f"Synced slash commands to {len(config.guild_whitelist)} guild(s).")
+
+
+bot.setup_hook = setup_hook
+
+
+@bot.hybrid_command(name="sync")
+@commands.is_owner()
+async def sync_command(ctx):
+    """Re-syncs slash commands to this guild, owner only."""
+    if ctx.guild is None:
+        return await ctx.send("Run this in a guild.")
+    bot.tree.copy_global_to(guild=ctx.guild)
+    synced = await bot.tree.sync(guild=ctx.guild)
+    await ctx.send(f"Synced {len(synced)} commands to this guild.")
+
 
 bot.log = log
 bot.config = config
@@ -193,6 +218,44 @@ async def on_command_error(ctx, error):
         return await ctx.send(
             f"{ctx.author.mention}: You gave incomplete arguments. {help_text}"
         )
+
+
+@bot.tree.error
+async def on_app_command_error(interaction, error):
+    from discord import app_commands
+
+    error = getattr(error, "original", error)
+    error_text = str(error)
+    log.error(f"App command error from {interaction.user}: {error_text}")
+
+    async def respond(msg):
+        if interaction.response.is_done():
+            await interaction.followup.send(msg, ephemeral=True)
+        else:
+            await interaction.response.send_message(msg, ephemeral=True)
+
+    if isinstance(error, app_commands.CommandOnCooldown):
+        return await respond(
+            f"You're being ratelimited. Try in {error.retry_after:.1f} seconds."
+        )
+    elif isinstance(
+        error, (app_commands.MissingPermissions, commands.MissingPermissions)
+    ):
+        return await respond(
+            "You don't have the right permissions to run this command."
+        )
+    elif isinstance(error, (app_commands.CheckFailure, commands.CheckFailure)):
+        return await respond(
+            "Check failed. You might not have the right permissions, "
+            "or you may not be able to run this command in the current channel."
+        )
+    elif "Cannot send messages to this user" in error_text:
+        return await respond(
+            "I can't DM you. You might have me blocked or DMs disabled. "
+            "Please resolve that, then run the command again."
+        )
+
+    await respond(f"Something went wrong: {error_text}")
 
 
 @bot.event

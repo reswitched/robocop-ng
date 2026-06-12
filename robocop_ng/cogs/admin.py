@@ -16,7 +16,7 @@ class Admin(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
-    @commands.command(name="exit", aliases=["quit", "bye"])
+    @commands.hybrid_command(name="exit", aliases=["quit", "bye"])
     async def _exit(self, ctx):
         """Shuts down the bot, bot manager only."""
         await ctx.send(":wave: Goodbye!")
@@ -24,9 +24,10 @@ class Admin(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
-    @commands.command()
+    @commands.hybrid_command()
     async def fetchlog(self, ctx):
         """Returns log"""
+        await ctx.defer()
         await ctx.send(
             "Here's the current log file:",
             file=discord.File(f"{self.bot.script_name}.log"),
@@ -34,15 +35,16 @@ class Admin(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
-    @commands.command()
+    @commands.hybrid_command()
     async def fetchdata(self, ctx):
         """Returns data files"""
+        await ctx.defer()
         data_files = [discord.File(fpath) for fpath in self.bot.wanted_jsons]
         await ctx.send("Here you go:", files=data_files)
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
-    @commands.command(name="eval")
+    @commands.hybrid_command(name="eval")
     async def _eval(self, ctx, *, code: str):
         """Evaluates some code, bot manager only."""
         try:
@@ -54,8 +56,8 @@ class Admin(Cog):
                 "message": ctx.message,
                 "server": ctx.guild,
                 "guild": ctx.guild,
-                "channel": ctx.message.channel,
-                "author": ctx.message.author,
+                "channel": ctx.channel,
+                "author": ctx.author,
                 # modules
                 "discord": discord,
                 "commands": commands,
@@ -97,9 +99,10 @@ class Admin(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
-    @commands.command()
+    @commands.hybrid_command()
     async def pull(self, ctx, auto=False):
         """Does a git pull, bot manager only."""
+        await ctx.defer()
         tmp = await ctx.send("Pulling...")
         git_output = await self.bot.async_call_shell("git pull")
         await tmp.edit(content=f"Pull complete. Output: ```{git_output}```")
@@ -125,7 +128,7 @@ class Admin(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
-    @commands.command()
+    @commands.hybrid_command()
     async def load(self, ctx, ext: str):
         """Loads a cog, bot manager only."""
         try:
@@ -142,7 +145,7 @@ class Admin(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
-    @commands.command()
+    @commands.hybrid_command()
     async def unload(self, ctx, ext: str):
         """Unloads a cog, bot manager only."""
         await self.bot.unload_extension("cogs." + ext)
@@ -150,7 +153,7 @@ class Admin(Cog):
         await ctx.send(f":white_check_mark: `{ext}` successfully unloaded.")
 
     @commands.check(check_if_bot_manager)
-    @commands.command()
+    @commands.hybrid_command()
     async def reload(self, ctx, ext="_"):
         """Reloads a cog, bot manager only."""
         if ext == "_":

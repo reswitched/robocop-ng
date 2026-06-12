@@ -9,7 +9,7 @@ class SAR(Cog):
         self.bot = bot
 
     @commands.guild_only()
-    @commands.command()
+    @commands.hybrid_command()
     @commands.check(check_if_staff_or_ot)
     async def sar(self, ctx):
         """Lists self assignable roles."""
@@ -21,7 +21,7 @@ class SAR(Cog):
 
     @commands.cooldown(1, 30, type=commands.BucketType.user)
     @commands.guild_only()
-    @commands.command(aliases=["iamnot"])
+    @commands.hybrid_command(aliases=["iamnot"])
     @commands.check(check_if_staff_or_ot)
     async def iam(self, ctx, role: str):
         """Gets you a self assignable role."""

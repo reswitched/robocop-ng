@@ -25,7 +25,7 @@ class Meme(Cog):
         return math.floor(c + 273.15)
 
     @commands.check(check_if_staff_or_ot)
-    @commands.command(hidden=True, name="warm")
+    @commands.hybrid_command(hidden=True, name="warm")
     async def warm_member(self, ctx, user: discord.Member):
         """Warms a user :3"""
         celsius = random.randint(15, 100)
@@ -38,7 +38,7 @@ class Meme(Cog):
         )
 
     @commands.check(check_if_staff_or_ot)
-    @commands.command(hidden=True, name="chill", aliases=["cold"])
+    @commands.hybrid_command(hidden=True, name="chill", aliases=["cold"])
     async def chill_member(self, ctx, user: discord.Member):
         """Chills a user >:3"""
         celsius = random.randint(-50, 15)
@@ -51,13 +51,13 @@ class Meme(Cog):
         )
 
     @commands.check(check_if_staff_or_ot)
-    @commands.command(hidden=True, aliases=["thank", "reswitchedgold"])
+    @commands.hybrid_command(hidden=True, aliases=["thank", "reswitchedgold"])
     async def gild(self, ctx, user: discord.Member):
         """Gives a star to a user"""
         await ctx.send(f"{user.mention} gets a :star:, yay!")
 
     @commands.check(check_if_staff_or_ot)
-    @commands.command(
+    @commands.hybrid_command(
         hidden=True, aliases=["reswitchedsilver", "silv3r", "reswitchedsilv3r"]
     )
     async def silver(self, ctx, user: discord.Member):
@@ -72,7 +72,7 @@ class Meme(Cog):
         await ctx.send(embed=embed)
 
     @commands.check(check_if_staff_or_ot)
-    @commands.command(hidden=True)
+    @commands.hybrid_command(hidden=True)
     async def btwiuse(self, ctx):
         """btw i use arch"""
         uname = platform.uname()
@@ -83,52 +83,33 @@ class Meme(Cog):
         )
 
     @commands.check(check_if_staff_or_ot)
-    @commands.command(hidden=True)
+    @commands.hybrid_command(hidden=True)
     async def yahaha(self, ctx):
         """secret command"""
         await ctx.send(f"🍂 you found me 🍂")
 
     @commands.check(check_if_staff_or_ot)
-    @commands.command(hidden=True)
-    async def blackalabi(self, ctx):
-        """secret command"""
-        await ctx.send("https://elixi.re/i/discord.png")
-
-    @commands.check(check_if_staff_or_ot)
-    @commands.command(hidden=True)
-    async def peng(self, ctx):
-        """heck tomger"""
-        await ctx.send(f"🐧")
-
-    @commands.check(check_if_staff_or_ot)
-    @commands.command(hidden=True, aliases=["outstanding"])
-    async def outstandingmove(self, ctx):
-        """Posts the outstanding move meme"""
-        await ctx.send(
-            "https://cdn.discordapp.com/attachments"
-            "/371047036348268545/528413677007929344"
-            "/image0-5.jpg"
-        )
-
-    @commands.check(check_if_staff_or_ot)
-    @commands.command(hidden=True)
+    @commands.hybrid_command(hidden=True)
     async def bones(self, ctx):
+        """Posts the bones meme."""
         await ctx.send("https://cdn.discordapp.com/emojis/443501365843591169.png?v=1")
 
     @commands.check(check_if_staff_or_ot)
-    @commands.command(hidden=True)
+    @commands.hybrid_command(hidden=True)
     async def headpat(self, ctx):
+        """Posts a headpat."""
         await ctx.send("https://cdn.discordapp.com/emojis/465650811909701642.png?v=1")
 
     @commands.check(check_if_staff_or_ot)
-    @commands.command(
+    @commands.hybrid_command(
         hidden=True, aliases=["when", "etawhen", "emunand", "emummc", "thermosphere"]
     )
     async def eta(self, ctx):
+        """Responds to ETA questions."""
         await ctx.send("June 15.")
 
     @commands.check(check_if_staff_or_ot)
-    @commands.command(hidden=True, name="bam")
+    @commands.hybrid_command(hidden=True, name="bam")
     async def bam_member(self, ctx, target: discord.Member):
         """Bams a user owo"""
         if target == ctx.author:
@@ -147,17 +128,7 @@ class Meme(Cog):
         )
         await ctx.send(f"{safe_name} is ̶n͢ow b̕&̡.̷ 👍̡")
 
-    @commands.command(hidden=True)
-    async def memebercount(self, ctx):
-        """Checks memeber count, as requested by dvdfreitag"""
-        await ctx.send("There's like, uhhhhh a bunch")
-
-    @commands.command(hidden=True)
-    async def frolics(self, ctx):
-        """test"""
-        await ctx.send("https://www.youtube.com/watch?v=VmarNEsjpDI")
-
-    @commands.command(
+    @commands.hybrid_command(
         hidden=True,
         aliases=[
             "yotld",

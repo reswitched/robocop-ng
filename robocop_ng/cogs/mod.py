@@ -5,6 +5,7 @@ import config
 from helpers.checks import check_if_staff, check_if_bot_manager
 from helpers.userlogs import userlog
 from helpers.restrictions import add_restriction, remove_restriction
+from helpers.responses import get_jump
 import io
 
 
@@ -17,9 +18,10 @@ class Mod(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_bot_manager)
-    @commands.command()
+    @commands.hybrid_command()
     async def setguildicon(self, ctx, url):
         """Changes guild icon, bot manager only."""
+        await ctx.defer()
         img_bytes = await self.bot.aiogetbytes(url)
         await ctx.guild.edit(icon=img_bytes, reason=str(ctx.author))
         await ctx.send(f"Done!")
@@ -27,7 +29,7 @@ class Mod(Cog):
         log_channel = self.bot.get_channel(config.modlog_channel)
         log_msg = (
             f"✏️ **Guild Icon Update**: {ctx.author} changed the guild icon."
-            f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
+            + get_jump(ctx)
         )
         img_filename = url.split("/")[-1].split("#")[0]  # hacky
         img_file = discord.File(io.BytesIO(img_bytes), filename=img_filename)
@@ -35,9 +37,10 @@ class Mod(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def mute(self, ctx, target: discord.Member, *, reason: str = ""):
         """Mutes a user, staff only."""
+        await ctx.defer()
         # Hedge-proofing the code
         if target == ctx.author:
             return await ctx.send("You can't do mod actions on yourself.")
@@ -85,7 +88,7 @@ class Mod(Cog):
                 " as the reason is automatically sent to the user."
             )
 
-        chan_message += f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
+        chan_message += get_jump(ctx)
 
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
@@ -94,9 +97,10 @@ class Mod(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def unmute(self, ctx, target: discord.Member):
         """Unmutes a user, staff only."""
+        await ctx.defer()
         safe_name = await commands.clean_content(escape_markdown=True).convert(
             ctx, str(target)
         )
@@ -110,7 +114,7 @@ class Mod(Cog):
             f"🏷 __User ID__: {target.id}\n"
         )
 
-        chan_message += f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
+        chan_message += get_jump(ctx)
 
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
@@ -120,9 +124,10 @@ class Mod(Cog):
     @commands.guild_only()
     @commands.bot_has_permissions(kick_members=True)
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def kick(self, ctx, target: discord.Member, *, reason: str = ""):
         """Kicks a user, staff only."""
+        await ctx.defer()
         # Hedge-proofing the code
         if target == ctx.author:
             return await ctx.send("You can't do mod actions on yourself.")
@@ -172,7 +177,7 @@ class Mod(Cog):
                 " as the reason is automatically sent to the user."
             )
 
-        chan_message += f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
+        chan_message += get_jump(ctx)
 
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
@@ -181,9 +186,10 @@ class Mod(Cog):
     @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
     @commands.check(check_if_staff)
-    @commands.command(aliases=["yeet"])
+    @commands.hybrid_command(aliases=["yeet"])
     async def ban(self, ctx, target: discord.Member, *, reason: str = ""):
         """Bans a user, staff only."""
+        await ctx.defer()
         # Hedge-proofing the code
         if target == ctx.author:
             if target.id == 181627658520625152:
@@ -233,7 +239,7 @@ class Mod(Cog):
                 " as the reason is automatically sent to the user."
             )
 
-        chan_message += f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
+        chan_message += get_jump(ctx)
 
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
@@ -242,11 +248,12 @@ class Mod(Cog):
     @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def bandel(
         self, ctx, day_count: int, target: discord.Member, *, reason: str = ""
     ):
         """Bans a user for a given number of days, staff only."""
+        await ctx.defer()
         # Hedge-proofing the code
         if target == ctx.author:
             if target.id == 181627658520625152:
@@ -302,7 +309,7 @@ class Mod(Cog):
                 " as the reason is automatically sent to the user."
             )
 
-        chan_message += f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
+        chan_message += get_jump(ctx)
 
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
@@ -313,9 +320,10 @@ class Mod(Cog):
     @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
     @commands.check(check_if_staff)
-    @commands.command(aliases=["softban"])
+    @commands.hybrid_command(aliases=["softban"])
     async def hackban(self, ctx, target: int, *, reason: str = ""):
         """Bans a user with their ID, doesn't message them, staff only."""
+        await ctx.defer()
         target_user = await self.bot.fetch_user(target)
         target_member = ctx.guild.get_member(target)
         # Hedge-proofing the code
@@ -351,7 +359,7 @@ class Mod(Cog):
                 "`.hackban <user> [reason]`."
             )
 
-        chan_message += f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
+        chan_message += get_jump(ctx)
 
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
@@ -360,9 +368,10 @@ class Mod(Cog):
     @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def massban(self, ctx, *, targets: str):
         """Bans users with their IDs, doesn't message them, staff only."""
+        await ctx.defer()
         targets_int = [int(target) for target in targets.strip().split(" ")]
         for target in targets_int:
             target_user = await self.bot.fetch_user(target)
@@ -400,7 +409,7 @@ class Mod(Cog):
                 "Please add an explanation below."
             )
 
-            chan_message += f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
+            chan_message += get_jump(ctx)
 
             log_channel = self.bot.get_channel(config.modlog_channel)
             await log_channel.send(chan_message)
@@ -409,9 +418,10 @@ class Mod(Cog):
     @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def unban(self, ctx, target: int, *, reason: str = ""):
         """Unbans a user with their ID, doesn't message them, staff only."""
+        await ctx.defer()
         target_user = await self.bot.fetch_user(target)
 
         safe_name = await commands.clean_content(escape_markdown=True).convert(
@@ -433,7 +443,7 @@ class Mod(Cog):
                 "`.unban <user id> [reason]`."
             )
 
-        chan_message += f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
+        chan_message += get_jump(ctx)
 
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
@@ -442,9 +452,10 @@ class Mod(Cog):
     @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def silentban(self, ctx, target: discord.Member, *, reason: str = ""):
         """Bans a user, staff only."""
+        await ctx.defer()
         # Hedge-proofing the code
         if target == ctx.author:
             return await ctx.send("You can't do mod actions on yourself.")
@@ -478,16 +489,17 @@ class Mod(Cog):
                 " as the reason is automatically sent to the user."
             )
 
-        chan_message += f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
+        chan_message += get_jump(ctx)
 
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def approve(self, ctx, target: discord.Member, role: str = "community"):
         """Add a role to a user (default: community), staff only."""
+        await ctx.defer()
         if role not in config.named_roles:
             return await ctx.send(
                 "No such role! Available roles: " + ",".join(config.named_roles)
@@ -505,15 +517,15 @@ class Mod(Cog):
 
         await log_channel.send(
             f"✅ Approved: {str(ctx.author)} added"
-            f" {role} to {target.mention}"
-            f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
+            f" {role} to {target.mention}" + get_jump(ctx)
         )
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command(aliases=["unapprove"])
+    @commands.hybrid_command(aliases=["unapprove"])
     async def revoke(self, ctx, target: discord.Member, role: str = "community"):
         """Remove a role from a user (default: community), staff only."""
+        await ctx.defer()
         if role not in config.named_roles:
             return await ctx.send(
                 "No such role! Available roles: " + ",".join(config.named_roles)
@@ -531,15 +543,15 @@ class Mod(Cog):
 
         await log_channel.send(
             f"❌ Un-approved: {str(ctx.author)} removed"
-            f" {role} from {target.mention}"
-            f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
+            f" {role} from {target.mention}" + get_jump(ctx)
         )
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command(aliases=["clear"])
+    @commands.hybrid_command(aliases=["clear"])
     async def purge(self, ctx, limit: int, channel: discord.TextChannel = None):
         """Clears a given number of messages, staff only."""
+        await ctx.defer()
         log_channel = self.bot.get_channel(config.modlog_channel)
         if not channel:
             channel = ctx.channel
@@ -552,9 +564,10 @@ class Mod(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def warn(self, ctx, target: discord.Member, *, reason: str = ""):
         """Warns a user, staff only."""
+        await ctx.defer()
         # Hedge-proofing the code
         if target == ctx.author:
             return await ctx.send("You can't do mod actions on yourself.")
@@ -628,13 +641,13 @@ class Mod(Cog):
                 " as the reason is automatically sent to the user."
             )
 
-        chan_msg += f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
+        chan_msg += get_jump(ctx)
 
         await log_channel.send(chan_msg)
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command(aliases=["setnick", "nick"])
+    @commands.hybrid_command(aliases=["setnick", "nick"])
     async def nickname(self, ctx, target: discord.Member, *, nick: str = ""):
         """Sets a user's nickname, staff only.
 
@@ -655,21 +668,21 @@ class Mod(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command(aliases=["echo"])
+    @commands.hybrid_command(aliases=["echo"])
     async def say(self, ctx, *, the_text: str):
         """Repeats a given text, staff only."""
         await ctx.send(the_text)
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def speak(self, ctx, channel: discord.TextChannel, *, the_text: str):
         """Repeats a given text in a given channel, staff only."""
         await channel.send(the_text)
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command(aliases=["setplaying", "setgame"])
+    @commands.hybrid_command(aliases=["setplaying", "setgame"])
     async def playing(self, ctx, *, game: str = ""):
         """Sets the bot's currently played game name, staff only.
 
@@ -683,7 +696,7 @@ class Mod(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command(aliases=["setbotnick", "botnick", "robotnick"])
+    @commands.hybrid_command(aliases=["setbotnick", "botnick", "robotnick"])
     async def botnickname(self, ctx, *, nick: str = ""):
         """Sets the bot's nickname, staff only.
 

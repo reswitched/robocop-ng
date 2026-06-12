@@ -52,7 +52,7 @@ class Verification(Cog):
             else:
                 # we've hit the limit; split!
                 messages += [current_message]
-                current_message = "\n\u200B\n" + item + "\n\u200B\n"
+                current_message = "\n\u200b\n" + item + "\n\u200b\n"
                 total = 0
         messages += [current_message]
 
@@ -78,10 +78,10 @@ class Verification(Cog):
         await self.do_reset(channel, author)
 
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def reset(self, ctx, limit: int = 100, force: bool = False):
         """Wipes messages and pastes the welcome message again. Staff only."""
-        if ctx.message.channel.id != config.welcome_channel and not force:
+        if ctx.channel.id != config.welcome_channel and not force:
             await ctx.send(
                 f"This command is limited to"
                 f" <#{config.welcome_channel}>, unless forced."
@@ -90,10 +90,10 @@ class Verification(Cog):
         await self.do_reset(ctx.channel, ctx.author.mention, limit)
 
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def resetalgo(self, ctx, limit: int = 100, force: bool = False):
         """Resets the verification algorithm and does what reset does. Staff only."""
-        if ctx.message.channel.id != config.welcome_channel and not force:
+        if ctx.channel.id != config.welcome_channel and not force:
             await ctx.send(
                 f"This command is limited to"
                 f" <#{config.welcome_channel}>, unless forced."
@@ -110,11 +110,9 @@ class Verification(Cog):
         if message.channel.id == config.welcome_channel:
             # Assign common stuff into variables to make stuff less of a mess
             member = message.author
-            discrim = "{:04d}".format(int(member.discriminator))
             guild = message.guild
             chan = message.channel
             mcl = message.content.lower()
-            has_new_username = (discrim == "0000")
 
             # Reply to users that insult the bot
             oof = [
@@ -137,12 +135,8 @@ class Verification(Cog):
             success_role = guild.get_role(config.named_roles["participant"])
 
             # Get a list of stuff we'll allow and will consider close
-            if has_new_username:
-                allowed_names = [f"@{member.name}", member.name, str(member.id)]
-                close_names = []
-            else:
-                allowed_names = [f"@{member.name}#{discrim}", f"{member.name}#{discrim}", str(member.id)]
-                close_names = [f"@{member.name}", discrim, f"#{discrim}"]
+            allowed_names = [f"@{member.name}", member.name, str(member.id)]
+            close_names = []
 
             # Now add the same things but with newlines at the end of them
             allowed_names += [(an + "\n") for an in allowed_names]
@@ -196,11 +190,13 @@ class Verification(Cog):
                 elif rand_num == 43:
                     no_text = "ugh, wrong, read the rules."
                 elif rand_num == 44:
-                    no_text = 'The definition of insanity is doing the same thing over and over again, but expecting different results.'
+                    no_text = "The definition of insanity is doing the same thing over and over again, but expecting different results."
                 await chan.send(f"{message.author.mention} {no_text}")
 
     @Cog.listener()
     async def on_message(self, message):
+        if not self.bot.intents.message_content:
+            return
         if message.author.bot:
             return
 
@@ -212,6 +208,8 @@ class Verification(Cog):
 
     @Cog.listener()
     async def on_message_edit(self, before, after):
+        if not self.bot.intents.message_content:
+            return
         if after.author.bot:
             return
 

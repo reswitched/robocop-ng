@@ -12,17 +12,12 @@ class Links(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(hidden=True)
-    async def pegaswitch(self, ctx):
-        """Link to the Pegaswitch repo"""
-        await ctx.send("https://github.com/reswitched/pegaswitch")
-
-    @commands.command(hidden=True, aliases=["atmos"])
+    @commands.hybrid_command(hidden=True, aliases=["atmos"])
     async def atmosphere(self, ctx):
         """Link to the Atmosphere repo"""
         await ctx.send("https://github.com/atmosphere-nx/atmosphere")
 
-    @commands.command(hidden=True, aliases=["xyproblem"])
+    @commands.hybrid_command(hidden=True, aliases=["xyproblem"])
     async def xy(self, ctx):
         """Link to the "What is the XY problem?" post from SE"""
         await ctx.send(
@@ -34,12 +29,12 @@ class Links(Cog):
             "if you're not actually trying to solve a problem."
         )
 
-    @commands.command(hidden=True, aliases=["guides", "link"])
+    @commands.hybrid_command(hidden=True, aliases=["guides", "link"])
     async def guide(self, ctx):
         """Link to the guides"""
         await ctx.send(config.links_guide_text)
 
-    @commands.command()
+    @commands.hybrid_command()
     async def source(self, ctx):
         """Gives link to source code."""
         await ctx.send(
@@ -47,7 +42,7 @@ class Links(Cog):
             "Serious PRs and issues welcome!"
         )
 
-    @commands.command()
+    @commands.hybrid_command()
     async def rules(self, ctx, *, targetuser: discord.Member = None):
         """Post a link to the Rules"""
         if not targetuser:
@@ -57,7 +52,7 @@ class Links(Cog):
             f"can be found here: {config.rules_url}"
         )
 
-    @commands.command()
+    @commands.hybrid_command()
     async def community(self, ctx, *, targetuser: discord.Member = None):
         """Post a link to the community section of the rules"""
         if not targetuser:

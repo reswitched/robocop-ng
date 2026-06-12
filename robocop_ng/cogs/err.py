@@ -21,10 +21,11 @@ class Err(Cog):
         )
         self.rickroll = "https://www.youtube.com/watch?v=z3ZiVn5L9vM"
 
-    @commands.command(aliases=["3dserr", "3err", "dserr"])
+    @commands.hybrid_command(aliases=["3dserr", "3err", "dserr"])
     async def dderr(self, ctx, err: str):
         """Searches for 3DS error codes!
         Usage: .ddserr/.3err/.dserr/.3dserr <Error Code>"""
+        await ctx.defer()
         if self.dds_re.match(err):  # 3DS - dds -> Drei DS -> Three DS
             if err in dds_errcodes:
                 err_description = dds_errcodes[err]
@@ -63,10 +64,11 @@ class Err(Cog):
                 "no error code or you made some mistake!"
             )
 
-    @commands.command(aliases=["wiiuserr", "uerr", "wuerr", "mochaerr"])
+    @commands.hybrid_command(aliases=["wiiuserr", "uerr", "wuerr", "mochaerr"])
     async def wiiuerr(self, ctx, err: str):
         """Searches for Wii U error codes!
-            Usage: .wiiuserr/.uerr/.wuerr/.mochaerr <Error Code>"""
+        Usage: .wiiuserr/.uerr/.wuerr/.mochaerr <Error Code>"""
+        await ctx.defer()
         if self.wiiu_re.match(err):  # Wii U
             module = err[2:3]  # Is that even true, idk just guessing
             desc = err[5:8]
@@ -91,11 +93,11 @@ class Err(Cog):
                 "no error code or you made some mistake!"
             )
 
-    @commands.command(aliases=["nxerr", "serr"])
+    @commands.hybrid_command(aliases=["nxerr", "serr"])
     async def err(self, ctx, err: str):
         """Searches for Switch error codes!
-            Usage: .serr/.nxerr/.err <Error Code>"""
-
+        Usage: .serr/.nxerr/.err <Error Code>"""
+        await ctx.defer()
         if self.switch_re.match(err) or err.startswith("0x"):  # Switch
 
             if err.startswith("0x"):
@@ -165,10 +167,11 @@ class Err(Cog):
                 "no error code or you made some mistake!"
             )
 
-    @commands.command(aliases=["e2h"])
+    @commands.hybrid_command(aliases=["e2h"])
     async def err2hex(self, ctx, err: str):
         """Converts Nintendo Switch errors to hex
-            Usage: .err2hex <Error Code>"""
+        Usage: .err2hex <Error Code>"""
+        await ctx.defer()
         if self.switch_re.match(err):
             module = int(err[0:4]) - 2000
             desc = int(err[5:9])
@@ -179,10 +182,11 @@ class Err(Cog):
                 "This doesn't follow the typical Nintendo Switch 2XXX-XXXX format!"
             )
 
-    @commands.command(aliases=["h2e"])
+    @commands.hybrid_command(aliases=["h2e"])
     async def hex2err(self, ctx, err: str):
         """Converts Nintendo Switch errors to hex
-            Usage: .hex2err <Hex>"""
+        Usage: .hex2err <Hex>"""
+        await ctx.defer()
         if err.startswith("0x"):
             err = err[2:]
             err = int(err, 16)

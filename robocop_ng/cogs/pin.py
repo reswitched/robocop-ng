@@ -67,25 +67,26 @@ class Pin(Cog):
             gh = gidgethub.aiohttp.GitHubAPI(
                 session, "RoboCop-NG", oauth_token=config.github_oauth_token
             )
-            (id, content) = await self.get_pinboard(gh, channel)
+            id, content = await self.get_pinboard(gh, channel)
             content += "- " + data + "\n"
 
             await gh.patch(
                 f"/gists/{id}", data={"files": {"pinboard.md": {"content": content}}}
             )
 
-    @commands.command()
+    @commands.hybrid_command()
     @commands.guild_only()
     @commands.check(check_if_collaborator)
     @commands.check(check_if_pin_channel)
     async def unpin(self, ctx, idx: int):
         """Unpins a pinned message."""
+        await ctx.defer()
         if idx <= 50:
             # Get message by pin idx
-            target_msg = (await ctx.message.channel.pins())[idx]
+            target_msg = (await ctx.channel.pins())[idx]
         else:
             # Get message by ID
-            target_msg = await ctx.message.channel.get_message(idx)
+            target_msg = await ctx.channel.get_message(idx)
         if self.is_pinboard(target_msg):
             await ctx.send("Cannot unpin pinboard!")
         else:

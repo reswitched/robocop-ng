@@ -9,31 +9,26 @@ class Basic(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
-    async def hello(self, ctx):
-        """Says hello. Duh."""
-        await ctx.send(f"Hello {ctx.author.mention}!")
-
     @commands.cooldown(1, 10, type=commands.BucketType.user)
-    @commands.command(name="hex")
+    @commands.hybrid_command(name="hex")
     async def _hex(self, ctx, num: int):
         """Converts base 10 to 16 (for emummc sector calculation)"""
         hex_val = hex(num).upper().replace("0X", "0x")
         await ctx.send(f"{ctx.author.mention}: {hex_val}")
 
     @commands.cooldown(1, 10, type=commands.BucketType.user)
-    @commands.command(name="dec")
+    @commands.hybrid_command(name="dec")
     async def _dec(self, ctx, num):
         """Converts base 16 to 10"""
         await ctx.send(f"{ctx.author.mention}: {int(num, 16)}")
 
     @commands.guild_only()
-    @commands.command()
+    @commands.hybrid_command()
     async def membercount(self, ctx):
         """Prints the member count of the server."""
         await ctx.send(f"{ctx.guild.name} has {ctx.guild.member_count} members!")
 
-    @commands.command(aliases=["robocopng", "robocop-ng"])
+    @commands.hybrid_command(aliases=["robocopng", "robocop-ng"])
     async def robocop(self, ctx):
         """Shows a quick embed with bot info."""
         embed = discord.Embed(
@@ -44,7 +39,7 @@ class Basic(Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command(aliases=["p"])
+    @commands.hybrid_command(aliases=["p"])
     async def ping(self, ctx):
         """Shows ping values to discord.
 

@@ -4,6 +4,7 @@ from discord.ext.commands import Cog
 import config
 import json
 from helpers.checks import check_if_staff
+from helpers.responses import get_jump
 from helpers.userlogs import get_userlog, set_userlog, userlog_event_types
 
 
@@ -88,7 +89,7 @@ class ModUserlog(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command(aliases=["events"])
+    @commands.hybrid_command(aliases=["events"])
     async def eventtypes(self, ctx):
         """Lists the available event types, staff only."""
         event_list = [f"{et} ({userlog_event_types[et]})" for et in userlog_event_types]
@@ -97,7 +98,7 @@ class ModUserlog(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command(
+    @commands.hybrid_command(
         name="userlog", aliases=["listwarns", "getuserlog", "listuserlog"]
     )
     async def userlog_cmd(self, ctx, target: discord.Member, event=""):
@@ -107,7 +108,7 @@ class ModUserlog(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command(aliases=["listnotes", "usernotes"])
+    @commands.hybrid_command(aliases=["listnotes", "usernotes"])
     async def notes(self, ctx, target: discord.Member):
         """Lists the notes for a user, staff only."""
         embed = self.get_userlog_embed_for_id(
@@ -116,7 +117,7 @@ class ModUserlog(Cog):
         await ctx.send(embed=embed)
 
     @commands.guild_only()
-    @commands.command(aliases=["mywarns"])
+    @commands.hybrid_command(aliases=["mywarns"])
     async def myuserlog(self, ctx):
         """Lists your userlog events (warns etc)."""
         embed = self.get_userlog_embed_for_id(str(ctx.author.id), str(ctx.author), True)
@@ -124,7 +125,7 @@ class ModUserlog(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command(aliases=["listwarnsid"])
+    @commands.hybrid_command(aliases=["listwarnsid"])
     async def userlogid(self, ctx, target: int):
         """Lists the userlog events for a user by ID, staff only."""
         embed = self.get_userlog_embed_for_id(str(target), str(target))
@@ -132,7 +133,7 @@ class ModUserlog(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command(aliases=["clearwarns"])
+    @commands.hybrid_command(aliases=["clearwarns"])
     async def clearevent(self, ctx, target: discord.Member, event="warns"):
         """Clears all events of given type for a user, staff only."""
         log_channel = self.bot.get_channel(config.modlog_channel)
@@ -144,14 +145,13 @@ class ModUserlog(Cog):
         msg = (
             f"🗑 **Cleared {event}**: {ctx.author.mention} cleared"
             f" all {event} events of {target.mention} | "
-            f"{safe_name}"
-            f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
+            f"{safe_name}" + get_jump(ctx)
         )
         await log_channel.send(msg)
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command(aliases=["clearwarnsid"])
+    @commands.hybrid_command(aliases=["clearwarnsid"])
     async def cleareventid(self, ctx, target: int, event="warns"):
         """Clears all events of given type for a userid, staff only."""
         log_channel = self.bot.get_channel(config.modlog_channel)
@@ -159,14 +159,13 @@ class ModUserlog(Cog):
         await ctx.send(msg)
         msg = (
             f"🗑 **Cleared {event}**: {ctx.author.mention} cleared"
-            f" all {event} events of <@{target}> "
-            f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
+            f" all {event} events of <@{target}> " + get_jump(ctx)
         )
         await log_channel.send(msg)
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command(aliases=["delwarn"])
+    @commands.hybrid_command(aliases=["delwarn"])
     async def delevent(self, ctx, target: discord.Member, idx: int, event="warns"):
         """Removes a specific event from a user, staff only."""
         log_channel = self.bot.get_channel(config.modlog_channel)
@@ -182,7 +181,7 @@ class ModUserlog(Cog):
                 f"🗑 **Deleted {event_name}**: "
                 f"{ctx.author.mention} removed "
                 f"{event_name} {idx} from {target.mention} | {safe_name}"
-                f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
+                + get_jump(ctx)
             )
             await log_channel.send(msg, embed=del_event)
         else:
@@ -190,7 +189,7 @@ class ModUserlog(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command(aliases=["delwarnid"])
+    @commands.hybrid_command(aliases=["delwarnid"])
     async def deleventid(self, ctx, target: int, idx: int, event="warns"):
         """Removes a specific event from a userid, staff only."""
         log_channel = self.bot.get_channel(config.modlog_channel)
@@ -202,8 +201,7 @@ class ModUserlog(Cog):
             msg = (
                 f"🗑 **Deleted {event_name}**: "
                 f"{ctx.author.mention} removed "
-                f"{event_name} {idx} from <@{target}> "
-                f"\n🔗 __Jump__: <{ctx.message.jump_url}>"
+                f"{event_name} {idx} from <@{target}> " + get_jump(ctx)
             )
             await log_channel.send(msg, embed=del_event)
         else:
@@ -211,7 +209,7 @@ class ModUserlog(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def userinfo(self, ctx, *, user: discord.Member):
         """Gets user info, staff only."""
         role = user.top_role.name

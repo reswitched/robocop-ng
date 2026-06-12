@@ -1,3 +1,4 @@
+import discord
 from discord.ext import commands
 from discord.ext.commands import Cog
 from helpers.checks import check_if_collaborator
@@ -9,12 +10,13 @@ class Invites(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command()
+    @commands.hybrid_command()
     @commands.guild_only()
     @commands.check(check_if_collaborator)
     async def invite(self, ctx):
+        """Creates a single-use invite, collaborators only."""
         welcome_channel = self.bot.get_channel(config.welcome_channel)
-        author = ctx.message.author
+        author = ctx.author
         reason = f"Created by {str(author)} ({author.id})"
         invite = await welcome_channel.create_invite(
             max_age=0, max_uses=1, temporary=True, unique=True, reason=reason
@@ -33,14 +35,12 @@ class Invites(Cog):
         with open("data/invites.json", "w") as f:
             f.write(json.dumps(invites))
 
-        await ctx.message.add_reaction("🆗")
+        await ctx.send("🆗 Invite created, check your DMs.")
         try:
             await ctx.author.send(f"Created single-use invite {invite.url}")
         except discord.errors.Forbidden:
-            await ctx.send(
-                f"{ctx.author.mention} I could not send you the \
-                             invite. Send me a DM so I can reply to you."
-            )
+            await ctx.send(f"{ctx.author.mention} I could not send you the \
+                             invite. Send me a DM so I can reply to you.")
 
 
 async def setup(bot):

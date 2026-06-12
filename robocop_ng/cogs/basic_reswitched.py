@@ -8,7 +8,7 @@ class BasicReswitched(Cog):
         self.bot = bot
 
     @commands.guild_only()
-    @commands.command()
+    @commands.hybrid_command()
     async def communitycount(self, ctx):
         """Prints the community member count of the server."""
         community = ctx.guild.get_role(config.named_roles["community"])
@@ -17,7 +17,7 @@ class BasicReswitched(Cog):
         )
 
     @commands.guild_only()
-    @commands.command()
+    @commands.hybrid_command()
     async def hackercount(self, ctx):
         """Prints the hacker member count of the server."""
         h4x0r = ctx.guild.get_role(config.named_roles["hacker"])

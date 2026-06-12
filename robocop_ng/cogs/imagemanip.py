@@ -16,9 +16,10 @@ class ImageManip(Cog):
 
     @commands.cooldown(1, 60 * 60 * 3, type=commands.BucketType.user)
     @commands.check(check_if_staff_or_ot)
-    @commands.command(hidden=True)
+    @commands.hybrid_command(hidden=True)
     async def cox(self, ctx, *, headline: str):
         """Gives a cox headline"""
+        await ctx.defer()
         mention = ctx.author.mention
 
         headline = await commands.clean_content(fix_channel_mentions=True).convert(
@@ -78,7 +79,8 @@ class ImageManip(Cog):
         im = im.crop((0, 0, image_width, vertpos + (sig_height * 3)))
 
         # Save image
-        out_filename = f"/tmp/{ctx.message.id}-out.png"
+        msg_id = ctx.message.id if ctx.message else ctx.interaction.id
+        out_filename = f"/tmp/{msg_id}-out.png"
         im.save(out_filename, quality=100, optimize=True)
         await ctx.send(content=f"{mention}: Enjoy.", file=discord.File(out_filename))
 

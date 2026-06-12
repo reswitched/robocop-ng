@@ -12,7 +12,7 @@ class ModReact(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def clearreactsbyuser(
         self,
         ctx,
@@ -22,6 +22,7 @@ class ModReact(Cog):
         limit: int = 50,
     ):
         """Clears reacts from a given user in the given channel, staff only."""
+        await ctx.defer()
         log_channel = self.bot.get_channel(config.modlog_channel)
         if not channel:
             channel = ctx.channel
@@ -42,11 +43,12 @@ class ModReact(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def clearallreacts(
         self, ctx, *, limit: int = 50, channel: discord.TextChannel = None
     ):
         """Clears all reacts in a given channel, staff only. Use with care."""
+        await ctx.defer()
         log_channel = self.bot.get_channel(config.modlog_channel)
         if not channel:
             channel = ctx.channel
@@ -64,9 +66,10 @@ class ModReact(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def clearreactsinteractive(self, ctx):
         """Clears reacts interactively, staff only. Use with care."""
+        await ctx.defer()
         msg_text = (
             f"{ctx.author.mention}, react to the reactions you want "
             f"to remove. React to this message when you're done."

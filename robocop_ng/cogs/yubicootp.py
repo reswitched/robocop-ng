@@ -122,6 +122,8 @@ class YubicoOTP(Cog):
 
     @Cog.listener()
     async def on_message(self, message):
+        if not self.bot.intents.message_content:
+            return
         await self.bot.wait_until_ready()
         otps = self.otp_re.findall(message.content.strip())
         if otps:

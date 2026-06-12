@@ -28,7 +28,7 @@ class Lockdown(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def lock(self, ctx, channel: discord.TextChannel = None, soft: bool = False):
         """Prevents people from speaking in a channel, staff only.
 
@@ -70,7 +70,7 @@ class Lockdown(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def unlock(self, ctx, channel: discord.TextChannel = None):
         """Unlocks speaking in current channel, staff only."""
         if not channel:

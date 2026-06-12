@@ -6,7 +6,7 @@ class Legacy(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(hidden=True, aliases=["removehacker"])
+    @commands.hybrid_command(hidden=True, aliases=["removehacker"])
     async def probate(self, ctx):
         """Use .revoke <user> <role>"""
         await ctx.send(
@@ -14,7 +14,7 @@ class Legacy(Cog):
             " on Robocop-NG, please use that instead."
         )
 
-    @commands.command(hidden=True)
+    @commands.hybrid_command(hidden=True)
     async def softlock(self, ctx):
         """Use .lock True"""
         await ctx.send(
@@ -24,7 +24,7 @@ class Legacy(Cog):
             "Lockdown rarely means anything good."
         )
 
-    @commands.command(hidden=True, aliases=["addhacker"])
+    @commands.hybrid_command(hidden=True, aliases=["addhacker"])
     async def unprobate(self, ctx):
         """Use .approve <user> <role>"""
         await ctx.send(

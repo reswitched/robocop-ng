@@ -19,11 +19,12 @@ class ModTimed(Cog):
     @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def timeban(
         self, ctx, target: discord.Member, duration: str, *, reason: str = ""
     ):
         """Bans a user for a specified amount of time, staff only."""
+        await ctx.defer()
         # Hedge-proofing the code
         if target == ctx.author:
             return await ctx.send("You can't do mod actions on yourself.")
@@ -85,11 +86,12 @@ class ModTimed(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def timemute(
         self, ctx, target: discord.Member, duration: str, *, reason: str = ""
     ):
         """Mutes a user for a specified amount of time, staff only."""
+        await ctx.defer()
         # Hedge-proofing the code
         if target == ctx.author:
             return await ctx.send("You can't do mod actions on yourself.")

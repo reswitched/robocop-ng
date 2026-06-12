@@ -125,7 +125,7 @@ class Lists(Cog):
 
     # Commands
 
-    @commands.command(aliases=["list"])
+    @commands.hybrid_command(aliases=["list"])
     async def listitem(self, ctx, channel: discord.TextChannel, number: int):
         """Link to a specific list item."""
         if number <= 0:
@@ -236,6 +236,8 @@ class Lists(Cog):
 
     @Cog.listener()
     async def on_message(self, message):
+        if not self.bot.intents.message_content:
+            return
         await self.bot.wait_until_ready()
 
         # We only care about messages in Rules, and Support FAQ

@@ -9,7 +9,7 @@ class ModReswitched(Cog):
         self.bot = bot
 
     @commands.guild_only()
-    @commands.command(aliases=["pingmods", "summonmods"])
+    @commands.hybrid_command(aliases=["pingmods", "summonmods"])
     async def pingmod(self, ctx):
         """Pings mods, only use when there's an emergency."""
         can_ping = any(r.id in config.pingmods_allow for r in ctx.author.roles)
@@ -24,7 +24,7 @@ class ModReswitched(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command(aliases=["togglemod"])
+    @commands.hybrid_command(aliases=["togglemod"])
     async def modtoggle(self, ctx):
         """Toggles your mod role, staff only."""
         target_role = ctx.guild.get_role(config.modtoggle_role)

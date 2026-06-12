@@ -28,7 +28,7 @@ class Robocronp(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command()
+    @commands.hybrid_command()
     async def listjobs(self, ctx):
         """Lists timed robocronp jobs, staff only."""
         ctab = get_crontab()
@@ -46,7 +46,7 @@ class Robocronp(Cog):
 
     @commands.guild_only()
     @commands.check(check_if_staff)
-    @commands.command(aliases=["removejob"])
+    @commands.hybrid_command(aliases=["removejob"])
     async def deletejob(self, ctx, timestamp: str, job_type: str, job_name: str):
         """Removes a timed robocronp job, staff only.
 

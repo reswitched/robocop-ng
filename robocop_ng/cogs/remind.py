@@ -12,7 +12,7 @@ class Remind(Cog):
         self.bot = bot
 
     @commands.cooldown(1, 60, type=commands.BucketType.user)
-    @commands.command()
+    @commands.hybrid_command()
     async def remindlist(self, ctx):
         """Lists your reminders."""
         ctab = get_crontab()
@@ -34,10 +34,10 @@ class Remind(Cog):
         await ctx.send(embed=embed)
 
     @commands.cooldown(1, 60, type=commands.BucketType.user)
-    @commands.command(aliases=["remindme"])
+    @commands.hybrid_command(aliases=["remindme"])
     async def remind(self, ctx, when: str, *, text: str = "something"):
         """Reminds you about something."""
-        if ctx.guild:
+        if ctx.guild and ctx.interaction is None:
             await ctx.message.delete()
         current_timestamp = time.time()
         expiry_timestamp = self.bot.parse_time(when)
