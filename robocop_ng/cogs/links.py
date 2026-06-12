@@ -29,45 +29,12 @@ class Links(Cog):
             "if you're not actually trying to solve a problem."
         )
 
-    @commands.hybrid_command(hidden=True, aliases=["guides", "link"])
-    async def guide(self, ctx):
-        """Link to the guides"""
-        await ctx.send(config.links_guide_text)
-
     @commands.hybrid_command()
     async def source(self, ctx):
         """Gives link to source code."""
         await ctx.send(
             f"You can find my source at {config.source_url}. "
             "Serious PRs and issues welcome!"
-        )
-
-    @commands.hybrid_command()
-    async def rules(self, ctx, *, targetuser: discord.Member = None):
-        """Post a link to the Rules"""
-        if not targetuser:
-            targetuser = ctx.author
-        await ctx.send(
-            f"{targetuser.mention}: A link to the rules "
-            f"can be found here: {config.rules_url}"
-        )
-
-    @commands.hybrid_command()
-    async def community(self, ctx, *, targetuser: discord.Member = None):
-        """Post a link to the community section of the rules"""
-        if not targetuser:
-            targetuser = ctx.author
-        await ctx.send(
-            f"{targetuser.mention}: "
-            "https://reswitched.github.io/discord/#member-roles-breakdown"
-            "\n\n"
-            "Community role allows access to the set of channels "
-            "on the community category (#off-topic, "
-            "#homebrew-development, #switch-hacking-general etc)."
-            "\n\n"
-            "What you need to get the role is to be around, "
-            "be helpful and nice to people and "
-            "show an understanding of rules."
         )
 
 
