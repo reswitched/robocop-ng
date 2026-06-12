@@ -1,4 +1,3 @@
-import discord
 from discord.ext import commands
 from discord.ext.commands import Cog
 import asyncio
@@ -6,7 +5,6 @@ import config
 import random
 from inspect import cleandoc
 import hashlib
-import itertools
 from helpers.checks import check_if_staff
 
 
@@ -102,122 +100,64 @@ class Verification(Cog):
 
         await self.do_resetalgo(ctx.channel, ctx.author.mention, limit)
 
-    async def process_message(self, message):
-        """Big code that makes me want to shoot myself
-        Not really a rewrite but more of a port
+    @commands.hybrid_command()
+    async def verify(self, ctx, hash: str):
+        """Verify yourself by submitting a special string.
 
-        Git blame tells me that I should blame/credit Robin Lambertz"""
-        if message.channel.id == config.welcome_channel:
-            # Assign common stuff into variables to make stuff less of a mess
-            member = message.author
-            guild = message.guild
-            chan = message.channel
-            mcl = message.content.lower()
+        Read the rules in the welcome channel to see what to submit."""
+        if ctx.channel.id != config.welcome_channel:
+            return await ctx.send(
+                f"This command can only be used in <#{config.welcome_channel}>.",
+                ephemeral=True,
+            )
 
-            # Reply to users that insult the bot
-            oof = [
-                "bad",
-                "broken",
-                "buggy",
-                "bugged",
-                "stupid",
-                "dumb",
-                "silly",
-                "fuck",
-                "heck",
-                "h*ck",
-            ]
-            if "bot" in mcl and any(insult in mcl for insult in oof):
-                snark = random.choice(["bad human", "no u", "no u, rtfm", "pebkac"])
-                return await chan.send(snark)
+        member = ctx.author
+        guild = ctx.guild
 
-            # Get the role we will give in case of success
-            success_role = guild.get_role(config.named_roles["participant"])
+        # Normalize the submitted hash so trailing whitespace/casing don't matter
+        submitted = hash.strip().lower()
 
-            # Get a list of stuff we'll allow and will consider close
-            allowed_names = [f"@{member.name}", member.name, str(member.id)]
-            close_names = []
+        # Get the role we will give in case of success
+        success_role = guild.get_role(config.named_roles["participant"])
 
-            # Now add the same things but with newlines at the end of them
-            allowed_names += [(an + "\n") for an in allowed_names]
-            close_names += [(cn + "\n") for cn in close_names]
-            allowed_names += [(an + "\r\n") for an in allowed_names]
-            close_names += [(cn + "\r\n") for cn in close_names]
-            # [ ͡° ͜ᔦ ͡°] 𝐖𝐞𝐥𝐜𝐨𝐦𝐞 𝐭𝐨 𝐌𝐚𝐜 𝐎𝐒 𝟗.
-            allowed_names += [(an + "\r") for an in allowed_names]
-            close_names += [(cn + "\r") for cn in close_names]
+        # The things we'll accept a hash of
+        allowed_names = [f"@{member.name}", member.name, str(member.id)]
 
-            # Finally, hash the stuff so that we can access them later :)
-            hash_allow = [
-                hashlib.new(self.hash_choice, name.encode("utf-8")).hexdigest()
-                for name in allowed_names
-            ]
+        # Hash each accepted name with the currently-chosen algorithm
+        hash_allow = [
+            hashlib.new(self.hash_choice, name.encode("utf-8")).hexdigest()
+            for name in allowed_names
+        ]
 
-            # I'm not even going to attempt to break those into lines jfc
-            if any(allow in mcl for allow in hash_allow):
-                await member.add_roles(success_role)
-                return await chan.purge(
-                    limit=100,
-                    check=lambda m: m.author == message.author
-                    or (
-                        m.author == self.bot.user
-                        and message.author.mention in m.content
-                    ),
-                )
+        if submitted in hash_allow:
+            await member.add_roles(success_role)
+            return await ctx.send(
+                ":white_check_mark: You've been verified! You now have access to"
+                " the other channels. Welcome!",
+                ephemeral=True,
+            )
 
-            # Detect if the user uses the wrong hash algorithm
-            wrong_hash_algos = list(set(config.welcome_hashes) - {self.hash_choice})
-            for algo in wrong_hash_algos:
-                for name in itertools.chain(allowed_names, close_names):
-                    if hashlib.new(algo, name.encode("utf-8")).hexdigest() in mcl:
-                        log_channel = self.bot.get_channel(config.log_channel)
-                        await log_channel.send(
-                            f"User {message.author.mention} tried verification with algo {algo} instead of {self.hash_choice}."
-                        )
-                        return await chan.send(
-                            f"{message.author.mention} :no_entry: Close, but not quite. Go back and re-read!"
-                        )
+        # Detect if the user used the wrong hash algorithm
+        wrong_hash_algos = set(config.welcome_hashes) - {self.hash_choice}
+        for algo in wrong_hash_algos:
+            for name in allowed_names:
+                if hashlib.new(algo, name.encode("utf-8")).hexdigest() == submitted:
+                    log_channel = self.bot.get_channel(config.log_channel)
+                    await log_channel.send(
+                        f"User {member.mention} tried verification with algo"
+                        f" {algo} instead of {self.hash_choice}."
+                    )
+                    return await ctx.send(
+                        ":no_entry: Close, but not quite. Go back and re-read!",
+                        ephemeral=True,
+                    )
 
-            if (
-                str(member.id) in message.content
-                or member.name in message.content
-                or (discrim in message.content and not has_new_username)
-            ):
-                no_text = ":no_entry: Incorrect. You need to do something *specific* with your username (and if you have not migrated to a username yet, also your discriminator) instead of just posting it. Please re-read the rules carefully and look up any terms you are not familiar with."
-                rand_num = random.randint(1, 100)
-                if rand_num == 42:
-                    no_text = "you're doing it wrong"
-                elif rand_num == 43:
-                    no_text = "ugh, wrong, read the rules."
-                elif rand_num == 44:
-                    no_text = "The definition of insanity is doing the same thing over and over again, but expecting different results."
-                await chan.send(f"{message.author.mention} {no_text}")
-
-    @Cog.listener()
-    async def on_message(self, message):
-        if not self.bot.intents.message_content:
-            return
-        if message.author.bot:
-            return
-
-        try:
-            await self.process_message(message)
-        except discord.errors.Forbidden:
-            chan = self.bot.get_channel(message.channel)
-            await chan.send("💢 I don't have permission to do this.")
-
-    @Cog.listener()
-    async def on_message_edit(self, before, after):
-        if not self.bot.intents.message_content:
-            return
-        if after.author.bot:
-            return
-
-        try:
-            await self.process_message(after)
-        except discord.errors.Forbidden:
-            chan = self.bot.get_channel(after.channel)
-            await chan.send("💢 I don't have permission to do this.")
+        await ctx.send(
+            ":no_entry: Incorrect. Make sure you're submitting the correct hex"
+            " digest of your username. Please re-read the rules carefully and look"
+            " up any terms you are not familiar with.",
+            ephemeral=True,
+        )
 
 
 async def setup(bot):

@@ -6,13 +6,13 @@ prefixes = [".", "!"]
 
 # Privileged intents. The bot works fully via slash commands with message
 # content OFF. Enable it only if you are under Discord's privileged-intent
-# limit and want the optional message-content features (logs filter,
-# auto-verification, OTP scrubbing, message lists).
+# limit and want the optional message-content features (logs filter, Yubikey
+# OTP scrubbing, message lists).
 intent_message_content = (
     False  # privileged; needed for logs/verification/yubicootp/lists message scanning
 )
 intent_members = (
-    True  # privileged; needed for join/leave logging, member lookups, verification
+    True  # privileged; needed for join/leave logging, member lookups
 )
 token = "token-goes-here"
 bot_description = "Robocop-NG, the moderation bot of ReSwitched."
@@ -309,7 +309,7 @@ welcome_footer = (
 )
 
 # Line to be hidden in rules
-hidden_term_line = ' • When you have finished reading all of the rules, send a message in this channel that includes the {0} hex digest of your discord "username" (or if you have not yet migrated to a username, "username#discriminator"), and bot will automatically grant you access to the other channels.'
+hidden_term_line = ' • When you have finished reading all of the rules, run the `/verify` command in this channel with the {0} hex digest of your discord "username" as the argument (for example, `/verify <hash>`), and bot will automatically grant you access to the other channels.'
 
 # == Only if you want to use cogs.pin ==
 # Used for the pinboard. Leave empty if you don't wish for a gist pinboard.
