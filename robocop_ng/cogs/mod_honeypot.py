@@ -1,8 +1,7 @@
 import discord
 from discord import Message, Embed, utils
 from discord.ext.commands import Cog
-
-from robocop_ng.helpers.userlogs import userlog
+from helpers.userlogs import userlog
 
 
 class ModHoneypot(Cog):
@@ -20,9 +19,14 @@ class ModHoneypot(Cog):
             return
 
         has_attachments = len(message.attachments) > 0
-        spy_channel = await self.bot.get_channel_safe(self.bot.config.spylog_channel)
-        log_channel = await self.bot.get_channel_safe(self.bot.config.modlog_channel)
+        spy_channel = self.bot.get_channel(self.bot.config.spylog_channel)
+        log_channel = self.bot.get_channel(self.bot.config.modlog_channel)
         ban_reason = "Sent a message in honeypot channel"
+
+        if not spy_channel:
+            spy_channel = await self.bot.fetch_channel(self.bot.config.spylog_channel)
+        if not log_channel:
+            log_channel = await self.bot.fetch_channel(self.bot.config.modlog_channel)
 
         spylog_message = (
             f"🍯 Message sent to honeypot channel by {message.author.mention} "
@@ -36,9 +40,9 @@ class ModHoneypot(Cog):
                 f"\n- {attachment.filename} (type: {attachment.content_type}): "
             )
             if attachment.proxy_url is None or len(attachment.proxy_url) == 0:
-                spylog_message += f"<{attachment.proxy_url}>"
-            else:
                 spylog_message += f"<{attachment.url}>"
+            else:
+                spylog_message += f"<{attachment.proxy_url}>"
 
         spylog_embed = Embed(description=utils.escape_markdown(message.clean_content))
         spylog_embed.set_author(
