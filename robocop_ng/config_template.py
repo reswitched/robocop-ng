@@ -35,6 +35,7 @@ initial_cogs = [
     "cogs.admin",
     "cogs.verification",
     "cogs.mod",
+    "cogs.honeypot",
     "cogs.mod_note",
     "cogs.mod_reacts",
     "cogs.mod_userlog",
@@ -140,6 +141,9 @@ hourly_clean_channels = []
 
 # Edited and deletes messages in these channels will be logged
 spy_channels = general_channels
+
+# Channel that bans any user posting in it
+honeypot_channel = 0
 
 # All lower case, no spaces, nothing non-alphanumeric
 suspect_words = [
