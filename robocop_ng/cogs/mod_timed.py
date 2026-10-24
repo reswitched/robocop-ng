@@ -9,6 +9,7 @@ from helpers.robocronp import add_job
 from helpers.userlogs import userlog
 from helpers.restrictions import add_restriction
 from helpers.memberlogs import log_own_member_update
+from helpers.responses import get_reason_line
 
 # Longest timeout Discord allows
 MAX_NATIVE_TIMEOUT = timedelta(days=28)
@@ -87,7 +88,10 @@ class ModTimed(Cog):
 
         log_channel = self.bot.get_channel(config.log_channel)
         await log_channel.send(chan_message)
-        await ctx.send(f"{safe_name} is now b&. " f"It will expire {duration_text}. 👍")
+        await ctx.send(
+            f"{safe_name} is now b&. "
+            f"It will expire {duration_text}. 👍" + await get_reason_line(ctx, reason)
+        )
 
     @commands.guild_only()
     @commands.check(check_if_staff)

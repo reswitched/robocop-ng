@@ -5,7 +5,7 @@ import config
 from helpers.checks import check_if_staff, check_if_bot_manager
 from helpers.userlogs import userlog
 from helpers.restrictions import add_restriction, remove_restriction
-from helpers.responses import get_jump
+from helpers.responses import get_jump, get_reason_line
 from helpers.memberlogs import log_own_member_update
 from helpers.members import fetch_member_or_none
 import io
@@ -189,7 +189,7 @@ class Mod(Cog):
 
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
-        await ctx.send(f"👢 {safe_name}, 👍.")
+        await ctx.send(f"👢 {safe_name}, 👍." + await get_reason_line(ctx, reason))
 
     @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
@@ -251,7 +251,9 @@ class Mod(Cog):
 
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
-        await ctx.send(f"{safe_name} is now b&. 👍")
+        await ctx.send(
+            f"{safe_name} is now b&. 👍" + await get_reason_line(ctx, reason)
+        )
 
     @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
@@ -323,6 +325,7 @@ class Mod(Cog):
         await log_channel.send(chan_message)
         await ctx.send(
             f"{safe_name} is now b&, with {day_count} days of messages deleted. 👍"
+            + await get_reason_line(ctx, reason)
         )
 
     @commands.guild_only()
@@ -371,7 +374,9 @@ class Mod(Cog):
 
         log_channel = self.bot.get_channel(config.modlog_channel)
         await log_channel.send(chan_message)
-        await ctx.send(f"{safe_name} is now b&. 👍")
+        await ctx.send(
+            f"{safe_name} is now b&. 👍" + await get_reason_line(ctx, reason)
+        )
 
     @commands.guild_only()
     @commands.bot_has_permissions(ban_members=True)
@@ -639,7 +644,8 @@ class Mod(Cog):
         if warn_count >= 5:  # just in case
             await target.ban(reason="exceeded warn limit", delete_message_days=0)
         await ctx.send(
-            f"{target.mention} warned. " f"User has {warn_count} warning(s)."
+            f"{target.mention} warned. "
+            f"User has {warn_count} warning(s)." + await get_reason_line(ctx, reason)
         )
 
         if reason:
