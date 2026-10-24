@@ -8,6 +8,7 @@ from helpers.robocronp import get_crontab, delete_job
 from helpers.restrictions import remove_restriction
 from helpers.checks import check_if_staff
 from helpers.memberlogs import log_own_member_update
+from helpers.members import fetch_member_or_none
 
 
 class Robocronp(Cog):
@@ -75,16 +76,18 @@ class Robocronp(Cog):
                 elif jobtype == "unmute":
                     remove_restriction(job_name, config.mute_role)
                     target_guild = self.bot.get_guild(job_details["guild"])
-                    # Not get_member: without the members intent the member
-                    # cache is mostly empty.
-                    target_member = await target_guild.fetch_member(int(job_name))
                     target_role = target_guild.get_role(config.mute_role)
-                    await target_member.remove_roles(
-                        target_role, reason="Robocronp: Timed mute expired."
+                    target_member = await fetch_member_or_none(
+                        self.bot, target_guild, int(job_name)
                     )
-                    await log_own_member_update(
-                        self.bot, target_member, remove_roles=[target_role]
-                    )
+                    # A user that left will be cleared of restriction on return.
+                    if target_member:
+                        await target_member.remove_roles(
+                            target_role, reason="Robocronp: Timed mute expired."
+                        )
+                        await log_own_member_update(
+                            self.bot, target_member, remove_roles=[target_role]
+                        )
                     delete_job(timestamp, jobtype, job_name)
                 elif jobtype == "remind":
                     text = job_details["text"]

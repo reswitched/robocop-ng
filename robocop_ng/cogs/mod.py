@@ -7,6 +7,7 @@ from helpers.userlogs import userlog
 from helpers.restrictions import add_restriction, remove_restriction
 from helpers.responses import get_jump
 from helpers.memberlogs import log_own_member_update
+from helpers.members import fetch_member_or_none
 import io
 
 
@@ -328,11 +329,11 @@ class Mod(Cog):
         """Bans a user with their ID, doesn't message them, staff only."""
         await ctx.defer()
         target_user = await self.bot.fetch_user(target)
-        target_member = ctx.guild.get_member(target)
+        target_member = await fetch_member_or_none(self.bot, ctx.guild, target)
         # Hedge-proofing the code
         if target == ctx.author.id:
             return await ctx.send("You can't do mod actions on yourself.")
-        elif target == self.bot.user:
+        elif target == self.bot.user.id:
             return await ctx.send(
                 f"I'm sorry {ctx.author.mention}, I'm afraid I can't do that."
             )
@@ -378,12 +379,12 @@ class Mod(Cog):
         targets_int = [int(target) for target in targets.strip().split(" ")]
         for target in targets_int:
             target_user = await self.bot.fetch_user(target)
-            target_member = ctx.guild.get_member(target)
+            target_member = await fetch_member_or_none(self.bot, ctx.guild, target)
             # Hedge-proofing the code
             if target == ctx.author.id:
                 await ctx.send(f"(re: {target}) You can't do mod actions on yourself.")
                 continue
-            elif target == self.bot.user:
+            elif target == self.bot.user.id:
                 await ctx.send(
                     f"(re: {target}) I'm sorry {ctx.author.mention}, I'm afraid I can't do that."
                 )
