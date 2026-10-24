@@ -73,7 +73,7 @@ class Verification(Cog):
         log_channel = self.bot.get_channel(config.log_channel)
         await log_channel.send(msg)
 
-        await self.do_reset(channel, author)
+        await self.do_reset(channel, author, limit)
 
     @commands.check(check_if_staff)
     @commands.hybrid_command()
@@ -82,10 +82,15 @@ class Verification(Cog):
         if ctx.channel.id != config.welcome_channel and not force:
             await ctx.send(
                 f"This command is limited to"
-                f" <#{config.welcome_channel}>, unless forced."
+                f" <#{config.welcome_channel}>, unless forced.",
+                ephemeral=True,
             )
             return
+
+        await ctx.defer(ephemeral=True)
         await self.do_reset(ctx.channel, ctx.author.mention, limit)
+        if ctx.interaction:
+            await ctx.send("Done.", ephemeral=True)
 
     @commands.check(check_if_staff)
     @commands.hybrid_command()
@@ -94,11 +99,15 @@ class Verification(Cog):
         if ctx.channel.id != config.welcome_channel and not force:
             await ctx.send(
                 f"This command is limited to"
-                f" <#{config.welcome_channel}>, unless forced."
+                f" <#{config.welcome_channel}>, unless forced.",
+                ephemeral=True,
             )
             return
 
+        await ctx.defer(ephemeral=True)
         await self.do_resetalgo(ctx.channel, ctx.author.mention, limit)
+        if ctx.interaction:
+            await ctx.send("Done.", ephemeral=True)
 
     @commands.hybrid_command()
     async def verify(self, ctx, hash: str):
