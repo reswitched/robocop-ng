@@ -139,7 +139,22 @@ class Verification(Cog):
         ]
 
         if submitted in hash_allow:
+            already_verified = success_role in member.roles
             await member.add_roles(success_role)
+
+            # Without the members intent, on_member_update never fires, so the
+            # logs cog can't post the role change. Post it here instead.
+            if not self.bot.intents.members and not already_verified:
+                roles = [f"__**{success_role.name}**__"] + [
+                    role.name for role in member.roles if not role.is_default()
+                ]
+                log_channel = self.bot.get_channel(config.log_channel)
+                await log_channel.send(
+                    f"ℹ️ **Member update**: {member.mention} | "
+                    f"{self.bot.escape_message(member)}"
+                    f"\n👑 __Role change__: {', '.join(roles)}"
+                )
+
             return await ctx.send(
                 ":white_check_mark: You've been verified! You now have access to"
                 " the other channels. Welcome!",
