@@ -7,6 +7,7 @@ from inspect import cleandoc
 import hashlib
 from helpers.checks import check_if_staff
 from helpers.memberlogs import log_own_member_update
+from helpers.restrictions import get_user_restrictions
 
 
 class Verification(Cog):
@@ -140,8 +141,21 @@ class Verification(Cog):
         ]
 
         if submitted in hash_allow:
-            await member.add_roles(success_role)
-            await log_own_member_update(self.bot, member, add_roles=[success_role])
+            # Without the members privileged intent we don't get on_member_join,
+            # so restrictions (e.g. mutes) of users who left and rejoined are
+            # given back when they verify instead.
+            restriction_roles = [
+                guild.get_role(restriction)
+                for restriction in get_user_restrictions(member.id)
+            ]
+            new_roles = [
+                role
+                for role in [success_role, *restriction_roles]
+                if role and role not in member.roles
+            ]
+            if new_roles:
+                await member.add_roles(*new_roles)
+                await log_own_member_update(self.bot, member, add_roles=new_roles)
             return await ctx.send(
                 ":white_check_mark: You've been verified! You now have access to"
                 " the other channels. Welcome!",

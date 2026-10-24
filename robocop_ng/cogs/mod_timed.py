@@ -1,6 +1,7 @@
 import discord
 import config
-from datetime import datetime
+import time
+from datetime import datetime, timedelta, timezone
 from discord.ext import commands
 from discord.ext.commands import Cog
 from helpers.checks import check_if_staff
@@ -8,6 +9,9 @@ from helpers.robocronp import add_job
 from helpers.userlogs import userlog
 from helpers.restrictions import add_restriction
 from helpers.memberlogs import log_own_member_update
+
+# Longest timeout Discord allows
+MAX_NATIVE_TIMEOUT = timedelta(days=28)
 
 
 class ModTimed(Cog):
@@ -131,10 +135,18 @@ class ModTimed(Cog):
             # or has DMs disabled
             pass
 
-        mute_role = ctx.guild.get_role(config.mute_role)
-
-        await target.add_roles(mute_role, reason=str(ctx.author))
-        await log_own_member_update(self.bot, target, add_roles=[mute_role])
+        native_timeout = getattr(config, "use_native_timeouts", True) and (
+            0 < expiry_timestamp - time.time() < MAX_NATIVE_TIMEOUT.total_seconds()
+        )
+        if native_timeout:
+            await target.timeout(
+                datetime.fromtimestamp(expiry_timestamp, tz=timezone.utc),
+                reason=str(ctx.author),
+            )
+        else:
+            mute_role = ctx.guild.get_role(config.mute_role)
+            await target.add_roles(mute_role, reason=str(ctx.author))
+            await log_own_member_update(self.bot, target, add_roles=[mute_role])
 
         chan_message = (
             f"🔇 **Timed Mute**: {ctx.author.mention} muted "
@@ -150,14 +162,18 @@ class ModTimed(Cog):
                 " as the reason is automatically sent to the user."
             )
 
-        add_job("unmute", target.id, {"guild": ctx.guild.id}, expiry_timestamp)
+        if native_timeout:
+            chan_message += "\n⏱ Applied as a Discord timeout."
+        else:
+            add_job("unmute", target.id, {"guild": ctx.guild.id}, expiry_timestamp)
 
         log_channel = self.bot.get_channel(config.log_channel)
         await log_channel.send(chan_message)
         await ctx.send(
             f"{target.mention} can no longer speak. " f"It will expire {duration_text}."
         )
-        add_restriction(target.id, config.mute_role)
+        if not native_timeout:
+            add_restriction(target.id, config.mute_role)
 
 
 async def setup(bot):

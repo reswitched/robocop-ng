@@ -108,9 +108,13 @@ class Mod(Cog):
             ctx, str(target)
         )
 
+        # Depending on user config and mute duration, the mute may be a role or discord's native timeout
+        if target.is_timed_out():
+            await target.timeout(None, reason=str(ctx.author))
         mute_role = ctx.guild.get_role(config.mute_role)
-        await target.remove_roles(mute_role, reason=str(ctx.author))
-        await log_own_member_update(self.bot, target, remove_roles=[mute_role])
+        if mute_role in target.roles:
+            await target.remove_roles(mute_role, reason=str(ctx.author))
+            await log_own_member_update(self.bot, target, remove_roles=[mute_role])
 
         chan_message = (
             f"🔈 **Unmuted**: {str(ctx.author)} unmuted "

@@ -12,7 +12,7 @@ Code is based on https://gitlab.com/a/dpybotbase and https://github.com/916253/K
 - Robocop-NG now uses **slash commands** and works without the privileged
   message-content intent. Configure intents in `config.py`:
   - `intent_message_content` (default `False`): enable only if you are under Discord's privileged intent user limit and want the optional message-scanning features (logs filter, Yubikey OTP scrubbing, and message lists). With it off, those features are inert but everything else works.
-  - `intent_members` (default `True`): required for join/leave logging and member lookups. Suggested to leave on unless you specifically cannot enable it.
+  - `intent_members` (default `True`): required for join/leave logging and member lookups. Suggested to leave on unless you specifically cannot enable it. With it off, role changes made through bot commands are still logged, and mutes of users who leave and rejoin are reapplied when they `/verify` again.
 - Slash commands are synced automatically to the guilds in `guild_whitelist` on startup. If you change commands, the owner can run `/sync` to refresh manually.
 - Prefix commands still work too, but only when `intent_message_content` is on.
 - (obviously) Add the bot to your guild. There are many resources about this online.

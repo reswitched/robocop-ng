@@ -11,9 +11,7 @@ prefixes = [".", "!"]
 intent_message_content = (
     False  # privileged; needed for logs/verification/yubicootp/lists message scanning
 )
-intent_members = (
-    True  # privileged; needed for join/leave logging, member lookups
-)
+intent_members = True  # privileged; needed for join/leave logging, member lookups
 token = "token-goes-here"
 bot_description = "Robocop-NG, the moderation bot of ReSwitched."
 
@@ -132,6 +130,12 @@ lockdown_configs = {
 # Mute role is applied to users when they're muted
 # As we no longer have mute role on ReSwitched, I set it to 0 here
 mute_role = 0  # Mute role in ReSwitched
+
+# For mutes below 28 days (discord limit), we can alternatively use discord timeouts.
+# These are auto-applied by discord, and are more visible to users.
+# When enabled, this uses them for mutes of <28 days, else it uses mute_rule.
+# When disabled, it always uses mute_rule.
+use_native_timeouts = True
 
 # Channels that will be cleaned every minute/hour.
 # This feature isn't very good rn.
