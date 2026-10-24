@@ -4,6 +4,7 @@ import json
 import re
 import config
 from helpers.restrictions import get_user_restrictions
+from helpers.memberlogs import log_member_update
 from helpers.checks import check_if_staff
 
 
@@ -331,60 +332,15 @@ class Logs(Cog):
     async def on_member_update(self, member_before, member_after):
         await self.bot.wait_until_ready()
 
-        if member_after.guild.id not in config.guild_whitelist:
-            return
-
-        msg = ""
-        log_channel = self.bot.get_channel(config.log_channel)
-        if member_before.roles != member_after.roles:
-            # role removal
-            role_removal = []
-            for index, role in enumerate(member_before.roles):
-                if role not in member_after.roles:
-                    role_removal.append(role)
-            # role addition
-            role_addition = []
-            for index, role in enumerate(member_after.roles):
-                if role not in member_before.roles:
-                    role_addition.append(role)
-
-            if len(role_addition) != 0 or len(role_removal) != 0:
-                msg += "\n👑 __Role change__: "
-                roles = []
-                for role in role_removal:
-                    roles.append("_~~" + role.name + "~~_")
-                for role in role_addition:
-                    roles.append("__**" + role.name + "**__")
-                for index, role in enumerate(member_after.roles):
-                    if role.name == "@everyone":
-                        continue
-                    if role not in role_removal and role not in role_addition:
-                        roles.append(role.name)
-                msg += ", ".join(roles)
-
-        if member_before.name != member_after.name:
-            msg += (
-                "\n📝 __Username change__: "
-                f"{self.bot.escape_message(member_before)} → "
-                f"{self.bot.escape_message(member_after)}"
-            )
-        if member_before.nick != member_after.nick:
-            if not member_before.nick:
-                msg += "\n🏷 __Nickname addition__"
-            elif not member_after.nick:
-                msg += "\n🏷 __Nickname removal__"
-            else:
-                msg += "\n🏷 __Nickname change__"
-            msg += (
-                f": {self.bot.escape_message(member_before.nick)} → "
-                f"{self.bot.escape_message(member_after.nick)}"
-            )
-        if msg:
-            msg = (
-                f"ℹ️ **Member update**: {member_after.mention} | "
-                f"{self.bot.escape_message(member_after)}{msg}"
-            )
-            await log_channel.send(msg)
+        await log_member_update(
+            self.bot,
+            member_after,
+            member_before.roles,
+            member_after.roles,
+            member_before.nick,
+            member_after.nick,
+            member_before=member_before,
+        )
 
 
 async def setup(bot):

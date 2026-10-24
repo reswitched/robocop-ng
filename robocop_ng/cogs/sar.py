@@ -2,6 +2,7 @@ import config
 from discord.ext import commands
 from discord.ext.commands import Cog
 from helpers.checks import check_if_staff_or_ot
+from helpers.memberlogs import log_own_member_update
 
 
 class SAR(Cog):
@@ -34,11 +35,15 @@ class SAR(Cog):
 
         if target_role in ctx.author.roles:
             await ctx.author.remove_roles(target_role, reason=str(ctx.author))
+            await log_own_member_update(
+                self.bot, ctx.author, remove_roles=[target_role]
+            )
             await ctx.send(
                 f"{ctx.author.mention}: Successfully removed your `{role}` role. Run the command again if you want to add it again."
             )
         else:
             await ctx.author.add_roles(target_role, reason=str(ctx.author))
+            await log_own_member_update(self.bot, ctx.author, add_roles=[target_role])
             await ctx.send(
                 f"{ctx.author.mention}: Successfully gave you the `{role}` role. Run the command again if you want to remove it."
             )

@@ -2,6 +2,7 @@ import config
 from discord.ext import commands
 from discord.ext.commands import Cog
 from helpers.checks import check_if_staff
+from helpers.memberlogs import log_own_member_update
 
 
 class ModReswitched(Cog):
@@ -33,11 +34,15 @@ class ModReswitched(Cog):
             await ctx.author.remove_roles(
                 target_role, reason="Staff self-unassigned mod role"
             )
+            await log_own_member_update(
+                self.bot, ctx.author, remove_roles=[target_role]
+            )
             await ctx.send(f"{ctx.author.mention}: Removed your mod role.")
         else:
             await ctx.author.add_roles(
                 target_role, reason="Staff self-assigned mod role"
             )
+            await log_own_member_update(self.bot, ctx.author, add_roles=[target_role])
             await ctx.send(f"{ctx.author.mention}: Gave you mod role.")
 
 

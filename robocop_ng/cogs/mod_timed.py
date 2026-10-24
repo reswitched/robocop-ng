@@ -7,6 +7,7 @@ from helpers.checks import check_if_staff
 from helpers.robocronp import add_job
 from helpers.userlogs import userlog
 from helpers.restrictions import add_restriction
+from helpers.memberlogs import log_own_member_update
 
 
 class ModTimed(Cog):
@@ -133,6 +134,7 @@ class ModTimed(Cog):
         mute_role = ctx.guild.get_role(config.mute_role)
 
         await target.add_roles(mute_role, reason=str(ctx.author))
+        await log_own_member_update(self.bot, target, add_roles=[mute_role])
 
         chan_message = (
             f"🔇 **Timed Mute**: {ctx.author.mention} muted "

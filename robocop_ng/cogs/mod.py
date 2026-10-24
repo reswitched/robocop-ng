@@ -6,6 +6,7 @@ from helpers.checks import check_if_staff, check_if_bot_manager
 from helpers.userlogs import userlog
 from helpers.restrictions import add_restriction, remove_restriction
 from helpers.responses import get_jump
+from helpers.memberlogs import log_own_member_update
 import io
 
 
@@ -73,6 +74,7 @@ class Mod(Cog):
         mute_role = ctx.guild.get_role(config.mute_role)
 
         await target.add_roles(mute_role, reason=str(ctx.author))
+        await log_own_member_update(self.bot, target, add_roles=[mute_role])
 
         chan_message = (
             f"🔇 **Muted**: {str(ctx.author)} muted "
@@ -107,6 +109,7 @@ class Mod(Cog):
 
         mute_role = ctx.guild.get_role(config.mute_role)
         await target.remove_roles(mute_role, reason=str(ctx.author))
+        await log_own_member_update(self.bot, target, remove_roles=[mute_role])
 
         chan_message = (
             f"🔈 **Unmuted**: {str(ctx.author)} unmuted "
@@ -512,6 +515,7 @@ class Mod(Cog):
             return await ctx.send("Target already has this role.")
 
         await target.add_roles(target_role, reason=str(ctx.author))
+        await log_own_member_update(self.bot, target, add_roles=[target_role])
 
         await ctx.send(f"Approved {target.mention} to `{role}` role.")
 
@@ -538,6 +542,7 @@ class Mod(Cog):
             return await ctx.send("Target doesn't have this role.")
 
         await target.remove_roles(target_role, reason=str(ctx.author))
+        await log_own_member_update(self.bot, target, remove_roles=[target_role])
 
         await ctx.send(f"Un-approved {target.mention} from `{role}` role.")
 
@@ -658,6 +663,7 @@ class Mod(Cog):
                 await target.edit(nick=nick, reason=str(ctx.author))
             else:
                 await target.edit(nick=None, reason=str(ctx.author))
+            await log_own_member_update(self.bot, target, nick=nick or None)
 
             await ctx.send("Successfully set nickname.")
         except discord.errors.Forbidden:
